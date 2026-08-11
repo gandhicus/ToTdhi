@@ -1,0 +1,7 @@
+# Server-only settings. These are read by StartServer.bat.
+# Friends who only connect to your server should edit LocalServer.txt instead.
+
+ip: 127.0.0.1
+admin: false
+anticheat: false
+lootBoost: 5
