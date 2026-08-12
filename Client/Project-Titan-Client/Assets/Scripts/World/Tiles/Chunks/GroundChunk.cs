@@ -12,10 +12,6 @@ using Utils.NET.Partitioning;
 public abstract class GroundChunk<T> : MonoBehaviour, IChunk 
     where T : IChunk
 {
-    // Slight overlap hides sub-pixel cracks between independent tile quads.
-    private const float VERTEX_OFFSET = 0.01f;
-    private const float UV_INSET_PIXELS = 0.5f;
-
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private Mesh mesh;
@@ -72,11 +68,11 @@ public abstract class GroundChunk<T> : MonoBehaviour, IChunk
         {
             for (int x = 0; x < meshWidth; x++)
             {
-                int i = (y * meshHeight + x) * 4;
-                vertices[i] = new Vector3(x - VERTEX_OFFSET, y - VERTEX_OFFSET);
-                vertices[i + 1] = new Vector3(x + 1 + VERTEX_OFFSET, y - VERTEX_OFFSET);
-                vertices[i + 2] = new Vector3(x + 1 + VERTEX_OFFSET, y + 1 + VERTEX_OFFSET);
-                vertices[i + 3] = new Vector3(x - VERTEX_OFFSET, y + 1 + VERTEX_OFFSET);
+                int i = (y * meshWidth + x) * 4;
+                vertices[i] = new Vector3(x, y);
+                vertices[i + 1] = new Vector3(x + 1, y);
+                vertices[i + 2] = new Vector3(x + 1, y + 1);
+                vertices[i + 3] = new Vector3(x, y + 1);
             }
         }
         return vertices;
@@ -115,7 +111,7 @@ public abstract class GroundChunk<T> : MonoBehaviour, IChunk
 
     protected void ApplySprite(int localX, int localY, Sprite sprite, TileRotation rotation = TileRotation.None)
     {
-        var rect = GetSafeTextureRect(sprite);
+        var rect = sprite.textureRect;
         var textureSize = new Vector2(sprite.texture.width, sprite.texture.height);
 
         int index = (localY * chunkSize + localX) * 4;
@@ -133,31 +129,19 @@ public abstract class GroundChunk<T> : MonoBehaviour, IChunk
 
     protected void ApplyBlend(int localX, int localY, Sprite blendSprite, Sprite blendMask, TileRotation rotation, TileRotation maskRotation)
     {
-        var blendRect = GetSafeTextureRect(blendSprite);
+        var blendRect = blendSprite.textureRect;
         var textureSize = new Vector2(blendSprite.texture.width, blendSprite.texture.height);
 
         int index = (localY * chunkSize + localX) * 4;
 
         ApplyRotatedUvRect(blendUvs, index, blendRect, textureSize, rotation);
 
-        blendRect = GetSafeTextureRect(blendMask);
+        blendRect = blendMask.textureRect;
         textureSize = new Vector2(blendMask.texture.width, blendMask.texture.height);
 
         ApplyRotatedUvRect(blendMaskUvs, index, blendRect, textureSize, maskRotation);
 
         uvsChanged = true;
-    }
-
-    private static UnityEngine.Rect GetSafeTextureRect(Sprite sprite)
-    {
-        var rect = sprite.textureRect;
-        var inset = Mathf.Min(UV_INSET_PIXELS, rect.width * 0.25f, rect.height * 0.25f);
-
-        rect.x += inset;
-        rect.y += inset;
-        rect.width -= inset * 2;
-        rect.height -= inset * 2;
-        return rect;
     }
 
     private static void ApplyRotatedUvRect(Vector2[] target, int index, UnityEngine.Rect rect, Vector2 textureSize, TileRotation rotation)

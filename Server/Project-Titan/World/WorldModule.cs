@@ -27,7 +27,6 @@ using World.Instances;
 using TitanDatabase.Instances;
 using World.Instances.Packets;
 using World.Worlds;
-using World.Worlds.Gates;
 using TitanCore.Net.Packets.Server;
 using TitanDatabase.Broadcasting.Packets;
 using TitanDatabase.Broadcasting;
@@ -134,7 +133,6 @@ namespace World
             {
                 startWorlds.Add(new Nexus());
                 startWorlds.Add(new Overworld());
-                startWorlds.Add(new BhogninsGate());
             }
 
             GameData.LoadDirectory("Data/Xmls/", false);
@@ -169,9 +167,6 @@ namespace World
                 });
 
                 //LogDps();
-
-                var nexus = (Nexus)startWorlds[0];
-                nexus.AddPortal(startWorlds[2]);
             }
         }
 

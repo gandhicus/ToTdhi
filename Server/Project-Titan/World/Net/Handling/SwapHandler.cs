@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TitanCore.Core;
+using TitanCore.Data.Entities;
 using TitanCore.Data.Items;
 using TitanCore.Net;
 using TitanCore.Net.Packets.Client;
 using TitanCore.Net.Packets.Models;
 using TitanDatabase.Models;
 using Utils.NET.Logging;
+using World.Map.Objects.Entities;
 using World.Models;
 
 namespace World.Net.Handling
@@ -78,7 +81,8 @@ namespace World.Net.Handling
                 return;
             }
 
-            if ((itemA != null && !itemA.itemData.CanSwapInto(slotTypeB)) || (itemB != null && !itemB.itemData.CanSwapInto(slotTypeA))) // slot types wont allow a swap
+            if ((itemA != null && !CanSwapIntoSlot(itemA, containerB, packet.slotB, slotTypeB)) ||
+                (itemB != null && !CanSwapIntoSlot(itemB, containerA, packet.slotA, slotTypeA))) // slot types wont allow a swap
             {
                 return;
             }
@@ -144,6 +148,13 @@ namespace World.Net.Handling
 
             containerA.SetItem((int)packet.slotA, itemB); // do swap
             containerB.SetItem((int)packet.slotB, itemA);
+        }
+
+        private static bool CanSwapIntoSlot(ServerItem item, IContainer container, uint slot, SlotType slotType)
+        {
+            if (container is Player player && player.IsEquipSlot(slot))
+                return item.itemData.CanSwapInto(slotType, (CharacterInfo)player.info, (int)slot);
+            return item.itemData.CanSwapInto(slotType);
         }
 
         private async void Destroy(ServerItem serverItem)

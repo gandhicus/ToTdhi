@@ -1857,6 +1857,28 @@
     <Description>A dazzling gold ring. A pristine amethyst crowns the band and is enveloped in gold leaves.</Description>
   </Object>
 
+<Object id="0x501" name="Desert Rose" tier="-1">
+	<Type>Equipment</Type>
+	<SlotType>Accessory</SlotType>
+	<Sprite>Desert Rose</Sprite>
+
+	<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
+	<AlternateStatIncrease type="BlockChance">2</AlternateStatIncrease>
+	<StatIncrease type="Defense">2</StatIncrease>
+
+	<Description>Each of these immaculate gemstones are formed over centuries through being weathered in the shifting sands of the dunes. The gods of the overworld recognize their beauty, blessing them with their strength.</Description>
+</Object>
+
+<Object id="0x502" name="Rage Ring" tier="-1">
+	<Type>Equipment</Type>
+	<SlotType>Accessory</SlotType>
+	<Sprite>UT Ring 6</Sprite>
+
+	<AlternateStatIncrease type="RageGain">50</AlternateStatIncrease>
+
+	<Description>A ring that fuels your fury with every strike.</Description>
+</Object>
+
   <Object id="0x298" name="Ring of Colossal Speed" tier="5">
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
@@ -2076,7 +2098,7 @@ This item heals its user for 10% missing health every 5 seconds.</Description>
     <SlotType>Sword</SlotType>
     <Sprite>Sword 3</Sprite>
 
-    <Description>Test weapon. Attacks pierce armor and ignore defense.</Description>
+    <Description>Test weapon. On equip, attacks always critically strike.</Description>
 
     <Projectile name="Simple Slash">
       <Speed>12</Speed>
@@ -2086,7 +2108,7 @@ This item heals its user for 10% missing health every 5 seconds.</Description>
     </Projectile>
 
     <RateOfFire>2.3</RateOfFire>
-    <AlternateStatIncrease type="TrueDamageChance">100</AlternateStatIncrease>
+    <AlternateStatIncrease type="CriticalStrikeChance">100</AlternateStatIncrease>
   </Object>
 
   <Object id="0x2b0" name="TEST Aegis Plate" tier="-1">
@@ -2094,10 +2116,11 @@ This item heals its user for 10% missing health every 5 seconds.</Description>
     <SlotType>HeavyArmor</SlotType>
     <Sprite>HeavyArmor 1</Sprite>
 
-    <Description>Test armor. Blocks all incoming damage.</Description>
+    <Description>Test armor. Blocks all incoming damage and greatly increases critical strike damage while equipped.</Description>
 
     <StatIncrease type="Defense">15</StatIncrease>
     <AlternateStatIncrease type="BlockChance">100</AlternateStatIncrease>
+    <AlternateStatIncrease type="CriticalStrikeDamage">100</AlternateStatIncrease>
   </Object>
   
   

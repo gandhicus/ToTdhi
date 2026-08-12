@@ -43,7 +43,7 @@ namespace TitanCore.Data.Components
 
             if (equip != null)
             {
-                if (equip.statIncreases.Count > 0)
+                if (equip.statIncreases.Count > 0 || equip.alternateStatIncreases.Count > 0)
                 {
                     describer.AddTitle("On Equip");
                     foreach (var increase in equip.statIncreases)
@@ -56,18 +56,7 @@ namespace TitanCore.Data.Components
                     {
                         if (increase.Value == 0) continue;
                         describer.NewLine();
-                        switch (increase.Key)
-                        {
-                            case AlternateStatType.RateOfFire:
-                                describer.AddElement($"{(increase.Value > 0 ? "+" : "")}{increase.Value}% Rate of Fire", neutralColor);
-                                break;
-                            case AlternateStatType.TrueDamageChance:
-                                describer.AddElement($"{(increase.Value > 0 ? "+" : "")}{increase.Value}% True Damage Chance", neutralColor);
-                                break;
-                            case AlternateStatType.BlockChance:
-                                describer.AddElement($"{(increase.Value > 0 ? "+" : "")}{increase.Value}% Block Chance", neutralColor);
-                                break;
-                        }
+                        AddAlternateStatElement(describer, increase.Key, increase.Value, neutralColor);
                     }
                     describer.NewLine();
                 }
@@ -277,6 +266,31 @@ namespace TitanCore.Data.Components
                         first = false;
                     }
                 }
+            }
+        }
+
+        private static void AddAlternateStatElement(IDescriber describer, AlternateStatType type, int value, GameColor color)
+        {
+            switch (type)
+            {
+                case AlternateStatType.RateOfFire:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Rate of Fire", color);
+                    break;
+                case AlternateStatType.TrueDamageChance:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% True Damage Chance", color);
+                    break;
+                case AlternateStatType.BlockChance:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Block Chance", color);
+                    break;
+                case AlternateStatType.CriticalStrikeChance:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Critical Strike Chance", color);
+                    break;
+                case AlternateStatType.CriticalStrikeDamage:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Critical Strike Damage", color);
+                    break;
+                case AlternateStatType.RageGain:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Rage Gain", color);
+                    break;
             }
         }
 

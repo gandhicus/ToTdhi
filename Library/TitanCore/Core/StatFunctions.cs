@@ -58,9 +58,54 @@ namespace TitanCore.Core
             return roll * 100f < chancePercent;
         }
 
+        public static float CriticalStrikeMultiplier(int criticalStrikeDamageBonus)
+        {
+            return 1.5f + criticalStrikeDamageBonus * 0.01f;
+        }
+
+        public static DamageResult ResolveOutgoingDamage(
+            int rawDamage,
+            Item[] attackerEquips,
+            int defenderBlockChance,
+            int defenderDefense,
+            bool defenderFortified,
+            uint seed)
+        {
+            return ResolveDamage(
+                rawDamage,
+                ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.TrueDamageChance),
+                ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.CriticalStrikeChance),
+                ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.CriticalStrikeDamage),
+                defenderBlockChance,
+                defenderDefense,
+                defenderFortified,
+                seed);
+        }
+
+        public static DamageResult ResolveIncomingDamage(
+            int rawDamage,
+            Item[] defenderEquips,
+            int attackerTrueDamageChance,
+            int defenderDefense,
+            bool defenderFortified,
+            uint seed)
+        {
+            return ResolveDamage(
+                rawDamage,
+                attackerTrueDamageChance,
+                0,
+                0,
+                ItemFunctions.GetEquippedAlternateStat(defenderEquips, AlternateStatType.BlockChance),
+                defenderDefense,
+                defenderFortified,
+                seed);
+        }
+
         public static DamageResult ResolveDamage(
             int rawDamage,
             int trueDamageChance,
+            int criticalStrikeChance,
+            int criticalStrikeDamageBonus,
             int blockChance,
             int defense,
             bool fortified,
@@ -69,10 +114,18 @@ namespace TitanCore.Core
             if (RollChance(blockChance, CombatRoll(seed)))
                 return new DamageResult(0, HitResultType.Blocked);
 
-            if (RollChance(trueDamageChance, CombatRoll(seed + 1)))
-                return new DamageResult(rawDamage, HitResultType.TrueDamage);
+            int damage = rawDamage;
+            bool isCrit = RollChance(criticalStrikeChance, CombatRoll(seed + 2));
+            if (isCrit)
+                damage = (int)(damage * CriticalStrikeMultiplier(criticalStrikeDamageBonus));
 
-            return new DamageResult(DamageTaken(defense, rawDamage, fortified), HitResultType.Normal);
+            if (RollChance(trueDamageChance, CombatRoll(seed + 1)))
+                return new DamageResult(damage, HitResultType.TrueDamage);
+
+            if (isCrit)
+                return new DamageResult(DamageTaken(defense, damage, fortified), HitResultType.Critical);
+
+            return new DamageResult(DamageTaken(defense, damage, fortified), HitResultType.Normal);
         }
 
         public static float HealthRegen(int vigor, int timeMs, bool healing, bool sick)
@@ -153,6 +206,20 @@ namespace TitanCore.Core
             if (fervent)
                 rof *= 1.5f;
             return rof;
+        }
+
+        public static float ApplyRageGainBonus(float baseAmount, int rageGainBonus)
+        {
+            return baseAmount * (1 + rageGainBonus * 0.01f);
+        }
+
+        public static float ApplyAbilityRageSpend(float rageBefore, byte rageIntegralBefore, byte rageIntegralAfter)
+        {
+            var integralSpent = rageIntegralBefore - rageIntegralAfter;
+            if (rageIntegralAfter == 0 && integralSpent > 0)
+                return 0f;
+
+            return Math.Min(100f, rageBefore - integralSpent);
         }
     }
 }

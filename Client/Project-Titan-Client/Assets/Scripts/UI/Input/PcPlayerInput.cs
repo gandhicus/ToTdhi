@@ -244,7 +244,7 @@ public class PcPlayerInput : MonoBehaviour, IPointerDownHandler
             else if (abilityPressed)
             {
                 float heldTime = Time.time - abilityDownTime;
-                int rageToUse = Mathf.Min(Mathf.Clamp((int)(heldTime * 100), 0, world.player.rage), AbilityFunctions.BladeWeaver.Max_Dash_Rage);
+                int rageToUse = Mathf.Min(Mathf.Clamp((int)(heldTime * 100), 0, (int)Mathf.Floor(world.player.rage)), AbilityFunctions.BladeWeaver.Max_Dash_Rage);
                 if (held)
                 {
                     if (heldTime > 3)

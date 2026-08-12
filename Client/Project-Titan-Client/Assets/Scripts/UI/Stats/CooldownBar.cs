@@ -27,7 +27,7 @@ public class CooldownBar : MonoBehaviour
     {
         if (world.player == null) return;
 
-        bool isFull = world.player.rage == 100;//world.player.cooldown >= world.player.cooldownDuration;
+        bool isFull = world.player.rage >= 100f;//world.player.cooldown >= world.player.cooldownDuration;
         if (isFull && !full)
         {
             LeanTween.cancel(gameObject);

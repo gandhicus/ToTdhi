@@ -35,7 +35,7 @@ namespace TitanCore.Net.Packets.Models
             switch (type)
             {
                 case ObjectStatType.Rage:
-                    value = r.ReadUInt8();
+                    value = r.ReadFloat();
                     break;
                 case ObjectStatType.Position:
                     value = new Vec2(r.ReadFloat(), r.ReadFloat());
@@ -137,7 +137,7 @@ namespace TitanCore.Net.Packets.Models
             switch (type)
             {
                 case ObjectStatType.Rage:
-                    w.Write((byte)value);
+                    w.Write((float)value);
                     break;
                 case ObjectStatType.Position:
                     var vector = (Vec2)value;

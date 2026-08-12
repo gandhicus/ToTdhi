@@ -775,6 +775,7 @@ SpriteAtlas:
     - b459e4677df12354ab895f5e832d93bc: 21300000
     - ccae8867fb3e36440a84a5d66f362900: 21300000
     - 50d93a678cdc88e45a503281455119b1: 21300000
+    - d22dbc677b194dc47a2ad59db927efa5: 21300000
     - 0b2d077726964a645a25d38e8f3b1abe: 21300000
     - 98aa6b770c8f21e4f98a190f35fbd7c4: 21300000
     - 22c13c773c04b994abb8ec69b699868e: 21300000
@@ -2335,6 +2336,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b459e4677df12354ab895f5e832d93bc, type: 3}
   - {fileID: 21300000, guid: ccae8867fb3e36440a84a5d66f362900, type: 3}
   - {fileID: 21300000, guid: 50d93a678cdc88e45a503281455119b1, type: 3}
+  - {fileID: 21300000, guid: d22dbc677b194dc47a2ad59db927efa5, type: 3}
   - {fileID: 21300000, guid: 0b2d077726964a645a25d38e8f3b1abe, type: 3}
   - {fileID: 21300000, guid: 98aa6b770c8f21e4f98a190f35fbd7c4, type: 3}
   - {fileID: 21300000, guid: 22c13c773c04b994abb8ec69b699868e, type: 3}
@@ -3894,6 +3896,7 @@ SpriteAtlas:
   - Lancer-11
   - Rictorn-Transform-4
   - Defense Ring 4
+  - Desert Rose
   - WisperingEnt-1
   - DarkMushroom-5
   - Beach Crab Strike

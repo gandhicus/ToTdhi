@@ -125,14 +125,10 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             return;
         }
 
-        for (int i = 0; i < charInfo.equipSlots.Length; i++)
+        else if (charInfo.CanUseSloType(info.slotType))
         {
-            var equipType = charInfo.equipSlots[i];
-            if (equipType == info.slotType)
-            {
-                colorImage.gameObject.SetActive(false);
-                return;
-            }
+            colorImage.gameObject.SetActive(false);
+            return;
         }
 
         colorImage.gameObject.SetActive(true);
@@ -181,6 +177,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private bool CanSwapItemInto(Slot otherSlot)
     {
         if (item.IsBlank) return true;
+        if (otherSlot.owner.GetInfo() is TitanCore.Data.Entities.CharacterInfo charInfo && otherSlot.slotIndex < 4)
+            return item.CanSwapInto(otherSlot.GetSlotType(), charInfo, otherSlot.slotIndex);
         return item.CanSwapInto(otherSlot.GetSlotType());
     }
 
@@ -308,10 +306,10 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             }
             else
             {
+                var charInfo = (TitanCore.Data.Entities.CharacterInfo)world.player.GetInfo();
                 for (int i = 0; i < 4; i++)
                 {
-                    var slotType = world.player.GetSlotType(i);
-                    if (slotType == equip.slotType)
+                    if (charInfo.CanEquipInSlot(equip.slotType, i))
                     {
                         Swap(world.gameManager.ui.playerSlots[i]);
                         return;

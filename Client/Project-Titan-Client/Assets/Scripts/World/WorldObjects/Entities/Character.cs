@@ -188,26 +188,33 @@ public class Character : Entity
             if (!lastItem.IsBlank) // remove the old item's stat boosts
             {
                 var lastItemInfo = lastItem.GetInfo();
-                if (lastItemInfo is EquipmentInfo equipInfo && equipInfo.statIncreases.Count != 0)
+                if (lastItemInfo is EquipmentInfo equipInfo)
                 {
-                    foreach (var increase in equipInfo.statIncreases)
+                    if (equipInfo.statIncreases.Count != 0)
                     {
-                        var increaseAmount = statIncreases[increase.Key];
-                        increaseAmount -= increase.Value;
-                        if (increaseAmount == 0)
-                            statIncreases.Remove(increase.Key);
-                        else
-                            statIncreases[increase.Key] = increaseAmount;
+                        foreach (var increase in equipInfo.statIncreases)
+                        {
+                            var increaseAmount = statIncreases[increase.Key];
+                            increaseAmount -= increase.Value;
+                            if (increaseAmount == 0)
+                                statIncreases.Remove(increase.Key);
+                            else
+                                statIncreases[increase.Key] = increaseAmount;
+                        }
                     }
 
-                    foreach (var increase in equipInfo.alternateStatIncreases)
+                    if (equipInfo.alternateStatIncreases.Count != 0)
                     {
-                        var increaseAmount = alternateStatIncreases[increase.Key];
-                        increaseAmount -= increase.Value;
-                        if (increaseAmount == 0)
-                            alternateStatIncreases.Remove(increase.Key);
-                        else
-                            alternateStatIncreases[increase.Key] = increaseAmount;
+                        foreach (var increase in equipInfo.alternateStatIncreases)
+                        {
+                            if (!alternateStatIncreases.TryGetValue(increase.Key, out var increaseAmount))
+                                continue;
+                            increaseAmount -= increase.Value;
+                            if (increaseAmount == 0)
+                                alternateStatIncreases.Remove(increase.Key);
+                            else
+                                alternateStatIncreases[increase.Key] = increaseAmount;
+                        }
                     }
                 }
             }
@@ -215,22 +222,28 @@ public class Character : Entity
             if (!item.IsBlank) // add the new item's stat boosts
             {
                 var newItemInfo = item.GetInfo();
-                if (newItemInfo is EquipmentInfo equipInfo && equipInfo.statIncreases.Count != 0)
+                if (newItemInfo is EquipmentInfo equipInfo)
                 {
-                    foreach (var increase in equipInfo.statIncreases)
+                    if (equipInfo.statIncreases.Count != 0)
                     {
-                        if (!statIncreases.TryGetValue(increase.Key, out var increaseAmount))
-                            increaseAmount = 0;
-                        increaseAmount += increase.Value;
-                        statIncreases[increase.Key] = increaseAmount;
+                        foreach (var increase in equipInfo.statIncreases)
+                        {
+                            if (!statIncreases.TryGetValue(increase.Key, out var increaseAmount))
+                                increaseAmount = 0;
+                            increaseAmount += increase.Value;
+                            statIncreases[increase.Key] = increaseAmount;
+                        }
                     }
 
-                    foreach (var increase in equipInfo.alternateStatIncreases)
+                    if (equipInfo.alternateStatIncreases.Count != 0)
                     {
-                        if (!alternateStatIncreases.TryGetValue(increase.Key, out var increaseAmount))
-                            increaseAmount = 0;
-                        increaseAmount += increase.Value;
-                        alternateStatIncreases[increase.Key] = increaseAmount;
+                        foreach (var increase in equipInfo.alternateStatIncreases)
+                        {
+                            if (!alternateStatIncreases.TryGetValue(increase.Key, out var increaseAmount))
+                                increaseAmount = 0;
+                            increaseAmount += increase.Value;
+                            alternateStatIncreases[increase.Key] = increaseAmount;
+                        }
                     }
                 }
             }
@@ -534,12 +547,17 @@ public class Character : Entity
         return amount;
     }
 
+    protected Item[] GetEquipItems()
+    {
+        return new Item[] { GetItem(0), GetItem(1), GetItem(2), GetItem(3) };
+    }
+
     public DamageResult ResolveIncomingDamage(int rawDamage, uint projectileId, uint time)
     {
-        return StatFunctions.ResolveDamage(
+        return StatFunctions.ResolveIncomingDamage(
             rawDamage,
+            GetEquipItems(),
             0,
-            GetAlternateStatIncrease(AlternateStatType.BlockChance),
             GetStatFunctional(StatType.Defense),
             HasStatusEffect(StatusEffect.Fortified),
             StatFunctions.GetCombatSeed(projectileId, time, gameId));

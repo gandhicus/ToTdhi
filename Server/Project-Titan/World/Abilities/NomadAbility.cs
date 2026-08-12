@@ -24,7 +24,7 @@ namespace World.Abilities
                 PlayerState.currentSnapshot.target = 0;
                 player.target.Value = 0;
                 assignCooldown = time + 5000;
-                PlayerState.AddRage(time, 5);
+                PlayerState.AddRage(time, 5, false);
                 damageTaken *= 2;
             }
         }

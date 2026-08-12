@@ -217,7 +217,7 @@ namespace World.Map.Objects.Entities
             for (int i = 4; i < 12; i++)
             {
                 var otherItem = GetItem(i);
-                if (!otherItem.itemData.CanSwapInto(charInfo.equipSlots[slot])) continue;
+                if (!otherItem.itemData.CanSwapInto(charInfo.equipSlots[slot], charInfo, slot)) continue;
                 if (otherItem.itemData.GetInfo() is EquipmentInfo equip && equip.soulless) continue;
                 Swap(slot, i);
                 return;

@@ -9,5 +9,8 @@ namespace TitanCore.Core
         RateOfFire,
         TrueDamageChance,
         BlockChance,
+        CriticalStrikeChance,
+        CriticalStrikeDamage,
+        RageGain,
     }
 }

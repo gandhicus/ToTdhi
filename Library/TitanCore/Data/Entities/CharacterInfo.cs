@@ -11,6 +11,19 @@ namespace TitanCore.Data.Entities
 {
     public class CharacterInfo : EntityInfo
     {
+        private static readonly Dictionary<string, SlotType[]> AdditionalArmorTypes = new Dictionary<string, SlotType[]>
+        {
+            { "Ranger", new[] { SlotType.Robe } },
+            { "Lancer", new[] { SlotType.Robe } },
+            { "Nomad", new[] { SlotType.Robe } },
+            { "Commander", new[] { SlotType.LightArmor } },
+            { "Warrior", new[] { SlotType.LightArmor } },
+            { "Berserker", new[] { SlotType.LightArmor } },
+            { "Alchemist", new[] { SlotType.LightArmor } },
+            { "Minister", new[] { SlotType.LightArmor } },
+            { "Brewer", new[] { SlotType.LightArmor } },
+        };
+
         public override GameObjectType Type => GameObjectType.Character;
 
         /// <summary>
@@ -50,12 +63,36 @@ namespace TitanCore.Data.Entities
             notPlayable = xml.Exists("NotPlayable");
         }
 
+        public static bool IsArmorSlotType(SlotType slotType)
+        {
+            return slotType == SlotType.LightArmor || slotType == SlotType.HeavyArmor || slotType == SlotType.Robe;
+        }
+
         public bool CanUseSloType(SlotType slotType)
         {
             for (int i = 0; i < equipSlots.Length; i++)
                 if (equipSlots[i] == slotType)
                     return true;
+
+            if (AdditionalArmorTypes.TryGetValue(name, out var extras))
+            {
+                for (int i = 0; i < extras.Length; i++)
+                    if (extras[i] == slotType)
+                        return true;
+            }
+
             return false;
+        }
+
+        public bool CanEquipInSlot(SlotType itemSlotType, int slotIndex)
+        {
+            if (slotIndex >= equipSlots.Length)
+                return itemSlotType == SlotType.Generic;
+
+            if (slotIndex == 1 && IsArmorSlotType(itemSlotType))
+                return CanUseSloType(itemSlotType);
+
+            return equipSlots[slotIndex] == itemSlotType;
         }
     }
 }

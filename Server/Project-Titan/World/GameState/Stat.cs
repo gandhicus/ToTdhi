@@ -108,7 +108,7 @@ namespace World.GameState
             switch (type)
             {
                 case ObjectStatType.Rage:
-                    return (byte)a == (byte)b;
+                    return (float)a == (float)b;
                 case ObjectStatType.Position:
                     return (Vec2)a == (Vec2)b;
                 case ObjectStatType.Inventory0:

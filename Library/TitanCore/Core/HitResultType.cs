@@ -5,5 +5,6 @@ namespace TitanCore.Core
         Normal = 0,
         TrueDamage = 1,
         Blocked = 2,
+        Critical = 3,
     }
 }

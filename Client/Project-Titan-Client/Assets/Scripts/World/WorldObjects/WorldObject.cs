@@ -183,6 +183,7 @@ public abstract class WorldObject : MonoBehaviour
         {
             playerDamage += amount;
             playerDamageAlert.UpdateText("-" + playerDamage);
+            playerDamageAlert.label.color = color;
         }
     }
 

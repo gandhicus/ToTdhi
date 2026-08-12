@@ -431,9 +431,9 @@ namespace World.GameState
             {
                 bool killed = false;
                 var seed = StatFunctions.GetCombatSeed(proj.projectileId, time, enemyId);
-                var result = StatFunctions.ResolveDamage(
+                var result = StatFunctions.ResolveOutgoingDamage(
                     proj.damage,
-                    playerState.currentSnapshot.GetAlternateStat(AlternateStatType.TrueDamageChance),
+                    playerState.currentSnapshot.equips,
                     0,
                     enemyState.currentSnapshot.defense,
                     enemyState.currentSnapshot.HasServerEffect(StatusEffect.Fortified),
@@ -505,9 +505,9 @@ namespace World.GameState
             if (projPos.DistanceTo(enemyPos) < proj.data.radius && proj.hitSet.Add(enemyId)) // Hit success!
             {
                 var seed = StatFunctions.GetCombatSeed(proj.projectileId, time, enemyId);
-                var result = StatFunctions.ResolveDamage(
+                var result = StatFunctions.ResolveOutgoingDamage(
                     proj.damage,
-                    playerState.currentSnapshot.GetAlternateStat(AlternateStatType.TrueDamageChance),
+                    playerState.currentSnapshot.equips,
                     0,
                     enemyState.currentSnapshot.defense,
                     enemyState.currentSnapshot.HasServerEffect(StatusEffect.Fortified),

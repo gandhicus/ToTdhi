@@ -42,7 +42,7 @@ public class Player : Character
 
     public Vector2 abilityAimPosition;
 
-    public int rage = 0;
+    public float rage = 0;
 
     public byte abilityValue = 0;
 
@@ -212,7 +212,7 @@ public class Player : Character
                 world.gameManager.ui.SetDeathCurrency((long)stat.value);
                 break;
             case ObjectStatType.Rage:
-                rage = (byte)stat.value;
+                rage = (float)stat.value;
                 break;
             case ObjectStatType.Heal:
                 var healAmount = (int)stat.value;
@@ -278,7 +278,7 @@ public class Player : Character
 
     public void ConsumeTarget()
     {
-        AddRage(5);
+        AddRage(5, false);
         target = 0;
         if (targetEffect != null)
         {
@@ -611,9 +611,9 @@ public class Player : Character
 
     public DamageResult ResolveOutgoingDamage(int rawDamage, int targetDefense, bool targetFortified, uint projectileId, uint time, uint targetId)
     {
-        return StatFunctions.ResolveDamage(
+        return StatFunctions.ResolveOutgoingDamage(
             rawDamage,
-            GetAlternateStatIncrease(AlternateStatType.TrueDamageChance),
+            GetEquipItems(),
             0,
             targetDefense,
             targetFortified,
@@ -652,6 +652,7 @@ public class Player : Character
         if (result.type == HitResultType.Blocked)
         {
             ShowAlert("Blocked", CombatDisplay.TrueDamageColor, true);
+            AudioManager.PlaySound("break_potion");
             return;
         }
 
@@ -759,9 +760,9 @@ public class Player : Character
             return;
         }
 
-        if (rage == 0 || 
+        if (rage <= 0 || 
             (info.id == (ushort)ClassType.Lancer && rage < AbilityFunctions.Lancer.Rage_Cost) ||
-            (info.id == (ushort)ClassType.Minister && rage < AbilityFunctions.Minister.GetRageCost(rage)) ||
+            (info.id == (ushort)ClassType.Minister && rage < AbilityFunctions.Minister.GetRageCost((int)Mathf.Floor(rage))) ||
             (info.id == (ushort)ClassType.Nomad && rage < AbilityFunctions.Nomad.Ability_Cost))
         {
             if (first)
@@ -786,9 +787,9 @@ public class Player : Character
             return;
         }
 
-        if (rage == 0 || 
+        if (rage <= 0 || 
             (info.id == (ushort)ClassType.Lancer && rage < AbilityFunctions.Lancer.Rage_Cost) || 
-            (info.id == (ushort)ClassType.Minister && rage < AbilityFunctions.Minister.GetRageCost(rage)) ||
+            (info.id == (ushort)ClassType.Minister && rage < AbilityFunctions.Minister.GetRageCost((int)Mathf.Floor(rage))) ||
             (info.id == (ushort)ClassType.Nomad && rage < AbilityFunctions.Nomad.Ability_Cost))
         {
 
@@ -809,7 +810,7 @@ public class Player : Character
                 rage = 0;
                 break;
             case ClassType.Alchemist:
-                world.PlayAlchemistAbilityEffect(new AlchemistAbilityWorldEffect(gameId, target, (byte)rage, GetStatFunctional(StatType.Attack)));
+                world.PlayAlchemistAbilityEffect(new AlchemistAbilityWorldEffect(gameId, target, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack)));
                 rage = 0;
                 break;
             case ClassType.Lancer:
@@ -819,21 +820,21 @@ public class Player : Character
 
                 projIds = ShootWeapon(lancerItem, (WeaponInfo)lancerItem.GetInfo(), target, projIds, position, world.clientTime, proj =>
                 {
-                    proj.damage = (ushort)AbilityFunctions.Lancer.GetProjectileDamage(rage, GetStatFunctional(StatType.Attack));
+                    proj.damage = (ushort)AbilityFunctions.Lancer.GetProjectileDamage((int)Mathf.Floor(rage), GetStatFunctional(StatType.Attack));
                 }, offset);
                 rage -= AbilityFunctions.Lancer.Rage_Cost;
                 break;
             case ClassType.Commander:
-                world.PlayCommanderAbilityEffect(new CommanderAbilityWorldEffect(gameId, position, (byte)rage, GetStatFunctional(StatType.Attack)));
+                world.PlayCommanderAbilityEffect(new CommanderAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack)));
                 rage = 0;
                 break;
             case ClassType.Minister:
-                var cost = AbilityFunctions.Minister.GetRageCost(rage);
+                var cost = AbilityFunctions.Minister.GetRageCost((int)Mathf.Floor(rage));
                 world.PlayMinisterAbilityEffect(new MinisterAbilityWorldEffect(gameId, position, cost, GetStatFunctional(StatType.Attack)));
                 rage -= cost;
                 break;
             case ClassType.Berserker:
-                world.PlayBerserkerAbilityEffect(new BerserkerAbilityWorldEffect(gameId, position, position.AngleTo(target) * AngleUtils.Rad2Deg, (byte)rage, GetStatFunctional(StatType.Attack)));
+                world.PlayBerserkerAbilityEffect(new BerserkerAbilityWorldEffect(gameId, position, position.AngleTo(target) * AngleUtils.Rad2Deg, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack)));
                 rage = 0;
                 break;
             case ClassType.Ranger:
@@ -842,7 +843,7 @@ public class Player : Character
                 break;
             case ClassType.Brewer:
                 AudioManager.PlaySound("drink_potion");
-                world.PlayBrewerAbilityEffect(new BrewerAbilityWorldEffect(gameId, position, (byte)rage, GetStatFunctional(StatType.Attack), abilityValue));
+                world.PlayBrewerAbilityEffect(new BrewerAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack), abilityValue));
                 rage = 0;
                 break;
             case ClassType.Bladeweaver:
@@ -864,7 +865,7 @@ public class Player : Character
                 break;
         }
 
-        cooldownDuration = AbilityFunctions.GetAbilityCooldownMs((byte)rage, info.id);
+        cooldownDuration = AbilityFunctions.GetAbilityCooldownMs((byte)Mathf.Floor(rage), info.id);
         cooldown = 0;
 
         world.gameManager.client.SendAsync(new TnUseAbility(world.clientTickId, position, target, abilityValue));
@@ -887,10 +888,12 @@ public class Player : Character
         return cost <= fullSouls;
     }
 
-    public void AddRage(int amount = 1)
+    public void AddRage(float amount = 1, bool applyRageGainBonus = true)
     {
         if (HasStatusEffect(StatusEffect.Mundane)) return;
-        rage = Math.Min(rage + amount, 100);
+        if (applyRageGainBonus)
+            amount = StatFunctions.ApplyRageGainBonus(amount, GetAlternateStatIncrease(AlternateStatType.RageGain));
+        rage = Math.Min(rage + amount, 100f);
     }
 
     private const float Emote_Cooldown = 0;

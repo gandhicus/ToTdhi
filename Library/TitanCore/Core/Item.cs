@@ -147,6 +147,15 @@ namespace TitanCore.Core
             return slotType == GetInfo().slotType;
         }
 
+        public bool CanSwapInto(SlotType slotType, Data.Entities.CharacterInfo charInfo, int slotIndex)
+        {
+            if (IsBlank) return true;
+            if (slotType == SlotType.Generic) return true;
+            if (charInfo != null)
+                return charInfo.CanEquipInSlot(GetInfo().slotType, slotIndex);
+            return CanSwapInto(slotType);
+        }
+
         public ItemInfo GetInfo()
         {
             return info ?? (info = (ItemInfo)GameData.objects[id]);

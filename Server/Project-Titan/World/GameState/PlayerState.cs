@@ -187,7 +187,8 @@ namespace World.GameState
                                 {
                                     foreach (var increase in equipInfo.alternateStatIncreases)
                                     {
-                                        var increaseAmount = extraAlternateStats[increase.Key];
+                                        if (!extraAlternateStats.TryGetValue(increase.Key, out var increaseAmount))
+                                            continue;
                                         increaseAmount -= increase.Value;
                                         if (increaseAmount == 0)
                                             extraAlternateStats.Remove(increase.Key);
@@ -277,6 +278,11 @@ namespace World.GameState
             return amount;
         }
 
+        public int GetEquippedAlternateStat(AlternateStatType type)
+        {
+            return ItemFunctions.GetEquippedAlternateStat(equips, type);
+        }
+
         public bool HasServerEffect(StatusEffect effect)
         {
             return ((serverEffects >> (int)effect) & 1) == 1;
@@ -303,7 +309,7 @@ namespace World.GameState
         /// <summary>
         /// The amount of rage the player has
         /// </summary>
-        public byte rage;
+        public float rage;
 
         /// <summary>
         /// The next time an ability is available to use
@@ -465,10 +471,10 @@ namespace World.GameState
         {
             AdvanceHealth(time);
             var seed = StatFunctions.GetCombatSeed(projectileId, time, player.gameId);
-            var result = StatFunctions.ResolveDamage(
+            var result = StatFunctions.ResolveIncomingDamage(
                 damage,
+                currentSnapshot.equips,
                 0,
-                currentSnapshot.GetAlternateStat(AlternateStatType.BlockChance),
                 currentSnapshot.GetFunctionalStat(StatType.Defense),
                 HasEffect(StatusEffect.Fortified, time),
                 seed);
@@ -531,7 +537,7 @@ namespace World.GameState
                 return;
             }
 
-            if (rage == 0 || (player.info.id == (ushort)ClassType.Lancer && rage < AbilityFunctions.Lancer.Rage_Cost))
+            if (rage <= 0 || (player.info.id == (ushort)ClassType.Lancer && rage < AbilityFunctions.Lancer.Rage_Cost))
             {
                 //Log.Write("Ability is not able to be used! Not enough rage is available");
                 player.client.SendAsync(new TnError("Ability is not able to be used! Not enough rage is available"));
@@ -540,7 +546,11 @@ namespace World.GameState
 
             int attack = currentSnapshot.GetFunctionalStat(StatType.Attack);
 
-            var worldEffectPacket = ability.UseAbility(time, position, target, value, attack, ref rage, out var rageCost, out var sendToSelf, out var failed);
+            var rageBefore = rage;
+            var rageIntegral = (byte)Math.Min(Math.Floor(rageBefore), 100);
+            var rageByte = rageIntegral;
+            var worldEffectPacket = ability.UseAbility(time, position, target, value, attack, ref rageByte, out var rageCost, out var sendToSelf, out var failed);
+            rage = StatFunctions.ApplyAbilityRageSpend(rageBefore, rageIntegral, rageByte);
 
             if (failed)
             {
@@ -716,10 +726,12 @@ namespace World.GameState
             return HasClientEffect(effect, time) || currentSnapshot.HasServerEffect(effect);
         }
 
-        public void AddRage(uint time, int amount = 1)
+        public void AddRage(uint time, float amount = 1, bool applyRageGainBonus = true)
         {
             if (HasEffect(StatusEffect.Mundane, time)) return;
-            rage = (byte)Math.Min(rage + amount, 100);
+            if (applyRageGainBonus)
+                amount = StatFunctions.ApplyRageGainBonus(amount, currentSnapshot.GetAlternateStat(AlternateStatType.RageGain));
+            rage = Math.Min(rage + amount, 100f);
         }
     }
 }
