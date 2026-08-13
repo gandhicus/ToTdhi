@@ -9,7 +9,8 @@ namespace World.Looting
 {
     public abstract class Loot
     {
-        public static int Chance(double value) => (int)(value * 1_000);
+        // Values are percentages out of 100 (e.g. 100 = guaranteed, 15 = 15%).
+        public static int Chance(double value) => (int)(value * 10_000);
         public static int ChanceT(int value) => value * 1_000;
         public static int ChanceTT(int value) => value * 100;
         public static int ChanceHT(int value) => value * 10;

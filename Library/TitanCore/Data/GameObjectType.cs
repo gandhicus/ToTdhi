@@ -33,6 +33,7 @@ namespace TitanCore.Data
 
         EmoteUnlocker,
         PetSpawner,
+        GateKey,
         Pet,
 
         ContextualWall,
@@ -41,6 +42,8 @@ namespace TitanCore.Data
         SkinUnlocker,
         Wardrobe,
 
-        NomadCharm
+        NomadCharm,
+
+        Waypoint
     }
 }

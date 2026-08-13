@@ -46,7 +46,7 @@ namespace TitanCore.Net
 
         public const int Max_Level = 220;
 
-        public const int Max_Ascension = 100;
+        public const int Max_Ascension = 20;
 
         public const int Ascension_Base_Soul_Cost = 2_000;
 

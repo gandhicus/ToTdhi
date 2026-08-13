@@ -67,6 +67,7 @@ namespace TitanCore.Core
             int rawDamage,
             Item[] attackerEquips,
             int defenderBlockChance,
+            int defenderAbsorptionChance,
             int defenderDefense,
             bool defenderFortified,
             uint seed)
@@ -77,6 +78,7 @@ namespace TitanCore.Core
                 ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.CriticalStrikeChance),
                 ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.CriticalStrikeDamage),
                 defenderBlockChance,
+                defenderAbsorptionChance,
                 defenderDefense,
                 defenderFortified,
                 seed);
@@ -96,6 +98,7 @@ namespace TitanCore.Core
                 0,
                 0,
                 ItemFunctions.GetEquippedAlternateStat(defenderEquips, AlternateStatType.BlockChance),
+                ItemFunctions.GetEquippedAlternateStat(defenderEquips, AlternateStatType.AbsorptionChance),
                 defenderDefense,
                 defenderFortified,
                 seed);
@@ -107,6 +110,7 @@ namespace TitanCore.Core
             int criticalStrikeChance,
             int criticalStrikeDamageBonus,
             int blockChance,
+            int absorptionChance,
             int defense,
             bool fortified,
             uint seed)
@@ -119,13 +123,28 @@ namespace TitanCore.Core
             if (isCrit)
                 damage = (int)(damage * CriticalStrikeMultiplier(criticalStrikeDamageBonus));
 
+            HitResultType type;
+            int finalDamage;
             if (RollChance(trueDamageChance, CombatRoll(seed + 1)))
-                return new DamageResult(damage, HitResultType.TrueDamage);
+            {
+                finalDamage = damage;
+                type = HitResultType.TrueDamage;
+            }
+            else if (isCrit)
+            {
+                finalDamage = DamageTaken(defense, damage, fortified);
+                type = HitResultType.Critical;
+            }
+            else
+            {
+                finalDamage = DamageTaken(defense, damage, fortified);
+                type = HitResultType.Normal;
+            }
 
-            if (isCrit)
-                return new DamageResult(DamageTaken(defense, damage, fortified), HitResultType.Critical);
+            if (RollChance(absorptionChance, CombatRoll(seed + 3)))
+                return new DamageResult(-finalDamage, HitResultType.Absorbed);
 
-            return new DamageResult(DamageTaken(defense, damage, fortified), HitResultType.Normal);
+            return new DamageResult(finalDamage, type);
         }
 
         public static float HealthRegen(int vigor, int timeMs, bool healing, bool sick)

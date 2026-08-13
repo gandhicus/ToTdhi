@@ -26,6 +26,8 @@ namespace World.Map.Objects.Entities
 
         private DateTime lastTeleport;
 
+        private const double TeleportCooldownSeconds = 2;
+
         private Vec2? gotoPosition;
 
         private Vec2 lastMovePosition;
@@ -120,7 +122,7 @@ namespace World.Map.Objects.Entities
 
         public bool Teleport(GameObject gameObject)
         {
-            if (!gameObject.Teleportable || (DateTime.Now - lastTeleport).TotalSeconds < 10) return false;
+            if (!gameObject.Teleportable || (DateTime.Now - lastTeleport).TotalSeconds < TeleportCooldownSeconds) return false;
             lastTeleport = DateTime.Now;
             Goto(gameObject.position.Value);
             return true;

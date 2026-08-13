@@ -72,6 +72,8 @@ public class VaultChest : SpriteWorldObject, IContainer, IInteractable
     {
         base.LateUpdate();
 
+        if (world?.player == null) return;
+
         if (((Vector2)world.player.Position - (Vector2)Position).magnitude > 0.7f)
         {
             if (world.gameManager.ui.vaultMenu != null)

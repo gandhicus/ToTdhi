@@ -5,6 +5,7 @@ public static class CombatDisplay
 {
     public static readonly Color TrueDamageColor = Color.white;
     public static readonly Color CriticalColor = new Color(1f, 0.5f, 0f);
+    public static readonly Color AbsorbedColor = Color.green;
 
     public static Color GetHitColor(HitResultType type)
     {
@@ -25,6 +26,9 @@ public static class CombatDisplay
         {
             case HitResultType.Blocked:
                 obj.ShowAlert("Blocked", TrueDamageColor, true);
+                break;
+            case HitResultType.Absorbed:
+                obj.ShowAlert("ABSORBED", AbsorbedColor, true);
                 break;
             default:
                 if (result.damage <= 0) break;

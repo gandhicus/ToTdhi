@@ -14,7 +14,7 @@ namespace World.Worlds.Gates
     {
         public override ushort PreferredPortal => 0xa96;
 
-        public override string WorldName => "Wispering Woods";
+        public override string WorldName => "Whispering Woods";
 
         public override bool LimitSight => true;
 

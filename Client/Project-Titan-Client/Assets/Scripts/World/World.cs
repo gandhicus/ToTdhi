@@ -86,6 +86,9 @@ public class World : MonoBehaviour
 
     public List<Character> characters = new List<Character>();
 
+    [HideInInspector]
+    public List<Waypoint> waypoints = new List<Waypoint>();
+
     public System.Random playerRand;
 
     private double[] randArray;
@@ -840,6 +843,9 @@ public class World : MonoBehaviour
         if (worldObject is IInteractable interactable)
             interactables.Add(interactable);
 
+        if (worldObject is Waypoint waypoint)
+            waypoints.Add(waypoint);
+
         if (player != null && player.target != 0 && player.target == worldObject.gameId)
         {
             player.UpdateTarget(worldObject);
@@ -875,6 +881,9 @@ public class World : MonoBehaviour
         if (worldObject is IInteractable interactable)
             interactables.Remove(interactable);
 
+        if (worldObject is Waypoint waypoint)
+            waypoints.Remove(waypoint);
+
         if (player != null && player.target != 0 && player.target == worldObject.gameId)
         {
             player.ReturnTarget();
@@ -905,6 +914,12 @@ public class World : MonoBehaviour
     {
         if (character == null) return;
         gameManager.client.SendAsync(new TnChat("/teleport " + character.playerName));
+    }
+
+    public void TeleportToWaypoint(Waypoint waypoint)
+    {
+        if (waypoint == null) return;
+        gameManager.client.SendAsync(new TnChat("/tpobj " + waypoint.gameId));
     }
 
     public void Trade(Character character)

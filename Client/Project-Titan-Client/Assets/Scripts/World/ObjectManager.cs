@@ -108,11 +108,55 @@ public class ObjectManager : MonoBehaviour
     /// </summary>
     private void SortPrefabs()
     {
-        foreach (var prefab in objectPrefabs)
+        if (objectPrefabs == null)
         {
+            Debug.LogError("ObjectManager.objectPrefabs is not assigned on " + gameObject.name);
+            return;
+        }
+
+        for (int i = 0; i < objectPrefabs.Length; i++)
+        {
+            var prefab = objectPrefabs[i];
+            if (prefab == null)
+                continue;
+
             var worldObject = prefab.GetComponent<WorldObject>();
             prefabs.Add(worldObject.ObjectType, new ObjectPool<WorldObject>(0, prefab));
         }
+
+        EnsureWaypointPrefab();
+    }
+
+    private void EnsureWaypointPrefab()
+    {
+        if (prefabs.ContainsKey(GameObjectType.Waypoint)) return;
+
+        GameObject prefab = null;
+#if UNITY_EDITOR
+        prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/World/Map/Waypoint.prefab");
+#endif
+        if (prefab == null)
+            prefab = Resources.Load<GameObject>("Waypoint");
+
+        RegisterOptionalPrefab(prefab, GameObjectType.Waypoint);
+
+        if (!prefabs.ContainsKey(GameObjectType.Waypoint))
+            Debug.LogError("Failed to load Waypoint prefab from Resources or Assets/Prefabs/World/Map/Waypoint.prefab");
+    }
+
+    private void RegisterOptionalPrefab(GameObject prefab, GameObjectType type)
+    {
+        if (prefab == null) return;
+        if (prefabs.ContainsKey(type)) return;
+
+        var worldObject = prefab.GetComponent<WorldObject>();
+        if (worldObject == null)
+        {
+            Debug.LogError($"Prefab assigned for {type} does not have a WorldObject component on {gameObject.name}");
+            return;
+        }
+
+        prefabs.Add(type, new ObjectPool<WorldObject>(0, prefab));
     }
 
     private void CreatePools()

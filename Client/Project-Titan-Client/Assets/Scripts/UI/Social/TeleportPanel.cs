@@ -13,21 +13,29 @@ public class TeleportPanel : MonoBehaviour
 
     public void Show(Vector2 worldPosition, float sampleRadius)
     {
-        var characters = world.characters.Where(_ => _ != world.player && (((Vector2)_.transform.position) - worldPosition).magnitude <= sampleRadius).OrderBy(_ => (worldPosition - ((Vector2)_.transform.position)).sqrMagnitude).ToArray();
-        if (characters.Length == 0)
-        {
+        var waypointCandidates = world.waypoints
+            .Where(_ => (((Vector2)_.transform.position) - worldPosition).magnitude <= sampleRadius)
+            .OrderBy(_ => (worldPosition - ((Vector2)_.transform.position)).sqrMagnitude)
+            .ToArray();
+
+        var characterCandidates = world.characters
+            .Where(_ => _ != world.player && (((Vector2)_.transform.position) - worldPosition).magnitude <= sampleRadius)
+            .OrderBy(_ => (worldPosition - ((Vector2)_.transform.position)).sqrMagnitude)
+            .ToArray();
+
+        if (waypointCandidates.Length == 0 && characterCandidates.Length == 0)
             return;
-        }
 
         didDown = false;
-        for (int i = 0; i < options.Length; i++)
-        {
-            var option = options[i];
-            if (i < characters.Length)
-                option.Setup(characters[i]);
-            else
-                option.Setup(null);
-        }
+        var optionIndex = 0;
+        for (int i = 0; i < waypointCandidates.Length && optionIndex < options.Length; i++, optionIndex++)
+            options[optionIndex].Setup(waypointCandidates[i]);
+
+        for (int i = 0; i < characterCandidates.Length && optionIndex < options.Length; i++, optionIndex++)
+            options[optionIndex].Setup(characterCandidates[i]);
+
+        for (; optionIndex < options.Length; optionIndex++)
+            options[optionIndex].Setup((Character)null);
 
         gameObject.SetActive(true);
     }

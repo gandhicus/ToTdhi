@@ -17,8 +17,12 @@ public class TeleportOption : MonoBehaviour
 
     private Character character;
 
+    private Waypoint waypoint;
+
     public void Setup(Character character)
     {
+        waypoint = null;
+
         if (character == null)
         {
             gameObject.SetActive(false);
@@ -33,8 +37,29 @@ public class TeleportOption : MonoBehaviour
         nameLabel.text = character.playerName;
     }
 
+    public void Setup(Waypoint waypoint)
+    {
+        character = null;
+
+        if (waypoint == null)
+        {
+            gameObject.SetActive(false);
+            this.waypoint = null;
+            return;
+        }
+
+        this.waypoint = waypoint;
+        gameObject.SetActive(true);
+
+        preview.image.sprite = TextureManager.GetDisplaySprite(waypoint.info);
+        nameLabel.text = waypoint.waypointName;
+    }
+
     public void Select()
     {
-        world.Teleport(character);
+        if (waypoint != null)
+            world.TeleportToWaypoint(waypoint);
+        else
+            world.Teleport(character);
     }
 }

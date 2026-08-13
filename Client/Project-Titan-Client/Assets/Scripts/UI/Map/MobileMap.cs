@@ -259,6 +259,29 @@ public class MobileMap : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         //Debug.Log(relative);
         var worldPos = mapPosition + (relative / new Vector2(Screen.width, Screen.height)) * heightView;
 
+        Waypoint closestWaypoint = null;
+        float waypointDistance = heightView * 0.06f;
+        foreach (var waypoint in world.waypoints)
+        {
+            var dis = Vector2.Distance((Vector2)waypoint.Position, worldPos);
+            if (dis < waypointDistance)
+            {
+                closestWaypoint = waypoint;
+                waypointDistance = dis;
+            }
+        }
+
+        if (tooltip != -1)
+        {
+            tooltipManager.HideTooltip(tooltip);
+        }
+
+        if (closestWaypoint != null)
+        {
+            tooltip = tooltipManager.ShowTooltip(closestWaypoint);
+            return;
+        }
+
         Character closest = null;
         float distance = heightView * 0.06f;
         foreach (var character in world.characters)
@@ -270,11 +293,6 @@ public class MobileMap : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 closest = character;
                 distance = dis;
             }
-        }
-
-        if (tooltip != -1)
-        {
-            tooltipManager.HideTooltip(tooltip);
         }
 
         if (closest != null)

@@ -23,10 +23,10 @@ namespace World.Map.Spawning
         public Dictionary<SoulGroup, Dictionary<ushort, int>> titanSpawnCount = new Dictionary<SoulGroup, Dictionary<ushort, int>>()
         {
             { SoulGroup.Mountains, new Dictionary<ushort, int>{
-                { Valdok, 5 }
+                { Valdok, 2 }
             } },
             { SoulGroup.Tundra, new Dictionary<ushort, int>{
-                { Balun, 5 }
+                { Balun, 2 }
             } },
             { SoulGroup.Desert, new Dictionary<ushort, int>{
                 { Bhognin, -1 }

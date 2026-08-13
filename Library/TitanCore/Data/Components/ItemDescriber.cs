@@ -282,6 +282,9 @@ namespace TitanCore.Data.Components
                 case AlternateStatType.BlockChance:
                     describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Block Chance", color);
                     break;
+                case AlternateStatType.AbsorptionChance:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Absorption Chance", color);
+                    break;
                 case AlternateStatType.CriticalStrikeChance:
                     describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Critical Strike Chance", color);
                     break;

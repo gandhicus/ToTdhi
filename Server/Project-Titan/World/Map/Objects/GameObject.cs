@@ -25,6 +25,11 @@ namespace World.Map.Objects
 
         public virtual bool Teleportable => false;
 
+        /// <summary>
+        /// If true, this object is synced to every player in the world regardless of sight
+        /// </summary>
+        public virtual bool Global => false;
+
         public IntRect LastBoundingRect { get; set; }
 
         /// <summary>

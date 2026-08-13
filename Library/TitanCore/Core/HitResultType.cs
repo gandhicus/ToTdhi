@@ -6,5 +6,6 @@ namespace TitanCore.Core
         TrueDamage = 1,
         Blocked = 2,
         Critical = 3,
+        Absorbed = 4,
     }
 }

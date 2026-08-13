@@ -435,6 +435,7 @@ namespace World.GameState
                     proj.damage,
                     playerState.currentSnapshot.equips,
                     0,
+                    0,
                     enemyState.currentSnapshot.defense,
                     enemyState.currentSnapshot.HasServerEffect(StatusEffect.Fortified),
                     seed);
@@ -508,6 +509,7 @@ namespace World.GameState
                 var result = StatFunctions.ResolveOutgoingDamage(
                     proj.damage,
                     playerState.currentSnapshot.equips,
+                    0,
                     0,
                     enemyState.currentSnapshot.defense,
                     enemyState.currentSnapshot.HasServerEffect(StatusEffect.Fortified),

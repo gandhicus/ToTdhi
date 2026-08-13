@@ -144,7 +144,7 @@ public class Enemy : NotPlayable
                         world.clientTime,
                         gameId);
 
-                    CombatDisplay.ShowHitResult(this, result, aggregatePlayerDamage: result.type != HitResultType.Blocked);
+                    CombatDisplay.ShowHitResult(this, result, aggregatePlayerDamage: result.type != HitResultType.Blocked && result.type != HitResultType.Absorbed);
                     world.gameManager.client.SendAsync(new TnHit(world.clientTickId, projectile.projId, gameId, Vec2.zero));
                     health -= result.damage;
                     killed = health <= 0;
@@ -180,7 +180,7 @@ public class Enemy : NotPlayable
                 projectile.projId,
                 world.clientTime,
                 gameId);
-            CombatDisplay.ShowHitResult(this, result, aggregatePlayerDamage: result.type != HitResultType.Blocked);
+            CombatDisplay.ShowHitResult(this, result, aggregatePlayerDamage: result.type != HitResultType.Blocked && result.type != HitResultType.Absorbed);
             world.gameManager.client.SendAsync(new TnHit(world.clientTickId, projectile.projId, gameId, Vec2.zero));
             health -= result.damage;
             if (health <= 0)

@@ -481,6 +481,8 @@ namespace World.GameState
             var damageTaken = result.damage;
             var previousHp = health;
             health -= damageTaken;
+            if (health > currentSnapshot.GetFunctionalStat(StatType.MaxHealth))
+                health = currentSnapshot.GetFunctionalStat(StatType.MaxHealth);
             player.hitDamage.Value += damageTaken;
 
             if (health <= 0 && previousHp > 0)

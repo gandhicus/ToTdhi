@@ -58,6 +58,8 @@ namespace World.Map
 
         public List<Enemy> titans = new List<Enemy>();
 
+        public List<GameObject> globalObjects = new List<GameObject>();
+
         /// <summary>
         /// The next id to assign to an object
         /// </summary>
@@ -197,6 +199,9 @@ namespace World.Map
                     break;
             }
 
+            if (obj.Global)
+                globalObjects.Add(obj);
+
             obj.OnAddToWorld();
         }
 
@@ -209,6 +214,10 @@ namespace World.Map
             obj.OnRemoveFromWorld();
             obj.world = null;
             objects.Remove(obj.gameId);
+
+            if (obj.Global)
+                globalObjects.Remove(obj);
+
             switch (obj.Type)
             {
                 case GameObjectType.Player:
@@ -440,8 +449,13 @@ namespace World.Map
             }
 
             if (world.AllowGlobalObjects)
+            {
                 foreach (var titan in titans)
                     player.ProcessObject(titan, ref time);
+
+                foreach (var obj in globalObjects)
+                    player.ProcessObject(obj, ref time);
+            }
 
             player.ProcessQuest(ref time);
             player.ProcessPet(ref time);

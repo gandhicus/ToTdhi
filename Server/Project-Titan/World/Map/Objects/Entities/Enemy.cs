@@ -258,6 +258,12 @@ namespace World.Map.Objects.Entities
             var weapon = info as WeaponInfo;
 
             livingTime = 60;
+            if (info is GateKeyInfo)
+            {
+                livingTime = 200;
+                return 0xf06;
+            }
+
             if (info is ScrollInfo scroll)
             {
                 livingTime = 120;

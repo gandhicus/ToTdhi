@@ -18,6 +18,8 @@ namespace World.Worlds.Gates
 
         protected virtual int PortalTime => -1;
 
+        public int portalDurationOverride = -1;
+
         private QuestTaskSystem questTaskSystem;
 
         public Portal portal;
@@ -66,7 +68,14 @@ namespace World.Worlds.Gates
                 questTaskSystem.onComplete = OnGateComplete;
             }
 
-            portalRemoveTime = DateTime.Now.AddSeconds(PortalTime);
+            var portalTime = GetPortalDuration();
+            if (portalTime != -1)
+                portalRemoveTime = DateTime.Now.AddSeconds(portalTime);
+        }
+
+        private int GetPortalDuration()
+        {
+            return portalDurationOverride >= 0 ? portalDurationOverride : PortalTime;
         }
 
         private int lastCount = 0;
@@ -91,7 +100,7 @@ namespace World.Worlds.Gates
             }
 
             var gatePortal = portal;
-            if (PortalTime != -1 && gatePortal != null && DateTime.Now > portalRemoveTime)
+            if (GetPortalDuration() != -1 && gatePortal != null && DateTime.Now > portalRemoveTime)
             {
                 gatePortal.world.PushTickAction(() =>
                 {

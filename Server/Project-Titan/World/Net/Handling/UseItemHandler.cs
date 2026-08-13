@@ -11,6 +11,7 @@ using TitanDatabase;
 using TitanDatabase.Models;
 using Utils.NET.Utils;
 using World.Models;
+using World.Worlds.Gates;
 
 namespace World.Net.Handling
 {
@@ -100,6 +101,21 @@ namespace World.Net.Handling
             {
                 connection.player.character.pet = petSpawnInfo.petSpawned;
                 connection.player.LoadPet();
+            }
+            else if (itemInfo is GateKeyInfo gateKeyInfo)
+            {
+                var gateType = GateSpawner.ResolveGateType(gateKeyInfo.gateType);
+                if (gateType == null)
+                {
+                    connection.player.AddChat(ChatData.Error("This key doesn't seem to work."));
+                    return;
+                }
+
+                GateSpawner.SpawnGate(
+                    connection.player.world,
+                    gateType,
+                    connection.player.position.Value,
+                    GateSpawner.KeyPortalDurationSeconds);
             }
 
             if (item.count > 1)

@@ -239,6 +239,7 @@
     <SoulMod>3</SoulMod>
     <SoulGroup>Grasslands</SoulGroup>
     <LootTier>3</LootTier>
+	<LootTier>4</LootTier>
     <Defense>9</Defense>
     <Size>1.2</Size>
     
@@ -341,6 +342,7 @@
     <SoulMod>3</SoulMod>
     <SoulGroup>Grasslands</SoulGroup>
     <LootTier>3</LootTier>
+	<LootTier>4</LootTier>
     <Defense>10</Defense>
 
   </Object>
@@ -656,7 +658,11 @@
     <LootTier>8</LootTier>
     <LootTier>9</LootTier>
     <LootTier>10</LootTier>
+	<LootTier>11</LootTier>
     <LootTier>12</LootTier>
+	<LootTier>13</LootTier>
+	<LootTier>14</LootTier>
+	<LootTier>15</LootTier>
     <Defense>42</Defense>
     
   </Object>
@@ -759,6 +765,8 @@
     <LootTier>5</LootTier>
     <LootTier>7</LootTier>
     <LootTier>10</LootTier>
+	<LootTier>12</LootTier>
+	<LootTier>13</LootTier>
     <Defense>32</Defense>
 
   </Object>
@@ -1104,6 +1112,12 @@
     <LootTier>3</LootTier>
     <LootTier>4</LootTier>
     <LootTier>5</LootTier>
+	<LootTier>7</LootTier>
+	<LootTier>8</LootTier>
+	<LootTier>9</LootTier>
+	<LootTier>10</LootTier>
+	<LootTier>12</LootTier>
+	<LootTier>13</LootTier>
 
   </Object>
 
@@ -1480,6 +1494,9 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>3</LootTier>
     <LootTier>4</LootTier>
+	<LootTier>5</LootTier>
+	<LootTier>6</LootTier>
+	<LootTier>7</LootTier>
     <Defense>20</Defense>
 
   </Object>
@@ -1547,6 +1564,7 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>2</LootTier>
     <LootTier>4</LootTier>
+	<LootTier>5</LootTier>
     <Defense>18</Defense>
 
   </Object>
@@ -1574,6 +1592,7 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>3</LootTier>
     <LootTier>4</LootTier>
+	<LootTier>5</LootTier>
     <Defense>20</Defense>
 
   </Object>
@@ -1648,6 +1667,7 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>4</LootTier>
+	<LootTier>5</LootTier>
     <Defense>20</Defense>
 
   </Object>
@@ -1680,6 +1700,7 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>2</LootTier>
     <LootTier>4</LootTier>
+	<LootTier>5</LootTier>
     <Defense>18</Defense>
 
   </Object>
@@ -1714,6 +1735,7 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>1</LootTier>
     <LootTier>4</LootTier>
+	<LootTier>5</LootTier>
     <Defense>18</Defense>
 
   </Object>
@@ -1739,6 +1761,7 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>1</LootTier>
     <LootTier>4</LootTier>
+	<LootTier>5</LootTier>
     <Defense>16</Defense>
 
   </Object>
@@ -3142,6 +3165,7 @@
     <SoulGroup>MannahsFortress</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>2</LootTier>
+	<LootTier>5</LootTier>
     <Defense>38</Defense>
 
   </Object>
@@ -3186,6 +3210,8 @@
     <HealthMod>30</HealthMod>
     <SoulMod>3</SoulMod>
     <SoulGroup>MannahsFortress</SoulGroup>
+	<LootTier>0</LootTier>
+	<LootTier>2</LootTier>
     <LootTier>6</LootTier>
     <Defense>40</Defense>
 
@@ -3212,6 +3238,7 @@
     <HealthMod>1</HealthMod>
     <SoulMod>0</SoulMod>
     <SoulGroup>MannahsFortress</SoulGroup>
+	<LootTier>5</LootTier>
     <Invincible/>
 
   </Object>
@@ -3273,7 +3300,7 @@
     <HealthMod>80</HealthMod>
     <SoulMod>5</SoulMod>
     <SoulGroup>MannahsFortress</SoulGroup>
-    <LootTier>6</LootTier>
+    <LootTier>5</LootTier>
     <LootTier>11</LootTier>
     <Defense>30</Defense>
 
@@ -3520,6 +3547,7 @@
     <SoulGroup>RictornsGate</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>1</LootTier>
+	<LootTier>6</LootTier>
     <Defense>10</Defense>
 
   </Object>
@@ -3568,6 +3596,12 @@
     <SoulGroup>RictornsGate</SoulGroup>
     <LootTier>2</LootTier>
     <LootTier>3</LootTier>
+	<LootTier>5</LootTier>
+	<LootTier>7</LootTier>
+	<LootTier>8</LootTier>
+	<LootTier>9</LootTier>
+	<LootTier>10</LootTier>
+	<LootTier>11</LootTier>
     <Defense>14</Defense>
 
   </Object>
@@ -4350,6 +4384,10 @@
     <Defense>20</Defense>
     <LootTier>3</LootTier>
     <LootTier>5</LootTier>
+	<LootTier>7</LootTier>
+	<LootTier>8</LootTier>
+	<LootTier>9</LootTier>
+	<LootTier>12</LootTier>
 
   </Object>
 
@@ -4437,6 +4475,8 @@
     <HealthMod>1.5</HealthMod>
     <SoulMod>1.1</SoulMod>
     <SoulGroup>Gorge</SoulGroup>
+	<LootTier>2</LootTier>
+	<LootTier>6</LootTier>
     <Defense>20</Defense>
 
   </Object>
@@ -4466,6 +4506,7 @@
     <SoulGroup>Gorge</SoulGroup>
     <Defense>18</Defense>
     <LootTier>2</LootTier>
+	<LootTier>6</LootTier>
 
   </Object>
 
@@ -4582,6 +4623,7 @@
     <SoulGroup>Gorge</SoulGroup>
     <Defense>18</Defense>
     <LootTier>2</LootTier>
+	<LootTier>10</LootTier>
 
   </Object>
 
@@ -4604,6 +4646,7 @@
     <HealthMod>1</HealthMod>
     <SoulMod>0.7</SoulMod>
     <SoulGroup>Gorge</SoulGroup>
+	<LootTier>10</LootTier>
     <Defense>18</Defense>
 
   </Object>

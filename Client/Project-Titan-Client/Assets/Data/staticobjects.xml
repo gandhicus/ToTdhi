@@ -1331,5 +1331,35 @@
     <Type>StaticObject</Type>
 
   </Object>
+
+  <Object id="0xaad" name="Weeping Wilderness Waypoint">
+    <Type>Waypoint</Type>
+    <Sprite>Weeping Wilderness Waypoint</Sprite>
+    <Size>1.4</Size>
+  </Object>
+
+  <Object id="0xaae" name="Desolate Dunes Waypoint">
+    <Type>Waypoint</Type>
+    <Sprite>Desolate Dunes Waypoint</Sprite>
+    <Size>1.4</Size>
+  </Object>
+
+  <Object id="0xaaf" name="Sanguine Shallows Waypoint">
+    <Type>Waypoint</Type>
+    <Sprite>Sanguine Shallows Waypoint</Sprite>
+    <Size>1.4</Size>
+  </Object>
+
+  <Object id="0xab0" name="Treacherous Tundra Waypoint">
+    <Type>Waypoint</Type>
+    <Sprite>Treacherous Tundra Waypoint</Sprite>
+    <Size>1.4</Size>
+  </Object>
+
+  <Object id="0xab1" name="Perilous Peaks Waypoint">
+    <Type>Waypoint</Type>
+    <Sprite>Perilous Peaks Waypoint</Sprite>
+    <Size>1.4</Size>
+  </Object>
   
 </Objects>

@@ -1369,8 +1369,8 @@
 
     <Description>Plate armor made out of reinforced gold. Equipped with a magus cloak that is functional and fashionable.</Description>
 
-    <StatIncrease type="Defense">22</StatIncrease>
-    <StatIncrease type="Vigor">6</StatIncrease>
+    <StatIncrease type="Defense">23</StatIncrease>
+    <StatIncrease type="Vigor">7</StatIncrease>
   </Object>
 
   <Object id="0x209" name="Valdok's Impervious Aegis" tier="-1">
@@ -1381,10 +1381,22 @@
     <Description>Plate armor forged from ebonsteel and augmented by Valdok's forge, provides the authorative defense of Valdok.</Description>
 
     <StatIncrease type="Defense">24</StatIncrease>
-    <StatIncrease type="Speed">-4</StatIncrease>
-    <StatIncrease type="Vigor">4</StatIncrease>
     <StatIncrease type="Attack">4</StatIncrease>
+	<AlternateStatIncrease type="CriticalStrikeChance">15</AlternateStatIncrease>
+	<AlternateStatIncrease type="CriticalStrikeDamage">15</AlternateStatIncrease>
   </Object>
+
+<Object id="0x505" name="Chestplate of the Forest" tier="-1">
+	<Type>Equipment</Type>
+	<SlotType>HeavyArmor</SlotType>
+	<Sprite>Chestplate of the Forest</Sprite>
+
+	<Description>An ornate chestplate inspired by the tranquility of the forest.</Description>
+
+	<StatIncrease type="MaxHealth">50</StatIncrease>
+	<StatIncrease type="Vigor">4</StatIncrease>
+	<StatIncrease type="Defense">4</StatIncrease>
+</Object>
   
   <!-- Light Armors -->
 
@@ -1416,6 +1428,7 @@
     <Description>Leather armor fashioned out of a bear hide. The thick leather is difficult to penetrate.</Description>
 
     <StatIncrease type="Defense">7</StatIncrease>
+	<StatIncrease type="Speed">2</StatIncrease>
   </Object>
 
   <Object id="0x223" name="Minotaur Leather Armor" tier="4">
@@ -1426,6 +1439,7 @@
     <Description>Leather armor crafted from a minotaur. Lightweight and durable.</Description>
 
     <StatIncrease type="Defense">9</StatIncrease>
+	<StatIncrease type="Speed">2</StatIncrease>
   </Object>
 
   <Object id="0x224" name="Ranger's Stealth Armor" tier="5">
@@ -1436,6 +1450,8 @@
     <Description>Armor used by rangers and all manners of stealth archtypes. The armor's movement makes near to no sound.</Description>
 
     <StatIncrease type="Defense">10</StatIncrease>
+	<StatIncrease type="Speed">3</StatIncrease>
+	<StatIncrease type="Attack">2</StatIncrease>
   </Object>
 
   <Object id="0x225" name="Gold-studded Armor" tier="6">
@@ -1445,7 +1461,8 @@
 
     <Description>Leather armor studden with gold metal. What is gained in strength is also gained in weight.</Description>
 
-    <StatIncrease type="Speed">-1</StatIncrease>
+    <StatIncrease type="Speed">3</StatIncrease>
+	<StatIncrease type="Attack">3</StatIncrease>
     <StatIncrease type="Defense">12</StatIncrease>
   </Object>
 
@@ -1456,8 +1473,8 @@
 
     <Description>Extremely durable and resilient to damage. Crafted from the hide of a greenscale dragon.</Description>
 
-    <StatIncrease type="Speed">1</StatIncrease>
-    <StatIncrease type="Attack">1</StatIncrease>
+    <StatIncrease type="Speed">4</StatIncrease>
+    <StatIncrease type="Attack">3</StatIncrease>
     <StatIncrease type="Defense">13</StatIncrease>
   </Object>
 
@@ -1468,8 +1485,8 @@
 
     <Description>Fashioned from the hide of a tarrasque. The impenetrable hide makes this armor only vulterable at weak points.</Description>
 
-    <StatIncrease type="Speed">2</StatIncrease>
-    <StatIncrease type="Attack">1</StatIncrease>
+    <StatIncrease type="Speed">4</StatIncrease>
+    <StatIncrease type="Attack">4</StatIncrease>
     <StatIncrease type="Defense">14</StatIncrease>
   </Object>
 
@@ -1480,9 +1497,9 @@
 
     <Description>Hide armor created from the flesh of the kraken. Ancient sailors managed to cleverly remove a single tentacle.</Description>
     
-    <StatIncrease type="Speed">2</StatIncrease>
-    <StatIncrease type="Attack">2</StatIncrease>
-    <StatIncrease type="Defense">15</StatIncrease>
+    <StatIncrease type="Speed">5</StatIncrease>
+    <StatIncrease type="Attack">5</StatIncrease>
+    <StatIncrease type="Defense">17</StatIncrease>
   </Object>
 
   <Object id="0x229" name="Empyrean's Guard" tier="-1">
@@ -1492,11 +1509,37 @@
 
     <Description>A light body armor constructed out of the corpse of an empyrean; a legendary creature that only materializes once every century.</Description>
     
-    <StatIncrease type="Defense">8</StatIncrease>
-    <StatIncrease type="Attack">4</StatIncrease>
-    <StatIncrease type="Speed">4</StatIncrease>
+    <StatIncrease type="Defense">10</StatIncrease>
+    <StatIncrease type="Attack">6</StatIncrease>
+    <StatIncrease type="Speed">6</StatIncrease>
     <AlternateStatIncrease type="RateOfFire">5</AlternateStatIncrease>
   </Object>
+	
+<Object id="0x504" name="Windward Cloak" tier="-1">
+	<Type>Equipment</Type>
+	<Sprite>Windward Cloak</Sprite>
+	<SlotType>Robe</SlotType>
+
+	<Description>A cloak that was melded from the winds of the dunes. A favorite amongst the mages for its sleek appearance and stellar properties.</Description>
+
+	<StatIncrease type="Defense">8</StatIncrease>
+	<StatIncrease type="Speed">5</StatIncrease>
+	<StatIncrease type="MaxHealth">30</StatIncrease>
+</Object>
+
+<Object id="0x507" name="Dark Matter" tier="-1">
+	<Type>Equipment</Type>
+	<Sprite>Dark Matter</Sprite>
+	<SlotType>LightArmor</SlotType>
+
+	<Description>...</Description>
+
+	<StatIncrease type="MaxHealth">-100</StatIncrease>
+	<StatIncrease type="Defense">10</StatIncrease>
+	<AlternateStatIncrease type="BlockChance">20</AlternateStatIncrease>
+	<AlternateStatIncrease type="CriticalStrikeChance">25</AlternateStatIncrease>
+	<AlternateStatIncrease type="TrueDamageChance">40</AlternateStatIncrease>
+</Object>
   
   <!-- Robes -->
 
@@ -1508,6 +1551,7 @@
     <Description>A robe made of simple materials. Worn by initiates of the order.</Description>
 
     <StatIncrease type="Defense">3</StatIncrease>
+	<StatIncrease type="Attack">2</StatIncrease>
   </Object>
 
   <Object id="0x241" name="Robe of the Learner" tier="2">
@@ -1518,6 +1562,7 @@
     <Description>A robe worn by second-year members. Observed to be produced with quality materials.</Description>
 
     <StatIncrease type="Defense">4</StatIncrease>
+	<StatIncrease type="Attack">2</StatIncrease>
   </Object>
 
   <Object id="0x242" name="Robe of the Novice" tier="3">
@@ -1528,6 +1573,7 @@
     <Description>A robe woven with rare silk. Worn by adept members.</Description>
 
     <StatIncrease type="Defense">5</StatIncrease>
+	<StatIncrease type="Attack">3</StatIncrease>
   </Object>
 
   <Object id="0x243" name="Robe of the Proselyte" tier="4">
@@ -1538,7 +1584,7 @@
     <Description>A robe of superior silk. Bears the symbol of the high order.</Description>
 
     <StatIncrease type="Defense">6</StatIncrease>
-    <StatIncrease type="Attack">1</StatIncrease>
+    <StatIncrease type="Attack">3</StatIncrease>
   </Object>
 
   <Object id="0x244" name="Robe of the Convert" tier="5">
@@ -1549,7 +1595,7 @@
     <Description>Fashioned with elegant silk and vibrant orange drapes.</Description>
 
     <StatIncrease type="Defense">7</StatIncrease>
-    <StatIncrease type="Attack">1</StatIncrease>
+    <StatIncrease type="Attack">4</StatIncrease>
   </Object>
 
   <Object id="0x245" name="Robe of the Cultist" tier="6">
@@ -1560,7 +1606,7 @@
     <Description>A robe of exquisite material and make. Worn by the leaders of the high order.</Description>
 
     <StatIncrease type="Defense">8</StatIncrease>
-    <StatIncrease type="Attack">2</StatIncrease>
+    <StatIncrease type="Attack">5</StatIncrease>
   </Object>
 
   <Object id="0x246" name="Robe of Opaque Enlightenment" tier="7">
@@ -1571,7 +1617,7 @@
     <Description>A robe of magnificent, almost magical, build. First robe of three to transcend the high order.</Description>
 
     <StatIncrease type="Defense">9</StatIncrease>
-    <StatIncrease type="Attack">2</StatIncrease>
+    <StatIncrease type="Attack">5</StatIncrease>
   </Object>
 
   <Object id="0x247" name="Robe of Calamitous Demise" tier="8">
@@ -1582,7 +1628,7 @@
     <Description>A malefactor's robe, worn by those who desire calamity and destruction.</Description>
 
     <StatIncrease type="Defense">10</StatIncrease>
-    <StatIncrease type="Attack">3</StatIncrease>
+    <StatIncrease type="Attack">6</StatIncrease>
   </Object>
 
   <Object id="0x248" name="Robe of Arcane Mastery" tier="9">
@@ -1592,8 +1638,8 @@
 
     <Description>A robe of supreme aspect. Clouded with whispers of its magical make.</Description>
 
-    <StatIncrease type="Defense">11</StatIncrease>
-    <StatIncrease type="Attack">3</StatIncrease>
+    <StatIncrease type="Defense">12</StatIncrease>
+    <StatIncrease type="Attack">8</StatIncrease>
   </Object>
 
   <Object id="0x249" name="Archmage's Sibylline Vestment" tier="-1">
@@ -1605,7 +1651,8 @@
     
     <StatIncrease type="Defense">7</StatIncrease>
     <StatIncrease type="Attack">4</StatIncrease>
-    <StatIncrease type="Vigor">7</StatIncrease>
+    <StatIncrease type="Vigor">12</StatIncrease>
+	<AlternateStatIncrease type="AbsorptionChance">3</AlternateStatIncrease>
   </Object>
   
   <!-- NewWeapons -->
@@ -1694,7 +1741,7 @@
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
     <Sprite>Speed Ring 3</Sprite>
-    <StatIncrease type="Speed">3</StatIncrease>
+    <StatIncrease type="Speed">4</StatIncrease>
 
     <Description>An immense emerald fixed on top of a gold ring.</Description>
   </Object>
@@ -1703,7 +1750,7 @@
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
     <Sprite>Attack Ring 3</Sprite>
-    <StatIncrease type="Attack">3</StatIncrease>
+    <StatIncrease type="Attack">4</StatIncrease>
 
     <Description>An immense amethyst fixed on top of a gold ring.</Description>
   </Object>
@@ -1712,7 +1759,7 @@
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
     <Sprite>Defense Ring 3</Sprite>
-    <StatIncrease type="Defense">3</StatIncrease>
+    <StatIncrease type="Defense">4</StatIncrease>
 
     <Description>An immense obsidian crystal fixed on top of a gold ring.</Description>
   </Object>
@@ -1721,7 +1768,7 @@
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
     <Sprite>Vigor Ring 3</Sprite>
-    <StatIncrease type="Vigor">3</StatIncrease>
+    <StatIncrease type="Vigor">4</StatIncrease>
 
     <Description>An immense ruby fixed on top of a gold ring.</Description>
   </Object>
@@ -1730,7 +1777,7 @@
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
     <Sprite>Speed Ring 4</Sprite>
-    <StatIncrease type="Speed">4</StatIncrease>
+    <StatIncrease type="Speed">6</StatIncrease>
 
     <Description>A tremendous emerald fixed on top of a gleaming gold ring.</Description>
   </Object>
@@ -1739,7 +1786,7 @@
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
     <Sprite>Attack Ring 4</Sprite>
-    <StatIncrease type="Attack">4</StatIncrease>
+    <StatIncrease type="Attack">6</StatIncrease>
 
     <Description>A tremendous amethyst fixed on top of a gleaming gold ring.</Description>
   </Object>
@@ -1748,7 +1795,7 @@
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
     <Sprite>Defense Ring 4</Sprite>
-    <StatIncrease type="Defense">4</StatIncrease>
+    <StatIncrease type="Defense">6</StatIncrease>
 
     <Description>A tremendous obsidian crystal fixed on top of a gleaming gold ring.</Description>
   </Object>
@@ -1757,7 +1804,7 @@
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
     <Sprite>Vigor Ring 4</Sprite>
-    <StatIncrease type="Vigor">4</StatIncrease>
+    <StatIncrease type="Vigor">6</StatIncrease>
 
     <Description>A tremendous ruby fixed on top of a gleaming gold ring.</Description>
   </Object>
@@ -1768,9 +1815,9 @@
     <Sprite>UT Ring 1</Sprite>
 
     <StatIncrease type="Speed">3</StatIncrease>
-    <StatIncrease type="Attack">2</StatIncrease>
-    <StatIncrease type="Defense">2</StatIncrease>
-    <StatIncrease type="Vigor">3</StatIncrease>
+    <StatIncrease type="Attack">3</StatIncrease>
+    <StatIncrease type="Defense">5</StatIncrease>
+    <StatIncrease type="Vigor">5</StatIncrease>
 
     <Description>A ring affixed with a jewel trinity. Rumored to benefit all aspects of life.</Description>
   </Object>
@@ -1791,10 +1838,10 @@
     <SlotType>Accessory</SlotType>
     <Sprite>UT Ring 3</Sprite>
 
-    <StatIncrease type="MaxHealth">80</StatIncrease>
-    <StatIncrease type="Attack">-2</StatIncrease>
-    <StatIncrease type="Defense">-2</StatIncrease>
-    <StatIncrease type="Vigor">-2</StatIncrease>
+    <StatIncrease type="MaxHealth">-30</StatIncrease>
+    <StatIncrease type="Attack">4</StatIncrease>
+    <StatIncrease type="Defense">4</StatIncrease>
+    <StatIncrease type="Vigor">4</StatIncrease>
 
     <Description>A brilliant platinum ring adorned with a grand, diamond-shaped, ruby.</Description>
   </Object>
@@ -1806,6 +1853,7 @@
 
     <StatIncrease type="Defense">4</StatIncrease>
     <StatIncrease type="Vigor">4</StatIncrease>
+	<AlternateStatIncrease type="BlockChance">5</AlternateStatIncrease>
 
     <Description>A hefty and brawny stone affixed on a platinum band.</Description>
   </Object>
@@ -1815,10 +1863,11 @@
     <SlotType>Accessory</SlotType>
     <Sprite>UT Ring 5</Sprite>
 
-    <StatIncrease type="Attack">4</StatIncrease>
-    <StatIncrease type="Vigor">4</StatIncrease>
+    <StatIncrease type="Attack">5</StatIncrease>
+    <StatIncrease type="Vigor">5</StatIncrease>
+	<AlternateStatIncrease type="CriticalStrikeDamage">30</AlternateStatIncrease>
 
-    <Description>A ring worn by valorant warriors. Said to possess the spirit of Mezhier.</Description>
+	  <Description>A ring worn by valorant warriors. Said to possess the spirit of Mezhier.</Description>
   </Object>
 
   <Object id="0x295" name="Tehtman's Brutal Band" tier="-1">
@@ -1826,7 +1875,7 @@
     <SlotType>Accessory</SlotType>
     <Sprite>UT Ring 6</Sprite>
 
-    <StatIncrease type="Attack">5</StatIncrease>
+    <StatIncrease type="Attack">7</StatIncrease>
     <AlternateStatIncrease type="RateOfFire">5</AlternateStatIncrease>
 
     <Description>A blazing amber placed upon a bronze band.</Description>
@@ -1837,7 +1886,7 @@
     <SlotType>Accessory</SlotType>
     <Sprite>UT Ring 7</Sprite>
     
-    <StatIncrease type="Speed">6</StatIncrease>
+    <StatIncrease type="Speed">9</StatIncrease>
     <AlternateStatIncrease type="RateOfFire">5</AlternateStatIncrease>
 
     <Description>A magnificent emerald placed upon a bronze band.</Description>
@@ -1848,11 +1897,11 @@
     <SlotType>Accessory</SlotType>
     <Sprite>UT Ring 8</Sprite>
 
-    <StatIncrease type="MaxHealth">20</StatIncrease>
-    <StatIncrease type="Speed">2</StatIncrease>
-    <StatIncrease type="Attack">2</StatIncrease>
-    <StatIncrease type="Defense">2</StatIncrease>
-    <StatIncrease type="Vigor">2</StatIncrease>
+    <StatIncrease type="MaxHealth">40</StatIncrease>
+    <StatIncrease type="Speed">4</StatIncrease>
+    <StatIncrease type="Attack">4</StatIncrease>
+    <StatIncrease type="Defense">4</StatIncrease>
+    <StatIncrease type="Vigor">4</StatIncrease>
 
     <Description>A dazzling gold ring. A pristine amethyst crowns the band and is enveloped in gold leaves.</Description>
   </Object>
@@ -1862,9 +1911,9 @@
 	<SlotType>Accessory</SlotType>
 	<Sprite>Desert Rose</Sprite>
 
-	<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
-	<AlternateStatIncrease type="BlockChance">2</AlternateStatIncrease>
-	<StatIncrease type="Defense">2</StatIncrease>
+	<AlternateStatIncrease type="TrueDamageChance">15</AlternateStatIncrease>
+	<AlternateStatIncrease type="BlockChance">3</AlternateStatIncrease>
+	<StatIncrease type="Defense">3</StatIncrease>
 
 	<Description>Each of these immaculate gemstones are formed over centuries through being weathered in the shifting sands of the dunes. The gods of the overworld recognize their beauty, blessing them with their strength.</Description>
 </Object>
@@ -1877,6 +1926,41 @@
 	<AlternateStatIncrease type="RageGain">50</AlternateStatIncrease>
 
 	<Description>A ring that fuels your fury with every strike.</Description>
+</Object>
+
+<Object id="0x503" name="Corrupted Skull of Mezhier" tier="-1">
+	<Type>Equipment</Type>
+	<SlotType>Accessory</SlotType>
+	<Sprite>Corrupted Skull of Mezhier</Sprite>
+
+	<AlternateStatIncrease type="RageGain">20</AlternateStatIncrease>
+	<AlternateStatIncrease type="CriticalStrikeChance">5</AlternateStatIncrease>
+	<StatIncrease type="Attack">3</StatIncrease>
+
+	<Description>After his death, Mezhier's corpse resided in the Whispering Woods as his eternal resting place. When Rictorn's reign begun, his skull was corrupted due to Rictorn's evil presence.</Description>
+</Object>
+
+<Object id="0x508" name="Tear of Life" tier="-1">
+	<Type>Equipment</Type>
+	<SlotType>Accessory</SlotType>
+	<Sprite>Tear of Life</Sprite>
+
+	<StatIncrease type="Speed">2</StatIncrease>
+	<StatIncrease type="Vigor">2</StatIncrease>
+	<AlternateStatIncrease type="TrueDamageChance">5</AlternateStatIncrease>
+
+	<Description>A ring that is affixed with a cool, tear-dropped gem. It's said that many of these same gems helped create the overworld's wildlife.</Description>
+</Object>
+
+<Object id="0x506" name="Quartz Ring" tier="-1">
+	<Type>Equipment</Type>
+	<SlotType>Accessory</SlotType>
+	<Sprite>Quartz Ring</Sprite>
+
+	<StatIncrease type="Attack">3</StatIncrease>
+	<AlternateStatIncrease type="CriticalStrikeChance">8</AlternateStatIncrease>
+
+	<Description>A ring topped with a beautiful, yet rough, hunk of pink quartz.</Description>
 </Object>
 
   <Object id="0x298" name="Ring of Colossal Speed" tier="5">
@@ -1937,7 +2021,7 @@
 
     <StatType>Speed</StatType>
     <Description>A delicate scroll, its contents dimly hum with a soft leafy color.</Description>
-    <MaxStack>4</MaxStack>
+    <MaxStack>12</MaxStack>
 
     <Consumable/>
   </Object>
@@ -1947,7 +2031,7 @@
 
     <StatType>Attack</StatType>
     <Description>A scroll of unstable constitution. Radiates of erratic nature.</Description>
-    <MaxStack>4</MaxStack>
+    <MaxStack>12</MaxStack>
 
     <Consumable/>
   </Object>
@@ -1957,7 +2041,7 @@
 
     <StatType>Defense</StatType>
     <Description>A scroll enfused with stone and iron. A sturdy ambience resinates from its core.</Description>
-    <MaxStack>4</MaxStack>
+    <MaxStack>12</MaxStack>
 
     <Consumable/>
   </Object>
@@ -1967,7 +2051,7 @@
 
     <StatType>Vigor</StatType>
     <Description>A scroll permeating with hope. A lively essence seems to spring from the paper.</Description>
-    <MaxStack>4</MaxStack>
+    <MaxStack>12</MaxStack>
 
     <Consumable/>
   </Object>
@@ -2106,7 +2190,7 @@ This item heals its user for 10% missing health every 5 seconds.</Description>
 
     <StatType>MaxHealth</StatType>
     <Description>A scroll glowing with essence. An unintelligible language is written on the parchment.</Description>
-    <MaxStack>4</MaxStack>
+    <MaxStack>12</MaxStack>
 
     <Consumable/>
   </Object>
@@ -2134,10 +2218,10 @@ This item heals its user for 10% missing health every 5 seconds.</Description>
     <SlotType>HeavyArmor</SlotType>
     <Sprite>HeavyArmor 1</Sprite>
 
-    <Description>Test armor. Blocks all incoming damage and greatly increases critical strike damage while equipped.</Description>
+    <Description>Test armor. Absorbs all incoming damage as healing and greatly increases critical strike damage while equipped.</Description>
 
     <StatIncrease type="Defense">15</StatIncrease>
-    <AlternateStatIncrease type="BlockChance">100</AlternateStatIncrease>
+    <AlternateStatIncrease type="AbsorptionChance">100</AlternateStatIncrease>
     <AlternateStatIncrease type="CriticalStrikeDamage">100</AlternateStatIncrease>
   </Object>
   
@@ -2190,6 +2274,51 @@ This item heals its user for 10% missing health every 5 seconds.</Description>
     <Description>Unlocks the 'Rare Chest' emote</Description>
     <Consumable/>
     <Unlockable/>
+  </Object>
+
+  <Object id="0x2005" name="Key to Mannah's Fortress">
+    <Type>GateKey</Type>
+    <Sprite>Mannah Key</Sprite>
+    <Gate>fortress</Gate>
+    <Description>A key that reveals an entrance to Mannah's Fortress.</Description>
+    <Consumable/>
+    <Droppable/>
+  </Object>
+
+  <Object id="0x2006" name="Key to Dumir">
+    <Type>GateKey</Type>
+    <Sprite>Balun Key</Sprite>
+    <Gate>dumir</Gate>
+    <Description>A key that reveals an entrance to Dumir.</Description>
+    <Consumable/>
+    <Droppable/>
+  </Object>
+
+  <Object id="0x2007" name="Key to Whispering Woods">
+    <Type>GateKey</Type>
+    <Sprite>Rictorn Key</Sprite>
+    <Gate>woods</Gate>
+    <Description>A key that reveals an entrance to Whispering Woods.</Description>
+    <Consumable/>
+    <Droppable/>
+  </Object>
+
+  <Object id="0x2008" name="Key to Valdok's Forge">
+    <Type>GateKey</Type>
+    <Sprite>Valdok Key</Sprite>
+    <Gate>forge</Gate>
+    <Description>A key that reveals an entrance to Valdok's Forge.</Description>
+    <Consumable/>
+    <Droppable/>
+  </Object>
+
+  <Object id="0x2009" name="Key to Bubra Barrens">
+    <Type>GateKey</Type>
+    <Sprite>Bhognin Key</Sprite>
+    <Gate>bubra</Gate>
+    <Description>A key that reveals an entrance to Bubra Barrens.</Description>
+    <Consumable/>
+    <Droppable/>
   </Object>
   
 </Objects>

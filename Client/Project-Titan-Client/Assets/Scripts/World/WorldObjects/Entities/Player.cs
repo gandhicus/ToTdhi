@@ -615,6 +615,7 @@ public class Player : Character
             rawDamage,
             GetEquipItems(),
             0,
+            0,
             targetDefense,
             targetFortified,
             StatFunctions.GetCombatSeed(projectileId, time, targetId));
@@ -653,6 +654,15 @@ public class Player : Character
         {
             ShowAlert("Blocked", CombatDisplay.TrueDamageColor, true);
             AudioManager.PlaySound("break_potion");
+            return;
+        }
+
+        if (result.type == HitResultType.Absorbed)
+        {
+            ShowAlert("ABSORBED", CombatDisplay.AbsorbedColor, true);
+            AudioManager.PlaySound("heal");
+            health = Mathf.Min(health - result.damage, GetStatFunctional(StatType.MaxHealth));
+            world.gameManager.ui.SetHealthValue((int)health);
             return;
         }
 

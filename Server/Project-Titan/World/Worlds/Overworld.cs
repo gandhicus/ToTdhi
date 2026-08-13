@@ -16,6 +16,7 @@ using World.Map;
 using World.Map.Objects.Entities;
 using World.Map.Objects.Map;
 using World.Map.Spawning;
+using World.Map.Waypoints;
 
 namespace World.Worlds
 {
@@ -41,6 +42,8 @@ namespace World.Worlds
         private Int2 spawn;
 
         public SpawnSystem spawnSystem;
+
+        public WaypointSystem waypointSystem;
 
         public OverworldCycle overworldCycle;
 
@@ -71,6 +74,9 @@ namespace World.Worlds
 
             spawnSystem = new SpawnSystem(this);
             spawnSystem.AddNoSpawnZone(spawn, 20);
+
+            waypointSystem = new WaypointSystem(this);
+            waypointSystem.Spawn();
 
             overworldCycle = new OverworldCycle(this);
             //titanSpawnSystem = new TitanSpawnSystem(this);
