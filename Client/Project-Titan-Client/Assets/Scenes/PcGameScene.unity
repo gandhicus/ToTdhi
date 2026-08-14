@@ -27338,7 +27338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1256632779
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27462,6 +27462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flash: {r: 0.03478408, g: 1, b: 0, a: 1}
+  onlyWhenCanLevelUp: 1
 --- !u!1 &1277623954 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4597133164858737655, guid: 1e183bd86b16bd94592b56a9a58441e6,

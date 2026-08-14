@@ -69,24 +69,10 @@ namespace World.Net.Handling
                 connection.player.Heal(itemInfo.heals);
             }
 
-            if (itemInfo is ScrollInfo scrollInfo)
+            if (itemInfo is ScrollInfo)
             {
-                var level = connection.player.GetLevel();
-                if (level >= NetConstants.Max_Level)
-                {
-                    connection.player.AddChat(ChatData.Error($"You've already achieved the max level!"));
-                    return;
-                }
-
-                if (!connection.player.IncreaseStat(scrollInfo.statType, 1))
-                {
-                    connection.player.AddChat(ChatData.Error($"{scrollInfo.statType} is already maxed!"));
-                    return;
-                }
-                else
-                {
-                    connection.player.AddChat(ChatData.Info($"Increased {StringUtils.Labelize(scrollInfo.statType.ToString())} by {(scrollInfo.statType == StatType.MaxHealth ? 10 : 1)}"));
-                }
+                connection.player.AddChat(ChatData.Error("Scrolls can only be used at an Ascension Table."));
+                return;
             }
             else if (itemInfo is EmoteUnlockerInfo emoteInfo)
             {

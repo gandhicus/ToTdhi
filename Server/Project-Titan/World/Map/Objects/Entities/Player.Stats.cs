@@ -346,14 +346,15 @@ namespace World.Map.Objects.Entities
 
         private void UpdateGoalBar()
         {
-            if (statLevelIncrement < NetConstants.Level_Up_Increments)
-                soulGoal.Value = NetConstants.GetLevelUpCost(statLevelIncrement);
-            else
+            if (NetConstants.Use_Manual_Stat_Leveling || statLevelIncrement >= NetConstants.Level_Up_Increments)
                 soulGoal.Value = 0;
+            else
+                soulGoal.Value = NetConstants.GetLevelUpCost(statLevelIncrement);
         }
 
         private void TryLevelUp()
         {
+            if (NetConstants.Use_Manual_Stat_Leveling) return;
             if (statLevelIncrement >= NetConstants.Level_Up_Increments) return;
 
             var cost = NetConstants.GetLevelUpCost(statLevelIncrement);
@@ -393,6 +394,9 @@ namespace World.Map.Objects.Entities
             {
                 CompleteClassQuest(3);
             }
+
+            if (level >= NetConstants.Max_Level && maxHealthLock.Value == 0)
+                LockStats();
 
             UpdateGoalBar();
         }
@@ -443,7 +447,7 @@ namespace World.Map.Objects.Entities
             return true;
         }
 
-        private void LevelUpEffect()
+        public void PlayLevelUpEffect()
         {
             var effectPacket = new TnPlayEffect(new LevelUpWorldEffect(gameId));
             foreach (var otherPlayer in playersSentTo)
@@ -451,6 +455,40 @@ namespace World.Map.Objects.Entities
                 if (otherPlayer.DistanceTo(this) >= 20) continue;
                 otherPlayer.client.SendAsync(effectPacket);
             }
+        }
+
+        public void Respec()
+        {
+            var charInfo = (CharacterInfo)info;
+
+            foreach (var stat in charInfo.stats.Values)
+                SetStatBase(stat.type, stat.baseValue);
+
+            maxHealthLock.Value = 0;
+            speedLock.Value = 0;
+            attackLock.Value = 0;
+            defenseLock.Value = 0;
+            vigorLock.Value = 0;
+            character.statsLocked = new List<uint>();
+
+            health.Value = GetStatFunctional(StatType.MaxHealth);
+            LeveledUp();
+        }
+
+        public bool IsAtBaseStats()
+        {
+            var charInfo = (CharacterInfo)info;
+            foreach (var stat in charInfo.stats.Values)
+            {
+                if (GetStatBase(stat.type) != stat.baseValue)
+                    return false;
+            }
+            return true;
+        }
+
+        private void LevelUpEffect()
+        {
+            PlayLevelUpEffect();
         }
 
         private void LockStats()

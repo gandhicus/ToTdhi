@@ -885,6 +885,9 @@ public class Player : Character
 
     public bool CanLevelUp()
     {
+        if (!NetConstants.Use_Manual_Stat_Leveling) return false;
+        if (GetLevel() >= NetConstants.Max_Level) return false;
+
         foreach (var type in statTypes)
             if (CanLevelUp(type))
                 return true;
@@ -893,9 +896,12 @@ public class Player : Character
 
     private bool CanLevelUp(StatType type)
     {
-        if (GetStatBase(type) >= ((TitanCore.Data.Entities.CharacterInfo)info).stats[type].maxValue) return false;
-        var cost = StatFunctions.GetLevelUpCost((TitanCore.Data.Entities.CharacterInfo)info, type, GetStatBase(type), 1);
-        return cost <= fullSouls;
+        var charInfo = (TitanCore.Data.Entities.CharacterInfo)info;
+        if (GetStatBase(type) >= charInfo.stats[type].maxValue) return false;
+
+        var statForCost = type == StatType.MaxHealth ? GetStatBase(type) / 10 - 5 : GetStatBase(type);
+        var cost = StatFunctions.GetLevelUpCost(charInfo, type, statForCost, 1);
+        return cost > 0 && cost <= fullSouls;
     }
 
     public void AddRage(float amount = 1, bool applyRageGainBonus = true)

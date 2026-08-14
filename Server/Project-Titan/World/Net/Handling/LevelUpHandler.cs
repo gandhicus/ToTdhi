@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TitanCore.Core;
 using TitanCore.Data.Entities;
+using TitanCore.Net;
 using TitanCore.Net.Packets.Client;
 using TitanCore.Net.Packets.Models;
 using TitanCore.Net.Packets.Server;
@@ -13,7 +14,8 @@ namespace World.Net.Handling
     {
         public override void Handle(TnLevelUp packet, Client connection)
         {
-            return;
+            if (!NetConstants.Use_Manual_Stat_Leveling)
+                return;
 
             var speedBase = connection.player.GetStatBase(StatType.Speed);
             var attackBase = connection.player.GetStatBase(StatType.Attack);
@@ -59,6 +61,13 @@ namespace World.Net.Handling
                 return;
             }
 
+            var levelIncrease = packet.speedIncrease + packet.attackIncrease + packet.defenseIncrease + packet.vigorIncrease + packet.maxHealthIncrease;
+            if (connection.player.GetLevel() + levelIncrease > NetConstants.Max_Level)
+            {
+                connection.player.AddChat(ChatData.Error($"Cannot level past {NetConstants.Max_Level}!"));
+                return;
+            }
+
             connection.player.RemoveFullSouls((ulong)costTotal);
 
             connection.player.SetStatBase(StatType.Speed, speedBase + packet.speedIncrease);
@@ -68,6 +77,7 @@ namespace World.Net.Handling
             connection.player.SetStatBase(StatType.MaxHealth, maxHealthBase + packet.maxHealthIncrease * 10);
 
             connection.player.LeveledUp();
+            connection.player.PlayLevelUpEffect();
         }
     }
 }

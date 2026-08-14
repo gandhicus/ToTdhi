@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+using TitanCore.Net;
+
 public enum MenuType
 {
     LevelUp,
@@ -82,6 +84,7 @@ public class GameMenuManager : MonoBehaviour
 
     public void ToggleLevelUp()
     {
+        if (!NetConstants.Use_Manual_Stat_Leveling) return;
         ToggleMenu(MenuType.LevelUp);
     }
 }

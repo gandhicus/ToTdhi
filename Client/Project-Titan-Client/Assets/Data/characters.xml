@@ -15,27 +15,27 @@
 
     <Stat type="MaxHealth">
       <Base>60</Base>
-      <Max>500</Max>
+      <Max>600</Max>
       <Increase>20,20,30,30,30,30,30,30,30,30,30,30</Increase>
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,3,2,3,2,2,3,2,2,3,2,2</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>25</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
     
@@ -58,27 +58,27 @@
 
     <Stat type="MaxHealth">
       <Base>60</Base>
-      <Max>550</Max>
+      <Max>600</Max>
       <Increase>30,30,30,30,30,30,30,30,40,40,30,40</Increase>
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>30</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,2,3,3,2,3,3,2,2,2,2,2</Increase>
     </Stat>
 
@@ -108,22 +108,22 @@
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>30</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
 
@@ -148,27 +148,27 @@
 
     <Stat type="MaxHealth">
       <Base>60</Base>
-      <Max>500</Max>
+      <Max>600</Max>
       <Increase>20,20,30,30,30,30,30,30,30,30,30,30</Increase>
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,3,2,3,2,2,3,2,2,3,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>25</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
 
@@ -194,27 +194,27 @@
 
     <Stat type="MaxHealth">
       <Base>60</Base>
-      <Max>500</Max>
+      <Max>600</Max>
       <Increase>20,20,30,30,30,30,30,30,30,30,30,30</Increase>
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,3,2,3,2,2,3,2,2,3,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>25</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
 
@@ -245,22 +245,22 @@
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>30</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
 
@@ -286,27 +286,27 @@
 
     <Stat type="MaxHealth">
       <Base>60</Base>
-      <Max>500</Max>
+      <Max>600</Max>
       <Increase>20,20,30,30,30,30,30,30,30,30,30,30</Increase>
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,3,2,3,2,2,3,2,2,3,2,2</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>25</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
     
@@ -332,27 +332,27 @@
 
     <Stat type="MaxHealth">
       <Base>60</Base>
-      <Max>550</Max>
+      <Max>600</Max>
       <Increase>30,30,30,30,30,30,30,30,40,40,30,40</Increase>
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>30</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,2,3,3,2,3,3,2,2,2,2,2</Increase>
     </Stat>
 
@@ -378,27 +378,27 @@
 
     <Stat type="MaxHealth">
       <Base>60</Base>
-      <Max>500</Max>
+      <Max>600</Max>
       <Increase>20,20,30,30,30,30,30,30,30,30,30,30</Increase>
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,3,2,3,2,2,3,2,2,3,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>25</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
 
@@ -424,27 +424,27 @@
 
     <Stat type="MaxHealth">
       <Base>60</Base>
-      <Max>500</Max>
+      <Max>600</Max>
       <Increase>20,20,30,30,30,30,30,30,30,30,30,30</Increase>
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,3,2,3,2,2,3,2,2,3,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>25</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
 
@@ -472,27 +472,27 @@
 
     <Stat type="MaxHealth">
       <Base>60</Base>
-      <Max>500</Max>
+      <Max>600</Max>
       <Increase>20,20,30,30,30,30,30,30,30,30,30,30</Increase>
     </Stat>
     <Stat type="Speed">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,3,2,3,2,2,3,2,2,3,2,2</Increase>
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
     <Stat type="Defense">
       <Base>1</Base>
-      <Max>25</Max>
+      <Max>60</Max>
       <Increase>0,1,0,0,1,0,0,1,0,0,1,0</Increase>
     </Stat>
     <Stat type="Vigor">
       <Base>1</Base>
-      <Max>70</Max>
+      <Max>60</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
 

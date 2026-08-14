@@ -534,10 +534,10 @@ namespace World.Looting
                         new Single(Loot.Chance(25), new Item("Key to Mannah's Fortress"))
                         ),
                     new SoulboundLoot(0.1f, // 13
-                        new Single(Loot.Chance(10), new Item("Key to Dumir"))
+                        new Single(Loot.Chance(15), new Item("Key to Dumir"))
                         ),
                     new SoulboundLoot(0.1f, // 14
-                        new Single(Loot.Chance(10), new Item("Key to Valdok's Forge"))
+                        new Single(Loot.Chance(15), new Item("Key to Valdok's Forge"))
                         ),
                     new SoulboundLoot(0.1f, // 15
                         new Single(Loot.Chance(100),

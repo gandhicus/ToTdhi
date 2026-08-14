@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TitanCore.Core;
+using TitanCore.Net;
 using TitanCore.Net.Packets.Client;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,9 @@ using UnityEngine.UI;
 
 public class LevelUpMenu : GameMenu
 {
+    /// <summary>Scale applied to the menu on open. 0.7 = 30% smaller than the prefab's authored size.</summary>
+    public const float MenuScale = 0.7f;
+
     public override MenuType MenuType => MenuType.LevelUp;
 
     public Image plusSpeed;
@@ -45,6 +49,7 @@ public class LevelUpMenu : GameMenu
     {
         base.Setup(world);
 
+        transform.localScale = Vector3.one * MenuScale;
         player = world.player;
 
         OnEnable();
@@ -182,7 +187,14 @@ public class LevelUpMenu : GameMenu
 
     private bool PlusActive(StatType type)
     {
+        if (GetRemainingLevelPoints() <= 0) return false;
         return player.GetStatBase(type) < GetMax(type);
+    }
+
+    private int GetRemainingLevelPoints()
+    {
+        return NetConstants.Max_Level - player.GetLevel()
+            - speedChange - attackChange - defenseChange - vigorChange - maxHealthChange;
     }
 
     private bool ValidCost()
@@ -196,29 +208,76 @@ public class LevelUpMenu : GameMenu
         return info.stats[stat].maxValue;
     }
 
-    public void PlusSpeed()
+    private int GetPlusCount()
     {
-        speedChange++;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            return 5;
+        return 1;
+    }
+
+    private bool IsCtrlHeld()
+    {
+        return Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+    }
+
+    private bool TryIncrementStat(StatType type, ref int change, Image plus, Image minus)
+    {
+        if (GetRemainingLevelPoints() <= 0) return false;
+
+        change++;
         if (!ValidCost())
         {
-            speedChange--;
-            return;
+            change--;
+            return false;
         }
 
-        if (speedChange == 1)
-            minusSpeed.gameObject.SetActive(true);
+        if (change == 1)
+            minus.gameObject.SetActive(true);
 
-        if (player.GetStatBase(StatType.Speed) + speedChange == GetMax(StatType.Speed))
+        var newStat = type == StatType.MaxHealth
+            ? player.GetStatBase(type) + change * 10
+            : player.GetStatBase(type) + change;
+
+        if (newStat >= GetMax(type))
+            plus.gameObject.SetActive(false);
+
+        return true;
+    }
+
+    private bool CanAffordAnother(StatType type)
+    {
+        switch (type)
         {
-            plusSpeed.gameObject.SetActive(false);
-            return;
+            case StatType.Speed: return GetTotalCost(speedAdd: 1) <= player.fullSouls && PlusActive(type);
+            case StatType.Attack: return GetTotalCost(attackAdd: 1) <= player.fullSouls && PlusActive(type);
+            case StatType.Defense: return GetTotalCost(defAdd: 1) <= player.fullSouls && PlusActive(type);
+            case StatType.Vigor: return GetTotalCost(vigorAdd: 1) <= player.fullSouls && PlusActive(type);
+            case StatType.MaxHealth: return GetTotalCost(maxHealthAdd: 1) <= player.fullSouls && PlusActive(type);
+            default: return false;
+        }
+    }
+
+    private void PlusStat(StatType type, ref int change, Image plus, Image minus)
+    {
+        for (int i = 0; i < GetPlusCount(); i++)
+        {
+            if (!TryIncrementStat(type, ref change, plus, minus))
+                break;
         }
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (IsCtrlHeld())
         {
-            if (GetTotalCost(speedAdd: 1) < player.fullSouls)
-                PlusSpeed();
+            while (CanAffordAnother(type))
+            {
+                if (!TryIncrementStat(type, ref change, plus, minus))
+                    break;
+            }
         }
+    }
+
+    public void PlusSpeed()
+    {
+        PlusStat(StatType.Speed, ref speedChange, plusSpeed, minusSpeed);
     }
 
     public void MinusSpeed()
@@ -235,27 +294,7 @@ public class LevelUpMenu : GameMenu
 
     public void PlusAttack()
     {
-        attackChange++;
-        if (!ValidCost())
-        {
-            attackChange--;
-            return;
-        }
-
-        if (attackChange == 1)
-            minusAttack.gameObject.SetActive(true);
-
-        if (player.GetStatBase(StatType.Attack) + attackChange == GetMax(StatType.Attack))
-        {
-            plusAttack.gameObject.SetActive(false);
-            return;
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            if (GetTotalCost(attackAdd: 1) < player.fullSouls)
-                PlusAttack();
-        }
+        PlusStat(StatType.Attack, ref attackChange, plusAttack, minusAttack);
     }
 
     public void MinusAttack()
@@ -272,27 +311,7 @@ public class LevelUpMenu : GameMenu
 
     public void PlusDefense()
     {
-        defenseChange++;
-        if (!ValidCost())
-        {
-            defenseChange--;
-            return;
-        }
-
-        if (defenseChange == 1)
-            minusDefense.gameObject.SetActive(true);
-
-        if (player.GetStatBase(StatType.Defense) + defenseChange == GetMax(StatType.Defense))
-        {
-            plusDefense.gameObject.SetActive(false);
-            return;
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            if (GetTotalCost(defAdd: 1) < player.fullSouls)
-                PlusDefense();
-        }
+        PlusStat(StatType.Defense, ref defenseChange, plusDefense, minusDefense);
     }
 
     public void MinusDefense()
@@ -309,27 +328,7 @@ public class LevelUpMenu : GameMenu
 
     public void PlusVigor()
     {
-        vigorChange++;
-        if (!ValidCost())
-        {
-            vigorChange--;
-            return;
-        }
-
-        if (vigorChange == 1)
-            minusVigor.gameObject.SetActive(true);
-
-        if (player.GetStatBase(StatType.Vigor) + vigorChange == GetMax(StatType.Vigor))
-        {
-            plusVigor.gameObject.SetActive(false);
-            return;
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            if (GetTotalCost(vigorAdd: 1) < player.fullSouls)
-                PlusVigor();
-        }
+        PlusStat(StatType.Vigor, ref vigorChange, plusVigor, minusVigor);
     }
 
     public void MinusVigor()
@@ -346,27 +345,7 @@ public class LevelUpMenu : GameMenu
 
     public void PlusMaxHealth()
     {
-        maxHealthChange++;
-        if (!ValidCost())
-        {
-            maxHealthChange--;
-            return;
-        }
-
-        if (maxHealthChange == 1)
-            minusMaxHealth.gameObject.SetActive(true);
-
-        if (player.GetStatBase(StatType.MaxHealth) + maxHealthChange * 10 == GetMax(StatType.MaxHealth))
-        {
-            plusMaxHealth.gameObject.SetActive(false);
-            return;
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            if (GetTotalCost(maxHealthAdd: 1) < player.fullSouls)
-                PlusMaxHealth();
-        }
+        PlusStat(StatType.MaxHealth, ref maxHealthChange, plusMaxHealth, minusMaxHealth);
     }
 
     public void MinusMaxHealth()

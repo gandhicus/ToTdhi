@@ -44,7 +44,15 @@ namespace TitanCore.Net
 
         public const int Level_Up_Increments = 12;
 
-        public const int Max_Level = 220;
+        /// <summary>
+        /// When true, players spend souls to manually allocate stat points via the level up menu.
+        /// When false, earning enough souls automatically triggers milestone level ups that raise all stats.
+        /// </summary>
+        public const bool Use_Manual_Stat_Leveling = true;
+
+        public const int Stat_Level_Cap = 60;
+
+        public const int Max_Level = 200;
 
         public const int Max_Ascension = 20;
 
