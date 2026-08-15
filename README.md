@@ -126,7 +126,7 @@ Server settings:
 - `anticheat`: when `false`, disables the local server's suspicious-hit
   disconnects.
 - `lootBoost`: drop chance multiplier from `1` to `100`. Use `1` for normal
-  loot, or `10` for the previously boosted local loot.
+  loot, or `10` for the previously boosted local loot. *ToTdhi has already been configured for a satisfying experience without the need for this setting. It's very likely that any number above 1 will make drops noticeably common.*
 
 ## Player Progress
 
