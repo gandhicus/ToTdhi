@@ -305,14 +305,14 @@ namespace World.Map.Objects.Entities
             var newValue = AddStatistic(CharacterStatisticType.SoulsEarned, amount);
             if (!currentClassQuest.HasCompletedQuest(0))
             {
-                if (newValue >= 10_000_000)
+                if (newValue >= NetConstants.Class_Quest_Essence_1)
                 {
                     CompleteClassQuest(0);
                 }
             }
             if (!currentClassQuest.HasCompletedQuest(1))
             {
-                if (newValue >= 25_000_000)
+                if (newValue >= NetConstants.Class_Quest_Essence_2)
                 {
                     CompleteClassQuest(1);
                 }
@@ -385,12 +385,12 @@ namespace World.Map.Objects.Entities
         public void LeveledUp()
         {
             var level = GetLevel();
-            if (!currentClassQuest.HasCompletedQuest(2) && level >= 160)
+            if (!currentClassQuest.HasCompletedQuest(2) && level >= NetConstants.Class_Quest_Level_3)
             {
                 CompleteClassQuest(2);
             }
 
-            if (!currentClassQuest.HasCompletedQuest(3) && level >= 200)
+            if (!currentClassQuest.HasCompletedQuest(3) && level >= NetConstants.Class_Quest_Level_4)
             {
                 CompleteClassQuest(3);
             }

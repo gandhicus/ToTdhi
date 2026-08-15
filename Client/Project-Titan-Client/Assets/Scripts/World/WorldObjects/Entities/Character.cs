@@ -184,71 +184,17 @@ public class Character : Entity
     {
         if (index < 4)
         {
-            var lastItem = GetItem(index);
-            if (!lastItem.IsBlank) // remove the old item's stat boosts
-            {
-                var lastItemInfo = lastItem.GetInfo();
-                if (lastItemInfo is EquipmentInfo equipInfo)
-                {
-                    if (equipInfo.statIncreases.Count != 0)
-                    {
-                        foreach (var increase in equipInfo.statIncreases)
-                        {
-                            var increaseAmount = statIncreases[increase.Key];
-                            increaseAmount -= increase.Value;
-                            if (increaseAmount == 0)
-                                statIncreases.Remove(increase.Key);
-                            else
-                                statIncreases[increase.Key] = increaseAmount;
-                        }
-                    }
-
-                    if (equipInfo.alternateStatIncreases.Count != 0)
-                    {
-                        foreach (var increase in equipInfo.alternateStatIncreases)
-                        {
-                            if (!alternateStatIncreases.TryGetValue(increase.Key, out var increaseAmount))
-                                continue;
-                            increaseAmount -= increase.Value;
-                            if (increaseAmount == 0)
-                                alternateStatIncreases.Remove(increase.Key);
-                            else
-                                alternateStatIncreases[increase.Key] = increaseAmount;
-                        }
-                    }
-                }
-            }
-
-            if (!item.IsBlank) // add the new item's stat boosts
-            {
-                var newItemInfo = item.GetInfo();
-                if (newItemInfo is EquipmentInfo equipInfo)
-                {
-                    if (equipInfo.statIncreases.Count != 0)
-                    {
-                        foreach (var increase in equipInfo.statIncreases)
-                        {
-                            if (!statIncreases.TryGetValue(increase.Key, out var increaseAmount))
-                                increaseAmount = 0;
-                            increaseAmount += increase.Value;
-                            statIncreases[increase.Key] = increaseAmount;
-                        }
-                    }
-
-                    if (equipInfo.alternateStatIncreases.Count != 0)
-                    {
-                        foreach (var increase in equipInfo.alternateStatIncreases)
-                        {
-                            if (!alternateStatIncreases.TryGetValue(increase.Key, out var increaseAmount))
-                                increaseAmount = 0;
-                            increaseAmount += increase.Value;
-                            alternateStatIncreases[increase.Key] = increaseAmount;
-                        }
-                    }
-                }
-            }
             items[index] = item;
+            RecalculateEquipmentStats();
         }
+    }
+
+    private void RecalculateEquipmentStats()
+    {
+        var equips = new Item[4];
+        for (int i = 0; i < 4; i++)
+            equips[i] = GetItem(i);
+        EquipmentStatFunctions.RecalculateEquipmentStats(equips, statIncreases, alternateStatIncreases);
     }
 
     public override SlotType GetSlotType(int index)

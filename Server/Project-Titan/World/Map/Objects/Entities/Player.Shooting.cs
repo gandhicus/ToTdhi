@@ -51,7 +51,7 @@ namespace World.Map.Objects.Entities
             var shootCooldown = (int)(1000 / (weaponInfo.rateOfFire * StatFunctions.AttackSpeedModifier(gameState.playerState.HasEffect(StatusEffect.Fervent, time), gameState.playerState.currentSnapshot.GetAlternateStat(AlternateStatType.RateOfFire))));
             nextShootTime = (uint)(time + shootCooldown);
 
-            var startProjectileId = projIds;
+            var startProjectileId = shoot.projectileId;
             var projData = weaponInfo.projectiles[startProjectileId % weaponInfo.projectiles.Length];
 
             if (projData.Type == ProjectileType.Aoe)
@@ -92,7 +92,7 @@ namespace World.Map.Objects.Entities
                     reach = reach
                 };
             }
-            projIds += (uint)projectiles.Length;
+            projIds = Math.Max(projIds, projectileId);
             return projectiles;
         }
 
@@ -113,7 +113,7 @@ namespace World.Map.Objects.Entities
                     target = start + Vec2.FromAngle(angle) * length
                 };
             }
-            projIds += (uint)projectiles.Length;
+            projIds = Math.Max(projIds, projectileId);
             return projectiles;
         }
 

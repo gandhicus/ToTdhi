@@ -28,9 +28,13 @@ namespace TitanCore.Core
 
         public static int DamageTaken(int defense, int damage, bool fortified)
         {
+            if (damage <= 0)
+                return 0;
             if (fortified)
                 defense *= 2;
             int min = damage / 5;
+            if (min == 0)
+                min = 1;
             int taken = damage - defense;
             return taken < min ? min : taken;
         }

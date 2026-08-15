@@ -52,7 +52,22 @@ namespace TitanCore.Net
 
         public const int Stat_Level_Cap = 60;
 
-        public const int Max_Level = 200;
+        public const int Defense_Stat_Cap = 30;
+
+        public const int Vigor_Stat_Cap = 40;
+
+        public const int MaxHealth_Stat_Cap = 500;
+
+        public const int Max_Level = 120;
+
+        public const int Class_Quest_Level_3 = 120;
+
+        /// <summary>Level 120 base cap + 20 ascensions on each stat.</summary>
+        public const int Class_Quest_Level_4 = 220;
+
+        public const ulong Class_Quest_Essence_1 = 1_500_000;
+
+        public const ulong Class_Quest_Essence_2 = 3_000_000;
 
         public const int Max_Ascension = 20;
 

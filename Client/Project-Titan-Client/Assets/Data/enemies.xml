@@ -1564,7 +1564,6 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>2</LootTier>
     <LootTier>4</LootTier>
-	<LootTier>5</LootTier>
     <Defense>18</Defense>
 
   </Object>
@@ -1667,7 +1666,6 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>4</LootTier>
-	<LootTier>5</LootTier>
     <Defense>20</Defense>
 
   </Object>
@@ -1700,7 +1698,6 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>2</LootTier>
     <LootTier>4</LootTier>
-	<LootTier>5</LootTier>
     <Defense>18</Defense>
 
   </Object>
@@ -1735,7 +1732,6 @@
     <SoulGroup>Desert</SoulGroup>
     <LootTier>1</LootTier>
     <LootTier>4</LootTier>
-	<LootTier>5</LootTier>
     <Defense>18</Defense>
 
   </Object>
@@ -1794,7 +1790,6 @@
     <SoulMod>1.1</SoulMod>
     <SoulGroup>Mountains</SoulGroup>
     <LootTier>2</LootTier>
-    <LootTier>5</LootTier>
     <Defense>32</Defense>
 
   </Object>
@@ -3597,9 +3592,6 @@
     <LootTier>2</LootTier>
     <LootTier>3</LootTier>
 	<LootTier>5</LootTier>
-	<LootTier>7</LootTier>
-	<LootTier>8</LootTier>
-	<LootTier>9</LootTier>
 	<LootTier>10</LootTier>
 	<LootTier>11</LootTier>
     <Defense>14</Defense>

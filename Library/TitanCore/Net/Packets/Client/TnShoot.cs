@@ -14,7 +14,7 @@ namespace TitanCore.Net.Packets.Client
 
         public uint clientTickId;
 
-        //public uint projectileId;
+        public uint projectileId;
 
         public Vec2 target;
 
@@ -28,7 +28,7 @@ namespace TitanCore.Net.Packets.Client
         public TnShoot(uint clientTickId, uint projectileId, Vec2 target, Vec2 position)
         {
             this.clientTickId = clientTickId;
-            //this.projectileId = projectileId;
+            this.projectileId = projectileId;
             this.target = target;
             this.position = position;
         }
@@ -36,7 +36,7 @@ namespace TitanCore.Net.Packets.Client
         protected override void Read(BitReader r)
         {
             clientTickId = r.ReadUInt32();
-            //projectileId = r.ReadUInt32();
+            projectileId = r.ReadUInt32();
             target = r.ReadVec2();
             position = r.ReadVec2();
         }
@@ -44,7 +44,7 @@ namespace TitanCore.Net.Packets.Client
         protected override void Write(BitWriter w)
         {
             w.Write(clientTickId);
-            //w.Write(projectileId);
+            w.Write(projectileId);
             w.Write(target);
             w.Write(position);
         }

@@ -49,7 +49,16 @@ namespace Mobile
             */
 
             var myClass = (TitanCore.Data.Entities.CharacterInfo)player.info;
-            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack));
+            IReadOnlyDictionary<StatType, int> equippedFixedStats = null;
+            bool includeItemForScaling = true;
+            if (owned)
+            {
+                var equips = new Item[4];
+                for (int i = 0; i < 4; i++)
+                    equips[i] = player.GetItem(i);
+                EquipmentStatFunctions.GetTooltipScalingContext(equips, obj, out equippedFixedStats, out includeItemForScaling);
+            }
+            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling);
         }
 
 

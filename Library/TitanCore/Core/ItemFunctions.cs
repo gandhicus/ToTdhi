@@ -15,8 +15,12 @@ namespace TitanCore.Core
             for (int i = 0; i < equips.Length; i++)
             {
                 if (equips[i].IsBlank) continue;
-                if (equips[i].GetInfo() is EquipmentInfo equip && equip.alternateStatIncreases.TryGetValue(type, out var amount))
-                    total += amount;
+                if (equips[i].GetInfo() is EquipmentInfo equip)
+                {
+                    var alternateStats = EquipmentStatFunctions.GetAlternateStatIncreases(equips[i], equip);
+                    if (alternateStats.TryGetValue(type, out var amount))
+                        total += amount;
+                }
             }
             return total;
         }

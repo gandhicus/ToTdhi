@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using TitanCore.Core;
 using TitanCore.Data;
+using TitanCore.Data.Components;
 using TitanCore.Data.Entities;
 using TitanCore.Data.Items;
 using TitanCore.Net;
@@ -164,70 +165,8 @@ namespace World.GameState
                     case ObjectStatType.Inventory3:
                         var item = (Item)stat.value;
                         int index = (int)stat.type - (int)ObjectStatType.Inventory0;
-                        var lastItem = equips[index];
-                        if (!lastItem.IsBlank) // remove the old item's stat boosts
-                        {
-                            var lastItemInfo = lastItem.GetInfo();
-                            if (lastItemInfo is EquipmentInfo equipInfo)
-                            {
-                                if (equipInfo.statIncreases.Count != 0)
-                                {
-                                    foreach (var increase in equipInfo.statIncreases)
-                                    {
-                                        var increaseAmount = extraStats[increase.Key];
-                                        increaseAmount -= increase.Value;
-                                        if (increaseAmount == 0)
-                                            extraStats.Remove(increase.Key);
-                                        else
-                                            extraStats[increase.Key] = increaseAmount;
-                                    }
-                                }
-
-                                if (equipInfo.alternateStatIncreases.Count != 0)
-                                {
-                                    foreach (var increase in equipInfo.alternateStatIncreases)
-                                    {
-                                        if (!extraAlternateStats.TryGetValue(increase.Key, out var increaseAmount))
-                                            continue;
-                                        increaseAmount -= increase.Value;
-                                        if (increaseAmount == 0)
-                                            extraAlternateStats.Remove(increase.Key);
-                                        else
-                                            extraAlternateStats[increase.Key] = increaseAmount;
-                                    }
-                                }
-                            }
-                        }
                         equips[index] = item;
-
-                        if (!item.IsBlank) // add the new item's stat boosts
-                        {
-                            var newItemInfo = item.GetInfo();
-                            if (newItemInfo is EquipmentInfo equipInfo)
-                            {
-                                if (equipInfo.statIncreases.Count != 0)
-                                {
-                                    foreach (var increase in equipInfo.statIncreases)
-                                    {
-                                        if (!extraStats.TryGetValue(increase.Key, out var increaseAmount))
-                                            increaseAmount = 0;
-                                        increaseAmount += increase.Value;
-                                        extraStats[increase.Key] = increaseAmount;
-                                    }
-                                }
-
-                                if (equipInfo.alternateStatIncreases.Count != 0)
-                                {
-                                    foreach (var increase in equipInfo.alternateStatIncreases)
-                                    {
-                                        if (!extraAlternateStats.TryGetValue(increase.Key, out var increaseAmount))
-                                            increaseAmount = 0;
-                                        increaseAmount += increase.Value;
-                                        extraAlternateStats[increase.Key] = increaseAmount;
-                                    }
-                                }
-                            }
-                        }
+                        EquipmentStatFunctions.RecalculateEquipmentStats(equips, extraStats, extraAlternateStats);
                         break;
                 }
             }
@@ -350,6 +289,19 @@ namespace World.GameState
         private float lastTps;
 
         public ClassAbility ability;
+
+        private readonly Dictionary<int, uint> procCooldowns = new Dictionary<int, uint>();
+
+        private readonly List<TimedStatBonus> timedStatBonuses = new List<TimedStatBonus>();
+
+        private struct TimedStatBonus
+        {
+            public StatType statType;
+            public StatusEffect effect;
+            public int amount;
+            public uint endTime;
+            public bool hasEffect;
+        }
 
         public PlayerState(uint time, Player player, NewObjectStats newObj)
         {
@@ -485,6 +437,10 @@ namespace World.GameState
                 health = currentSnapshot.GetFunctionalStat(StatType.MaxHealth);
             player.hitDamage.Value += damageTaken;
 
+            var procTrigger = ProcFunctions.HitResultToTrigger(result.type);
+            if (procTrigger.HasValue)
+                TriggerProcs(procTrigger.Value, time);
+
             if (health <= 0 && previousHp > 0)
             {
                 Die(damagerInfo);
@@ -509,6 +465,7 @@ namespace World.GameState
 
         private void AdvanceHealth(uint time)
         {
+            AdvanceTimedBonuses(time);
             while (lastHealthTime < time)
             {
                 lastHealthTime += NetConstants.Client_Delta;
@@ -734,6 +691,82 @@ namespace World.GameState
             if (applyRageGainBonus)
                 amount = StatFunctions.ApplyRageGainBonus(amount, currentSnapshot.GetAlternateStat(AlternateStatType.RageGain));
             rage = Math.Min(rage + amount, 100f);
+        }
+
+        public void TriggerProcs(ProcTrigger trigger, uint time)
+        {
+            var equips = currentSnapshot.equips;
+            for (int slot = 0; slot < equips.Length; slot++)
+            {
+                if (equips[slot].IsBlank) continue;
+                if (!(equips[slot].GetInfo() is EquipmentInfo equip)) continue;
+
+                for (int i = 0; i < equip.procs.Count; i++)
+                {
+                    var proc = equip.procs[i];
+                    if (proc.trigger != trigger) continue;
+
+                    int key = (slot << 8) | i;
+                    if (procCooldowns.TryGetValue(key, out var nextTime) && time < nextTime)
+                        continue;
+
+                    if (proc.statBonus != null)
+                        ApplyProcStatBonus(proc.statBonus, time);
+                    else if (proc.rageGain != null)
+                        AddRage(time, proc.rageGain.amount, applyRageGainBonus: false);
+
+                    if (proc.cooldownMs > 0)
+                        procCooldowns[key] = time + proc.cooldownMs;
+                }
+            }
+        }
+
+        private void ApplyProcStatBonus(ProcStatBonus bonus, uint time)
+        {
+            if (bonus.amount == 0 || bonus.durationMs == 0) return;
+
+            player.AddStatBonus(bonus.statType, bonus.amount);
+
+            var effect = ProcFunctions.GetStatBonusEffect(bonus.statType);
+            var hasEffect = effect.HasValue;
+            if (hasEffect)
+                player.AddEffect(effect.Value, bonus.durationMs / 1000f);
+
+            timedStatBonuses.Add(new TimedStatBonus
+            {
+                statType = bonus.statType,
+                effect = effect ?? StatusEffect.VigorBonus,
+                amount = bonus.amount,
+                endTime = time + bonus.durationMs,
+                hasEffect = hasEffect
+            });
+        }
+
+        private void AdvanceTimedBonuses(uint time)
+        {
+            for (int i = timedStatBonuses.Count - 1; i >= 0; i--)
+            {
+                if (time < timedStatBonuses[i].endTime) continue;
+
+                var bonus = timedStatBonuses[i];
+                player.RemoveStatBonus(bonus.statType, bonus.amount);
+
+                if (bonus.hasEffect && !HasActiveTimedBonusEffect(bonus.effect, i))
+                    player.RemoveEffect(bonus.effect);
+
+                timedStatBonuses.RemoveAt(i);
+            }
+        }
+
+        private bool HasActiveTimedBonusEffect(StatusEffect effect, int excludeIndex)
+        {
+            for (int i = 0; i < timedStatBonuses.Count; i++)
+            {
+                if (i == excludeIndex) continue;
+                if (timedStatBonuses[i].hasEffect && timedStatBonuses[i].effect == effect)
+                    return true;
+            }
+            return false;
         }
     }
 }

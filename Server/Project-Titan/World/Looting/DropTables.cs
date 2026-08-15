@@ -17,7 +17,7 @@ namespace World.Looting
                 { SoulGroup.OceanBeach, new List<LootContainer>
                 {
                     new PublicLoot(
-                        new Single(Loot.Chance(5), new Item("Healing Spell"))
+                        new Single(Loot.Chance(8), new Item("Healing Spell"))
                         ),
                     new PublicLoot(
                         Tier.Weapon(Loot.Chance(30), ItemTier.Tier1),
@@ -126,7 +126,7 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(1, // 10
-                        new Single(Loot.Chance(3), new Item("Corrupted Skull of Mezhier"))
+                        new Single(Loot.Chance(5), new Item("Corrupted Skull of Mezhier"))
                         ),
                     new SoulboundLoot(1, // 11
                         new Single(Loot.Chance(25), new Item("Key to Whispering Woods"))
@@ -160,7 +160,7 @@ namespace World.Looting
                             new Item("Scroll of Agility"))
                         ),
                     new SoulboundLoot(0.2f, // 5
-                        new Single(Loot.Chance(0.5),
+                        new Single(Loot.Chance(5),
                             new Item("Windward Cloak"))
                         ),
                     new SoulboundLoot(0.2f, // 6
@@ -340,7 +340,7 @@ namespace World.Looting
                             new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.3f, // 5
-                        new Single(Loot.Chance(4),
+                        new Single(Loot.Chance(8),
                             new Item("Scroll of Fortitude"))
                         ),
                 } },

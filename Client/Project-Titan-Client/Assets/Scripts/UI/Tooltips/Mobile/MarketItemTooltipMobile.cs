@@ -71,7 +71,16 @@ namespace Mobile
                 tierLabel.text = "";
             */
 
-            ItemDescriber.Describe(this, (TitanCore.Data.Entities.CharacterInfo)player.info, owned, obj.purchasableItem, player.GetStatFunctional(StatType.Attack));
+            IReadOnlyDictionary<StatType, int> equippedFixedStats = null;
+            bool includeItemForScaling = true;
+            if (owned)
+            {
+                var equips = new Item[4];
+                for (int i = 0; i < 4; i++)
+                    equips[i] = player.GetItem(i);
+                EquipmentStatFunctions.GetTooltipScalingContext(equips, obj.purchasableItem, out equippedFixedStats, out includeItemForScaling);
+            }
+            ItemDescriber.Describe(this, (TitanCore.Data.Entities.CharacterInfo)player.info, owned, obj.purchasableItem, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling);
         }
 
 

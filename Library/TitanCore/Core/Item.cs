@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Xml.Serialization;
 using TitanCore.Data;
 using TitanCore.Data.Items;
 using Utils.NET.IO;
@@ -51,6 +51,18 @@ namespace TitanCore.Core
         public byte enchantLevel;
 
         /// <summary>
+        /// Rolled primary stat increases (for items with random stat pools)
+        /// </summary>
+        [XmlIgnore]
+        public Dictionary<StatType, int> rolledStatIncreases;
+
+        /// <summary>
+        /// Rolled alternate stat increases (for items with random stat pools)
+        /// </summary>
+        [XmlIgnore]
+        public Dictionary<AlternateStatType, int> rolledAlternateStatIncreases;
+
+        /// <summary>
         /// The cached info of this item
         /// </summary>
         private ItemInfo info;
@@ -64,6 +76,8 @@ namespace TitanCore.Core
             count = 1;
             enchantType = ItemEnchantType.None;
             enchantLevel = 0;
+            rolledStatIncreases = null;
+            rolledAlternateStatIncreases = null;
 
             info = null;
         }
@@ -75,6 +89,8 @@ namespace TitanCore.Core
             count = 1;
             enchantType = ItemEnchantType.None;
             enchantLevel = 0;
+            rolledStatIncreases = null;
+            rolledAlternateStatIncreases = null;
 
             info = null;
         }
@@ -86,6 +102,8 @@ namespace TitanCore.Core
             this.count = count;
             enchantType = 0;
             enchantLevel = 0;
+            rolledStatIncreases = null;
+            rolledAlternateStatIncreases = null;
 
             info = null;
         }
@@ -97,6 +115,8 @@ namespace TitanCore.Core
             this.count = count;
             enchantType = ItemEnchantType.None;
             enchantLevel = 0;
+            rolledStatIncreases = null;
+            rolledAlternateStatIncreases = null;
 
             info = null;
         }
@@ -109,6 +129,8 @@ namespace TitanCore.Core
             this.count = count;
             enchantType = ItemEnchantType.None;
             enchantLevel = 0;
+            rolledStatIncreases = null;
+            rolledAlternateStatIncreases = null;
         }
 
         public void Read(BitReader r)
@@ -121,6 +143,31 @@ namespace TitanCore.Core
             {
                 enchantType = (ItemEnchantType)r.ReadUInt8();
                 enchantLevel = r.ReadUInt8();
+            }
+            if (r.ReadBool()) // has rolled stats
+            {
+                rolledStatIncreases = new Dictionary<StatType, int>();
+                var statCount = r.ReadUInt8();
+                for (int i = 0; i < statCount; i++)
+                {
+                    var type = (StatType)r.ReadUInt8();
+                    var amount = r.ReadInt16();
+                    rolledStatIncreases[type] = amount;
+                }
+
+                rolledAlternateStatIncreases = new Dictionary<AlternateStatType, int>();
+                var altStatCount = r.ReadUInt8();
+                for (int i = 0; i < altStatCount; i++)
+                {
+                    var type = (AlternateStatType)r.ReadUInt8();
+                    var amount = r.ReadInt16();
+                    rolledAlternateStatIncreases[type] = amount;
+                }
+            }
+            else
+            {
+                rolledStatIncreases = null;
+                rolledAlternateStatIncreases = null;
             }
         }
 
@@ -138,6 +185,25 @@ namespace TitanCore.Core
             }
             else
                 w.Write(false);
+
+            var hasRolledStats = EquipmentStatFunctions.HasRolledStats(this);
+            w.Write(hasRolledStats);
+            if (hasRolledStats)
+            {
+                w.Write((byte)rolledStatIncreases.Count);
+                foreach (var increase in rolledStatIncreases)
+                {
+                    w.Write((byte)increase.Key);
+                    w.Write((short)increase.Value);
+                }
+
+                w.Write((byte)rolledAlternateStatIncreases.Count);
+                foreach (var increase in rolledAlternateStatIncreases)
+                {
+                    w.Write((byte)increase.Key);
+                    w.Write((short)increase.Value);
+                }
+            }
         }
 
         public bool CanSwapInto(SlotType slotType)
@@ -194,7 +260,7 @@ namespace TitanCore.Core
 
         public static bool operator==(Item a, Item b)
         {
-            return a.id == b.id && a.soulbound == b.soulbound && a.count == b.count && a.enchantType == b.enchantType && a.enchantLevel == b.enchantLevel;
+            return a.id == b.id && a.soulbound == b.soulbound && a.count == b.count && a.enchantType == b.enchantType && a.enchantLevel == b.enchantLevel && EquipmentStatFunctions.RolledStatsEqual(a, b);
         }
 
         public static bool operator !=(Item a, Item b)

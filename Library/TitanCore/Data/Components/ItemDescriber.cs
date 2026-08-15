@@ -13,7 +13,7 @@ namespace TitanCore.Data.Components
 {
     public static class ItemDescriber
     {
-        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack)
+        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack, IReadOnlyDictionary<StatType, int> equippedFixedStats = null, bool includeItemForScaling = true)
         {
             describer.Clear();
 
@@ -43,20 +43,62 @@ namespace TitanCore.Data.Components
 
             if (equip != null)
             {
-                if (equip.statIncreases.Count > 0 || equip.alternateStatIncreases.Count > 0)
+                var statIncreases = owned && equippedFixedStats != null
+                    ? EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, equippedFixedStats, includeItemForScaling)
+                    : EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, null, true);
+                var alternateStatIncreases = EquipmentStatFunctions.GetAlternateStatIncreases(item, equip);
+
+                if (statIncreases.Count > 0 || alternateStatIncreases.Count > 0)
                 {
                     describer.AddTitle("On Equip");
-                    foreach (var increase in equip.statIncreases)
+                    foreach (var increase in statIncreases)
                     {
                         if (increase.Value == 0) continue;
                         describer.NewLine();
                         describer.AddElement($"{(increase.Value > 0 ? "+" : "")}{increase.Value} {GetStatName(increase.Key)}", neutralColor);
                     }
-                    foreach (var increase in equip.alternateStatIncreases)
+                    foreach (var increase in alternateStatIncreases)
                     {
                         if (increase.Value == 0) continue;
                         describer.NewLine();
                         AddAlternateStatElement(describer, increase.Key, increase.Value, neutralColor);
+                    }
+                    describer.NewLine();
+                }
+
+                if (equip.procs.Count > 0)
+                {
+                    describer.AddTitle("Procs");
+                    foreach (var proc in equip.procs)
+                    {
+                        describer.NewLine();
+                        describer.AddElement(ProcFunctions.GetProcTooltipText(proc), neutralColor);
+                    }
+                    describer.NewLine();
+                }
+
+                if (equip.scaledStatIncreases.Count > 0)
+                {
+                    describer.AddTitle("Scaling");
+                    foreach (var scaled in equip.scaledStatIncreases)
+                    {
+                        describer.NewLine();
+                        int currentBonus = -1;
+                        if (owned && equippedFixedStats != null)
+                        {
+                            var fixedStats = EquipmentStatFunctions.CopyStatsForDisplay(equippedFixedStats);
+                            if (includeItemForScaling)
+                            {
+                                foreach (var increase in EquipmentStatFunctions.GetStatIncreases(item, equip))
+                                {
+                                    if (!fixedStats.TryGetValue(increase.Key, out var amount))
+                                        amount = 0;
+                                    fixedStats[increase.Key] = amount + increase.Value;
+                                }
+                            }
+                            currentBonus = EquipmentStatFunctions.GetScaledStatAmount(scaled, fixedStats);
+                        }
+                        describer.AddElement(ProcFunctions.GetScaledStatTooltipText(scaled, currentBonus), neutralColor);
                     }
                     describer.NewLine();
                 }

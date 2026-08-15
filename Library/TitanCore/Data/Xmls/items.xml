@@ -1408,6 +1408,7 @@
 		<Description>Old and worn leather armor protection. A simple cloth lies underneath.</Description>
 
 		<StatIncrease type="Defense">5</StatIncrease>
+		<StatIncrease type="Speed">1</StatIncrease>
 	</Object>
 
 	<Object id="0x221" name="Boiled Leather Armor" tier="2">
@@ -1418,6 +1419,7 @@
 		<Description>Standard leather armor that been boiled to increase strength and resistance.</Description>
 
 		<StatIncrease type="Defense">6</StatIncrease>
+		<StatIncrease type="Speed">2</StatIncrease>
 	</Object>
 
 	<Object id="0x222" name="Bearhide Leather Armor" tier="3">
@@ -1440,6 +1442,7 @@
 
 		<StatIncrease type="Defense">9</StatIncrease>
 		<StatIncrease type="Speed">2</StatIncrease>
+		<StatIncrease type="Attack">1</StatIncrease>
 	</Object>
 
 	<Object id="0x224" name="Ranger's Stealth Armor" tier="5">
@@ -1814,9 +1817,9 @@
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 1</Sprite>
 
-		<StatIncrease type="Speed">5</StatIncrease>
+		<StatIncrease type="Speed">3</StatIncrease>
 		<StatIncrease type="Attack">3</StatIncrease>
-		<StatIncrease type="Defense">3</StatIncrease>
+		<StatIncrease type="Defense">5</StatIncrease>
 		<StatIncrease type="Vigor">5</StatIncrease>
 
 		<Description>A ring affixed with a jewel trinity. Rumored to benefit all aspects of life.</Description>
@@ -1947,9 +1950,29 @@
 
 		<StatIncrease type="Speed">2</StatIncrease>
 		<StatIncrease type="Vigor">2</StatIncrease>
-		<AlternateStatIncrease type="TrueDamageChance">5</AlternateStatIncrease>
+		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
 
 		<Description>A ring that is affixed with a cool, tear-dropped gem. It's said that many of these same gems helped create the overworld's wildlife.</Description>
+	</Object>
+
+	<Object id="0x509" name="Aldrite's Gamble" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Aldrite's Gamble</Sprite>
+
+		<StatRolls rollCount="3" maxPerStat="2">
+			<StatRoll type="Attack" min="4" max="6"/>
+			<StatRoll type="Defense" min="4" max="6"/>
+			<StatRoll type="Vigor" min="4" max="6"/>
+			<StatRoll type="Speed" min="4" max="6"/>
+			<StatRoll type="MaxHealth" min="30" max="60"/>
+			<AlternateStatRoll type="CriticalStrikeChance" min="6" max="12"/>
+			<AlternateStatRoll type="TrueDamageChance" min="6" max="12"/>
+			<AlternateStatRoll type="BlockChance" min="2" max="5"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="3"/>
+		</StatRolls>
+
+		<Description>It was Aldrite who initially discovered this ring during his travels. Interestingly, each time it's discovered again, it acts completely differently.</Description>
 	</Object>
 
 	<Object id="0x506" name="Quartz Ring" tier="-1">
@@ -1957,10 +1980,68 @@
 		<SlotType>Accessory</SlotType>
 		<Sprite>Quartz Ring</Sprite>
 
-		<StatIncrease type="Attack">3</StatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeChance">8</AlternateStatIncrease>
+		<StatIncrease type="Attack">4</StatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">10</AlternateStatIncrease>
 
 		<Description>A ring topped with a beautiful, yet rough, hunk of pink quartz.</Description>
+	</Object>
+
+	<Object id="0x50a" name="Fervor's Tear" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Tear of Life</Sprite>
+
+		<StatIncrease type="Speed">2</StatIncrease>
+		<StatIncrease type="Vigor">2</StatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">8</AlternateStatIncrease>
+
+		<Proc trigger="CriticalStrike" cooldown="6000">
+			<StatBonus type="Vigor" amount="25" duration="5000"/>
+		</Proc>
+
+		<Description>A tear-shaped gem that surges with vigor whenever its bearer lands a critical strike.</Description>
+	</Object>
+
+	<Object id="0x50b" name="Quartz Fury" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Quartz Ring</Sprite>
+
+		<StatIncrease type="Attack">4</StatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">10</AlternateStatIncrease>
+
+		<Proc trigger="CriticalStrike" cooldown="6000">
+			<Rage amount="25"/>
+		</Proc>
+
+		<Description>A rough quartz ring that channels fury into rage on critical strikes.</Description>
+	</Object>
+
+	<Object id="0x50c" name="Bulwark Shawl" tier="-1">
+		<Type>Equipment</Type>
+		<Sprite>Windward Cloak</Sprite>
+		<SlotType>Robe</SlotType>
+
+		<StatIncrease type="Defense">8</StatIncrease>
+		<StatIncrease type="Speed">3</StatIncrease>
+		<AlternateStatIncrease type="BlockChance">8</AlternateStatIncrease>
+
+		<Proc trigger="Block" cooldown="6000">
+			<Rage amount="15"/>
+		</Proc>
+
+		<Description>A shawl woven for defenders. Blocking an attack fills the wearer with battle fury.</Description>
+	</Object>
+
+	<Object id="0x50d" name="Bulwark Band" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Defense Ring 3</Sprite>
+
+		<StatIncrease type="Defense">4</StatIncrease>
+		<ScaledStatIncrease per="5" amount="2" from="Defense" to="Vigor"/>
+
+		<Description>A ring that grows stronger as its bearer's defenses mount. Every point of defense from equipment feeds its vigor.</Description>
 	</Object>
 
 	<Object id="0x298" name="Ring of Colossal Speed" tier="5">

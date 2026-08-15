@@ -89,14 +89,41 @@ namespace World.Map.Objects.Entities
 
         public void SetItem(int slot, ServerItem item)
         {
+            inventory.SetItem(slot, item);
             if (slot < 4)
             {
-                var current = GetItem(slot);
-                RemoveIncreases(current);
-
-                AddIncreases(item);
+                RecalculateEquipmentStats();
+                SyncCombatSnapshotEquipment();
             }
-            inventory.SetItem(slot, item);
+        }
+
+        private void RecalculateEquipmentStats()
+        {
+            var equips = new Item[4];
+            for (int i = 0; i < 4; i++)
+            {
+                var serverItem = GetItem(i);
+                equips[i] = serverItem?.itemData ?? Item.Blank;
+            }
+            EquipmentStatFunctions.RecalculateEquipmentStats(equips, statIncreases, new Dictionary<AlternateStatType, int>());
+        }
+
+        private void SyncCombatSnapshotEquipment()
+        {
+            if (gameState?.playerState == null)
+                return;
+
+            var snapshot = gameState.playerState.currentSnapshot;
+            for (int i = 0; i < 4; i++)
+            {
+                var serverItem = GetItem(i);
+                snapshot.equips[i] = serverItem?.itemData ?? Item.Blank;
+            }
+            EquipmentStatFunctions.RecalculateEquipmentStats(
+                snapshot.equips,
+                snapshot.extraStats,
+                snapshot.extraAlternateStats);
+            gameState.playerState.currentSnapshot = snapshot;
         }
 
         public SlotType GetSlotType(int slot)
@@ -114,39 +141,6 @@ namespace World.Map.Objects.Entities
         public int GetContainerSize()
         {
             return inventory.Length;
-        }
-
-        private void RemoveIncreases(ServerItem serverItem)
-        {
-            if (serverItem == null) return;
-            var item = serverItem.itemData;
-            var info = item.GetInfo();
-            if (!(info is EquipmentInfo equipInfo)) return;
-            foreach (var increase in equipInfo.statIncreases)
-            {
-                if (statIncreases.TryGetValue(increase.Key, out var currentStat))
-                {
-                    statIncreases[increase.Key] = currentStat - increase.Value;
-                    continue;
-                }
-            }
-        }
-
-        private void AddIncreases(ServerItem serverItem)
-        {
-            if (serverItem == null) return;
-            var item = serverItem.itemData;
-            var info = item.GetInfo();
-            if (!(info is EquipmentInfo equipInfo)) return;
-            foreach (var increase in equipInfo.statIncreases)
-            {
-                if (statIncreases.TryGetValue(increase.Key, out var currentStat))
-                {
-                    statIncreases[increase.Key] = currentStat + increase.Value;
-                    continue;
-                }
-                statIncreases[increase.Key] = increase.Value;
-            }
         }
 
         public void StartItemAction()

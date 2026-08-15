@@ -392,8 +392,8 @@ namespace World.GameState
             {
                 if (!playerAoeProjectileStates.TryGetValue(playerProjId, out var aoeProj))
                 {
-                    player.client.SendAsync(new TnError("Hit check failed! Player projectile does not exist!"));
-                    //Log.Write("Player projectile does not exist!");
+                    Log.Write("Player projectile does not exist! " + playerProjId);
+                    return;
                 }
                 else
                 {
@@ -441,6 +441,10 @@ namespace World.GameState
                     seed);
                 int damageTaken = result.damage;
                 playerState.ability.OnHit(enemyState, time, ref damageTaken);
+
+                var procTrigger = ProcFunctions.HitResultToTrigger(result.type);
+                if (procTrigger.HasValue)
+                    playerState.TriggerProcs(procTrigger.Value, time);
 
                 if (player.world.objects.TryGetEnemy(enemyState.gameId, out var enemy))
                 {
@@ -516,6 +520,10 @@ namespace World.GameState
                     seed);
                 int damageTaken = result.damage;
                 playerState.ability.OnHit(enemyState, time, ref damageTaken);
+
+                var procTrigger = ProcFunctions.HitResultToTrigger(result.type);
+                if (procTrigger.HasValue)
+                    playerState.TriggerProcs(procTrigger.Value, time);
 
                 if (player.world.objects.TryGetEnemy(enemyState.gameId, out var enemy))
                 {
@@ -673,8 +681,6 @@ namespace World.GameState
                 var projPos = proj.GetPosition(time);
                 if (!cantBeHit && projPos.DistanceTo(position) * 1.1f < proj.radius + radius) // did hit
                 {
-                    var dmgTaken = playerState.GetDamageTaken(proj.damage, time);
-                    if (dmgTaken == 0) continue;
                     proj.hitTime = time;
                 }
             }

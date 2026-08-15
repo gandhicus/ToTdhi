@@ -1,0 +1,59 @@
+using System;
+using System.Globalization;
+using TitanCore.Core;
+using Utils.NET.IO.Xml;
+
+namespace TitanCore.Data.Components
+{
+    public class ProcStatBonus
+    {
+        public StatType statType;
+
+        public int amount;
+
+        public uint durationMs;
+
+        public ProcStatBonus(XmlParser xml)
+        {
+            statType = xml.AtrEnum("type", StatType.Vigor);
+            amount = xml.AtrInt("amount", 0);
+            durationMs = (uint)xml.AtrInt("duration", 0);
+        }
+    }
+
+    public class ProcRageGain
+    {
+        public float amount;
+
+        public ProcRageGain(XmlParser xml)
+        {
+            if (xml.TryGetAttribute("amount", out var amountAttr))
+                amount = Convert.ToSingle(amountAttr.Value, CultureInfo.InvariantCulture);
+            else if (!string.IsNullOrWhiteSpace(xml.stringValue))
+                amount = xml.intValue;
+        }
+    }
+
+    public class ItemProc
+    {
+        public ProcTrigger trigger;
+
+        public uint cooldownMs;
+
+        public ProcStatBonus statBonus;
+
+        public ProcRageGain rageGain;
+
+        public ItemProc(XmlParser xml)
+        {
+            trigger = xml.AtrEnum("trigger", ProcTrigger.CriticalStrike);
+            cooldownMs = (uint)xml.AtrInt("cooldown", 0);
+
+            foreach (var child in xml.Elements("StatBonus"))
+                statBonus = new ProcStatBonus(child);
+
+            foreach (var child in xml.Elements("Rage"))
+                rageGain = new ProcRageGain(child);
+        }
+    }
+}

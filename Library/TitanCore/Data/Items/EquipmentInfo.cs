@@ -19,6 +19,12 @@ namespace TitanCore.Data.Items
 
         public bool soulless = false;
 
+        public StatRollPool statRollPool;
+
+        public List<ItemProc> procs = new List<ItemProc>();
+
+        public List<ScaledStatIncrease> scaledStatIncreases = new List<ScaledStatIncrease>();
+
         public EquipmentInfo() : base()
         {
 
@@ -48,6 +54,15 @@ namespace TitanCore.Data.Items
             }
 
             soulless = xml.Exists("Soulless");
+
+            if (xml.TryGetValue("StatRolls", out var statRollsElement))
+                statRollPool = new StatRollPool(new XmlParser(statRollsElement));
+
+            foreach (var proc in xml.Elements("Proc"))
+                procs.Add(new ItemProc(proc));
+
+            foreach (var scaled in xml.Elements("ScaledStatIncrease"))
+                scaledStatIncreases.Add(new ScaledStatIncrease(scaled));
         }
 
         public string GetTierDisplay()

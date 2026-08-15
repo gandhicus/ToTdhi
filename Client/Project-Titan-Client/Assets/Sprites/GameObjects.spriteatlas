@@ -219,6 +219,7 @@ SpriteAtlas:
     - 073a73719b5c8344f9daaf35c71f1584: 21300000
     - c19d1c719a1231b4fb0fcd622d6afc76: 21300000
     - b4495c71ecb6f6c4e9a35f189d350991: 21300000
+    - df8bb081c0d50b742b265534029fbc5b: 21300000
     - f84334814da7d6542acc35ef85475ae7: 21300000
     - 3d520681ce52d0949b4a8105dd5c5450: 21300000
     - 3a207681e260eac41a2aa6dcf3305840: 21300000
@@ -1796,6 +1797,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 073a73719b5c8344f9daaf35c71f1584, type: 3}
   - {fileID: 21300000, guid: c19d1c719a1231b4fb0fcd622d6afc76, type: 3}
   - {fileID: 21300000, guid: b4495c71ecb6f6c4e9a35f189d350991, type: 3}
+  - {fileID: 21300000, guid: df8bb081c0d50b742b265534029fbc5b, type: 3}
   - {fileID: 21300000, guid: f84334814da7d6542acc35ef85475ae7, type: 3}
   - {fileID: 21300000, guid: 3d520681ce52d0949b4a8105dd5c5450, type: 3}
   - {fileID: 21300000, guid: 3a207681e260eac41a2aa6dcf3305840, type: 3}
@@ -3372,6 +3374,7 @@ SpriteAtlas:
   - BalunLightning-2
   - Deer-2
   - ForestWanderer-AgroRecharge-1
+  - Aldrite's Gamble
   - Oda's Transcendent Longbow
   - RockSpike-1
   - CrookedTree-1

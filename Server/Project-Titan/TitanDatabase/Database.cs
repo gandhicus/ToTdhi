@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TitanCore.Data;
 using TitanCore.Data.Entities;
+using TitanCore.Data.Items;
 using Utils.NET.Logging;
 using Utils.NET.Utils;
 using TitanDatabase.Models;
@@ -949,9 +950,13 @@ namespace TitanDatabase
 
         public static async Task<CreateItemResponse> CreateItem(Item data, ulong containerId)
         {
+            var itemData = data;
+            if (itemData.GetInfo() is EquipmentInfo equip && equip.statRollPool != null && !EquipmentStatFunctions.HasRolledStats(itemData))
+                equip.statRollPool.ApplyRolls(ref itemData);
+
             var serverItem = new ServerItem()
             {
-                itemData = data,
+                itemData = itemData,
                 containerId = containerId
             };
 
