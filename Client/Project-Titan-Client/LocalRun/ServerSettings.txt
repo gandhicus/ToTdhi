@@ -4,4 +4,4 @@
 ip: 127.0.0.1
 admin: false
 anticheat: false
-lootBoost: 5
+lootBoost: 1

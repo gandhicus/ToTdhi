@@ -28,9 +28,9 @@ namespace TitanCore.Net
 
         public const int Max_Overworld_Players = 75;
 
-        public const string Build_Version = "1.9.0";
+        public const string Build_Version = "1.0.0";
 
-        public const string Required_Build_Version = "1.9.0";
+        public const string Required_Build_Version = "1.0.0";
 
         public const int Account_Reward_Goal_1 = 10;
 
