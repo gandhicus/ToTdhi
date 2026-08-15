@@ -1,6 +1,6 @@
 # ToTdhi
 
-![](Images/Vestment.png)
+<img src="Images/Vestment.png" width="85">
 
 ToTdhi is a singleplayer/small group-focused overhaul mod for Trials of Titan based on javritan's [Trials of Titan Local](https://github.com/javritan/TrialsOfTitansLocal) fork.
 
