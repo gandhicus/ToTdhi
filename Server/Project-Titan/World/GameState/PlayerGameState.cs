@@ -431,9 +431,8 @@ namespace World.GameState
             {
                 bool killed = false;
                 var seed = StatFunctions.GetCombatSeed(proj.projectileId, time, enemyId);
-                var result = StatFunctions.ResolveOutgoingDamage(
+                var result = playerState.ResolvePlayerOutgoingDamage(
                     proj.damage,
-                    playerState.currentSnapshot.equips,
                     0,
                     0,
                     enemyState.currentSnapshot.defense,
@@ -510,9 +509,8 @@ namespace World.GameState
             if (projPos.DistanceTo(enemyPos) < proj.data.radius && proj.hitSet.Add(enemyId)) // Hit success!
             {
                 var seed = StatFunctions.GetCombatSeed(proj.projectileId, time, enemyId);
-                var result = StatFunctions.ResolveOutgoingDamage(
+                var result = playerState.ResolvePlayerOutgoingDamage(
                     proj.damage,
-                    playerState.currentSnapshot.equips,
                     0,
                     0,
                     enemyState.currentSnapshot.defense,

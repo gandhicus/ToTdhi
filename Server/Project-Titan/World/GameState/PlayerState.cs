@@ -292,7 +292,11 @@ namespace World.GameState
 
         private readonly Dictionary<int, uint> procCooldowns = new Dictionary<int, uint>();
 
+        private readonly HashSet<int> triggeredProcKeys = new HashSet<int>();
+
         private readonly List<TimedStatBonus> timedStatBonuses = new List<TimedStatBonus>();
+
+        private readonly List<TimedAlternateStatBonus> timedAlternateStatBonuses = new List<TimedAlternateStatBonus>();
 
         private struct TimedStatBonus
         {
@@ -301,6 +305,13 @@ namespace World.GameState
             public int amount;
             public uint endTime;
             public bool hasEffect;
+        }
+
+        private struct TimedAlternateStatBonus
+        {
+            public AlternateStatType statType;
+            public int amount;
+            public uint endTime;
         }
 
         public PlayerState(uint time, Player player, NewObjectStats newObj)
@@ -427,6 +438,8 @@ namespace World.GameState
                 damage,
                 currentSnapshot.equips,
                 0,
+                GetTimedAlternateStatBonus(AlternateStatType.BlockChance),
+                GetTimedAlternateStatBonus(AlternateStatType.AbsorptionChance),
                 currentSnapshot.GetFunctionalStat(StatType.Defense),
                 HasEffect(StatusEffect.Fortified, time),
                 seed);
@@ -461,6 +474,38 @@ namespace World.GameState
         {
             var defense = currentSnapshot.GetFunctionalStat(StatType.Defense);
             return StatFunctions.DamageTaken(defense, damage, HasEffect(StatusEffect.Fortified, time));
+        }
+
+        public int GetTimedAlternateStatBonus(AlternateStatType type)
+        {
+            int total = 0;
+            for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
+            {
+                if (timedAlternateStatBonuses[i].statType == type)
+                    total += timedAlternateStatBonuses[i].amount;
+            }
+            return total;
+        }
+
+        public DamageResult ResolvePlayerOutgoingDamage(
+            int rawDamage,
+            int defenderBlockChance,
+            int defenderAbsorptionChance,
+            int defenderDefense,
+            bool defenderFortified,
+            uint seed)
+        {
+            return StatFunctions.ResolveOutgoingDamage(
+                rawDamage,
+                currentSnapshot.equips,
+                GetTimedAlternateStatBonus(AlternateStatType.TrueDamageChance),
+                GetTimedAlternateStatBonus(AlternateStatType.CriticalStrikeChance),
+                GetTimedAlternateStatBonus(AlternateStatType.CriticalStrikeDamage),
+                defenderBlockChance,
+                defenderAbsorptionChance,
+                defenderDefense,
+                defenderFortified,
+                seed);
         }
 
         private void AdvanceHealth(uint time)
@@ -631,16 +676,20 @@ namespace World.GameState
 
         public void AddKnockedBack(Vec2 position, Vec2 knockerPosition, uint time, uint duration)
         {
+            var knockbackResistance = currentSnapshot.GetAlternateStat(AlternateStatType.KnockbackResistance);
+            if (knockbackResistance >= 100) return;
             if (HasPositionalEffect(time)) return;
             positionalEffectCollided = false;
             positionalEffectPosition = position;
             positionalEffectStartTime = time + NetConstants.Client_Delta;
-            positionalEffectVector = StatusEffectFunctions.GetKnockedBackPositionVector(position, knockerPosition) * (NetConstants.Client_Delta / 1000f);
+            positionalEffectVector = StatusEffectFunctions.GetKnockedBackPositionVector(position, knockerPosition) * StatFunctions.ApplyResistanceMultiplier(knockbackResistance) * (NetConstants.Client_Delta / 1000f);
             AddClientStatusEffect(StatusEffect.KnockedBack, time, duration);
         }
 
         public void AddGrounded(Vec2 position, uint time, uint duration)
         {
+            duration = StatFunctions.ApplyResistanceDuration(duration, currentSnapshot.GetAlternateStat(AlternateStatType.GroundedResistance));
+            if (duration == 0) return;
             if (HasPositionalEffect(time)) return;
             positionalEffectCollided = false;
             positionalEffectPosition = position;
@@ -689,13 +738,17 @@ namespace World.GameState
         {
             if (HasEffect(StatusEffect.Mundane, time)) return;
             if (applyRageGainBonus)
-                amount = StatFunctions.ApplyRageGainBonus(amount, currentSnapshot.GetAlternateStat(AlternateStatType.RageGain));
+                amount = StatFunctions.ApplyRageGainBonus(
+                    amount,
+                    currentSnapshot.GetAlternateStat(AlternateStatType.RageGain) + GetTimedAlternateStatBonus(AlternateStatType.RageGain));
             rage = Math.Min(rage + amount, 100f);
         }
 
         public void TriggerProcs(ProcTrigger trigger, uint time)
         {
             var equips = currentSnapshot.equips;
+            triggeredProcKeys.Clear();
+
             for (int slot = 0; slot < equips.Length; slot++)
             {
                 if (equips[slot].IsBlank) continue;
@@ -706,17 +759,22 @@ namespace World.GameState
                     var proc = equip.procs[i];
                     if (proc.trigger != trigger) continue;
 
-                    int key = (slot << 8) | i;
-                    if (procCooldowns.TryGetValue(key, out var nextTime) && time < nextTime)
+                    int procKey = ProcFunctions.GetProcKey(equips[slot].id, i);
+                    if (!triggeredProcKeys.Add(procKey))
+                        continue;
+
+                    if (procCooldowns.TryGetValue(procKey, out var nextTime) && time < nextTime)
                         continue;
 
                     if (proc.statBonus != null)
                         ApplyProcStatBonus(proc.statBonus, time);
+                    else if (proc.alternateStatBonus != null)
+                        ApplyProcAlternateStatBonus(proc.alternateStatBonus, time);
                     else if (proc.rageGain != null)
                         AddRage(time, proc.rageGain.amount, applyRageGainBonus: false);
 
                     if (proc.cooldownMs > 0)
-                        procCooldowns[key] = time + proc.cooldownMs;
+                        procCooldowns[procKey] = time + proc.cooldownMs;
                 }
             }
         }
@@ -742,8 +800,26 @@ namespace World.GameState
             });
         }
 
+        private void ApplyProcAlternateStatBonus(ProcAlternateStatBonus bonus, uint time)
+        {
+            if (bonus.amount == 0 || bonus.durationMs == 0) return;
+
+            timedAlternateStatBonuses.Add(new TimedAlternateStatBonus
+            {
+                statType = bonus.statType,
+                amount = bonus.amount,
+                endTime = time + bonus.durationMs
+            });
+        }
+
         private void AdvanceTimedBonuses(uint time)
         {
+            for (int i = timedAlternateStatBonuses.Count - 1; i >= 0; i--)
+            {
+                if (time < timedAlternateStatBonuses[i].endTime) continue;
+                timedAlternateStatBonuses.RemoveAt(i);
+            }
+
             for (int i = timedStatBonuses.Count - 1; i >= 0; i--)
             {
                 if (time < timedStatBonuses[i].endTime) continue;

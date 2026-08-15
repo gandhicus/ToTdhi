@@ -126,7 +126,7 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(1, // 10
-                        new Single(Loot.Chance(5), new Item("Corrupted Skull of Mezhier"))
+                        new Single(Loot.Chance(4), new Item("Corrupted Skull of Mezhier"))
                         ),
                     new SoulboundLoot(1, // 11
                         new Single(Loot.Chance(25), new Item("Key to Whispering Woods"))
@@ -213,17 +213,17 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(0.2f, // 7
-                        new Single(Loot.Chance(50),
+                        new Single(Loot.Chance(15),
                             new Item("Scroll of Power")
                         )
                         ),
                     new SoulboundLoot(0.2f, // 8
-                        new Single(Loot.Chance(50),
+                        new Single(Loot.Chance(15),
                             new Item("Scroll of Fortitude")
                         )
                         ),
                     new SoulboundLoot(0.2f, // 9
-                        new Single(Loot.Chance(50),
+                        new Single(Loot.Chance(15),
                             new Item("Scroll of Stamina")
                         )
                         ),
@@ -233,7 +233,7 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(0.3f, // 11
-                        new Single(Loot.Chance(1),
+                        new Single(Loot.Chance(0.8),
                             new Item("Desert Rose"))
                         ),
                     new SoulboundLoot(0.3f, // 12
@@ -271,12 +271,20 @@ namespace World.Looting
                         Tier.Weapon(Loot.Chance(55), ItemTier.Tier5),
                         Tier.Armor(Loot.Chance(40), ItemTier.Tier5),
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier3),
-                        new Single(Loot.Chance(30),
+                        new Single(Loot.Chance(33),
                             new Item("Scroll of Power"))
                         ),
                     new SoulboundLoot(0.3f, // 5
-                        new Single(Loot.Chance(3),
+                        new Single(Loot.Chance(2),
                             new Item("Scroll of Power"))
+                        ),
+                    new SoulboundLoot(0.3f, // 6
+                        new Single(Loot.Chance(5),
+                            new Item("Band of Oceanic Radiance"))
+                        ),
+                    new SoulboundLoot(0.3f, // 7
+                        new Single(Loot.Chance(0.8),
+                            new Item("Seafarer's Garb"))
                         ),
                 } },
 
@@ -403,6 +411,9 @@ namespace World.Looting
                     new SoulboundLoot(0.6f, // 13
                         new Single(Loot.Chance(10), new Item("Key to Dumir"))
                         ),
+                    new SoulboundLoot(0.1f, // 14
+                        new Single(Loot.Chance(8), new Item("Aldrite's Gamble"))
+                        ),
                 } },
 
                 { SoulGroup.Dumir, new List<LootContainer>
@@ -463,11 +474,14 @@ namespace World.Looting
                     new SoulboundLoot(0.1f, // 13
                         new Single(Loot.Chance(5), new Item("Ring of the Lonely Spirit"))
                         ),
-                    new SoulboundLoot(0.1f, // 13
+                    new SoulboundLoot(0.1f, // 14
                         new Single(Loot.Chance(20), new Item("Key to Dumir"))
                         ),
-                    new SoulboundLoot(0.1f, // 13
+                    new SoulboundLoot(0.1f, // 15
                         new Single(Loot.Chance(10), new Item("Key to Valdok's Forge"))
+                        ),
+                    new SoulboundLoot(0.1f, // 16
+                        new Single(Loot.Chance(8), new Item("Aldrite's Gamble"))
                         ),
                 } },
 
@@ -513,7 +527,7 @@ namespace World.Looting
                             new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.1f, // 7
-                        new Single(Loot.Chance(6), new Item("Mezhier's Ring of Valor"))
+                        new Single(Loot.Chance(5), new Item("Mezhier's Ring of Valor"))
                         ),
                     new SoulboundLoot(0.1f, // 8
                         new Single(Loot.Chance(5), new Item("Mannah's Capstone"))
@@ -540,6 +554,9 @@ namespace World.Looting
                         new Single(Loot.Chance(15), new Item("Key to Valdok's Forge"))
                         ),
                     new SoulboundLoot(0.1f, // 15
+                        new Single(Loot.Chance(8), new Item("Aldrite's Gamble"))
+                        ),
+                    new SoulboundLoot(0.1f, // 16
                         new Single(Loot.Chance(100),
                             new Item("Scroll of Life"))
                         ),

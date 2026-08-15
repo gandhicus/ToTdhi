@@ -5,6 +5,11 @@ namespace TitanCore.Core
 {
     public static class ProcFunctions
     {
+        public static int GetProcKey(ushort itemId, int procIndex)
+        {
+            return (itemId << 8) | procIndex;
+        }
+
         public static string GetStatDisplayName(StatType type)
         {
             switch (type)
@@ -13,6 +18,52 @@ namespace TitanCore.Core
                     return "Max Health";
                 default:
                     return type.ToString();
+            }
+        }
+
+        public static string GetAlternateStatDisplayName(AlternateStatType type)
+        {
+            switch (type)
+            {
+                case AlternateStatType.RateOfFire:
+                    return "Rate of Fire";
+                case AlternateStatType.TrueDamageChance:
+                    return "True Damage Chance";
+                case AlternateStatType.BlockChance:
+                    return "Block Chance";
+                case AlternateStatType.AbsorptionChance:
+                    return "Absorption Chance";
+                case AlternateStatType.CriticalStrikeChance:
+                    return "Critical Strike Chance";
+                case AlternateStatType.CriticalStrikeDamage:
+                    return "Critical Strike Damage";
+                case AlternateStatType.RageGain:
+                    return "Rage Gain";
+                case AlternateStatType.GroundedResistance:
+                    return "Grounded Resistance";
+                case AlternateStatType.KnockbackResistance:
+                    return "Knockback Resistance";
+                default:
+                    return type.ToString();
+            }
+        }
+
+        public static string FormatAlternateStatAmount(AlternateStatType type, int amount)
+        {
+            switch (type)
+            {
+                case AlternateStatType.RateOfFire:
+                case AlternateStatType.TrueDamageChance:
+                case AlternateStatType.BlockChance:
+                case AlternateStatType.AbsorptionChance:
+                case AlternateStatType.CriticalStrikeChance:
+                case AlternateStatType.CriticalStrikeDamage:
+                case AlternateStatType.RageGain:
+                case AlternateStatType.GroundedResistance:
+                case AlternateStatType.KnockbackResistance:
+                    return (amount > 0 ? "+" : "") + amount + "%";
+                default:
+                    return (amount > 0 ? "+" : "") + amount;
             }
         }
 
@@ -98,6 +149,13 @@ namespace TitanCore.Core
             {
                 var durationText = FormatDurationSeconds(proc.statBonus.durationMs);
                 return $"On {trigger}, gain +{proc.statBonus.amount} {GetStatDisplayName(proc.statBonus.statType)} for {durationText} seconds{cooldownText}.";
+            }
+
+            if (proc.alternateStatBonus != null)
+            {
+                var durationText = FormatDurationSeconds(proc.alternateStatBonus.durationMs);
+                var amountText = FormatAlternateStatAmount(proc.alternateStatBonus.statType, proc.alternateStatBonus.amount);
+                return $"On {trigger}, gain {amountText} {GetAlternateStatDisplayName(proc.alternateStatBonus.statType)} for {durationText} seconds{cooldownText}.";
             }
 
             if (proc.rageGain != null)

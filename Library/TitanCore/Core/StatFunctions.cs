@@ -76,11 +76,36 @@ namespace TitanCore.Core
             bool defenderFortified,
             uint seed)
         {
+            return ResolveOutgoingDamage(
+                rawDamage,
+                attackerEquips,
+                0,
+                0,
+                0,
+                defenderBlockChance,
+                defenderAbsorptionChance,
+                defenderDefense,
+                defenderFortified,
+                seed);
+        }
+
+        public static DamageResult ResolveOutgoingDamage(
+            int rawDamage,
+            Item[] attackerEquips,
+            int attackerTrueDamageBonus,
+            int attackerCritChanceBonus,
+            int attackerCritDamageBonus,
+            int defenderBlockChance,
+            int defenderAbsorptionChance,
+            int defenderDefense,
+            bool defenderFortified,
+            uint seed)
+        {
             return ResolveDamage(
                 rawDamage,
-                ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.TrueDamageChance),
-                ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.CriticalStrikeChance),
-                ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.CriticalStrikeDamage),
+                ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.TrueDamageChance) + attackerTrueDamageBonus,
+                ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.CriticalStrikeChance) + attackerCritChanceBonus,
+                ItemFunctions.GetEquippedAlternateStat(attackerEquips, AlternateStatType.CriticalStrikeDamage) + attackerCritDamageBonus,
                 defenderBlockChance,
                 defenderAbsorptionChance,
                 defenderDefense,
@@ -96,13 +121,34 @@ namespace TitanCore.Core
             bool defenderFortified,
             uint seed)
         {
+            return ResolveIncomingDamage(
+                rawDamage,
+                defenderEquips,
+                attackerTrueDamageChance,
+                0,
+                0,
+                defenderDefense,
+                defenderFortified,
+                seed);
+        }
+
+        public static DamageResult ResolveIncomingDamage(
+            int rawDamage,
+            Item[] defenderEquips,
+            int attackerTrueDamageChance,
+            int defenderBlockBonus,
+            int defenderAbsorptionBonus,
+            int defenderDefense,
+            bool defenderFortified,
+            uint seed)
+        {
             return ResolveDamage(
                 rawDamage,
                 attackerTrueDamageChance,
                 0,
                 0,
-                ItemFunctions.GetEquippedAlternateStat(defenderEquips, AlternateStatType.BlockChance),
-                ItemFunctions.GetEquippedAlternateStat(defenderEquips, AlternateStatType.AbsorptionChance),
+                ItemFunctions.GetEquippedAlternateStat(defenderEquips, AlternateStatType.BlockChance) + defenderBlockBonus,
+                ItemFunctions.GetEquippedAlternateStat(defenderEquips, AlternateStatType.AbsorptionChance) + defenderAbsorptionBonus,
                 defenderDefense,
                 defenderFortified,
                 seed);
@@ -234,6 +280,20 @@ namespace TitanCore.Core
         public static float ApplyRageGainBonus(float baseAmount, int rageGainBonus)
         {
             return baseAmount * (1 + rageGainBonus * 0.01f);
+        }
+
+        public static uint ApplyResistanceDuration(uint duration, int resistancePercent)
+        {
+            if (resistancePercent <= 0) return duration;
+            if (resistancePercent >= 100) return 0;
+            return (uint)(duration * (1 - resistancePercent * 0.01f));
+        }
+
+        public static float ApplyResistanceMultiplier(int resistancePercent)
+        {
+            if (resistancePercent <= 0) return 1f;
+            if (resistancePercent >= 100) return 0f;
+            return 1 - resistancePercent * 0.01f;
         }
 
         public static float ApplyAbilityRageSpend(float rageBefore, byte rageIntegralBefore, byte rageIntegralAfter)

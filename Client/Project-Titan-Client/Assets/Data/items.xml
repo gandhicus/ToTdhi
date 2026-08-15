@@ -1362,7 +1362,7 @@
     <StatIncrease type="Vigor">5</StatIncrease>
   </Object>
 
-  <Object id="0x208" name="Armor of Lost Veneance" tier="9">
+  <Object id="0x208" name="Armor of Lost Vengeance" tier="9">
     <Type>Equipment</Type>
     <SlotType>HeavyArmor</SlotType>
     <Sprite>HeavyArmor 9</Sprite>
@@ -1371,6 +1371,18 @@
 
     <StatIncrease type="Defense">23</StatIncrease>
     <StatIncrease type="Vigor">7</StatIncrease>
+
+	<StatRolls rollCount="1" maxPerStat="1">
+		<StatRoll type="Attack" min="3" max="5"/>
+		<StatRoll type="Defense" min="3" max="5"/>
+		<StatRoll type="Vigor" min="3" max="5"/>
+		<StatRoll type="Speed" min="3" max="5"/>
+		<StatRoll type="MaxHealth" min="20" max="40"/>
+		<AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
+		<AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
+		<AlternateStatRoll type="BlockChance" min="2" max="4"/>
+	</StatRolls>
+	  
   </Object>
 
   <Object id="0x209" name="Valdok's Impervious Aegis" tier="-1">
@@ -1503,6 +1515,18 @@
     <StatIncrease type="Speed">6</StatIncrease>
     <StatIncrease type="Attack">6</StatIncrease>
     <StatIncrease type="Defense">17</StatIncrease>
+
+	<StatRolls rollCount="1" maxPerStat="1">
+		  <StatRoll type="Attack" min="3" max="5"/>
+		  <StatRoll type="Defense" min="3" max="5"/>
+		  <StatRoll type="Vigor" min="3" max="5"/>
+		  <StatRoll type="Speed" min="3" max="5"/>
+		  <StatRoll type="MaxHealth" min="20" max="40"/>
+		  <AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
+		  <AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
+		  <AlternateStatRoll type="BlockChance" min="2" max="4"/>
+	</StatRolls>
+
   </Object>
 
   <Object id="0x229" name="Empyrean's Guard" tier="-1">
@@ -1538,10 +1562,10 @@
 	<Description>...</Description>
 
 	<StatIncrease type="MaxHealth">-100</StatIncrease>
-	<StatIncrease type="Defense">10</StatIncrease>
+	<StatIncrease type="Defense">5</StatIncrease>
 	<AlternateStatIncrease type="BlockChance">20</AlternateStatIncrease>
 	<AlternateStatIncrease type="CriticalStrikeChance">25</AlternateStatIncrease>
-	<AlternateStatIncrease type="TrueDamageChance">40</AlternateStatIncrease>
+	<AlternateStatIncrease type="TrueDamageChance">35</AlternateStatIncrease>
 </Object>
   
   <!-- Robes -->
@@ -1643,6 +1667,18 @@
 
     <StatIncrease type="Defense">12</StatIncrease>
     <StatIncrease type="Attack">8</StatIncrease>
+
+	 <StatRolls rollCount="1" maxPerStat="1">
+		  <StatRoll type="Attack" min="3" max="5"/>
+		  <StatRoll type="Defense" min="3" max="5"/>
+		  <StatRoll type="Vigor" min="3" max="5"/>
+		  <StatRoll type="Speed" min="3" max="5"/>
+		  <StatRoll type="MaxHealth" min="20" max="40"/>
+		  <AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
+		  <AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
+		  <AlternateStatRoll type="BlockChance" min="2" max="4"/>
+	 </StatRolls>
+	  
   </Object>
 
   <Object id="0x249" name="Archmage's Sibylline Vestment" tier="-1">
@@ -1653,10 +1689,22 @@
     <Description>A dazzling garment imbued with mystifying hues. Strange symbols coat the robe in a chaotic, but seemingly ordered, way.</Description>
     
     <StatIncrease type="Defense">7</StatIncrease>
-    <StatIncrease type="Attack">4</StatIncrease>
-    <StatIncrease type="Vigor">12</StatIncrease>
+    <StatIncrease type="Attack">5</StatIncrease>
+    <StatIncrease type="Vigor">10</StatIncrease>
 	<AlternateStatIncrease type="AbsorptionChance">3</AlternateStatIncrease>
   </Object>
+
+<Object id="0x511" name="Seafarer's Garb" tier="-1">
+	<Type>Equipment</Type>
+	<Sprite>Seafarer's Garb</Sprite>
+	<SlotType>Robe</SlotType>
+
+	<Description>A wonderfully crafted robe that the once-great mystical seafarers used to survive the harsh environment of the shallows.</Description>
+
+	<StatIncrease type="Defense">10</StatIncrease>
+	<StatIncrease type="MaxHealth">50</StatIncrease>
+	<AlternateStatIncrease type="GroundedResistance">50</AlternateStatIncrease>
+</Object>
   
   <!-- NewWeapons -->
 
@@ -1782,7 +1830,18 @@
     <Sprite>Speed Ring 4</Sprite>
     <StatIncrease type="Speed">6</StatIncrease>
 
-    <Description>A tremendous emerald fixed on top of a gleaming gold ring.</Description>
+	<StatRolls rollCount="1" maxPerStat="1">
+		<StatRoll type="Attack" min="1" max="3"/>
+		<StatRoll type="Defense" min="1" max="3"/>
+		<StatRoll type="Vigor" min="1" max="3"/>
+		<StatRoll type="Speed" min="1" max="3"/>
+		<StatRoll type="MaxHealth" min="10" max="20"/>
+		<AlternateStatRoll type="CriticalStrikeChance" min="3" max="6"/>
+		<AlternateStatRoll type="TrueDamageChance" min="3" max="6"/>
+		<AlternateStatRoll type="BlockChance" min="1" max="3"/>
+	</StatRolls>
+
+	  <Description>A tremendous emerald fixed on top of a gleaming gold ring.</Description>
   </Object>
 
   <Object id="0x28d" name="Ring of Monumental Attack" tier="4">
@@ -1791,7 +1850,18 @@
     <Sprite>Attack Ring 4</Sprite>
     <StatIncrease type="Attack">6</StatIncrease>
 
-    <Description>A tremendous amethyst fixed on top of a gleaming gold ring.</Description>
+	<StatRolls rollCount="1" maxPerStat="1">
+		<StatRoll type="Attack" min="1" max="3"/>
+		<StatRoll type="Defense" min="1" max="3"/>
+	    <StatRoll type="Vigor" min="1" max="3"/>
+		<StatRoll type="Speed" min="1" max="3"/>
+		<StatRoll type="MaxHealth" min="10" max="20"/>
+		<AlternateStatRoll type="CriticalStrikeChance" min="3" max="6"/>
+		<AlternateStatRoll type="TrueDamageChance" min="3" max="6"/>
+		<AlternateStatRoll type="BlockChance" min="1" max="3"/>
+	</StatRolls>
+
+	  <Description>A tremendous amethyst fixed on top of a gleaming gold ring.</Description>
   </Object>
 
   <Object id="0x28e" name="Ring of Monumental Defense" tier="4">
@@ -1800,7 +1870,18 @@
     <Sprite>Defense Ring 4</Sprite>
     <StatIncrease type="Defense">6</StatIncrease>
 
-    <Description>A tremendous obsidian crystal fixed on top of a gleaming gold ring.</Description>
+	<StatRolls rollCount="1" maxPerStat="1">
+	    <StatRoll type="Attack" min="1" max="3"/>
+		<StatRoll type="Defense" min="1" max="3"/>
+		<StatRoll type="Vigor" min="1" max="3"/>
+		<StatRoll type="Speed" min="1" max="3"/>
+		<StatRoll type="MaxHealth" min="10" max="20"/>
+		<AlternateStatRoll type="CriticalStrikeChance" min="3" max="6"/>
+		<AlternateStatRoll type="TrueDamageChance" min="3" max="6"/>
+		<AlternateStatRoll type="BlockChance" min="1" max="3"/>
+	</StatRolls>
+
+	  <Description>A tremendous obsidian crystal fixed on top of a gleaming gold ring.</Description>
   </Object>
 
   <Object id="0x28f" name="Ring of Monumental Vigor" tier="4">
@@ -1808,6 +1889,17 @@
     <SlotType>Accessory</SlotType>
     <Sprite>Vigor Ring 4</Sprite>
     <StatIncrease type="Vigor">6</StatIncrease>
+
+	<StatRolls rollCount="1" maxPerStat="1">
+		  <StatRoll type="Attack" min="1" max="3"/>
+		  <StatRoll type="Defense" min="1" max="3"/>
+		  <StatRoll type="Vigor" min="1" max="3"/>
+		  <StatRoll type="Speed" min="1" max="3"/>
+		  <StatRoll type="MaxHealth" min="10" max="20"/>
+		  <AlternateStatRoll type="CriticalStrikeChance" min="3" max="6"/>
+		  <AlternateStatRoll type="TrueDamageChance" min="3" max="6"/>
+		  <AlternateStatRoll type="BlockChance" min="1" max="3"/>
+	</StatRolls>
 
     <Description>A tremendous ruby fixed on top of a gleaming gold ring.</Description>
   </Object>
@@ -1817,10 +1909,10 @@
     <SlotType>Accessory</SlotType>
     <Sprite>UT Ring 1</Sprite>
 
-    <StatIncrease type="Speed">3</StatIncrease>
-    <StatIncrease type="Attack">3</StatIncrease>
-    <StatIncrease type="Defense">5</StatIncrease>
-    <StatIncrease type="Vigor">5</StatIncrease>
+    <StatIncrease type="Speed">4</StatIncrease>
+    <StatIncrease type="Defense">4</StatIncrease>
+    <StatIncrease type="Vigor">4</StatIncrease>
+	<ScaledStatIncrease per="5" amount="2" from="Attack" to="Vigor"/>
 
     <Description>A ring affixed with a jewel trinity. Rumored to benefit all aspects of life.</Description>
   </Object>
@@ -1841,12 +1933,13 @@
     <SlotType>Accessory</SlotType>
     <Sprite>UT Ring 3</Sprite>
 
-    <StatIncrease type="MaxHealth">-30</StatIncrease>
+    <StatIncrease type="MaxHealth">-40</StatIncrease>
     <StatIncrease type="Attack">4</StatIncrease>
     <StatIncrease type="Defense">4</StatIncrease>
     <StatIncrease type="Vigor">4</StatIncrease>
+	<AlternateStatIncrease type="TrueDamageChance">12</AlternateStatIncrease>
 
-    <Description>A brilliant platinum ring adorned with a grand, diamond-shaped, ruby.</Description>
+	  <Description>A brilliant platinum ring adorned with a grand, diamond-shaped, ruby.</Description>
   </Object>
 
   <Object id="0x293" name="Ring of Stalwart Vitality" tier="-1">
@@ -1865,11 +1958,15 @@
     <Type>Equipment</Type>
     <SlotType>Accessory</SlotType>
     <Sprite>UT Ring 5</Sprite>
+	  
+    <StatIncrease type="Attack">4</StatIncrease>
+    <StatIncrease type="Vigor">4</StatIncrease>
+	<AlternateStatIncrease type="CriticalStrikeDamage">15</AlternateStatIncrease>
 
-    <StatIncrease type="Attack">5</StatIncrease>
-    <StatIncrease type="Vigor">5</StatIncrease>
-	<AlternateStatIncrease type="CriticalStrikeDamage">30</AlternateStatIncrease>
-
+	<Proc trigger="CriticalStrike" cooldown="3000">
+	    <StatBonus type="Vigor" amount="20" duration="5000"/>
+	</Proc>
+	  
 	  <Description>A ring worn by valorant warriors. Said to possess the spirit of Mezhier.</Description>
   </Object>
 
@@ -1900,11 +1997,11 @@
     <SlotType>Accessory</SlotType>
     <Sprite>UT Ring 8</Sprite>
 
-    <StatIncrease type="MaxHealth">40</StatIncrease>
-    <StatIncrease type="Speed">4</StatIncrease>
-    <StatIncrease type="Attack">4</StatIncrease>
-    <StatIncrease type="Defense">4</StatIncrease>
-    <StatIncrease type="Vigor">4</StatIncrease>
+    <StatIncrease type="MaxHealth">30</StatIncrease>
+    <StatIncrease type="Speed">3</StatIncrease>
+    <StatIncrease type="Attack">3</StatIncrease>
+    <StatIncrease type="Defense">3</StatIncrease>
+    <StatIncrease type="Vigor">3</StatIncrease>
 
     <Description>A dazzling gold ring. A pristine amethyst crowns the band and is enveloped in gold leaves.</Description>
   </Object>
@@ -1928,7 +2025,7 @@
 
 	<AlternateStatIncrease type="RageGain">50</AlternateStatIncrease>
 
-	<Description>A ring that fuels your fury with every strike.</Description>
+	<Description>Test</Description>
 </Object>
 
 <Object id="0x503" name="Corrupted Skull of Mezhier" tier="-1">
@@ -1969,40 +2066,29 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="6" max="12"/>
 			<AlternateStatRoll type="TrueDamageChance" min="6" max="12"/>
 			<AlternateStatRoll type="BlockChance" min="2" max="5"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="3"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="2"/>
 		</StatRolls>
 
 		<Description>It was Aldrite who initially discovered this ring during his travels. Interestingly, each time it's discovered again, it acts completely differently.</Description>
 	</Object>
 
-	<Object id="0x506" name="Quartz Ring" tier="-1">
+	<Object id="0x510" name="Band of Oceanic Radiance" tier="-1">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
-		<Sprite>Quartz Ring</Sprite>
+		<Sprite>Band of Oceanic Radiance</Sprite>
+		
+		<StatIncrease type="MaxHealth">30</StatIncrease>
+		<StatIncrease type="Vigor">3</StatIncrease>
+		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
 
-		<StatIncrease type="Attack">4</StatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeChance">10</AlternateStatIncrease>
-
-		<Description>A ring topped with a beautiful, yet rough, hunk of pink quartz.</Description>
-	</Object>
-
-	<Object id="0x50a" name="Fervor's Tear" tier="-1">
-		<Type>Equipment</Type>
-		<SlotType>Accessory</SlotType>
-		<Sprite>Tear of Life</Sprite>
-
-		<StatIncrease type="Speed">2</StatIncrease>
-		<StatIncrease type="Vigor">2</StatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeChance">8</AlternateStatIncrease>
-
-		<Proc trigger="CriticalStrike" cooldown="6000">
-			<StatBonus type="Vigor" amount="25" duration="5000"/>
+		<Proc trigger="CriticalStrike" cooldown="3000">
+			<AlternateStatBonus type="TrueDamageChance" amount="20" duration="8000"/>
 		</Proc>
 
-		<Description>A tear-shaped gem that surges with vigor whenever its bearer lands a critical strike.</Description>
+		<Description>A petite but beautiful ring forged from a perfect silver. On top sits a shining pearl, which radiates with secrets of the sea once thought lost to time.</Description>
 	</Object>
 
-	<Object id="0x50b" name="Quartz Fury" tier="-1">
+	<Object id="0x50b" name="TEST Rage Quartz Ring" tier="-1">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Quartz Ring</Sprite>
@@ -2014,34 +2100,7 @@
 			<Rage amount="25"/>
 		</Proc>
 
-		<Description>A rough quartz ring that channels fury into rage on critical strikes.</Description>
-	</Object>
-
-	<Object id="0x50c" name="Bulwark Shawl" tier="-1">
-		<Type>Equipment</Type>
-		<Sprite>Windward Cloak</Sprite>
-		<SlotType>Robe</SlotType>
-
-		<StatIncrease type="Defense">8</StatIncrease>
-		<StatIncrease type="Speed">3</StatIncrease>
-		<AlternateStatIncrease type="BlockChance">8</AlternateStatIncrease>
-
-		<Proc trigger="Block" cooldown="6000">
-			<Rage amount="15"/>
-		</Proc>
-
-		<Description>A shawl woven for defenders. Blocking an attack fills the wearer with battle fury.</Description>
-	</Object>
-
-	<Object id="0x50d" name="Bulwark Band" tier="-1">
-		<Type>Equipment</Type>
-		<SlotType>Accessory</SlotType>
-		<Sprite>Defense Ring 3</Sprite>
-
-		<StatIncrease type="Defense">4</StatIncrease>
-		<ScaledStatIncrease per="5" amount="2" from="Defense" to="Vigor"/>
-
-		<Description>A ring that grows stronger as its bearer's defenses mount. Every point of defense from equipment feeds its vigor.</Description>
+		<Description>Test</Description>
 	</Object>
 
   <Object id="0x298" name="Ring of Colossal Speed" tier="5">

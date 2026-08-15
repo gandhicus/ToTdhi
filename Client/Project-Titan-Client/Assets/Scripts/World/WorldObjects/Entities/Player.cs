@@ -724,13 +724,17 @@ public class Player : Character
 
     private void AddKnockedBack(Vec2 position, Vec2 knockerPosition, uint duration)
     {
+        var knockbackResistance = GetAlternateStatIncrease(AlternateStatType.KnockbackResistance);
+        if (knockbackResistance >= 100) return;
         if (HasPositionalEffect()) return;
-        AddPositionalEffect(StatusEffectFunctions.GetKnockedBackPositionVector(position, knockerPosition));
+        AddPositionalEffect(StatusEffectFunctions.GetKnockedBackPositionVector(position, knockerPosition) * StatFunctions.ApplyResistanceMultiplier(knockbackResistance));
         AddClientEffect(StatusEffect.KnockedBack, duration);
     }
 
     private void AddGrounded(Vec2 position, uint duration)
     {
+        duration = StatFunctions.ApplyResistanceDuration(duration, GetAlternateStatIncrease(AlternateStatType.GroundedResistance));
+        if (duration == 0) return;
         if (HasPositionalEffect()) return;
         AddPositionalEffect(Vec2.zero);
         AddClientEffect(StatusEffect.Grounded, duration);

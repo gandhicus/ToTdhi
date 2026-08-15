@@ -21,6 +21,22 @@ namespace TitanCore.Data.Components
         }
     }
 
+    public class ProcAlternateStatBonus
+    {
+        public AlternateStatType statType;
+
+        public int amount;
+
+        public uint durationMs;
+
+        public ProcAlternateStatBonus(XmlParser xml)
+        {
+            statType = xml.AtrEnum("type", AlternateStatType.RateOfFire);
+            amount = xml.AtrInt("amount", 0);
+            durationMs = (uint)xml.AtrInt("duration", 0);
+        }
+    }
+
     public class ProcRageGain
     {
         public float amount;
@@ -42,6 +58,8 @@ namespace TitanCore.Data.Components
 
         public ProcStatBonus statBonus;
 
+        public ProcAlternateStatBonus alternateStatBonus;
+
         public ProcRageGain rageGain;
 
         public ItemProc(XmlParser xml)
@@ -51,6 +69,9 @@ namespace TitanCore.Data.Components
 
             foreach (var child in xml.Elements("StatBonus"))
                 statBonus = new ProcStatBonus(child);
+
+            foreach (var child in xml.Elements("AlternateStatBonus"))
+                alternateStatBonus = new ProcAlternateStatBonus(child);
 
             foreach (var child in xml.Elements("Rage"))
                 rageGain = new ProcRageGain(child);

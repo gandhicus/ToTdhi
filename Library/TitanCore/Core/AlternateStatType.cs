@@ -13,5 +13,7 @@ namespace TitanCore.Core
         CriticalStrikeChance,
         CriticalStrikeDamage,
         RageGain,
+        GroundedResistance,
+        KnockbackResistance,
     }
 }

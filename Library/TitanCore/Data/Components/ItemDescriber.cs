@@ -336,6 +336,12 @@ namespace TitanCore.Data.Components
                 case AlternateStatType.RageGain:
                     describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Rage Gain", color);
                     break;
+                case AlternateStatType.GroundedResistance:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Grounded Resistance", color);
+                    break;
+                case AlternateStatType.KnockbackResistance:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Knockback Resistance", color);
+                    break;
             }
         }
 
