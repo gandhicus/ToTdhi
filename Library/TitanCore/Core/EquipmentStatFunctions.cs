@@ -21,7 +21,12 @@ namespace TitanCore.Core
             {
                 if (equips[i].IsBlank) continue;
                 if (!(equips[i].GetInfo() is EquipmentInfo equip)) continue;
-                AddStatIncreases(equips[i], equip, stats);
+                foreach (var increase in GetStatIncreases(equips[i], equip))
+                {
+                    if (!stats.TryGetValue(increase.Key, out var amount))
+                        amount = 0;
+                    stats[increase.Key] = amount + increase.Value;
+                }
             }
 
             return stats;
@@ -145,16 +150,58 @@ namespace TitanCore.Core
 
         public static IReadOnlyDictionary<StatType, int> GetStatIncreases(Item item, EquipmentInfo equip)
         {
-            if (HasRolledStats(item))
-                return item.rolledStatIncreases ?? EmptyStats;
-            return equip.statIncreases;
+            if (!HasRolledStats(item))
+                return equip.statIncreases;
+
+            return MergeStatIncreases(equip.statIncreases, item.rolledStatIncreases);
         }
 
         public static IReadOnlyDictionary<AlternateStatType, int> GetAlternateStatIncreases(Item item, EquipmentInfo equip)
         {
-            if (HasRolledStats(item))
-                return item.rolledAlternateStatIncreases ?? EmptyAlternateStats;
-            return equip.alternateStatIncreases;
+            if (!HasRolledStats(item))
+                return equip.alternateStatIncreases;
+
+            return MergeAlternateStatIncreases(equip.alternateStatIncreases, item.rolledAlternateStatIncreases);
+        }
+
+        private static Dictionary<StatType, int> MergeStatIncreases(
+            IReadOnlyDictionary<StatType, int> fixedStats,
+            Dictionary<StatType, int> rolledStats)
+        {
+            var merged = new Dictionary<StatType, int>();
+            foreach (var increase in fixedStats)
+                merged[increase.Key] = increase.Value;
+
+            if (rolledStats == null) return merged;
+
+            foreach (var increase in rolledStats)
+            {
+                if (!merged.TryGetValue(increase.Key, out var amount))
+                    amount = 0;
+                merged[increase.Key] = amount + increase.Value;
+            }
+
+            return merged;
+        }
+
+        private static Dictionary<AlternateStatType, int> MergeAlternateStatIncreases(
+            IReadOnlyDictionary<AlternateStatType, int> fixedStats,
+            Dictionary<AlternateStatType, int> rolledStats)
+        {
+            var merged = new Dictionary<AlternateStatType, int>();
+            foreach (var increase in fixedStats)
+                merged[increase.Key] = increase.Value;
+
+            if (rolledStats == null) return merged;
+
+            foreach (var increase in rolledStats)
+            {
+                if (!merged.TryGetValue(increase.Key, out var amount))
+                    amount = 0;
+                merged[increase.Key] = amount + increase.Value;
+            }
+
+            return merged;
         }
 
         public static void AddStatIncreases(Item item, EquipmentInfo equip, Dictionary<StatType, int> stats)
@@ -224,8 +271,5 @@ namespace TitanCore.Core
             }
             return true;
         }
-
-        private static readonly Dictionary<StatType, int> EmptyStats = new Dictionary<StatType, int>();
-        private static readonly Dictionary<AlternateStatType, int> EmptyAlternateStats = new Dictionary<AlternateStatType, int>();
     }
 }

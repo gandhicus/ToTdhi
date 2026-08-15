@@ -359,7 +359,7 @@ namespace World.GameState
             var slowed = HasEffect(StatusEffect.Slowed, time);
             var speedy = HasEffect(StatusEffect.Speedy, time);
 
-            var speed = currentSnapshot.GetFunctionalStat(StatType.Speed);
+            var speed = Math.Max(player.GetStatFunctional(StatType.Speed), currentSnapshot.GetFunctionalStat(StatType.Speed));
             var tps = StatFunctions.TilesPerSecond(speed,
                 wasWasSlowed && wasSlowed && slowed,
                 wasWasSpeedy || wasSpeedy || speedy);
@@ -400,9 +400,13 @@ namespace World.GameState
 
                 var timeDif = time - currentMoveCheckTime;
                 var tps = GetTargetTps(time);
-                if (tps != lastTps)
+                if (tps > lastTps)
                 {
                     currentMoveTps = tps;
+                    lastTps = tps;
+                }
+                else if (tps != lastTps)
+                {
                     lastTps = tps;
                 }
                 var realizedTps = currentMoveCheckPosition.DistanceTo(position) / (timeDif / 1000f);
@@ -414,10 +418,6 @@ namespace World.GameState
                     player.client.SendAsync(new TnError("Movement check failed! Moving too fast."));
                     //player.client.Disconnect();
                     return false;
-                }
-                else
-                {
-
                 }
             }
 
