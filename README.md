@@ -6,7 +6,7 @@ This mod seeks to greatly enhance the game's experience, introducing various bal
 
 AI tools were used as a substantial aid to add features and edit the codebase. Design, including item names and descriptions, balancing, spriting, etc. was done entirely by Gandhicus without AI assistance.
 
-Directions below are derived from the Trials of Titan Local repository.
+Directions below are derived from the Trials of Titan Local repository:
 
 ## Play The Release
 
