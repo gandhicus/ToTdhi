@@ -103,6 +103,23 @@ namespace TitanCore.Core
             }
         }
 
+        public static StatusEffect? GetAlternateStatBonusEffect(AlternateStatType stat)
+        {
+            switch (stat)
+            {
+                case AlternateStatType.TrueDamageChance:
+                    return StatusEffect.TrueBonus;
+                case AlternateStatType.BlockChance:
+                    return StatusEffect.BlockBonus;
+                case AlternateStatType.CriticalStrikeChance:
+                    return StatusEffect.CritBonus;
+                case AlternateStatType.AbsorptionChance:
+                    return StatusEffect.AbsorptionBonus;
+                default:
+                    return null;
+            }
+        }
+
         public static string GetTriggerDisplayName(ProcTrigger trigger)
         {
             switch (trigger)

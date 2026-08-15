@@ -412,7 +412,7 @@ namespace World.Looting
                         new Single(Loot.Chance(10), new Item("Key to Dumir"))
                         ),
                     new SoulboundLoot(0.1f, // 14
-                        new Single(Loot.Chance(8), new Item("Aldrite's Gamble"))
+                        new Single(Loot.Chance(5), new Item("Aldrite's Gamble"))
                         ),
                 } },
 
@@ -481,7 +481,7 @@ namespace World.Looting
                         new Single(Loot.Chance(10), new Item("Key to Valdok's Forge"))
                         ),
                     new SoulboundLoot(0.1f, // 16
-                        new Single(Loot.Chance(8), new Item("Aldrite's Gamble"))
+                        new Single(Loot.Chance(5), new Item("Aldrite's Gamble"))
                         ),
                 } },
 
@@ -554,7 +554,7 @@ namespace World.Looting
                         new Single(Loot.Chance(15), new Item("Key to Valdok's Forge"))
                         ),
                     new SoulboundLoot(0.1f, // 15
-                        new Single(Loot.Chance(8), new Item("Aldrite's Gamble"))
+                        new Single(Loot.Chance(5), new Item("Aldrite's Gamble"))
                         ),
                     new SoulboundLoot(0.1f, // 16
                         new Single(Loot.Chance(100),

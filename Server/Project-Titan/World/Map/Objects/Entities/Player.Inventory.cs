@@ -108,7 +108,7 @@ namespace World.Map.Objects.Entities
             EquipmentStatFunctions.RecalculateEquipmentStats(equips, statIncreases, new Dictionary<AlternateStatType, int>());
         }
 
-        private void SyncCombatSnapshotEquipment()
+        public void SyncCombatSnapshotEquipment()
         {
             if (gameState?.playerState == null)
                 return;

@@ -123,7 +123,13 @@ namespace TitanCore.Core
 
         public Item(string name, bool soulbound = false, byte count = 1)
         {
-            info = (ItemInfo)GameData.GetObjectByName(name);
+            var objectInfo = GameData.GetObjectByName(name);
+            if (objectInfo == null)
+                throw new ArgumentException($"Unknown item name: '{name}'", nameof(name));
+            if (!(objectInfo is ItemInfo itemInfo))
+                throw new ArgumentException($"Object '{name}' is not an item.", nameof(name));
+
+            info = itemInfo;
             id = info.id;
             this.soulbound = soulbound;
             this.count = count;

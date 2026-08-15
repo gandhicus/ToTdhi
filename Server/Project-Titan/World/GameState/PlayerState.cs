@@ -310,8 +310,10 @@ namespace World.GameState
         private struct TimedAlternateStatBonus
         {
             public AlternateStatType statType;
+            public StatusEffect effect;
             public int amount;
             public uint endTime;
+            public bool hasEffect;
         }
 
         public PlayerState(uint time, Player player, NewObjectStats newObj)
@@ -450,9 +452,7 @@ namespace World.GameState
                 health = currentSnapshot.GetFunctionalStat(StatType.MaxHealth);
             player.hitDamage.Value += damageTaken;
 
-            var procTrigger = ProcFunctions.HitResultToTrigger(result.type);
-            if (procTrigger.HasValue)
-                TriggerProcs(procTrigger.Value, time);
+            TriggerProcsFromDamageResult(result, time);
 
             if (health <= 0 && previousHp > 0)
             {
@@ -744,22 +744,33 @@ namespace World.GameState
             rage = Math.Min(rage + amount, 100f);
         }
 
+        public void TriggerProcsFromDamageResult(DamageResult result, uint time)
+        {
+            var procTrigger = ProcFunctions.HitResultToTrigger(result.type);
+            if (procTrigger.HasValue)
+                TriggerProcs(procTrigger.Value, time);
+
+            if (result.wasCritical && result.type != HitResultType.Critical)
+                TriggerProcs(ProcTrigger.CriticalStrike, time);
+        }
+
         public void TriggerProcs(ProcTrigger trigger, uint time)
         {
-            var equips = currentSnapshot.equips;
             triggeredProcKeys.Clear();
 
-            for (int slot = 0; slot < equips.Length; slot++)
+            for (int slot = 0; slot < 4; slot++)
             {
-                if (equips[slot].IsBlank) continue;
-                if (!(equips[slot].GetInfo() is EquipmentInfo equip)) continue;
+                var serverItem = player.GetItem(slot);
+                var equipItem = serverItem?.itemData ?? Item.Blank;
+                if (equipItem.IsBlank) continue;
+                if (!(equipItem.GetInfo() is EquipmentInfo equip)) continue;
 
                 for (int i = 0; i < equip.procs.Count; i++)
                 {
                     var proc = equip.procs[i];
                     if (proc.trigger != trigger) continue;
 
-                    int procKey = ProcFunctions.GetProcKey(equips[slot].id, i);
+                    int procKey = ProcFunctions.GetProcKey(equipItem.id, i);
                     if (!triggeredProcKeys.Add(procKey))
                         continue;
 
@@ -804,11 +815,18 @@ namespace World.GameState
         {
             if (bonus.amount == 0 || bonus.durationMs == 0) return;
 
+            var effect = ProcFunctions.GetAlternateStatBonusEffect(bonus.statType);
+            var hasEffect = effect.HasValue;
+            if (hasEffect)
+                player.AddEffect(effect.Value, bonus.durationMs / 1000f);
+
             timedAlternateStatBonuses.Add(new TimedAlternateStatBonus
             {
                 statType = bonus.statType,
+                effect = effect ?? StatusEffect.TrueBonus,
                 amount = bonus.amount,
-                endTime = time + bonus.durationMs
+                endTime = time + bonus.durationMs,
+                hasEffect = hasEffect
             });
         }
 
@@ -817,6 +835,11 @@ namespace World.GameState
             for (int i = timedAlternateStatBonuses.Count - 1; i >= 0; i--)
             {
                 if (time < timedAlternateStatBonuses[i].endTime) continue;
+
+                var bonus = timedAlternateStatBonuses[i];
+                if (bonus.hasEffect && !HasActiveTimedAlternateBonusEffect(bonus.effect, i))
+                    player.RemoveEffect(bonus.effect);
+
                 timedAlternateStatBonuses.RemoveAt(i);
             }
 
@@ -832,6 +855,17 @@ namespace World.GameState
 
                 timedStatBonuses.RemoveAt(i);
             }
+        }
+
+        private bool HasActiveTimedAlternateBonusEffect(StatusEffect effect, int excludeIndex)
+        {
+            for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
+            {
+                if (i == excludeIndex) continue;
+                if (timedAlternateStatBonuses[i].hasEffect && timedAlternateStatBonuses[i].effect == effect)
+                    return true;
+            }
+            return false;
         }
 
         private bool HasActiveTimedBonusEffect(StatusEffect effect, int excludeIndex)

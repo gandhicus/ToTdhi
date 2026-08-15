@@ -1195,6 +1195,7 @@ SpriteAtlas:
     - 86c41c9b734caf049b1feae1e502bc8f: 21300000
     - bd83cd9bed614e84fb445d40cfad2be5: 21300000
     - ccdbd7abaa210462a865ee9d355c03e1: 21300000
+    - cc9be7ab65637b5428ca68ae2738d0d7: 21300000
     - cdf598aba59f3f44886e9d370cebbe96: 21300000
     - b71d09ab05f0b87449bc57f4c0bec4f0: 21300000
     - 0eba11bb317d34f42b1940b8fd727b22: 21300000
@@ -1539,6 +1540,7 @@ SpriteAtlas:
     - 378728fe5e8bb8d4b8d6de53699c1be8: 21300000
     - 758e28fea50a91941954a92e01a51a27: 21300000
     - 72c578fee43ebe84991dec2ed5b11733: 21300000
+    - 8bfab8fe9eaa46b43a63054e416788cd: 21300000
     - 821dbefe35c2f31408a790b96aef190a: 21300000
     - 1012fefebc2b0c347bfb46d97da4d0ce: 21300000
     - 9cec960f72deb5847ad46c9a1e13e42d: 21300000
@@ -2773,6 +2775,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 86c41c9b734caf049b1feae1e502bc8f, type: 3}
   - {fileID: 21300000, guid: bd83cd9bed614e84fb445d40cfad2be5, type: 3}
   - {fileID: 21300000, guid: ccdbd7abaa210462a865ee9d355c03e1, type: 3}
+  - {fileID: 21300000, guid: cc9be7ab65637b5428ca68ae2738d0d7, type: 3}
   - {fileID: 21300000, guid: cdf598aba59f3f44886e9d370cebbe96, type: 3}
   - {fileID: 21300000, guid: b71d09ab05f0b87449bc57f4c0bec4f0, type: 3}
   - {fileID: 21300000, guid: 0eba11bb317d34f42b1940b8fd727b22, type: 3}
@@ -3117,6 +3120,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 378728fe5e8bb8d4b8d6de53699c1be8, type: 3}
   - {fileID: 21300000, guid: 758e28fea50a91941954a92e01a51a27, type: 3}
   - {fileID: 21300000, guid: 72c578fee43ebe84991dec2ed5b11733, type: 3}
+  - {fileID: 21300000, guid: 8bfab8fe9eaa46b43a63054e416788cd, type: 3}
   - {fileID: 21300000, guid: 821dbefe35c2f31408a790b96aef190a, type: 3}
   - {fileID: 21300000, guid: 1012fefebc2b0c347bfb46d97da4d0ce, type: 3}
   - {fileID: 21300000, guid: 9cec960f72deb5847ad46c9a1e13e42d, type: 3}
@@ -4350,6 +4354,7 @@ SpriteAtlas:
   - Garfield-1
   - Green Arrow
   - Warrior-2
+  - Seafarer's Garb
   - TemplarMinister-5
   - Spear 7 Jab
   - RoyalKeeper-3
@@ -4694,6 +4699,7 @@ SpriteAtlas:
   - Bow 10 Arrow
   - BeachSnail-Grow-4
   - FrostGiantTaunt-1
+  - Band of Oceanic Radiance
   - Sharpshooter-6
   - GiantFrog-3
   - Frost Giant Shock 3

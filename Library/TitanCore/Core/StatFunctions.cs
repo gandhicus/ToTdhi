@@ -192,9 +192,9 @@ namespace TitanCore.Core
             }
 
             if (RollChance(absorptionChance, CombatRoll(seed + 3)))
-                return new DamageResult(-finalDamage, HitResultType.Absorbed);
+                return new DamageResult(-finalDamage, HitResultType.Absorbed, isCrit);
 
-            return new DamageResult(finalDamage, type);
+            return new DamageResult(finalDamage, type, isCrit);
         }
 
         public static float HealthRegen(int vigor, int timeMs, bool healing, bool sick)

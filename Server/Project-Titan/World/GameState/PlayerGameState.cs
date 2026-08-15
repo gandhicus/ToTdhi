@@ -441,9 +441,7 @@ namespace World.GameState
                 int damageTaken = result.damage;
                 playerState.ability.OnHit(enemyState, time, ref damageTaken);
 
-                var procTrigger = ProcFunctions.HitResultToTrigger(result.type);
-                if (procTrigger.HasValue)
-                    playerState.TriggerProcs(procTrigger.Value, time);
+                playerState.TriggerProcsFromDamageResult(result, time);
 
                 if (player.world.objects.TryGetEnemy(enemyState.gameId, out var enemy))
                 {
@@ -519,9 +517,7 @@ namespace World.GameState
                 int damageTaken = result.damage;
                 playerState.ability.OnHit(enemyState, time, ref damageTaken);
 
-                var procTrigger = ProcFunctions.HitResultToTrigger(result.type);
-                if (procTrigger.HasValue)
-                    playerState.TriggerProcs(procTrigger.Value, time);
+                playerState.TriggerProcsFromDamageResult(result, time);
 
                 if (player.world.objects.TryGetEnemy(enemyState.gameId, out var enemy))
                 {
@@ -804,6 +800,7 @@ namespace World.GameState
                 if (newObj.gameId == player.gameId)
                 {
                     playerState = new PlayerState(time, player, newObj);
+                    player.SyncCombatSnapshotEquipment();
                     continue;
                 }
 

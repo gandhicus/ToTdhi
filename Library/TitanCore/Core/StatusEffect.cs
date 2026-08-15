@@ -25,6 +25,10 @@ namespace TitanCore.Core
         Grounded = 16,
         Sick = 17,
         Mundane = 18,
-        Damaging = 19
+        Damaging = 19,
+        TrueBonus = 20,
+        BlockBonus = 21,
+        CritBonus = 22,
+        AbsorptionBonus = 23
     }
 }
