@@ -1,7 +1,12 @@
-# Trials of Titan Local
+# ToTdhi
 
-Source is provided as-is and is not currently maintained by the original studio.
-This fork is focused on local play: solo, LAN, or Hamachi-style private sessions.
+ToTdhi is a singleplayer/small group-focused overhaul mod for Trials of Titan based on javritan's "Trials of Titan Local" fork.
+
+This mod seeks to greatly enhance the game's experience, introducing various balance changes and features.
+
+AI tools were used as a substantial aid to add features and edit the codebase. Design, including item names and descriptions, balancing, spriting, etc. was done entirely by Gandhicus without AI assistance.
+
+# Trials of Titan Local
 
 ## Play The Release
 
