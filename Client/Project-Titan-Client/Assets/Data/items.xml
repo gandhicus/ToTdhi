@@ -1372,16 +1372,16 @@
     <StatIncrease type="Defense">23</StatIncrease>
     <StatIncrease type="Vigor">7</StatIncrease>
 
-	<StatRolls rollCount="1" maxPerStat="1">
-		<StatRoll type="Attack" min="3" max="5"/>
-		<StatRoll type="Defense" min="3" max="5"/>
-		<StatRoll type="Vigor" min="3" max="5"/>
-		<StatRoll type="Speed" min="3" max="5"/>
-		<StatRoll type="MaxHealth" min="20" max="40"/>
-		<AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
-		<AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
-		<AlternateStatRoll type="BlockChance" min="2" max="4"/>
-	</StatRolls>
+	  <StatRolls rollCount="1" maxPerStat="1">
+		  <StatRoll type="Attack" min="2" max="4"/>
+		  <StatRoll type="Defense" min="2" max="4"/>
+		  <StatRoll type="Vigor" min="2" max="4"/>
+		  <StatRoll type="Speed" min="2" max="4"/>
+		  <StatRoll type="MaxHealth" min="20" max="40"/>
+		  <AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
+		  <AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
+		  <AlternateStatRoll type="BlockChance" min="2" max="4"/>
+	  </StatRolls>
 	  
   </Object>
 
@@ -1490,7 +1490,7 @@
 
     <StatIncrease type="Speed">4</StatIncrease>
     <StatIncrease type="Attack">3</StatIncrease>
-    <StatIncrease type="Defense">13</StatIncrease>
+    <StatIncrease type="Defense">14</StatIncrease>
   </Object>
 
   <Object id="0x227" name="Tarrasque Body Armor" tier="8">
@@ -1502,7 +1502,7 @@
 
     <StatIncrease type="Speed">4</StatIncrease>
     <StatIncrease type="Attack">4</StatIncrease>
-    <StatIncrease type="Defense">14</StatIncrease>
+    <StatIncrease type="Defense">16</StatIncrease>
   </Object>
 
   <Object id="0x228" name="Kraken Body Armor" tier="9">
@@ -1514,18 +1514,18 @@
     
     <StatIncrease type="Speed">6</StatIncrease>
     <StatIncrease type="Attack">6</StatIncrease>
-    <StatIncrease type="Defense">17</StatIncrease>
+    <StatIncrease type="Defense">18</StatIncrease>
 
-	<StatRolls rollCount="1" maxPerStat="1">
-		  <StatRoll type="Attack" min="3" max="5"/>
-		  <StatRoll type="Defense" min="3" max="5"/>
-		  <StatRoll type="Vigor" min="3" max="5"/>
-		  <StatRoll type="Speed" min="3" max="5"/>
+	  <StatRolls rollCount="1" maxPerStat="1">
+		  <StatRoll type="Attack" min="2" max="4"/>
+		  <StatRoll type="Defense" min="2" max="4"/>
+		  <StatRoll type="Vigor" min="2" max="4"/>
+		  <StatRoll type="Speed" min="2" max="4"/>
 		  <StatRoll type="MaxHealth" min="20" max="40"/>
 		  <AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
 		  <AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
 		  <AlternateStatRoll type="BlockChance" min="2" max="4"/>
-	</StatRolls>
+	  </StatRolls>
 
   </Object>
 
@@ -1654,7 +1654,7 @@
 
     <Description>A malefactor's robe, worn by those who desire calamity and destruction.</Description>
 
-    <StatIncrease type="Defense">10</StatIncrease>
+    <StatIncrease type="Defense">11</StatIncrease>
     <StatIncrease type="Attack">6</StatIncrease>
   </Object>
 
@@ -1665,14 +1665,14 @@
 
     <Description>A robe of supreme aspect. Clouded with whispers of its magical make.</Description>
 
-    <StatIncrease type="Defense">12</StatIncrease>
+    <StatIncrease type="Defense">13</StatIncrease>
     <StatIncrease type="Attack">8</StatIncrease>
 
 	 <StatRolls rollCount="1" maxPerStat="1">
-		  <StatRoll type="Attack" min="3" max="5"/>
-		  <StatRoll type="Defense" min="3" max="5"/>
-		  <StatRoll type="Vigor" min="3" max="5"/>
-		  <StatRoll type="Speed" min="3" max="5"/>
+		  <StatRoll type="Attack" min="2" max="4"/>
+		  <StatRoll type="Defense" min="2" max="4"/>
+		  <StatRoll type="Vigor" min="2" max="4"/>
+		  <StatRoll type="Speed" min="2" max="4"/>
 		  <StatRoll type="MaxHealth" min="20" max="40"/>
 		  <AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
 		  <AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>

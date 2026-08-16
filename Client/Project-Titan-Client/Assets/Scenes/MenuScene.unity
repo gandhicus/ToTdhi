@@ -13759,7 +13759,7 @@ PrefabInstance:
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
       propertyPath: m_text
-      value: Reach Level 240
+      value: Reach Level 215
       objectReference: {fileID: 0}
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}

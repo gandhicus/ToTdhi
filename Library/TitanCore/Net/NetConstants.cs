@@ -66,10 +66,10 @@ namespace TitanCore.Net
 
         public const int Class_Quest_Level_3 = 140;
 
-        /// <summary>Level 140 base cap + 20 ascensions on each stat.</summary>
-        public const int Class_Quest_Level_4 = 240;
+        public const int Max_Ascension = 15;
 
-        public const int Max_Ascension = 20;
+        /// <summary>Level 140 base cap + 15 ascensions on each stat.</summary>
+        public const int Class_Quest_Level_4 = Max_Level + (Max_Ascension * 5);
 
         public const int Ascension_Base_Soul_Cost = 2_000;
 
