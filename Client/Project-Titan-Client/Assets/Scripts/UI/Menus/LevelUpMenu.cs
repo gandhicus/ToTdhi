@@ -10,8 +10,8 @@ using UnityEngine.UI;
 
 public class LevelUpMenu : GameMenu
 {
-    /// <summary>Scale applied to the menu on open. 0.7 = 30% smaller than the prefab's authored size.</summary>
-    public const float MenuScale = 0.7f;
+    /// <summary>Scale applied to the menu on open. 1.0 = prefab's authored size.</summary>
+    public const float MenuScale = 1.0f;
 
     public override MenuType MenuType => MenuType.LevelUp;
 
