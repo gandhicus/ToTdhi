@@ -35,7 +35,7 @@ For single-player/local play:
    ```txt
    ip: 127.0.0.1
    admin: false
-   anticheat: true
+   anticheat: false
    lootBoost: 1
    ```
 
