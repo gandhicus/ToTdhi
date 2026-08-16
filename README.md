@@ -68,7 +68,7 @@ To host a private LAN/Hamachi server:
    ```txt
    ip: 25.12.34.56
    admin: false
-   anticheat: true
+   anticheat: false
    lootBoost: 1
    ```
 
