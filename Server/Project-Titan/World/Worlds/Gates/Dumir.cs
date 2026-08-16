@@ -92,7 +92,9 @@ namespace World.Worlds.Gates
                 islandTag = (MapElementType)((int)islandTag << 1);
             }
 
-            var islandCenters = islands.Select(_ => map.GetBiggestAreas(1, 1, new Queue<Int2>[] { _ }).First().First()).ToArray();
+            var islandCenters = new Int2[islands.Length];
+            for (int i = 0; i < islands.Length; i++)
+                islandCenters[i] = map.GetBiggestAreas(1, 1, new Queue<Int2>[] { islands[i] }).First().First();
             for (int i = 0; i < islandCenters.Length - 1; i++)
             {
                 var islandCenter = islandCenters[i];
@@ -123,16 +125,13 @@ namespace World.Worlds.Gates
                     }
             }
 
-            var greenBiggestArea = map.GetBiggestAreas(1, 1, new Queue<Int2>[] { islands[0] }).First();
-            greenVillagePosition = greenBiggestArea.First();
+            greenVillagePosition = islandCenters[0];
             WriteSetPieceGround(map, greenVillage, greenVillagePosition, true);
 
-            var blueBiggestArea = map.GetBiggestAreas(1, 1, new Queue<Int2>[] { islands[2] }).First();
-            blueVillagePosition = blueBiggestArea.First();
+            blueVillagePosition = islandCenters[2];
             WriteSetPieceGround(map, blueVillage, blueVillagePosition, true);
 
-            var redBiggestArea = map.GetBiggestAreas(1, 1, new Queue<Int2>[] { islands[1] }).First();
-            redVillagePosition = redBiggestArea.First();
+            redVillagePosition = islandCenters[1];
             WriteSetPieceGround(map, redVillage, redVillagePosition, true);
 
             var time = DateTime.Now.Ticks;
@@ -159,23 +158,22 @@ namespace World.Worlds.Gates
             int count = 0;
             int bc = 0;
             bool retry = false;
-            IEnumerable<Queue<Int2>> groundMasses;
             do
             {
                 retry = false;
-                genMap = new CellularMap(100, 100, Rand.IntValue(), 0.486f, 10, 50, 50, 3, 3, 0, 0);
+                genMap = new CellularMap(100, 100, Rand.IntValue(), 0.486f, 4, 50, 50, 3, 3, 0, 0);
                 genMap.Generate();
-                groundMasses = genMap.GetLandmasses(maxLandmass);
+                var masses = genMap.GetLandmasses(maxLandmass).ToArray();
 
                 count = 0;
 
-                if (groundMasses.Count() < maxLandmass)
+                if (masses.Length < maxLandmass)
                 {
                     retry = true;
                     continue;
                 }
 
-                foreach (var mass in groundMasses)
+                foreach (var mass in masses)
                 {
                     if (mass.Count < 200)
                     {

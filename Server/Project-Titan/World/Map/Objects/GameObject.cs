@@ -280,8 +280,9 @@ namespace World.Map.Objects
             spawned.Value = (tick - spawnTickId) < 4;
         }
 
-        public void RebuildNewStats()
+        public void RebuildNewStats(ulong tick)
         {
+            UpdateSpawned(tick);
             UpdateStats();
         }
 

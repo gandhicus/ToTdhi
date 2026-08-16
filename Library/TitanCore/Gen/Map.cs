@@ -45,7 +45,7 @@ namespace TitanCore.Gen
             this.width = width;
             this.height = height;
             data = new MapElementType[width, height];
-            CreateSizeChecker(Math.Max(width, height) / 2);
+            CreateSizeChecker(Math.Min(48, Math.Max(width, height) / 2));
         }
 
         public Map(int width, int height, Map source)
@@ -53,7 +53,7 @@ namespace TitanCore.Gen
             this.width = width;
             this.height = height;
             data = new MapElementType[width, height];
-            CreateSizeChecker(Math.Max(width, height) / 2);
+            CreateSizeChecker(Math.Min(48, Math.Max(width, height) / 2));
             LoadSource(source, new Int2((width - source.width) / 2, (height - source.height) / 2));
         }
 
@@ -62,7 +62,7 @@ namespace TitanCore.Gen
             this.width = width;
             this.height = height;
             data = new MapElementType[width, height];
-            CreateSizeChecker(Math.Max(width, height) / 2);
+            CreateSizeChecker(Math.Min(48, Math.Max(width, height) / 2));
             LoadSource(source, sourcePosition);
         }
 
@@ -223,70 +223,84 @@ namespace TitanCore.Gen
 
         public List<Int2[]> GetBiggestAreas(int count, int maxLandmass)
         {
-            var areas = new List<Int2[]>();
-            foreach (var mass in GetLandmasses(maxLandmass))
-            {
-                foreach (var point in mass)
-                {
-                    var area = GetPointArea(point).ToArray();
-                    for (int i = 0; i < count; i++)
-                    {
-                        if (i < areas.Count)
-                        {
-                            var cur = areas[i];
-                            if (area.Length > cur.Length)
-                            {
-                                areas.Insert(i, area);
-                                if (areas.Count > count)
-                                {
-                                    areas.RemoveAt(count);
-                                }
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            areas.Add(area);
-                            break;
-                        }
-                    }
-                }
-            }
-            return areas;
+            return GetBiggestAreas(count, maxLandmass, GetLandmasses(maxLandmass));
         }
 
         public List<Int2[]> GetBiggestAreas(int count, int maxLandmass, IEnumerable<Queue<Int2>> masses)
         {
-            var areas = new List<Int2[]>();
+            var clearance = GetGroundClearanceField();
+            var ranked = new List<Int2>();
+
             foreach (var mass in masses)
             {
+                var best = Int2.zero;
+                var bestClearance = -1;
+                var any = false;
                 foreach (var point in mass)
                 {
-                    var area = GetPointArea(point).ToArray();
-                    for (int i = 0; i < count; i++)
+                    var value = clearance[point.x, point.y];
+                    if (value == int.MaxValue)
+                        value = 0;
+                    if (!any || value > bestClearance)
                     {
-                        if (i < areas.Count)
-                        {
-                            var cur = areas[i];
-                            if (area.Length > cur.Length)
-                            {
-                                areas.Insert(i, area);
-                                if (areas.Count > count)
-                                {
-                                    areas.RemoveAt(count);
-                                }
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            areas.Add(area);
-                            break;
-                        }
+                        bestClearance = value;
+                        best = point;
+                        any = true;
+                    }
+                }
+                if (any)
+                    ranked.Add(best);
+            }
+
+            ranked.Sort((a, b) => clearance[b.x, b.y].CompareTo(clearance[a.x, a.y]));
+            if (ranked.Count > count)
+                ranked.RemoveRange(count, ranked.Count - count);
+
+            return ranked.Select(point => GetPointArea(point).ToArray()).ToList();
+        }
+
+        private int[,] GetGroundClearanceField()
+        {
+            var field = new int[width, height];
+            var queue = new Queue<Int2>();
+            var dirs = new Int2[]
+            {
+                new Int2(1, 0), new Int2(-1, 0), new Int2(0, 1), new Int2(0, -1)
+            };
+
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                {
+                    if ((data[x, y] & MapElementType.Ground) == MapElementType.Ground)
+                    {
+                        field[x, y] = int.MaxValue;
+                    }
+                    else
+                    {
+                        field[x, y] = 0;
+                        queue.Enqueue(new Int2(x, y));
+                    }
+                }
+
+            while (queue.Count > 0)
+            {
+                var p = queue.Dequeue();
+                var distance = field[p.x, p.y];
+                foreach (var dir in dirs)
+                {
+                    var n = p + dir;
+                    if (!InBounds(n))
+                        continue;
+                    var next = distance + 1;
+                    if (next < field[n.x, n.y])
+                    {
+                        field[n.x, n.y] = next;
+                        queue.Enqueue(n);
                     }
                 }
             }
-            return areas;
+
+            return field;
         }
 
         public IEnumerable<Int2> GetPointArea(Int2 point)
@@ -310,21 +324,6 @@ namespace TitanCore.Gen
             }
         }
 
-        private struct DistanceCheck : IAscendingValue
-        {
-            public int distance;
-
-            public Int2 point;
-
-            public DistanceCheck(int distance, Int2 point)
-            {
-                this.distance = distance;
-                this.point = point;
-            }
-
-            public int Value => distance;
-        }
-
         public int[,] GetDistanceField(Int2 start, out int maxDistance)
         {
             var field = new int[width, height];
@@ -332,39 +331,37 @@ namespace TitanCore.Gen
                 field[p.x, p.y] = -1;
 
             maxDistance = 0;
-            //var checkQueue = new Stack<DistanceCheck>();
-            var checkQueue = new Queue<DistanceCheck>();
-            checkQueue.Enqueue(new DistanceCheck(0, start));
+            if (!InBounds(start) || (Get(start) & MapElementType.Ground) == 0)
+                return field;
 
-            while (checkQueue.Count > 0)
+            var queue = new Queue<Int2>();
+            field[start.x, start.y] = 0;
+            queue.Enqueue(start);
+
+            var dirs = new Int2[]
             {
-                var check = checkQueue.Dequeue();
-                //checkQueue.RemoveAt(0);
+                new Int2(1, 0), new Int2(-1, 0), new Int2(0, 1), new Int2(0, -1)
+            };
 
-                var curDistance = field[check.point.x, check.point.y];
-                if (check.distance < curDistance || curDistance == -1)
+            while (queue.Count > 0)
+            {
+                var point = queue.Dequeue();
+                var distance = field[point.x, point.y];
+                if (distance > maxDistance)
+                    maxDistance = distance;
+
+                foreach (var dir in dirs)
                 {
-                    field[check.point.x, check.point.y] = check.distance;
+                    var next = point + dir;
+                    if (!InBounds(next) || field[next.x, next.y] != -1)
+                        continue;
+                    if ((Get(next) & MapElementType.Ground) == 0)
+                        continue;
 
-                    for (int y = 0; y < 3; y++)
-                    {
-                        for (int x = ((y + 1) % 2); x < 3; x += 2)
-                        {
-                            var p = check.point + new Int2(x - 1, y - 1);
-
-                            if (!InBounds(p)) continue;
-
-                            var type = Get(p);
-                            if ((type & MapElementType.Ground) == 0) continue;
-                            checkQueue.Enqueue(new DistanceCheck(check.distance + 1, p));
-                        }
-                    }
+                    field[next.x, next.y] = distance + 1;
+                    queue.Enqueue(next);
                 }
             }
-
-            maxDistance = 0;
-            foreach (var point in EachPoint())
-                maxDistance = Math.Max(maxDistance, field[point.x, point.y]);
 
             return field;
         }

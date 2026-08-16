@@ -163,7 +163,7 @@ namespace World.GameState
             {
                 sentObjects.Add(gameObject.gameId, gameObject);
                 gameObject.ProcessedBy(player);
-                gameObject.RebuildNewStats();
+                gameObject.RebuildNewStats(time.tickId);
                 newObjects.Push(gameObject.GetNewStats(player));
             }
             else
