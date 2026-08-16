@@ -48,6 +48,11 @@ namespace World.Map.Objects.Entities
             var itemInfo = item.GetInfo();
             if (!(itemInfo is WeaponInfo weaponInfo)) return;
 
+            // Weapon swaps while firing can desync ID counts: the server may spawn more
+            // projectiles than the client incremented. Drop shots that reuse consumed IDs.
+            if (shoot.projectileId < projIds)
+                return;
+
             var shootCooldown = (int)(1000 / (weaponInfo.rateOfFire * StatFunctions.AttackSpeedModifier(gameState.playerState.HasEffect(StatusEffect.Fervent, time), gameState.playerState.currentSnapshot.GetAlternateStat(AlternateStatType.RateOfFire))));
             nextShootTime = (uint)(time + shootCooldown);
 

@@ -279,11 +279,15 @@ namespace World.GameState
 
         public void AddPlayerProjectile(uint time, Vec2 position, AllyProjectile proj)
         {
+            if (playerProjectileStates.ContainsKey(proj.projectileId))
+                return;
             playerProjectileStates.Add(proj.projectileId, new ProjectileState(time, proj, position));
         }
 
         public void AddPlayerAoeProjectile(uint time, Vec2 position, AllyAoeProjectile proj)
         {
+            if (playerAoeProjectileStates.ContainsKey(proj.projectileId))
+                return;
             playerAoeProjectileStates.Add(proj.projectileId, new AoeProjectileState(time, proj));
         }
 
