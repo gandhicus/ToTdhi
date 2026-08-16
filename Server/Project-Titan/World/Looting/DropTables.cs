@@ -385,22 +385,22 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier4)
                         ),
                     new SoulboundLoot(0.4f, // 5
-                        new Single(Loot.Chance(100), new Item("Scroll of Fortitude"))
+                        new Single(Loot.Chance(80), new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.8f, // 6
                         new Single(Loot.Chance(80), new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.1f, // 7
-                        new Single(Loot.Chance(7), new Item("Valdok's Impervious Aegis"))
+                        new Single(Loot.Chance(6), new Item("Valdok's Impervious Aegis"))
                         ),
                     new SoulboundLoot(0.1f, // 8
-                        new Single(Loot.Chance(9), new Item("Tehtman's Brutal Band"))
+                        new Single(Loot.Chance(7), new Item("Tehtman's Brutal Band"))
                         ),
                     new SoulboundLoot(0.1f, // 9
-                        new Single(Loot.Chance(7), new Item("Bothmur's Zweihander"))
+                        new Single(Loot.Chance(6), new Item("Bothmur's Zweihander"))
                         ),
                     new SoulboundLoot(0.1f, // 10
-                        new Single(Loot.Chance(9), new Item("Ring of Stalwart Vitality"))
+                        new Single(Loot.Chance(7), new Item("Ring of Stalwart Vitality"))
                         ),
                     new SoulboundLoot(0.6f, // 11
                         new Single(Loot.Chance(80), new Item("Scroll of Fortitude"))
@@ -454,25 +454,25 @@ namespace World.Looting
                         new Single(Loot.Chance(80), new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.1f, // 7
-                        new Single(Loot.Chance(7), new Item("Oda's Transcendent Longbow"))
+                        new Single(Loot.Chance(6), new Item("Oda's Transcendent Longbow"))
                         ),
                     new SoulboundLoot(0.1f, // 8
-                        new Single(Loot.Chance(9), new Item("Ring of Sinful Beauty"))
+                        new Single(Loot.Chance(7), new Item("Ring of Sinful Beauty"))
                         ),
                     new SoulboundLoot(0.1f, // 9
-                        new Single(Loot.Chance(9), new Item("Arcus's Nimble Circlet"))
+                        new Single(Loot.Chance(7), new Item("Arcus's Nimble Circlet"))
                         ),
                     new SoulboundLoot(0.1f, // 10
                         new Single(Loot.Chance(7), new Item("Archmage's Sibylline Vestment"))
                         ),
                     new SoulboundLoot(0.1f, // 11
-                        new Single(Loot.Chance(7), new Item("Thumbor"))
+                        new Single(Loot.Chance(6), new Item("Thumbor"))
                         ),
                     new SoulboundLoot(0.1f, // 12
-                        new Single(Loot.Chance(9), new Item("Adorned Band"))
+                        new Single(Loot.Chance(7), new Item("Adorned Band"))
                         ),
                     new SoulboundLoot(0.1f, // 13
-                        new Single(Loot.Chance(9), new Item("Ring of the Lonely Spirit"))
+                        new Single(Loot.Chance(7), new Item("Ring of the Lonely Spirit"))
                         ),
                     new SoulboundLoot(0.1f, // 14
                         new Single(Loot.Chance(25), new Item("Key to Dumir"))
@@ -533,10 +533,10 @@ namespace World.Looting
                         new Single(Loot.Chance(7), new Item("Mannah's Capstone"))
                         ),
                     new SoulboundLoot(0.1f, // 9
-                        new Single(Loot.Chance(7), new Item("Mannah's Soul Crux"))
+                        new Single(Loot.Chance(6), new Item("Mannah's Soul Crux"))
                         ),
                     new SoulboundLoot(0.1f, // 10
-                        new Single(Loot.Chance(7), new Item("Mannah's Mop"))
+                        new Single(Loot.Chance(6), new Item("Mannah's Mop"))
                         ),
                     new SoulboundLoot(0.1f, // 11
                         new Single(Loot.Chance(4), new Item("Empyrean's Guard"))
@@ -554,7 +554,7 @@ namespace World.Looting
                         new Single(Loot.Chance(20), new Item("Key to Valdok's Forge"))
                         ),
                     new SoulboundLoot(0.1f, // 15
-                        new Single(Loot.Chance(9), new Item("Aldrite's Gamble"))
+                        new Single(Loot.Chance(7), new Item("Aldrite's Gamble"))
                         ),
                     new SoulboundLoot(0.1f, // 16
                         new Single(Loot.Chance(100),
