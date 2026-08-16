@@ -280,6 +280,11 @@ namespace World.Map.Objects
             spawned.Value = (tick - spawnTickId) < 4;
         }
 
+        public void RebuildNewStats()
+        {
+            UpdateStats();
+        }
+
         /// <summary>
         /// Creates the stat arrays for this object
         /// </summary>

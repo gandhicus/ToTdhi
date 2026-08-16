@@ -407,34 +407,45 @@ namespace TitanCore.Gen
         public int[,] GenerateTypeDistanceField(int maxDistance, MapElementType type)
         {
             var field = new int[width, height];
+            var queue = new Queue<Int2>();
+            var offsets = new Int2[]
+            {
+                new Int2(-1, -1), new Int2(0, -1), new Int2(1, -1),
+                new Int2(-1, 0),                   new Int2(1, 0),
+                new Int2(-1, 1),  new Int2(0, 1),  new Int2(1, 1),
+            };
+
             foreach (var p in EachPoint())
             {
-                var pointType = Get(p);
-                if ((pointType & type) == type)
+                if ((Get(p) & type) == type)
                 {
-                    for (int y = -maxDistance; y <= maxDistance; y++)
-                        for (int x = -maxDistance; x <= maxDistance; x++)
-                        {
-                            var offsetP = p + new Int2(x, y);
-                            if (!InBounds(offsetP)) continue;
-                            var val = field[offsetP.x, offsetP.y];
-                            pointType = Get(offsetP);
-                            if ((pointType & type) != type)
-                            {
-                                if (val == 0)
-                                    val = int.MaxValue;
-
-                                val = Math.Min(Math.Max(Math.Abs(x), Math.Abs(y)), val);
-                                field[offsetP.x, offsetP.y] = val;
-                            }
-                        }
+                    field[p.x, p.y] = 0;
+                    queue.Enqueue(p);
                 }
                 else
                 {
-                    var val = field[p.x, p.y];
-                    if (val == 0)
+                    field[p.x, p.y] = int.MaxValue;
+                }
+            }
+
+            while (queue.Count > 0)
+            {
+                var p = queue.Dequeue();
+                var distance = field[p.x, p.y];
+                if (distance >= maxDistance)
+                    continue;
+
+                foreach (var offset in offsets)
+                {
+                    var n = p + offset;
+                    if (!InBounds(n))
+                        continue;
+
+                    var next = distance + 1;
+                    if (next < field[n.x, n.y])
                     {
-                        field[p.x, p.y] = int.MaxValue;
+                        field[n.x, n.y] = next;
+                        queue.Enqueue(n);
                     }
                 }
             }

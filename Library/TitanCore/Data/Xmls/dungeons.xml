@@ -1,0 +1,12 @@
+<Dungeons>
+  <!-- Enemy spawn density. 1 = original, 0.5 = half as many, 0 = none. Decorations are unchanged. -->
+  <Dungeon name="Bubra Barrens">
+    <Density>0.5</Density>
+  </Dungeon>
+  <Dungeon name="Valdok's Forge">
+    <Density>0.5</Density>
+  </Dungeon>
+  <Dungeon name="Dumir">
+    <Density>0.5</Density>
+  </Dungeon>
+</Dungeons>

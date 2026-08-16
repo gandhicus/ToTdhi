@@ -210,27 +210,21 @@ namespace World.Worlds.Gates
             }
             else if (spawnDistance > 24)
             {
-                if (RndChance(ref rnd, 4))
+                if (RndEnemyChance(ref rnd, 4))
                     return 0x1049; // orc bladesman
-                if (RndChance(ref rnd, 4))
+                if (RndEnemyChance(ref rnd, 4))
                     return 0x104a; // orc warrior
-                if (RndChance(ref rnd, 1))
+                if (RndEnemyChance(ref rnd, 1))
                     return 0x104b; // orc buiser
-                if (RndChance(ref rnd, 1))
+                if (RndEnemyChance(ref rnd, 1))
                     return 0x104e; // orc beastmaster
-                if (RndChance(ref rnd, 1))
+                if (RndEnemyChance(ref rnd, 1))
                     return 0x104d; // orc beastmaster
                 if (RndChance(ref rnd, 5))
                     return 0xa63; // coal
             }
 
             return 0;
-        }
-
-        private bool RndChance(ref int rnd, int chance)
-        {
-            rnd -= chance;
-            return rnd < 0;
         }
 
         protected override void DoInitWorld()

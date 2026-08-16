@@ -136,6 +136,7 @@ namespace World
             }
 
             GameData.LoadDirectory("Data/Xmls/", false);
+            DungeonSettings.Load("Data/Xmls/dungeons.xml");
             EntityState.LoadLogic("Logic/Scripts/");
 
             LeaderboardManager.Initialize().WaitOne();

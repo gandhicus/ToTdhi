@@ -159,16 +159,16 @@ namespace World.GameState
 
             processedObjectIds.Add(gameObject.gameId);
 
-            gameObject.UpdateStats(time.tickId);
-
             if (!sentObjects.ContainsKey(gameObject.gameId))
             {
                 sentObjects.Add(gameObject.gameId, gameObject);
                 gameObject.ProcessedBy(player);
+                gameObject.RebuildNewStats();
                 newObjects.Push(gameObject.GetNewStats(player));
             }
             else
             {
+                gameObject.UpdateStats(time.tickId);
                 var updatedStats = gameObject.GetUpdatedStats(player);
                 if (updatedStats.stats.Length != 0)
                     updatedObjects.Push(updatedStats);

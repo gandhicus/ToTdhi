@@ -50,6 +50,8 @@ namespace TitanCore.Data
             {
                 //if (!file.EndsWith(".xml")) continue; // exclude non-xmls
                 var fileName = Path.GetFileName(file);
+                if (fileName.Equals("dungeons.xml", StringComparison.OrdinalIgnoreCase))
+                    continue;
                 Log.Write($"Loading data file {fileName}", ConsoleColor.Yellow);
                 AddFile(GameDataFile.Load(reader(file)));
                 Log.Write($"Loaded {objects.Count - count} objects from {fileName}", ConsoleColor.Green);

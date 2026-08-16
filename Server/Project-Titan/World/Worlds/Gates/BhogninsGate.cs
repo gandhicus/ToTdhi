@@ -216,7 +216,7 @@ namespace World.Worlds.Gates
             {
                 if (wallDistance <= 1)
                 {
-                    if (RndChance(ref rnd, 25))
+                    if (RndEnemyChance(ref rnd, 25))
                         return 0x1081; // falling rock
 
                     if (RndChance(ref rnd, 40))
@@ -237,13 +237,13 @@ namespace World.Worlds.Gates
 
                 if (spawnDistance > 18)
                 {
-                    if (RndChance(ref rnd, 4))
+                    if (RndEnemyChance(ref rnd, 4))
                         return 0x1082; // barrens golem
 
-                    if (RndChance(ref rnd, 4))
+                    if (RndEnemyChance(ref rnd, 4))
                         return 0x1084; // barrens iron golem
 
-                    if (RndChance(ref rnd, 7))
+                    if (RndEnemyChance(ref rnd, 7))
                         return 0x1083; // barren vulture
                 }
             }
@@ -251,7 +251,7 @@ namespace World.Worlds.Gates
             {
                 if (wallDistance <= 1)
                 {
-                    if (RndChance(ref rnd, 25))
+                    if (RndEnemyChance(ref rnd, 25))
                         return 0x1081; // falling rock
 
                     if (RndChance(ref rnd, 40))
@@ -270,24 +270,18 @@ namespace World.Worlds.Gates
 
                 if (spawnDistance > 18)
                 {
-                    if (RndChance(ref rnd, 3))
+                    if (RndEnemyChance(ref rnd, 3))
                         return 0x1086; // barren tortoise
 
-                    if (RndChance(ref rnd, 3))
+                    if (RndEnemyChance(ref rnd, 3))
                         return 0x1087; // raiding shaman
 
-                    if (RndChance(ref rnd, 6))
+                    if (RndEnemyChance(ref rnd, 6))
                         return 0x1083; // barren vulture
                 }
             }
 
             return 0;
-        }
-
-        private bool RndChance(ref int rnd, int chance)
-        {
-            rnd -= chance;
-            return rnd < 0;
         }
 
         protected override QuestTaskSystem CreateTasks()

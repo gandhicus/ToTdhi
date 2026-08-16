@@ -1,6 +1,8 @@
 ﻿using System;
+using TitanCore.Data;
 using TitanCore.Gen;
 using Utils.NET.Geometry;
+using Utils.NET.Utils;
 using World.Map;
 using World.Map.Objects.Entities;
 using World.Map.Objects.Map;
@@ -36,9 +38,30 @@ namespace World.Worlds.Gates
 
         private DateTime portalRemoveTime;
 
+        protected float enemyDensity = 1f;
+
         protected virtual QuestTaskSystem CreateTasks()
         {
             return null;
+        }
+
+        protected bool RndChance(ref int rnd, int chance)
+        {
+            rnd -= chance;
+            return rnd < 0;
+        }
+
+        protected bool RndEnemyChance(ref int rnd, int chance)
+        {
+            if (enemyDensity <= 0f)
+                return false;
+
+            var scaled = chance * enemyDensity;
+            var whole = (int)Math.Floor(scaled);
+            if (Rand.FloatValue() < scaled - whole)
+                whole++;
+
+            return RndChance(ref rnd, whole);
         }
 
         protected void WriteSetPieceGround(TitanCore.Gen.Map map, SetPiece setPiece, Int2 position, bool centered)
@@ -60,6 +83,7 @@ namespace World.Worlds.Gates
 
         protected override void DoInitWorld()
         {
+            enemyDensity = DungeonSettings.GetDensity(WorldName);
             base.DoInitWorld();
 
             questTaskSystem = CreateTasks();

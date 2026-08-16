@@ -34,6 +34,17 @@ namespace World.Worlds.Gates
 
         private static SetPiece redVillage = SetPiece.Load("dumir/village-red.mef");
 
+        private static readonly int greenVillageClearRadius = VillageClearRadius(greenVillage);
+
+        private static readonly int blueVillageClearRadius = VillageClearRadius(blueVillage);
+
+        private static readonly int redVillageClearRadius = VillageClearRadius(redVillage);
+
+        private static int VillageClearRadius(SetPiece village)
+        {
+            return Math.Max(village.file.width, village.file.height) / 2 + 4;
+        }
+
         private TitanCore.Gen.Map map;
 
         private Int2 spawnPosition;
@@ -264,16 +275,16 @@ namespace World.Worlds.Gates
             {
                 if ((type & MapElementType.Tag1) == MapElementType.Tag1)
                 {
-                    if (RndChance(ref rnd, 7))
+                    if (RndEnemyChance(ref rnd, 7))
                         return 0x105a;
-                    if (RndChance(ref rnd, 10))
+                    if (RndEnemyChance(ref rnd, 10))
                         return 0x105b;
                 }
                 else if ((type & MapElementType.Tag2) == MapElementType.Tag2)
                 {
-                    if (RndChance(ref rnd, 8))
+                    if (RndEnemyChance(ref rnd, 8))
                         return 0x1055;
-                    if (RndChance(ref rnd, 8))
+                    if (RndEnemyChance(ref rnd, 8))
                         return 0x1056;
                 }
                 else if ((type & MapElementType.Tag3) == MapElementType.Tag3)
@@ -304,29 +315,30 @@ namespace World.Worlds.Gates
             }
             else
             {
-                if ((type & MapElementType.Tag1) == MapElementType.Tag1 && new Int2(x, y).DistanceTo(greenVillagePosition) < 30)
+                var point = new Int2(x, y);
+                if ((type & MapElementType.Tag1) == MapElementType.Tag1 && point.DistanceTo(greenVillagePosition) >= greenVillageClearRadius)
                 {
-                    if (RndChance(ref rnd, 11))
+                    if (RndEnemyChance(ref rnd, 6))
                         return 0x105a;
-                    if (RndChance(ref rnd, 14))
+                    if (RndEnemyChance(ref rnd, 8))
                         return 0x105b;
                 }
-                else if ((type & MapElementType.Tag2) == MapElementType.Tag2 && new Int2(x, y).DistanceTo(redVillagePosition) < 30)
+                else if ((type & MapElementType.Tag2) == MapElementType.Tag2 && point.DistanceTo(redVillagePosition) >= redVillageClearRadius)
                 {
-                    if (RndChance(ref rnd, 12))
+                    if (RndEnemyChance(ref rnd, 6))
                         return 0x1055;
-                    if (RndChance(ref rnd, 12))
+                    if (RndEnemyChance(ref rnd, 6))
                         return 0x1056;
                 }
-                else if ((type & MapElementType.Tag3) == MapElementType.Tag3 && new Int2(x, y).DistanceTo(blueVillagePosition) < 30)
+                else if ((type & MapElementType.Tag3) == MapElementType.Tag3 && point.DistanceTo(blueVillagePosition) >= blueVillageClearRadius)
                 {
-                    if (RndChance(ref rnd, 12))
+                    if (RndEnemyChance(ref rnd, 6))
                         return 0x1057;
-                    if (RndChance(ref rnd, 12))
+                    if (RndEnemyChance(ref rnd, 6))
                         return 0x1058;
                 }
 
-                if (Rand.Next(5) == 0 && RndChance(ref rnd, 1))
+                if (Rand.Next(5) == 0 && RndEnemyChance(ref rnd, 1))
                     return 0x105c;
 
                 if (shoreDistance <= 4)
@@ -363,12 +375,6 @@ namespace World.Worlds.Gates
             return 0;
         }
 
-        private bool RndChance(ref int rnd, int chance)
-        {
-            rnd -= chance;
-            return rnd < 0;
-        }
-
         protected override void DoInitWorld()
         {
             base.DoInitWorld();
@@ -385,9 +391,9 @@ namespace World.Worlds.Gates
             ApplySetPiece(blueVillage, blueVillagePosition + new Int2(1, 1), true);
             ApplySetPiece(redVillage, redVillagePosition + new Int2(1, 1), true);
 
-            var odaPosition = GetRandomRegion(Region.Shop1);
-            var yolmaPosition = GetRandomRegion(Region.Shop2);
-            var raegPosition = GetRandomRegion(Region.Shop3);
+            var odaPosition = GetRandomRegion(Region.Shop1).ToVec2() + 0.5f;
+            var yolmaPosition = GetRandomRegion(Region.Shop2).ToVec2() + 0.5f;
+            var raegPosition = GetRandomRegion(Region.Shop3).ToVec2() + 0.5f;
 
             return new QuestTaskSystem(this, new BossTask(0x1051, odaPosition), new BossTask(0x1052, odaPosition), new BossTask(0x1053, raegPosition), new BossTask(0x1054, yolmaPosition), new BossTask(0x1010, yolmaPosition));
         }
@@ -400,14 +406,17 @@ namespace World.Worlds.Gates
                 if (tile.tileType != 0xb31) continue;
                 tile.tileType = 0xb30;
                 tile.objectType = 0;
+                tiles.SetTileAndBroadcast(tile);
 
                 var rnd = Rand.Next(1000);
-                if (RndChance(ref rnd, 8))
-                    tile.objectType = 0x1055;
-                if (RndChance(ref rnd, 8))
-                    tile.objectType = 0x1056;
+                ushort enemyType = 0;
+                if (RndEnemyChance(ref rnd, 8))
+                    enemyType = 0x1055;
+                else if (RndEnemyChance(ref rnd, 8))
+                    enemyType = 0x1056;
 
-                tiles.SetTileAndBroadcast(tile);
+                if (enemyType != 0)
+                    SpawnBridgeEnemy(enemyType, point);
             }
         }
 
@@ -419,15 +428,26 @@ namespace World.Worlds.Gates
                 if (tile.tileType != 0xb31) continue;
                 tile.tileType = 0xb30;
                 tile.objectType = 0;
+                tiles.SetTileAndBroadcast(tile);
 
                 var rnd = Rand.Next(1000);
-                if (RndChance(ref rnd, 8))
-                    tile.objectType = 0x105a;
-                if (RndChance(ref rnd, 8))
-                    tile.objectType = 0x105b;
+                ushort enemyType = 0;
+                if (RndEnemyChance(ref rnd, 8))
+                    enemyType = 0x105a;
+                else if (RndEnemyChance(ref rnd, 8))
+                    enemyType = 0x105b;
 
-                tiles.SetTileAndBroadcast(tile);
+                if (enemyType != 0)
+                    SpawnBridgeEnemy(enemyType, point);
             }
+        }
+
+        private void SpawnBridgeEnemy(ushort enemyType, Int2 point)
+        {
+            var enemy = objects.CreateEnemy(enemyType);
+            if (enemy == null) return;
+            enemy.position.Value = point.ToVec2() + 0.5f;
+            objects.SpawnObject(enemy);
         }
 
         public override void Tick()
