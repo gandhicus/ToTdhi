@@ -2863,7 +2863,7 @@ PrefabInstance:
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
       propertyPath: m_text
-      value: Earn 1,500 essence
+      value: Reach Level 40
       objectReference: {fileID: 0}
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
@@ -16372,7 +16372,7 @@ PrefabInstance:
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
       propertyPath: m_text
-      value: Earn 3,000 essence
+      value: Reach Level 80
       objectReference: {fileID: 0}
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}

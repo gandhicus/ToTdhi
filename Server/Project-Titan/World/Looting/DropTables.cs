@@ -283,7 +283,7 @@ namespace World.Looting
                             new Item("Band of Oceanic Radiance"))
                         ),
                     new SoulboundLoot(0.3f, // 7
-                        new Single(Loot.Chance(0.8),
+                        new Single(Loot.Chance(0.5),
                             new Item("Seafarer's Garb"))
                         ),
                 } },

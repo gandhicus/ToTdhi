@@ -333,7 +333,10 @@ public class Player : Character
 
         if (world != null && world.stopTick) return;
         if (moving && !HasPositionalEffect() && !HasPositionalEffect(world.clientTime - NetConstants.Client_Delta) && lastFixedMove != targetUpdatePosition)
-            Position = lastFixedMove + (targetUpdatePosition - lastFixedMove) * ((Time.time - targetUpdateTime) / 0.016f);
+        {
+            float t = Mathf.Clamp01((Time.time - targetUpdateTime) / (NetConstants.Client_Delta / 1000f));
+            Position = lastFixedMove + (targetUpdatePosition - lastFixedMove) * t;
+        }
     }
 
     private Vector3 Move(float delta)
@@ -486,6 +489,11 @@ public class Player : Character
         targetUpdateTime = Time.time;// + 0.016f;
     }
 
+    public Vec2 GetNetworkPosition()
+    {
+        return new Vec2(lastFixedMove.x, lastFixedMove.y);
+    }
+
     private void UpdateTargetUpdatePosition()
     {
         lastFixedMove = Position;
@@ -508,7 +516,7 @@ public class Player : Character
             if (animation is CharacterAnimationData characterAnimation)
                 characterAnimation.attackFps = (shootCooldown / 2) / 1000.0f;
 
-            var pos = ((Vector2)Position).ToVec2();
+            var pos = GetNetworkPosition();
             var target = aimPosition.ToVec2();
             var vector = target - pos;
             var length = vector.Length;
@@ -609,24 +617,27 @@ public class Player : Character
         lastSentPosition = position;
     }
 
-    public DamageResult ResolveOutgoingDamage(int rawDamage, int targetDefense, bool targetFortified, uint projectileId, uint time, uint targetId)
-    {
-        return StatFunctions.ResolveOutgoingDamage(
-            rawDamage,
-            GetEquipItems(),
-            0,
-            0,
-            targetDefense,
-            targetFortified,
-            StatFunctions.GetCombatSeed(projectileId, time, targetId));
-    }
+        public DamageResult ResolveOutgoingDamage(int rawDamage, int targetDefense, bool targetFortified, uint projectileId, uint time, uint targetId)
+        {
+            return StatFunctions.ResolveOutgoingDamage(
+                rawDamage,
+                GetEquipItems(),
+                0,
+                0,
+                targetDefense,
+                targetFortified,
+                projectileId,
+                time,
+                targetId,
+                gameId);
+        }
 
     public override bool IsHitBy(Vec2 position, Projectile projectile, out bool killed)
     {
         bool hit = base.IsHitBy(position, projectile, out killed);
         if (hit && !HasStatusEffect(StatusEffect.Invulnerable))
         {
-            var pos = GetPosition().ToVec2();
+            var pos = GetNetworkPosition();
             var result = ResolveIncomingDamage(projectile.damage, projectile.projId, world.clientTime);
             ApplyCombatResult(result);
             ApplyOnHitEffects(projectile.data.onHitEffects, pos, position);
@@ -641,7 +652,7 @@ public class Player : Character
 
         if (IsInvincible() || HasStatusEffect(StatusEffect.Invulnerable)) return;
 
-        var pos = GetPosition().ToVec2();
+        var pos = GetNetworkPosition();
         var result = ResolveIncomingDamage(projectile.damage, projectile.projId, world.clientTime);
         ApplyCombatResult(result);
         ApplyOnHitEffects(projectile.aoeData.onHitEffects, pos, Vec2.zero);
@@ -810,7 +821,7 @@ public class Player : Character
             return;
         }
 
-        Vec2 position = ((Vector2)Position).ToVec2();
+        Vec2 position = GetNetworkPosition();
         var target = abilityAimPosition == Vector2.zero ? aimPosition.ToVec2() : abilityAimPosition.ToVec2();
         abilityAimPosition = Vector2.zero;
 

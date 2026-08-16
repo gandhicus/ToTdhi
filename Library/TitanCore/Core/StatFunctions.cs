@@ -44,6 +44,14 @@ namespace TitanCore.Core
             return projectileId ^ (time * 2654435761u) ^ targetId;
         }
 
+        /// <summary>
+        /// Seed for crit/true damage rolls shared by all projectiles that land on the same target in the same tick.
+        /// </summary>
+        public static uint GetLandingProcSeed(uint time, uint targetId, uint attackerId)
+        {
+            return (time * 2654435761u) ^ targetId ^ (attackerId * 2246822519u);
+        }
+
         public static float CombatRoll(uint seed)
         {
             uint x = seed;
@@ -74,7 +82,10 @@ namespace TitanCore.Core
             int defenderAbsorptionChance,
             int defenderDefense,
             bool defenderFortified,
-            uint seed)
+            uint projectileId,
+            uint time,
+            uint targetId,
+            uint attackerId)
         {
             return ResolveOutgoingDamage(
                 rawDamage,
@@ -86,7 +97,10 @@ namespace TitanCore.Core
                 defenderAbsorptionChance,
                 defenderDefense,
                 defenderFortified,
-                seed);
+                projectileId,
+                time,
+                targetId,
+                attackerId);
         }
 
         public static DamageResult ResolveOutgoingDamage(
@@ -99,7 +113,10 @@ namespace TitanCore.Core
             int defenderAbsorptionChance,
             int defenderDefense,
             bool defenderFortified,
-            uint seed)
+            uint projectileId,
+            uint time,
+            uint targetId,
+            uint attackerId)
         {
             return ResolveDamage(
                 rawDamage,
@@ -110,7 +127,8 @@ namespace TitanCore.Core
                 defenderAbsorptionChance,
                 defenderDefense,
                 defenderFortified,
-                seed);
+                GetCombatSeed(projectileId, time, targetId),
+                GetLandingProcSeed(time, targetId, attackerId));
         }
 
         public static DamageResult ResolveIncomingDamage(
@@ -151,6 +169,7 @@ namespace TitanCore.Core
                 ItemFunctions.GetEquippedAlternateStat(defenderEquips, AlternateStatType.AbsorptionChance) + defenderAbsorptionBonus,
                 defenderDefense,
                 defenderFortified,
+                seed,
                 seed);
         }
 
@@ -163,19 +182,20 @@ namespace TitanCore.Core
             int absorptionChance,
             int defense,
             bool fortified,
-            uint seed)
+            uint hitSeed,
+            uint procSeed)
         {
-            if (RollChance(blockChance, CombatRoll(seed)))
+            if (RollChance(blockChance, CombatRoll(hitSeed)))
                 return new DamageResult(0, HitResultType.Blocked);
 
             int damage = rawDamage;
-            bool isCrit = RollChance(criticalStrikeChance, CombatRoll(seed + 2));
+            bool isCrit = RollChance(criticalStrikeChance, CombatRoll(procSeed + 2));
             if (isCrit)
                 damage = (int)(damage * CriticalStrikeMultiplier(criticalStrikeDamageBonus));
 
             HitResultType type;
             int finalDamage;
-            if (RollChance(trueDamageChance, CombatRoll(seed + 1)))
+            if (RollChance(trueDamageChance, CombatRoll(procSeed + 1)))
             {
                 finalDamage = damage;
                 type = HitResultType.TrueDamage;
@@ -191,7 +211,7 @@ namespace TitanCore.Core
                 type = HitResultType.Normal;
             }
 
-            if (RollChance(absorptionChance, CombatRoll(seed + 3)))
+            if (RollChance(absorptionChance, CombatRoll(hitSeed + 3)))
                 return new DamageResult(-finalDamage, HitResultType.Absorbed, isCrit);
 
             return new DamageResult(finalDamage, type, isCrit);

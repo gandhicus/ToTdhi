@@ -302,21 +302,7 @@ namespace World.Map.Objects.Entities
 
         private void AddSoulsStatistic(ulong amount)
         {
-            var newValue = AddStatistic(CharacterStatisticType.SoulsEarned, amount);
-            if (!currentClassQuest.HasCompletedQuest(0))
-            {
-                if (newValue >= NetConstants.Class_Quest_Essence_1)
-                {
-                    CompleteClassQuest(0);
-                }
-            }
-            if (!currentClassQuest.HasCompletedQuest(1))
-            {
-                if (newValue >= NetConstants.Class_Quest_Essence_2)
-                {
-                    CompleteClassQuest(1);
-                }
-            }
+            AddStatistic(CharacterStatisticType.SoulsEarned, amount);
         }
 
         public ulong AddStatistic(CharacterStatisticType type, ulong value)
@@ -385,6 +371,16 @@ namespace World.Map.Objects.Entities
         public void LeveledUp()
         {
             var level = GetLevel();
+            if (!currentClassQuest.HasCompletedQuest(0) && level >= NetConstants.Class_Quest_Level_1)
+            {
+                CompleteClassQuest(0);
+            }
+
+            if (!currentClassQuest.HasCompletedQuest(1) && level >= NetConstants.Class_Quest_Level_2)
+            {
+                CompleteClassQuest(1);
+            }
+
             if (!currentClassQuest.HasCompletedQuest(2) && level >= NetConstants.Class_Quest_Level_3)
             {
                 CompleteClassQuest(2);

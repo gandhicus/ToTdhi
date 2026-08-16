@@ -430,14 +430,15 @@ namespace World.GameState
             if (projPos.DistanceTo(enemyPos) < proj.radius + enemyState.currentSnapshot.radius * enemyState.currentSnapshot.size) // Hit success!
             {
                 bool killed = false;
-                var seed = StatFunctions.GetCombatSeed(proj.projectileId, time, enemyId);
                 var result = playerState.ResolvePlayerOutgoingDamage(
                     proj.damage,
                     0,
                     0,
                     enemyState.currentSnapshot.defense,
                     enemyState.currentSnapshot.HasServerEffect(StatusEffect.Fortified),
-                    seed);
+                    proj.projectileId,
+                    time,
+                    enemyId);
                 int damageTaken = result.damage;
                 playerState.ability.OnHit(enemyState, time, ref damageTaken);
 
@@ -506,14 +507,15 @@ namespace World.GameState
 
             if (projPos.DistanceTo(enemyPos) < proj.data.radius && proj.hitSet.Add(enemyId)) // Hit success!
             {
-                var seed = StatFunctions.GetCombatSeed(proj.projectileId, time, enemyId);
                 var result = playerState.ResolvePlayerOutgoingDamage(
                     proj.damage,
                     0,
                     0,
                     enemyState.currentSnapshot.defense,
                     enemyState.currentSnapshot.HasServerEffect(StatusEffect.Fortified),
-                    seed);
+                    proj.projectileId,
+                    time,
+                    enemyId);
                 int damageTaken = result.damage;
                 playerState.ability.OnHit(enemyState, time, ref damageTaken);
 

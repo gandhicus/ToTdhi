@@ -1701,9 +1701,9 @@
 
 		<Description>A wonderfully crafted robe that the once-great mystical seafarers used to survive the harsh environment of the shallows.</Description>
 
-		<StatIncrease type="Defense">10</StatIncrease>
+		<StatIncrease type="Defense">3</StatIncrease>
 		<StatIncrease type="MaxHealth">50</StatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeChance">10</AlternateStatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">5</AlternateStatIncrease>
 		<AlternateStatIncrease type="GroundedResistance">50</AlternateStatIncrease>
 	</Object>
 
@@ -1879,8 +1879,9 @@
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 2</Sprite>
 
-		<StatIncrease type="Speed">5</StatIncrease>
-		<StatIncrease type="Attack">4</StatIncrease>
+		<StatIncrease type="Speed">4</StatIncrease>
+		<StatIncrease type="Attack">6</StatIncrease>
+		<AlternateStatIncrease type="AbsorptionChance">2</AlternateStatIncrease>
 
 		<Description>A gold band engulfed with luscious emeralds.</Description>
 	</Object>

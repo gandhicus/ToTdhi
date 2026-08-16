@@ -510,7 +510,7 @@ public class World : MonoBehaviour
 
         player.UpdateMovement(clientTime);
 
-        var playerPos = new Vec2(player.transform.localPosition.x, player.transform.localPosition.y);
+        var playerPos = player.GetNetworkPosition();
         gameManager.client.SendAsync(new TnMove(clientTickId, tick.tickId, playerPos));
         player.PositionSent(playerPos);
 

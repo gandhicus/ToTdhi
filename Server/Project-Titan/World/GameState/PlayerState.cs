@@ -276,8 +276,6 @@ namespace World.GameState
 
         private Vec2 currentMoveCheckPosition;
 
-        private float currentMoveTps = 0;
-
         private bool wasSlowed = false;
 
         private bool wasWasSlowed = false;
@@ -285,8 +283,6 @@ namespace World.GameState
         private bool wasSpeedy = false;
 
         private bool wasWasSpeedy = false;
-
-        private float lastTps;
 
         public ClassAbility ability;
 
@@ -325,8 +321,7 @@ namespace World.GameState
             classInfo = (CharacterInfo)GameData.objects[newObj.type];
             currentMoveCheckTime = time;
             currentMoveCheckPosition = player.position.Value;
-            currentMoveTps = GetTargetTps(time);
-            lastTps = currentMoveTps;
+            GetTargetTps(time);
 
             ability = ClassAbility.GetAbility((ClassType)player.info.id);
             ability.SetPlayer(player);
@@ -374,10 +369,7 @@ namespace World.GameState
         {
             currentMoveCheckTime = time;
             currentMoveCheckPosition = position;
-
-            var tps = GetTargetTps(time);
-            currentMoveTps = tps;
-            lastTps = tps;
+            GetTargetTps(time);
         }
 
         public bool AdvancePosition(Vec2 position, uint time)
@@ -399,21 +391,18 @@ namespace World.GameState
                 }
 
                 var timeDif = time - currentMoveCheckTime;
+                if (timeDif > 2000)
+                {
+                    currentMoveCheckPosition = position;
+                    currentMoveCheckTime = time;
+                    return true;
+                }
+
                 var tps = GetTargetTps(time);
-                if (tps > lastTps)
-                {
-                    currentMoveTps = tps;
-                    lastTps = tps;
-                }
-                else if (tps != lastTps)
-                {
-                    lastTps = tps;
-                }
-                var realizedTps = currentMoveCheckPosition.DistanceTo(position) / (timeDif / 1000f);
-
-                currentMoveTps += (realizedTps - currentMoveTps) * 0.08f;
-
-                if (currentMoveTps > tps * 1.1f + 0.1f)
+                var elapsed = timeDif / 1000f;
+                var distance = currentMoveCheckPosition.DistanceTo(position);
+                var maxDistance = tps * (elapsed + NetConstants.Client_Delta / 1000f) + 0.15f;
+                if (distance > maxDistance)
                 {
                     player.client.SendAsync(new TnError("Movement check failed! Moving too fast."));
                     //player.client.Disconnect();
@@ -493,7 +482,9 @@ namespace World.GameState
             int defenderAbsorptionChance,
             int defenderDefense,
             bool defenderFortified,
-            uint seed)
+            uint projectileId,
+            uint time,
+            uint targetId)
         {
             return StatFunctions.ResolveOutgoingDamage(
                 rawDamage,
@@ -505,7 +496,10 @@ namespace World.GameState
                 defenderAbsorptionChance,
                 defenderDefense,
                 defenderFortified,
-                seed);
+                projectileId,
+                time,
+                targetId,
+                player.gameId);
         }
 
         private void AdvanceHealth(uint time)
