@@ -58,16 +58,16 @@ namespace TitanCore.Net
 
         public const int MaxHealth_Stat_Cap = 500;
 
-        public const int Max_Level = 120;
+        public const int Max_Level = 140;
 
-        public const int Class_Quest_Level_1 = 40;
+        public const int Class_Quest_Level_1 = 60;
 
-        public const int Class_Quest_Level_2 = 80;
+        public const int Class_Quest_Level_2 = 100;
 
-        public const int Class_Quest_Level_3 = 120;
+        public const int Class_Quest_Level_3 = 140;
 
-        /// <summary>Level 120 base cap + 20 ascensions on each stat.</summary>
-        public const int Class_Quest_Level_4 = 220;
+        /// <summary>Level 140 base cap + 20 ascensions on each stat.</summary>
+        public const int Class_Quest_Level_4 = 240;
 
         public const int Max_Ascension = 20;
 

@@ -2863,7 +2863,7 @@ PrefabInstance:
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
       propertyPath: m_text
-      value: Reach Level 40
+      value: Reach Level 60
       objectReference: {fileID: 0}
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
@@ -9105,7 +9105,7 @@ PrefabInstance:
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
       propertyPath: m_text
-      value: Reach Level 120
+      value: Reach Level 140
       objectReference: {fileID: 0}
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
@@ -13759,7 +13759,7 @@ PrefabInstance:
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
       propertyPath: m_text
-      value: Reach Level 220
+      value: Reach Level 240
       objectReference: {fileID: 0}
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
@@ -16372,7 +16372,7 @@ PrefabInstance:
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}
       propertyPath: m_text
-      value: Reach Level 80
+      value: Reach Level 100
       objectReference: {fileID: 0}
     - target: {fileID: 8954350324145219168, guid: d6163f7e6a91c494a8f7d2337ebc393a,
         type: 3}

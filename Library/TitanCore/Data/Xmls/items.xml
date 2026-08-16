@@ -2122,14 +2122,14 @@
 		<StatIncrease type="Speed">7</StatIncrease>
 
 		<StatRolls rollCount="1" maxPerStat="1">
-			<StatRoll type="Attack" min="1" max="3"/>
-			<StatRoll type="Defense" min="1" max="3"/>
-			<StatRoll type="Vigor" min="1" max="3"/>
-			<StatRoll type="Speed" min="1" max="3"/>
+			<StatRoll type="Attack" min="1" max="2"/>
+			<StatRoll type="Defense" min="1" max="2"/>
+			<StatRoll type="Vigor" min="1" max="2"/>
+			<StatRoll type="Speed" min="1" max="2"/>
 			<StatRoll type="MaxHealth" min="10" max="20"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="6"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="6"/>
-			<AlternateStatRoll type="BlockChance" min="1" max="3"/>
+			<AlternateStatRoll type="BlockChance" min="1" max="2"/>
 		</StatRolls>
 
 		<Description>A colossal emerald fixed on top of an enchanted gemmed ring.</Description>
@@ -2142,14 +2142,14 @@
 		<StatIncrease type="Attack">7</StatIncrease>
 
 		<StatRolls rollCount="1" maxPerStat="1">
-			<StatRoll type="Attack" min="1" max="3"/>
-			<StatRoll type="Defense" min="1" max="3"/>
-			<StatRoll type="Vigor" min="1" max="3"/>
-			<StatRoll type="Speed" min="1" max="3"/>
+			<StatRoll type="Attack" min="1" max="2"/>
+			<StatRoll type="Defense" min="1" max="2"/>
+			<StatRoll type="Vigor" min="1" max="2"/>
+			<StatRoll type="Speed" min="1" max="2"/>
 			<StatRoll type="MaxHealth" min="10" max="20"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="6"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="6"/>
-			<AlternateStatRoll type="BlockChance" min="1" max="3"/>
+			<AlternateStatRoll type="BlockChance" min="1" max="2"/>
 		</StatRolls>
 
 		<Description>A colossal amethyst fixed on top of an enchanted gemmed ring.</Description>
@@ -2162,14 +2162,14 @@
 		<StatIncrease type="Defense">7</StatIncrease>
 
 		<StatRolls rollCount="1" maxPerStat="1">
-			<StatRoll type="Attack" min="1" max="3"/>
-			<StatRoll type="Defense" min="1" max="3"/>
-			<StatRoll type="Vigor" min="1" max="3"/>
-			<StatRoll type="Speed" min="1" max="3"/>
+			<StatRoll type="Attack" min="1" max="2"/>
+			<StatRoll type="Defense" min="1" max="2"/>
+			<StatRoll type="Vigor" min="1" max="2"/>
+			<StatRoll type="Speed" min="1" max="2"/>
 			<StatRoll type="MaxHealth" min="10" max="20"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="6"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="6"/>
-			<AlternateStatRoll type="BlockChance" min="1" max="3"/>
+			<AlternateStatRoll type="BlockChance" min="1" max="2"/>
 		</StatRolls>
 
 		<Description>A colossal obsidian crystal fixed on top of an enchanted gemmed ring.</Description>
@@ -2182,14 +2182,14 @@
 		<StatIncrease type="Vigor">7</StatIncrease>
 
 		<StatRolls rollCount="1" maxPerStat="1">
-			<StatRoll type="Attack" min="1" max="3"/>
-			<StatRoll type="Defense" min="1" max="3"/>
-			<StatRoll type="Vigor" min="1" max="3"/>
-			<StatRoll type="Speed" min="1" max="3"/>
+			<StatRoll type="Attack" min="1" max="2"/>
+			<StatRoll type="Defense" min="1" max="2"/>
+			<StatRoll type="Vigor" min="1" max="2"/>
+			<StatRoll type="Speed" min="1" max="2"/>
 			<StatRoll type="MaxHealth" min="10" max="20"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="6"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="6"/>
-			<AlternateStatRoll type="BlockChance" min="1" max="3"/>
+			<AlternateStatRoll type="BlockChance" min="1" max="2"/>
 		</StatRolls>
 
 		<Description>A colossal ruby fixed on top of an enchanted gemmed ring.</Description>
