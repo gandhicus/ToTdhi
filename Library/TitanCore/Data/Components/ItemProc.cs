@@ -13,6 +13,13 @@ namespace TitanCore.Data.Components
 
         public uint durationMs;
 
+        public ProcStatBonus(StatType statType, int amount, uint durationMs)
+        {
+            this.statType = statType;
+            this.amount = amount;
+            this.durationMs = durationMs;
+        }
+
         public ProcStatBonus(XmlParser xml)
         {
             statType = xml.AtrEnum("type", StatType.Vigor);
@@ -28,6 +35,13 @@ namespace TitanCore.Data.Components
         public int amount;
 
         public uint durationMs;
+
+        public ProcAlternateStatBonus(AlternateStatType statType, int amount, uint durationMs)
+        {
+            this.statType = statType;
+            this.amount = amount;
+            this.durationMs = durationMs;
+        }
 
         public ProcAlternateStatBonus(XmlParser xml)
         {

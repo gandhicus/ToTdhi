@@ -46,6 +46,8 @@ public abstract class Entity : SpriteWorldObject, IContainer
 
     private uint serverEffects = 0;
 
+    private int defenseMinusAmount = 0;
+
     public float radius = 0.3f;
 
     public override void LoadObjectInfo(GameObjectInfo info)
@@ -75,6 +77,7 @@ public abstract class Entity : SpriteWorldObject, IContainer
         moveVector = new Vector2(0, 0);
 
         serverEffects = 0;
+        defenseMinusAmount = 0;
 
         inventoryUpdated = false;
 
@@ -99,7 +102,12 @@ public abstract class Entity : SpriteWorldObject, IContainer
         }
 
         if (inventoryUpdated)
-            onInventoryUpdated?.Invoke();
+            RaiseInventoryUpdated();
+    }
+
+    protected void RaiseInventoryUpdated()
+    {
+        onInventoryUpdated?.Invoke();
     }
 
     protected override void ProcessStat(NetStat stat, bool first)
@@ -110,6 +118,9 @@ public abstract class Entity : SpriteWorldObject, IContainer
         {
             case ObjectStatType.StatusEffects:
                 serverEffects = (uint)stat.value;
+                break;
+            case ObjectStatType.DefenseMinus:
+                defenseMinusAmount = (int)stat.value;
                 break;
             case ObjectStatType.Stopped:
                 //if ((bool)stat.value)
@@ -316,6 +327,13 @@ public abstract class Entity : SpriteWorldObject, IContainer
     public virtual bool HasStatusEffect(StatusEffect effect)
     {
         return ((serverEffects >> (int)effect) & 1) == 1;
+    }
+
+    public int GetDefenseMinusAmount()
+    {
+        if (!HasStatusEffect(StatusEffect.DefenseMinus))
+            return 0;
+        return defenseMinusAmount;
     }
 
     public virtual bool ShowLootMenu()

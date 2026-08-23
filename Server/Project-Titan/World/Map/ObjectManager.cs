@@ -357,6 +357,17 @@ namespace World.Map
             return objs[Rand.Next(objs.Length)];
         }
 
+        public Enemy GetRandomEnemy(Vec2 position, float searchRadius, Func<Enemy, bool> where = null)
+        {
+            var objs = GetEnemiesWithin(position.x, position.y, searchRadius, enemy =>
+            {
+                if (enemy.IsDead) return false;
+                return where == null || where(enemy);
+            }).ToArray();
+            if (objs.Length == 0) return null;
+            return objs[Rand.Next(objs.Length)];
+        }
+
         private Rect SightRect(Vec2 position)
         {
             return new Rect(position.x - Sight.Player_Sight_Radius, position.y - Sight.Player_Sight_Radius, Sight.Player_Sight_Radius * 2, Sight.Player_Sight_Radius * 2);

@@ -114,11 +114,22 @@ public class PcPlayerInput : MonoBehaviour, IPointerDownHandler
         CheckEmote();
         CheckEscape();
         CheckInteract();
+        CheckSkillTree();
     }
 
     private bool UsingInput()
     {
-        return EventSystem.current.currentSelectedGameObject != null;
+        var selected = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
+        if (selected == null) return false;
+        return selected.GetComponent<TMPro.TMP_InputField>() != null
+            || selected.GetComponent<InputField>() != null;
+    }
+
+    private void CheckSkillTree()
+    {
+        if (UsingInput()) return;
+        if (!Input.GetKeyDown(KeyCode.K)) return;
+        world.menuManager.ToggleSkillTree();
     }
 
     private void CheckInteract()

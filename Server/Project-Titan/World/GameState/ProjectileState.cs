@@ -23,6 +23,8 @@ namespace World.GameState
 
         public ushort damage;
 
+        public ushort item;
+
         private float sin;
 
         private float cos;
@@ -57,12 +59,13 @@ namespace World.GameState
 
         public ProjectileState(uint time, AllyProjectile projectile, Vec2 position)
         {
-            var item = (WeaponInfo)GameData.objects[projectile.item];
-            data = item.projectiles[projectile.projectileId % item.projectiles.Length];
+            var weapon = (WeaponInfo)GameData.objects[projectile.item];
+            data = weapon.projectiles[projectile.projectileId % weapon.projectiles.Length];
 
             ownerId = projectile.ownerId;
             projectileId = projectile.projectileId;
             damage = projectile.damage;
+            item = projectile.item;
             angle = projectile.angle;
             sin = (float)Math.Sin(projectile.angle);
             cos = (float)Math.Cos(projectile.angle);

@@ -1,4 +1,4 @@
-﻿<Objects>
+<Objects>
 
 	<!-- Swords -->
 
@@ -173,7 +173,7 @@
 			<MaxDamageMod>10</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>10</RateOfFire>
+		<RateOfFire>4</RateOfFire>
 	</Object>
 	<Object id="0x10a" name="Thumbor" tier="-1">
 		<Type>Weapon</Type>
@@ -753,8 +753,8 @@
 			<Amount>2</Amount>
 			<AngleGap>15</AngleGap>
 			<ProjectileRef id="0x144">0</ProjectileRef>
-			<MinDamageMod>0.8</MinDamageMod>
-			<MaxDamageMod>0.8</MaxDamageMod>
+			<MinDamageMod>0.65</MinDamageMod>
+			<MaxDamageMod>0.65</MaxDamageMod>
 			<IgnoreEntity/>
 		</Projectile>
 
@@ -1063,7 +1063,8 @@
 
 		<Description>An elixir made by an inexperienced student. A foul fume lingers near the cork.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>green</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<MinDamageMod>1</MinDamageMod>
@@ -1080,7 +1081,8 @@
 
 		<Description>An elixir formulated by a scholar of alchemy. Correctly measured and follows common practice.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>blue</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<ProjectileRef id="0x180">0</ProjectileRef>
@@ -1098,7 +1100,8 @@
 
 		<Description>An elixir concocted from diverse elements. A balanced brew, inflicting damage upon touch.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>orange</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<ProjectileRef id="0x181">0</ProjectileRef>
@@ -1116,7 +1119,8 @@
 
 		<Description>A scarce elixir. Production of this elixir has ceased ever since its scientist vanished without a trace.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>purple</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<MinDamage>130</MinDamage>
@@ -1138,7 +1142,8 @@
 
 		<Esforged/>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>purple</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<ProjectileRef id="0x183">0</ProjectileRef>
@@ -1158,7 +1163,8 @@
 
 		<Esforged/>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>yellow</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<ProjectileRef id="0x184">0</ProjectileRef>
@@ -1176,7 +1182,8 @@
 
 		<Description>A foul-smelling elixir. Glows with a pink hue, and must be stored in a gold anointed vial.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>pink</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<ProjectileRef id="0x185">0</ProjectileRef>
@@ -1194,7 +1201,8 @@
 
 		<Description>An elixir that can dull the sharpest of minds. One breath can make a man speechless for life.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>green</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<ProjectileRef id="0x186">0</ProjectileRef>
@@ -1212,7 +1220,8 @@
 
 		<Description>An elixir that targets the neural. Even the elixir's architect is said to have gone mad.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>blue</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<ProjectileRef id="0x187">0</ProjectileRef>
@@ -1230,9 +1239,10 @@
 
 		<Description>An astonishingly powerful elixir. Immensely unstable, and must be kept in small vials.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>green</Color>
 			<Lifetime>0.5</Lifetime>
-			<Radius>1</Radius>
+			<Radius>1.5</Radius>
 			<MinDamageMod>28</MinDamageMod>
 			<MaxDamageMod>37</MaxDamageMod>
 		</Projectile>
@@ -1247,7 +1257,8 @@
 
 		<Description>A forgotten elixir containing the blood of a forgotten titan, the liquid glistening with raw power.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>orange</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<ProjectileRef id="0x188">0</ProjectileRef>
@@ -1265,7 +1276,8 @@
 
 		<Description>An elixir of a unknown origin. No one knows what the liquid is ,but those who dare study it say they hear whispers from afar.</Description>
 
-		<Projectile color="yellow" type="Aoe">
+		<Projectile type="Aoe">
+			<Color>red</Color>
 			<Lifetime>0.7</Lifetime>
 			<Radius>3</Radius>
 			<ProjectileRef id="0x18a">0</ProjectileRef>
@@ -1274,6 +1286,25 @@
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
+	</Object>
+
+	<Object id="0x516" name="Salt Water Elixir" tier="-1">
+		<Type>Weapon</Type>
+		<SlotType>Elixir</SlotType>
+		<Sprite>Salt Water Elixir</Sprite>
+
+		<Description>An elixir filled with enchanted salt water, which somehow washed up into the shallows.</Description>
+
+		<Projectile type="Aoe">
+			<Color>blue</Color>
+			<Lifetime>1.2</Lifetime>
+			<Radius>6</Radius>
+			<Range>5</Range>
+			<MinDamageMod>6</MinDamageMod>
+			<MaxDamageMod>9</MaxDamageMod>
+		</Projectile>
+
+		<RateOfFire>1.5</RateOfFire>
 	</Object>
 
 	<!-- Heavy Armors -->
@@ -1373,10 +1404,10 @@
 		<StatIncrease type="Vigor">7</StatIncrease>
 
 		<StatRolls rollCount="1" maxPerStat="1">
-			<StatRoll type="Attack" min="3" max="5"/>
-			<StatRoll type="Defense" min="3" max="5"/>
-			<StatRoll type="Vigor" min="3" max="5"/>
-			<StatRoll type="Speed" min="3" max="5"/>
+			<StatRoll type="Attack" min="2" max="4"/>
+			<StatRoll type="Defense" min="2" max="4"/>
+			<StatRoll type="Vigor" min="2" max="4"/>
+			<StatRoll type="Speed" min="2" max="4"/>
 			<StatRoll type="MaxHealth" min="20" max="40"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
 			<AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
@@ -1408,6 +1439,35 @@
 		<StatIncrease type="MaxHealth">50</StatIncrease>
 		<StatIncrease type="Vigor">4</StatIncrease>
 		<StatIncrease type="Defense">4</StatIncrease>
+	</Object>
+
+	<Object id="0x512" name="Shining Armor" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>HeavyArmor</SlotType>
+		<Sprite>Shining Armor</Sprite>
+
+		<Description>It's said that this armor was infused with the power of many suns.</Description>
+
+		<StatIncrease type="Defense">18</StatIncrease>
+		<StatIncrease type="Vigor">4</StatIncrease>
+
+		<Proc trigger="TrueDamage" cooldown="5000">
+			<AlternateStatBonus type="RateOfFire" amount="8" duration="5000"/>
+		</Proc>
+
+	</Object>
+
+	<Object id="0x513" name="Lifesource Chassis" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>HeavyArmor</SlotType>
+		<Sprite>Lifesource Chassis</Sprite>
+
+		<Description>The souls inhabiting this mantle share their collective lifesource with its wearer, blessing them with unmatched regenerative abilities.</Description>
+
+		<StatIncrease type="Vigor">25</StatIncrease>
+
+		<ScaledStatIncrease per="5" amount="1" from="Attack" to="AbsorptionChance"/>
+
 	</Object>
 
 	<!-- Light Armors -->
@@ -1490,7 +1550,7 @@
 
 		<StatIncrease type="Speed">4</StatIncrease>
 		<StatIncrease type="Attack">3</StatIncrease>
-		<StatIncrease type="Defense">13</StatIncrease>
+		<StatIncrease type="Defense">14</StatIncrease>
 	</Object>
 
 	<Object id="0x227" name="Tarrasque Body Armor" tier="8">
@@ -1502,7 +1562,7 @@
 
 		<StatIncrease type="Speed">4</StatIncrease>
 		<StatIncrease type="Attack">4</StatIncrease>
-		<StatIncrease type="Defense">14</StatIncrease>
+		<StatIncrease type="Defense">16</StatIncrease>
 	</Object>
 
 	<Object id="0x228" name="Kraken Body Armor" tier="9">
@@ -1514,13 +1574,13 @@
 
 		<StatIncrease type="Speed">6</StatIncrease>
 		<StatIncrease type="Attack">6</StatIncrease>
-		<StatIncrease type="Defense">17</StatIncrease>
+		<StatIncrease type="Defense">18</StatIncrease>
 
 		<StatRolls rollCount="1" maxPerStat="1">
-			<StatRoll type="Attack" min="3" max="5"/>
-			<StatRoll type="Defense" min="3" max="5"/>
-			<StatRoll type="Vigor" min="3" max="5"/>
-			<StatRoll type="Speed" min="3" max="5"/>
+			<StatRoll type="Attack" min="2" max="4"/>
+			<StatRoll type="Defense" min="2" max="4"/>
+			<StatRoll type="Vigor" min="2" max="4"/>
+			<StatRoll type="Speed" min="2" max="4"/>
 			<StatRoll type="MaxHealth" min="20" max="40"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
 			<AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
@@ -1562,10 +1622,22 @@
 		<Description>...</Description>
 
 		<StatIncrease type="MaxHealth">-100</StatIncrease>
-		<StatIncrease type="Defense">5</StatIncrease>
-		<AlternateStatIncrease type="BlockChance">20</AlternateStatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeChance">25</AlternateStatIncrease>
-		<AlternateStatIncrease type="TrueDamageChance">35</AlternateStatIncrease>
+		<AlternateStatIncrease type="BlockChance">15</AlternateStatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">20</AlternateStatIncrease>
+		<AlternateStatIncrease type="TrueDamageChance">20</AlternateStatIncrease>
+	</Object>
+
+
+	<Object id="0x515" name="Dumirian Kilt" tier="-1">
+		<Type>Equipment</Type>
+		<Sprite>Dumirian Kilt</Sprite>
+		<SlotType>LightArmor</SlotType>
+
+		<Description>A garment sewn from a valuable bear leather. Tiny on the giant Dumirian chiefs, but rather large and insulating for men.</Description>
+
+		<AlternateStatIncrease type="RateOfFire">3</AlternateStatIncrease>
+		<StatIncrease type="Attack">3</StatIncrease>
+		<StatIncrease type="Defense">11</StatIncrease>
 	</Object>
 
 	<!-- Robes -->
@@ -1654,7 +1726,7 @@
 
 		<Description>A malefactor's robe, worn by those who desire calamity and destruction.</Description>
 
-		<StatIncrease type="Defense">10</StatIncrease>
+		<StatIncrease type="Defense">11</StatIncrease>
 		<StatIncrease type="Attack">6</StatIncrease>
 	</Object>
 
@@ -1665,14 +1737,14 @@
 
 		<Description>A robe of supreme aspect. Clouded with whispers of its magical make.</Description>
 
-		<StatIncrease type="Defense">12</StatIncrease>
+		<StatIncrease type="Defense">13</StatIncrease>
 		<StatIncrease type="Attack">8</StatIncrease>
 
 		<StatRolls rollCount="1" maxPerStat="1">
-			<StatRoll type="Attack" min="3" max="5"/>
-			<StatRoll type="Defense" min="3" max="5"/>
-			<StatRoll type="Vigor" min="3" max="5"/>
-			<StatRoll type="Speed" min="3" max="5"/>
+			<StatRoll type="Attack" min="2" max="4"/>
+			<StatRoll type="Defense" min="2" max="4"/>
+			<StatRoll type="Vigor" min="2" max="4"/>
+			<StatRoll type="Speed" min="2" max="4"/>
 			<StatRoll type="MaxHealth" min="20" max="40"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
 			<AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
@@ -1690,7 +1762,7 @@
 
 		<StatIncrease type="Defense">7</StatIncrease>
 		<StatIncrease type="Attack">5</StatIncrease>
-		<StatIncrease type="Vigor">10</StatIncrease>
+		<StatIncrease type="Vigor">5</StatIncrease>
 		<AlternateStatIncrease type="AbsorptionChance">3</AlternateStatIncrease>
 	</Object>
 
@@ -1705,6 +1777,37 @@
 		<StatIncrease type="MaxHealth">50</StatIncrease>
 		<AlternateStatIncrease type="CriticalStrikeChance">5</AlternateStatIncrease>
 		<AlternateStatIncrease type="GroundedResistance">50</AlternateStatIncrease>
+	</Object>
+
+	<Object id="0x518" name="Sadder Star" tier="-1">
+		<Type>Equipment</Type>
+		<Sprite>Sadder Star</Sprite>
+		<SlotType>Robe</SlotType>
+
+		<Description>A glistening, ethereal robe inspired by the mystic qualities of the constellations.</Description>
+
+		<StatIncrease type="Defense">7</StatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">5</AlternateStatIncrease>
+		<AlternateStatIncrease type="BlockChance">5</AlternateStatIncrease>
+
+		<ScaledStatIncrease per="20" amount="1" from="MaxHealth" to="Attack"/>
+		<ScaledStatIncrease per="20" amount="1" from="MaxHealth" to="CriticalStrikeChance"/>
+
+	</Object>
+
+	<Object id="0x519" name="Cloak of Doom" tier="-1">
+		<Type>Equipment</Type>
+		<Sprite>Cloak of Doom</Sprite>
+		<SlotType>Robe</SlotType>
+
+		<Description>A cloak of evil origin, used by conjurers to wreak havoc.</Description>
+
+		<StatIncrease type="Defense">10</StatIncrease>
+		<StatIncrease type="Attack">5</StatIncrease>
+
+		<ScaledStatIncrease per="2" amount="1" from="Speed" to="Attack"/>
+		<ScaledStatIncrease per="3" amount="1" from="Speed" to="BlockChance"/>
+
 	</Object>
 
 	<!-- NewWeapons -->
@@ -1919,9 +2022,8 @@
 
 		<StatIncrease type="Attack">4</StatIncrease>
 		<StatIncrease type="Vigor">4</StatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeDamage">15</AlternateStatIncrease>
 
-		<Proc trigger="CriticalStrike" cooldown="3000">
+		<Proc trigger="CriticalStrike" cooldown="8000">
 			<StatBonus type="Vigor" amount="20" duration="5000"/>
 		</Proc>
 
@@ -1933,7 +2035,7 @@
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 6</Sprite>
 
-		<StatIncrease type="Attack">7</StatIncrease>
+		<StatIncrease type="Attack">5</StatIncrease>
 		<AlternateStatIncrease type="RateOfFire">5</AlternateStatIncrease>
 
 		<Description>A blazing amber placed upon a bronze band.</Description>
@@ -1944,7 +2046,7 @@
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 7</Sprite>
 
-		<StatIncrease type="Speed">9</StatIncrease>
+		<StatIncrease type="Speed">5</StatIncrease>
 		<AlternateStatIncrease type="RateOfFire">5</AlternateStatIncrease>
 
 		<Description>A magnificent emerald placed upon a bronze band.</Description>
@@ -1962,6 +2064,40 @@
 		<StatIncrease type="Vigor">3</StatIncrease>
 
 		<Description>A dazzling gold ring. A pristine amethyst crowns the band and is enveloped in gold leaves.</Description>
+	</Object>
+
+	<Object id="0x517" name="Ring of the Blood Moon" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Ring of the Blood Moon</Sprite>
+
+		<StatIncrease type="Vigor">-5</StatIncrease>
+		<StatIncrease type="Defense">-3</StatIncrease>
+		<StatIncrease type="Attack">5</StatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeDamage">15</AlternateStatIncrease>
+
+		<Proc trigger="TrueDamage" cooldown="5000">
+			<AlternateStatBonus type="CriticalStrikeChance" amount="20" duration="5000"/>
+		</Proc>
+
+		<Description>A terrifying and menacing ring, infamous as a symbol for blood and murder in certain circles.</Description>
+	</Object>
+
+	<Object id="0x520" name="Studded Bangle" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Studded Bangle</Sprite>
+
+		<StatIncrease type="MaxHealth">40</StatIncrease>
+		<AlternateStatIncrease type="TrueDamageChance">15</AlternateStatIncrease>
+
+		<Proc trigger="TrueDamage" cooldown="10000">
+			<AlternateStatBonus type="BlockChance" amount="50" duration="3000"/>
+		</Proc>
+
+		<ScaledStatIncrease per="1" amount="10" from="AbsorptionChance" to="TrueDamageChance"/>
+
+		<Description>A wonderfully beautiful bangle studded with sparkling diamonds, said to bring good fortune to those with clear minds.</Description>
 	</Object>
 
 	<Object id="0x501" name="Desert Rose" tier="-1">
@@ -2016,15 +2152,15 @@
 		<Sprite>Aldrite's Gamble</Sprite>
 
 		<StatRolls rollCount="3" maxPerStat="2">
-			<StatRoll type="Attack" min="4" max="6"/>
-			<StatRoll type="Defense" min="4" max="6"/>
-			<StatRoll type="Vigor" min="4" max="6"/>
-			<StatRoll type="Speed" min="4" max="6"/>
-			<StatRoll type="MaxHealth" min="30" max="60"/>
-			<AlternateStatRoll type="CriticalStrikeChance" min="6" max="12"/>
-			<AlternateStatRoll type="TrueDamageChance" min="6" max="12"/>
-			<AlternateStatRoll type="BlockChance" min="2" max="5"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2"/>
+			<StatRoll type="Attack" min="3" max="5"/>
+			<StatRoll type="Defense" min="3" max="5"/>
+			<StatRoll type="Vigor" min="3" max="5"/>
+			<StatRoll type="Speed" min="3" max="5"/>
+			<StatRoll type="MaxHealth" min="20" max="40"/>
+			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="8"/>
+			<AlternateStatRoll type="TrueDamageChance" min="4" max="8"/>
+			<AlternateStatRoll type="BlockChance" min="2" max="3"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="1"/>
 		</StatRolls>
 
 		<Description>It was Aldrite who initially discovered this ring during his travels. Interestingly, each time it's discovered again, it acts completely differently.</Description>
@@ -2071,6 +2207,22 @@
 		</Proc>
 
 		<Description>A petite but beautiful ring forged from a perfect silver. On top sits a shining pearl, which radiates with secrets of the sea once thought lost to time.</Description>
+	</Object>
+
+	<Object id="0x514" name="Skyjewel" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Skyjewel</Sprite>
+
+		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
+		<AlternateStatIncrease type="RateOfFire">5</AlternateStatIncrease>
+		<AlternateStatIncrease type="BlockChance">-5</AlternateStatIncrease>
+
+		<ScaledStatIncrease per="4" amount="2" from="Speed" to="RateOfFire"/>
+
+		<ScaledStatIncrease per="2" amount="2" from="Speed" to="TrueDamageChance"/>
+
+		<Description>A marvelous, bright blue diamond houses this glaring ring. Such unconcealed power, though, is destined to make you stand out amongst the crowd.</Description>
 	</Object>
 
 	<Object id="0x50b" name="TEST Rage Crit Ring" tier="-1">
@@ -2523,6 +2675,427 @@
 		<Description>A key that reveals an entrance to Bubra Barrens.</Description>
 		<Consumable/>
 		<Droppable/>
+	</Object>
+
+	<Object id="0x2100" name="Talisman of Blood" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Blood</Sprite>
+		<Class>Warrior</Class>
+		<TalismanEffect trigger="AbilityPulse">
+			<AlternateStatBonus type="RateOfFire" amount="4" duration="1200"/>
+			<HealMul>0.80</HealMul>
+		</TalismanEffect>
+		<Power/>
+		<Description>A talisman that was forged from the blood of giants and blessed by the Liches.</Description>
+	</Object>
+
+	<Object id="0x2101" name="TEST Aegis Ring" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Defense Ring 1</Sprite>
+		<Description>Test ring that grants +1 Aegis on the Warrior skill tree.</Description>
+		<StatIncrease type="Defense">4</StatIncrease>
+		<TalentRank node="Aegis" class="Warrior" amount="1"/>
+		<Defense/>
+	</Object>
+
+	<Object id="0x2102" name="Talisman of Ages" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Ages</Sprite>
+		<Class>Warrior</Class>
+		<TalismanEffect trigger="AbilityPulse" cooldown="2000">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="3.5" damage="60" at="Target" range="6" lifetime="0.35" color="orange">
+				<StatusEffect type="Slowed">1200</StatusEffect>
+			</Aoe>
+		</TalismanEffect>
+		<Focus/>
+		<Description>A talisman that seems to manipulate time itself, slowing enemies as it activates.</Description>
+	</Object>
+
+	<Object id="0x2110" name="Talisman of Nova" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Nova</Sprite>
+		<Class>Ranger</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<AoeColor>purple</AoeColor>
+			<Aoe radius="3" damage="550" at="Self" lifetime="0.2" color="purple"/>
+		</TalismanEffect>
+		<Power/>
+		<Description>A talisman that releases a nova of pure energy upon activating.</Description>
+	</Object>
+	<Object id="0x2111" name="Ranger Talisman 2" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Ranger</Class>
+		<TalismanEffect trigger="AbilityHit" cooldown="800">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="1.5" damage="0" at="Target" lifetime="0.2" color="orange">
+				<StatusEffect type="Mundane">1000</StatusEffect>
+			</Aoe>
+		</TalismanEffect>
+		<Focus/>
+		<Description>On ability hit, apply Mundane for 1 second.</Description>
+	</Object>
+	<Object id="0x2112" name="Talisman of Wrath" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Wrath</Sprite>
+		<Class>Ranger</Class>
+		<TalismanEffect trigger="AbilityTick">
+			<StatBonus type="Attack" amount="4" duration="1000"/>
+		</TalismanEffect>
+		<Power/>
+		<Description>A talisman that holds a great anger underneath.</Description>
+	</Object>
+	<Object id="0x2113" name="Talisman of Millennia" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Millennia</Sprite>
+		<Class>Lancer</Class>
+		<TalismanEffect trigger="AbilityHit" cooldown="400">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="1.2" damage="0" at="Target" lifetime="0.2" color="orange">
+				<StatusEffect type="Slowed">1200</StatusEffect>
+			</Aoe>
+		</TalismanEffect>
+		<Focus/>
+		<Description>A talisman that was crafted over thousands of years, tangled within the sands of time.</Description>
+	</Object>
+	<Object id="0x2114" name="Blessed Talisman" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Blessed Talisman</Sprite>
+		<Class>Lancer</Class>
+		<TalismanEffect trigger="AbilityHit" cooldown="500">
+			<Heal>1</Heal>
+		</TalismanEffect>
+		<Support/>
+		<Description>A talisman blessed by the high ministers with the power to aid its wearer.</Description>
+	</Object>
+	<Object id="0x2115" name="Lancer Talisman 3" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Lancer</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<StatBonus type="Defense" amount="6" duration="800"/>
+		</TalismanEffect>
+		<Defense/>
+		<Description>On throw, gain +6 Defense for 0.8 seconds.</Description>
+	</Object>
+	<Object id="0x2116" name="Symbiotic Talisman" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Symbiotic Talisman</Sprite>
+		<Class>Bladeweaver</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="4" damage="0" at="Self" lifetime="0.25" color="orange">
+				<StatusEffect type="Slowed">2000</StatusEffect>
+			</Aoe>
+		</TalismanEffect>
+		<Focus/>
+		<Description>A talisman that is affixed to its users' essence.</Description>
+	</Object>
+	<Object id="0x2117" name="Rogue's Talisman" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Rogue's Talisman</Sprite>
+		<Class>Bladeweaver</Class>
+		<TalismanEffect trigger="AbilityHit" cooldown="300">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="1" damage="0" at="Target" lifetime="0.15" color="orange">
+				<StatusEffect type="Grounded">3000</StatusEffect>
+			</Aoe>
+		</TalismanEffect>
+		<Focus/>
+		<Description>A talisman inspired by the cunning power of the rogues, trapping enemies in their place.</Description>
+	</Object>
+	<Object id="0x2118" name="Bladeweaver Talisman 3" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Bladeweaver</Class>
+		<TalismanEffect trigger="AbilityEnd">
+			<StatBonus type="Speed" amount="4" duration="200"/>
+		</TalismanEffect>
+		<Defense/>
+		<Description>When the dash ends, gain +4 Speed for 0.2 seconds.</Description>
+	</Object>
+	<Object id="0x2119" name="Nomad Talisman 1" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Nomad</Class>
+		<TalismanEffect trigger="HitMarked">
+			<DamageMul>1.25</DamageMul>
+		</TalismanEffect>
+		<Power/>
+		<Description>Hitting a Marked enemy deals x1.25 damage.</Description>
+	</Object>
+	<Object id="0x211a" name="Talisman of Tragedy" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Tragedy</Sprite>
+		<Class>Nomad</Class>
+		<TalismanEffect trigger="HitMarked">
+			<Rage>1</Rage>
+		</TalismanEffect>
+		<Power/>
+		<Description>A talisman that was once cursed for bringing bad luck.</Description>
+	</Object>
+	<Object id="0x211b" name="Nomad Talisman 3" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Nomad</Class>
+		<TalismanEffect trigger="HitMarked" cooldown="1000">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="1.5" damage="0" at="Target" lifetime="0.2" color="orange">
+				<StatusEffect type="Slowed">1000</StatusEffect>
+			</Aoe>
+		</TalismanEffect>
+		<Focus/>
+		<Description>Hitting a Marked enemy applies Slowed for 1 second.</Description>
+	</Object>
+	<Object id="0x211c" name="Nomad Talisman 4" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Nomad</Class>
+		<TalismanEffect trigger="Interact">
+			<Heal>20</Heal>
+		</TalismanEffect>
+		<Support/>
+		<Description>On charm interact, heal 20 HP.</Description>
+	</Object>
+	<Object id="0x212e" name="Talisman of Daybreak" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Daybreak</Sprite>
+		<Class>Nomad</Class>
+		<TalismanEffect trigger="Interact">
+			<RateOfFire>7</RateOfFire>
+			<Heal>-30</Heal>
+		</TalismanEffect>
+		<Power/>
+		<Description>A talisman that harnesses the light of dawn.</Description>
+	</Object>
+	<Object id="0x211d" name="Ethereal Talisman" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Ethereal Talisman</Sprite>
+		<Class>Brewer</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<AlternateStatBonus type="AbsorptionChance" amount="5" duration="4000"/>
+		</TalismanEffect>
+		<Support/>
+		<Description>A talisman that is said to have originated from the high mages.</Description>
+	</Object>
+	<Object id="0x211e" name="Soothing Talisman" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Soothing Talisman</Sprite>
+		<Class>Brewer</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<Heal>30</Heal>
+		</TalismanEffect>
+		<Support/>
+		<Description>A talisman that helps soothe its bearer's wounds.</Description>
+	</Object>
+	<Object id="0x211f" name="Brewer Talisman 3" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Brewer</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="4" damage="0" at="Self" lifetime="0.3" color="orange">
+				<StatusEffect type="Slowed">1500</StatusEffect>
+			</Aoe>
+		</TalismanEffect>
+		<Focus/>
+		<Description>A talisman that can electrocute enemies upon activating, halting their pace.</Description>
+	</Object>
+	<Object id="0x2120" name="Talisman of Strength" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Strength</Sprite>
+		<Class>Commander</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<StatBonus type="Attack" amount="8" duration="4000"/>
+		</TalismanEffect>
+		<Power/>
+		<Description>A talisman that sharpens its bearer's blade upon activation.</Description>
+	</Object>
+	<Object id="0x2121" name="Talisman of Holy Water" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Holy Water</Sprite>
+		<Class>Commander</Class>
+		<TalismanEffect trigger="AbilityTick">
+			<Heal>8</Heal>
+		</TalismanEffect>
+		<Support/>
+		<Description>A talisman that is able to purify its user.</Description>
+	</Object>
+	<Object id="0x2122" name="Commander Talisman 3" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Commander</Class>
+		<TalismanEffect trigger="AbilityEnd">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="3" damage="0" at="Self" lifetime="0.3" color="orange">
+				<StatusEffect type="Slowed">1000</StatusEffect>
+			</Aoe>
+		</TalismanEffect>
+		<Focus/>
+		<Description>When the Defense buff ends, Slowed nova for 1 second.</Description>
+	</Object>
+	<Object id="0x2123" name="Minister Talisman 1" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Minister</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<Heal>25</Heal>
+		</TalismanEffect>
+		<Support/>
+		<Description>On ability use, heal 25 HP.</Description>
+	</Object>
+	<Object id="0x2124" name="Talisman of the Shield" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of the Shield</Sprite>
+		<Class>Minister</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<StatBonus type="Defense" amount="10" duration="5000"/>
+		</TalismanEffect>
+		<Defense/>
+		<Description>A talisman that hardens like a shield to protect its bearer.</Description>
+	</Object>
+	<Object id="0x2125" name="Minister Talisman 3" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Minister</Class>
+		<TalismanEffect trigger="AbilityEnd">
+			<Heal>30</Heal>
+		</TalismanEffect>
+		<Support/>
+		<Description>When the pillar ends, heal 30 HP.</Description>
+	</Object>
+	<Object id="0x212f" name="Talisman of Retribution" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Retribution</Sprite>
+		<Class>Minister</Class>
+		<TalismanEffect trigger="AbilityTick">
+			<AoeColor>purple</AoeColor>
+			<Aoe radius="2" damage="200" at="RandomTarget" range="10" trueDamage="false" lifetime="0.3" color="yellow"/>
+		</TalismanEffect>
+		<Power/>
+		<Description>A talisman that smites demons and other monsters from afar.</Description>
+	</Object>
+	<Object id="0x2126" name="Alchemist Talisman 1" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Alchemist</Class>
+		<TalismanEffect trigger="AbilityTick" cooldown="1000">
+			<AoeColor>purple</AoeColor>
+			<Aoe radius="2" damage="10" at="Target" lifetime="0.2" color="purple"/>
+		</TalismanEffect>
+		<Power/>
+		<Description>On each puddle tick, deal 10 extra damage.</Description>
+	</Object>
+	<Object id="0x2127" name="Alchemist Talisman 2" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Alchemist</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<AoeColor>purple</AoeColor>
+			<Aoe radius="2" damage="20" at="Target" range="6" lifetime="0.3" color="purple"/>
+		</TalismanEffect>
+		<Power/>
+		<Description>On ability use, a mini blast dealing 20 damage.</Description>
+	</Object>
+	<Object id="0x2128" name="Alchemist Talisman 3" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Alchemist</Class>
+		<TalismanEffect trigger="AbilityEnd">
+			<AoeColor>purple</AoeColor>
+			<Aoe radius="3" damage="40" at="Self" lifetime="0.35" color="purple"/>
+		</TalismanEffect>
+		<Power/>
+		<Description>When the puddle ends, burst 40 damage around you.</Description>
+	</Object>
+	<Object id="0x212c" name="Talisman of Piercing" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Alchemist</Class>
+		<TalismanEffect trigger="AbilityTick">
+			<StatusEffect type="DefenseMinus" amount="15" duration="1200"/>
+		</TalismanEffect>
+		<Focus/>
+		<Description>A talisman that can pierce through the toughest armor.</Description>
+	</Object>
+	<Object id="0x212d" name="Talisman of Spite" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Spite</Sprite>
+		<Class>Alchemist</Class>
+		<TalismanEffect trigger="AbilityTick">
+			<Rage>2</Rage>
+		</TalismanEffect>
+		<Power/>
+		<Description>A talisman that channels its user's rage.</Description>
+	</Object>
+	<Object id="0x2129" name="Berserker Talisman 1" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman</Sprite>
+		<Class>Berserker</Class>
+		<TalismanEffect trigger="AbilityHit" cooldown="800">
+			<AlternateStatBonus type="RateOfFire" amount="20" duration="1000"/>
+		</TalismanEffect>
+		<Power/>
+		<Description>On shout hit, gain +20% Rate of Fire for 1 second.</Description>
+	</Object>
+	<Object id="0x212a" name="Talisman of Celerity" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Celerity</Sprite>
+		<Class>Berserker</Class>
+		<TalismanEffect trigger="AbilityUse">
+			<StatBonus type="Speed" amount="12" duration="12000"/>
+		</TalismanEffect>
+		<Agility/>
+		<Description>A talisman that makes its bearer's feet feel lighter in combat.</Description>
+	</Object>
+	<Object id="0x212b" name="Talisman of Apocalypse" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>Talisman</SlotType>
+		<Sprite>Talisman of Apocalypse</Sprite>
+		<Class>Berserker</Class>
+		<TalismanEffect trigger="AbilityHit" cooldown="1000">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="1.5" damage="0" at="Target" lifetime="0.2" color="orange">
+				<StatusEffect type="DefenseMinus" amount="20" duration="3000"/>
+			</Aoe>
+		</TalismanEffect>
+		<Focus/>
+		<Description>A talisman that provides a glimpse into the end of worlds.</Description>
 	</Object>
 
 </Objects>

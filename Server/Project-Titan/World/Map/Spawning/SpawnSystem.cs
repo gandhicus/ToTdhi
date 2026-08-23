@@ -154,7 +154,42 @@ namespace World.Map.Spawning
 
             public bool ReadyToSpawnEncounter(float time)
             {
-                return encounters.Count < definition.maxConcurrentEncounters && time > lastEncounterSpawn + definition.encounterSpawnRate;
+                if (time <= lastEncounterSpawn + definition.encounterSpawnRate) return false;
+                return CanSpawnEvent() || CanSpawnTitan();
+            }
+
+            public bool CanSpawnEvent()
+            {
+                return definition.encounters.Length > 0 && GetEventCount() < definition.maxConcurrentEncounters;
+            }
+
+            public bool CanSpawnTitan()
+            {
+                var eligibleTitans = system.world.overworldCycle.GetTitanCount(definition.soulGroup);
+                return eligibleTitans > 0 && GetLiveTitanCount() < eligibleTitans;
+            }
+
+            private int GetEventCount()
+            {
+                int count = 0;
+                foreach (var encounter in encounters)
+                    if (!((EnemyInfo)encounter.info).titan)
+                        count++;
+                return count;
+            }
+
+            private int GetLiveTitanCount()
+            {
+                int count = 0;
+                foreach (var encounter in encounters)
+                    if (((EnemyInfo)encounter.info).titan)
+                        count++;
+                return count;
+            }
+
+            public void MarkEncounterSpawn(float time)
+            {
+                lastEncounterSpawn = time;
             }
 
             public bool SpawnMob(float time, Int2 position, long key)
@@ -197,20 +232,26 @@ namespace World.Map.Spawning
                     spawnedEnemies[key] = count;
             }
 
-            public void SpawnEncounter(float time, Int2 position)
+            public void SpawnEventEncounter(float time, Int2 position)
             {
-                var titanCount = system.world.overworldCycle.GetTitanCount(definition.soulGroup);
-                var rndMax = definition.encounters.Length + titanCount;
-                if (rndMax <= 0) return;
+                if (!CanSpawnEvent()) return;
 
-                var rnd = Rand.Next(rndMax);
-                ushort type = 0;
+                var type = definition.encounters.Random();
+                SpawnEncounterEnemy(time, position, type);
+            }
 
-                if (rnd < definition.encounters.Length)
-                    type = definition.encounters.Random();
-                else
-                    type = system.world.overworldCycle.GetTitanSpawn(definition.soulGroup);
+            public void SpawnTitanEncounter(float time, Int2 position)
+            {
+                if (!CanSpawnTitan()) return;
 
+                var type = system.world.overworldCycle.GetTitanSpawn(definition.soulGroup);
+                if (type == 0) return;
+
+                SpawnEncounterEnemy(time, position, type);
+            }
+
+            private void SpawnEncounterEnemy(float time, Int2 position, ushort type)
+            {
                 if (!GameData.objects.TryGetValue(type, out var info)) return;
                 if (!(info is EnemyInfo enemyInfo)) return;
                 var encounter = new EncounterEnemy();
@@ -220,7 +261,6 @@ namespace World.Map.Spawning
                 encounter.position.Value = position.ToVec2() + 0.5f;
                 system.world.objects.AddObject(encounter);
                 encounters.Add(encounter);
-                lastEncounterSpawn = time;
             }
 
             public Enemy SpawnMannah()
@@ -460,8 +500,14 @@ namespace World.Map.Spawning
         private void SpawnEncounter(TileSpawnData data, float time)
         {
             if (!data.ReadyToSpawnEncounter(time)) return;
-            if (!TryGetSpawnPosition(data, out var spawnPos)) return;
-            data.SpawnEncounter(time, spawnPos);
+
+            data.MarkEncounterSpawn(time);
+
+            if (data.CanSpawnEvent() && TryGetSpawnPosition(data, out var eventPos))
+                data.SpawnEventEncounter(time, eventPos);
+
+            if (data.CanSpawnTitan() && TryGetSpawnPosition(data, out var titanPos))
+                data.SpawnTitanEncounter(time, titanPos);
         }
 
         private bool TryGetSpawnPosition(TileSpawnData data, out Int2 spawnPos)

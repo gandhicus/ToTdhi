@@ -11,6 +11,9 @@ public class Flash : MonoBehaviour
     [Tooltip("Only flash when the local player can afford a manual level up.")]
     public bool onlyWhenCanLevelUp;
 
+    [Tooltip("Only flash when the local player can spend essence on the skill tree.")]
+    public bool onlyWhenCanSpendSkillTree;
+
     private Graphic graphic;
 
     private Color graphicColor;
@@ -25,16 +28,24 @@ public class Flash : MonoBehaviour
 
     private void Start()
     {
-        if (onlyWhenCanLevelUp)
+        if (onlyWhenCanLevelUp || onlyWhenCanSpendSkillTree)
             gameManager = FindObjectOfType<GameManager>();
     }
 
     private void LateUpdate()
     {
+        var player = gameManager?.world?.player;
         if (onlyWhenCanLevelUp)
         {
-            var player = gameManager?.world?.player;
             if (player == null || !player.CanLevelUp())
+            {
+                graphic.color = graphicColor;
+                return;
+            }
+        }
+        if (onlyWhenCanSpendSkillTree)
+        {
+            if (player == null || !player.CanSpendSkillTreePoint())
             {
                 graphic.color = graphicColor;
                 return;

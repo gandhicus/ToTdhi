@@ -29,6 +29,9 @@ namespace TitanCore.Core
         TrueBonus = 20,
         BlockBonus = 21,
         CritBonus = 22,
-        AbsorptionBonus = 23
+        AbsorptionBonus = 23,
+        Marked = 24,
+        DefenseMinus = 25,
+        RateOfFireBonus = 26
     }
 }

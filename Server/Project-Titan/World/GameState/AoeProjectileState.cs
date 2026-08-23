@@ -25,6 +25,8 @@ namespace World.GameState
 
         public ushort damage;
 
+        public ushort item;
+
         public Vec2 target;
 
         public bool didHitPlayer = false;
@@ -53,12 +55,13 @@ namespace World.GameState
 
         public AoeProjectileState(uint time, AllyAoeProjectile projectile)
         {
-            var item = (WeaponInfo)GameData.objects[projectile.item];
-            data = (AoeProjectileData)item.projectiles[projectile.projectileId % item.projectiles.Length];
+            var weapon = (WeaponInfo)GameData.objects[projectile.item];
+            data = (AoeProjectileData)weapon.projectiles[projectile.projectileId % weapon.projectiles.Length];
 
             ownerId = projectile.ownerId;
             projectileId = projectile.projectileId;
             damage = projectile.damage;
+            item = projectile.item;
             target = projectile.target;
 
             endTime = NetConstants.GetAoeExpireTime(time, Client.Client_Fixed_Delta, data.lifetime);

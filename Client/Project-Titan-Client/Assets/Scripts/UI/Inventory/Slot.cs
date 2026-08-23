@@ -113,6 +113,12 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             return;
         }
 
+        if (SkillTreeFunctions.IsEnabled && slotIndex == SkillTreeFunctions.Talisman_Slot && info.slotType == SlotType.Talisman)
+        {
+            colorImage.gameObject.SetActive(false);
+            return;
+        }
+
         if (item.soulbound)
         {
             colorImage.gameObject.SetActive(true);
@@ -122,6 +128,15 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         else if (info.slotType == SlotType.Generic)
         {
             colorImage.gameObject.SetActive(false);
+            return;
+        }
+
+        else if (info is EquipmentInfo talismanEquip && talismanEquip.slotType == SlotType.Talisman)
+        {
+            bool usable = charInfo.CanUseEquipment(talismanEquip);
+            colorImage.gameObject.SetActive(!usable);
+            if (!usable)
+                colorImage.color = unequippableColor;
             return;
         }
 
@@ -177,6 +192,11 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private bool CanSwapItemInto(Slot otherSlot)
     {
         if (item.IsBlank) return true;
+        if (SkillTreeFunctions.IsEnabled && otherSlot.slotIndex == SkillTreeFunctions.Talisman_Slot)
+        {
+            var info = item.GetInfo();
+            return info != null && info.slotType == SlotType.Talisman;
+        }
         if (otherSlot.owner.GetInfo() is TitanCore.Data.Entities.CharacterInfo charInfo && otherSlot.slotIndex < 4)
             return item.CanSwapInto(otherSlot.GetSlotType(), charInfo, otherSlot.slotIndex);
         return item.CanSwapInto(otherSlot.GetSlotType());
@@ -188,15 +208,13 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (!CanSwapItemInto(otherSlot) || !otherSlot.CanSwapItemInto(this)) return;
 
         owner.GetWorld().gameManager.client.SendAsync(new TnSwap(owner.GetGameId(), (uint)slotIndex, otherSlot.owner.GetGameId(), (uint)otherSlot.slotIndex));
-        
-        /*
+
         var itemTemp = item;
         SetItem(otherSlot.item);
         otherSlot.SetItem(itemTemp);
 
         otherSlot.owner.SetItem(otherSlot.slotIndex, otherSlot.item);
         owner.SetItem(slotIndex, item);
-        */
     }
 
     private void OnDisable()
@@ -279,6 +297,15 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
         else if (info is EquipmentInfo equip && owner.GetGameId() == world.player.gameId)
         {
+            if (SkillTreeFunctions.IsEnabled && equip.slotType == SlotType.Talisman)
+            {
+                var destItem = world.player.GetItem(SkillTreeFunctions.Talisman_Slot);
+                world.gameManager.client.SendAsync(new TnSwap(owner.GetGameId(), (uint)slotIndex, world.player.GetGameId(), (uint)SkillTreeFunctions.Talisman_Slot));
+                owner.SetItem(slotIndex, destItem);
+                world.player.SetItem(SkillTreeFunctions.Talisman_Slot, item);
+                SetItem(destItem);
+                return;
+            }
             if (equip.slotType == SlotType.Accessory)
             {
                 for (int i = 0; i < 4; i++)

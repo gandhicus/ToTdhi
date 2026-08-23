@@ -52,6 +52,8 @@ public class World : MonoBehaviour
     [HideInInspector]
     public TnMapInfo mapInfo;
 
+    private TnSkillTreeState lastSkillTreeState;
+
     private ConcurrentQueue<TnPacket> packetQueue = new ConcurrentQueue<TnPacket>();
 
     [HideInInspector]
@@ -143,6 +145,7 @@ public class World : MonoBehaviour
         gameManager.client.AddHandler<TnChangeMusic>(HandlePacketQueue);
         gameManager.client.AddHandler<TnWorldChange>(HandlePacketQueue);
         gameManager.client.AddHandler<TnSkinUnlocked>(HandlePacketQueue);
+        gameManager.client.AddHandler<TnSkillTreeState>(HandlePacketQueue);
     }
 
     public void NewMap(TnMapInfo mapInfo)
@@ -155,6 +158,7 @@ public class World : MonoBehaviour
             RemoveObject(obj);
         }
         player = null;
+        lastSkillTreeState = TakeQueuedSkillTreeState() ?? lastSkillTreeState;
 
         serverTickId = 0;
 
@@ -183,6 +187,17 @@ public class World : MonoBehaviour
         gameManager.client.SendAsync(new TnStartTick());
 
         SetWorldMusic(mapInfo.music);
+    }
+
+    private TnSkillTreeState TakeQueuedSkillTreeState()
+    {
+        var kept = lastSkillTreeState;
+        while (packetQueue.TryDequeue(out var packet))
+        {
+            if (packet is TnSkillTreeState state)
+                kept = state;
+        }
+        return kept;
     }
 
     private void SetWorldMusic(string musicKey)
@@ -400,7 +415,18 @@ public class World : MonoBehaviour
             case TnSkinUnlocked skinUnlocked:
                 ProcessSkinUnlocked(skinUnlocked);
                 break;
+            case TnSkillTreeState skillTreeState:
+                ProcessSkillTreeState(skillTreeState);
+                break;
         }
+    }
+
+    private void ProcessSkillTreeState(TnSkillTreeState state)
+    {
+        lastSkillTreeState = state;
+        if (player == null || stopTick)
+            return;
+        player.ApplySkillTreeState(state.packedRanks, state.talisman);
     }
 
     private void PositionCameraOnPlayer()
@@ -448,6 +474,9 @@ public class World : MonoBehaviour
         }
 
         allowControls = true;
+
+        if (lastSkillTreeState != null)
+            player.ApplySkillTreeState(lastSkillTreeState.packedRanks, lastSkillTreeState.talisman);
 
         return player;
     }
@@ -700,6 +729,7 @@ public class World : MonoBehaviour
     public void ProcessWorldChange(TnWorldChange worldChange)
     {
         stopTick = true;
+        lastSkillTreeState = TakeQueuedSkillTreeState() ?? lastSkillTreeState;
         packetQueue = new ConcurrentQueue<TnPacket>();
         gameManager.AwaitMapInfo();
         gameManager.ui.WorldLoading();
@@ -951,6 +981,20 @@ public class World : MonoBehaviour
 
     #region World Effects
 
+    private Color GetWorldEffectColor(WorldEffect effect, Color fallback)
+    {
+        if (effect != null && effect.hasColor)
+            return effect.color.ToUnityColor();
+        return fallback;
+    }
+
+    private void TintParticles(Effect effect, Color color)
+    {
+        if (effect == null || effect.system == null) return;
+        var options = effect.system.main;
+        options.startColor = color;
+    }
+
     private Color GetBlastColorForEffect(StatusEffect effectType)
     {
         switch (effectType)
@@ -961,6 +1005,8 @@ public class World : MonoBehaviour
                 return new Color(1, 0, 0.2f);
             case StatusEffect.Speedy:
                 return Color.green;
+            case StatusEffect.RateOfFireBonus:
+                return new Color(1f, 0.85f, 0.2f);
             default:
                 return Color.white;
         }
@@ -997,8 +1043,8 @@ public class World : MonoBehaviour
         }
 
         var bomb = (Bomb)PlayEffect(EffectType.Bomb, start);
-        bomb.SetInfo(Color.yellow, start, bombEffect.target.ToVector2(), bombEffect.time);
-        bomb.AddBlast(Color.yellow, bombEffect.area);
+        bomb.SetInfo(GetWorldEffectColor(bombEffect, Color.yellow), start, bombEffect.target.ToVector2(), bombEffect.time);
+        bomb.AddBlast(GetWorldEffectColor(bombEffect, Color.yellow), bombEffect.area);
     }
 
     public void PlayLevelUpEffect(LevelUpWorldEffect levelUpEffect)
@@ -1029,7 +1075,9 @@ public class World : MonoBehaviour
         var pos = ownerCharacter.Position;
         pos.z = 0;
 
-        PlayEffect(EffectType.WarriorAbility, pos);
+        var hymn = PlayEffect(EffectType.WarriorAbility, pos);
+        if (warriorEffect.hasColor)
+            TintParticles(hymn, warriorEffect.color.ToUnityColor());
     }
 
     public void PlayAlchemistAbilityEffect(AlchemistAbilityWorldEffect alchemistEffect)
@@ -1038,20 +1086,23 @@ public class World : MonoBehaviour
         if (!(worldObject is Character ownerCharacter)) return;
 
         float radius = AbilityFunctions.Alchemist.GetRadius(alchemistEffect.rage);
+        var puddleColor = GetWorldEffectColor(alchemistEffect, Color.magenta);
 
         var healthBomb = (Bomb)PlayEffect(EffectType.Bomb, (Vector2)ownerCharacter.Position);
-        healthBomb.SetInfo(Color.magenta, ownerCharacter.Position, alchemistEffect.target.ToVector2(), AbilityFunctions.Alchemist.Air_Time);
-        healthBomb.AddBlast(Color.magenta, radius);
+        healthBomb.SetInfo(puddleColor, ownerCharacter.Position, alchemistEffect.target.ToVector2(), AbilityFunctions.Alchemist.Air_Time);
+        healthBomb.AddBlast(puddleColor, radius);
         healthBomb.SetEndCallback((bomb) =>
         {
             var alchemistAbility = (AlchemistAbility)PlayEffect(EffectType.AlchemistAbility, alchemistEffect.target.ToVector2());
-            alchemistAbility.Setup(alchemistEffect.target.ToVector2(), radius, AbilityFunctions.Alchemist.GetGroundDurationMs(alchemistEffect.rage) / 1000f);
+            alchemistAbility.Setup(alchemistEffect.target.ToVector2(), radius, AbilityFunctions.Alchemist.GetGroundDurationMs(alchemistEffect.rage) / 1000f, puddleColor);
         });
     }
 
     public void PlayCommanderAbilityEffect(CommanderAbilityWorldEffect commanderEffect)
     {
-        PlayEffect(EffectType.CommanderAbility, commanderEffect.position.ToVector2());
+        var commanderVfx = PlayEffect(EffectType.CommanderAbility, commanderEffect.position.ToVector2());
+        if (commanderEffect.hasColor)
+            TintParticles(commanderVfx, commanderEffect.color.ToUnityColor());
 
         var effects = AbilityFunctions.GetAbilityEffects(commanderEffect.rage, commanderEffect.attack, 0, ClassType.Commander);
 
@@ -1059,7 +1110,7 @@ public class World : MonoBehaviour
         {
             if (abilityEffect.area == 0) continue;
             var blast = (AreaBlast)PlayEffect(EffectType.AreaBlast, commanderEffect.position.ToVector2());
-            blast.SetInfo(abilityEffect.area, GetBlastColorForEffect(abilityEffect.type));
+            blast.SetInfo(abilityEffect.area, GetWorldEffectColor(commanderEffect, GetBlastColorForEffect(abilityEffect.type)));
         }
 
         if (!TryGetObject(commanderEffect.ownerGameId, out var worldObject)) return;
@@ -1079,7 +1130,7 @@ public class World : MonoBehaviour
         {
             if (abilityEffect.area == 0) continue;
             var blast = (AreaBlast)PlayEffect(EffectType.AreaBlast, ministerEffect.position.ToVector2());
-            blast.SetInfo(abilityEffect.area, GetBlastColorForEffect(abilityEffect.type));
+            blast.SetInfo(abilityEffect.area, GetWorldEffectColor(ministerEffect, GetBlastColorForEffect(abilityEffect.type)));
         }
 
         if (!TryGetObject(ministerEffect.ownerGameId, out var worldObject)) return;
@@ -1099,30 +1150,22 @@ public class World : MonoBehaviour
         var shoutRadius = AbilityFunctions.Berserker.GetShoutRange(berserkerEffect.rage, berserkerEffect.attack);
 
         var shout = (Shout)PlayEffect(EffectType.Shout, berserkerEffect.position.ToVector2());
+        if (berserkerEffect.hasColor)
+            TintParticles(shout, berserkerEffect.color.ToUnityColor());
         shout.SetInfo(shoutSpread, berserkerEffect.angle, shoutRadius);
 
-        var effects = AbilityFunctions.GetAbilityEffects(berserkerEffect.rage, berserkerEffect.attack, 0, ClassType.Berserker);
-
-        foreach (var abilityEffect in effects)
-        {
-            if (abilityEffect.area == 0) continue;
-            var blast = (AreaBlast)PlayEffect(EffectType.AreaBlast, berserkerEffect.position.ToVector2());
-            blast.SetInfo(abilityEffect.area, GetBlastColorForEffect(abilityEffect.type));
-        }
+        float rofArea = AbilityFunctions.Berserker.GetRoFArea(berserkerEffect.rage, berserkerEffect.attack);
+        var blast = (AreaBlast)PlayEffect(EffectType.AreaBlast, berserkerEffect.position.ToVector2());
+        blast.SetInfo(rofArea, GetWorldEffectColor(berserkerEffect, GetBlastColorForEffect(StatusEffect.RateOfFireBonus)));
 
         if (!TryGetObject(berserkerEffect.ownerGameId, out var worldObject)) return;
         if (!(worldObject is Character ownerCharacter)) return;
 
-        foreach (var effect in effects)
-        {
-            ownerCharacter.AddClientEffect(effect.type, effect.duration);
-        }
+        ownerCharacter.AddClientEffect(StatusEffect.RateOfFireBonus, AbilityFunctions.Berserker.GetRoFDurationMs(berserkerEffect.rage, berserkerEffect.attack));
     }
 
     public void PlayRangerAbilityEffect(RangerAbilityWorldEffect rangerEffect)
     {
-        PlayEffect(EffectType.RangerArrows, rangerEffect.position.ToVector2());
-
         var rangerRadius = AbilityFunctions.Ranger.GetRadius(rangerEffect.rage, rangerEffect.attack);
         var rangerDamage = AbilityFunctions.Ranger.GetDamage(rangerEffect.rage, rangerEffect.attack);
 
@@ -1130,7 +1173,7 @@ public class World : MonoBehaviour
         position.z = -4;
 
         var arrows = (RangerArrows)PlayEffect(EffectType.RangerArrows, position);
-        arrows.SetInfo(rangerRadius);
+        arrows.SetInfo(rangerRadius, rangerEffect.hasColor ? rangerEffect.color.ToUnityColor() : (Color?)null);
 
         foreach (var hit in rangerEffect.hit)
         {
@@ -1148,7 +1191,7 @@ public class World : MonoBehaviour
         {
             if (abilityEffect.area == 0) continue;
             var blast = (AreaBlast)PlayEffect(EffectType.AreaBlast, brewerEffect.position.ToVector2());
-            blast.SetInfo(abilityEffect.area, GetBlastColorForEffect(abilityEffect.type));
+            blast.SetInfo(abilityEffect.area, GetWorldEffectColor(brewerEffect, GetBlastColorForEffect(abilityEffect.type)));
         }
 
         if (!TryGetObject(brewerEffect.ownerGameId, out var worldObject)) return;
@@ -1165,7 +1208,8 @@ public class World : MonoBehaviour
         if (!TryGetObject(bladeweaverEffect.ownerGameId, out var worldObject)) return;
         if (!(worldObject is Character ownerCharacter)) return;
 
-        ownerCharacter.AddClientEffect(StatusEffect.Dashing, AbilityFunctions.BladeWeaver.Dash_Duration);
+        uint dashDuration = bladeweaverEffect.durationMs > 0 ? bladeweaverEffect.durationMs : AbilityFunctions.BladeWeaver.Dash_Duration;
+        ownerCharacter.AddClientEffect(StatusEffect.Dashing, dashDuration);
     }
 
     public void PlayNomadAbilityEffect(NomadAbilityWorldEffect nomadEffect)
@@ -1174,7 +1218,7 @@ public class World : MonoBehaviour
         if (!(worldObject is Character ownerCharacter)) return;
 
         var bomb = (Bomb)PlayEffect(EffectType.Bomb, (Vector2)ownerCharacter.Position);
-        bomb.SetInfo(Color.green, ownerCharacter.Position, nomadEffect.target.ToVector2(), AbilityFunctions.Nomad.Charm_Air_Time);
+        bomb.SetInfo(GetWorldEffectColor(nomadEffect, Color.green), ownerCharacter.Position, nomadEffect.target.ToVector2(), AbilityFunctions.Nomad.Charm_Air_Time);
     }
 
     #endregion

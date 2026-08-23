@@ -54,6 +54,10 @@ public class Player : Character
 
     public Item[] backpack;
 
+    public uint skillTreeRanks;
+
+    public Item socketedTalisman = Item.Blank;
+
     public Vec2 lastSentPosition;
 
     public uint lastSentPositionTime;
@@ -130,6 +134,8 @@ public class Player : Character
         cooldown = 1;
         cooldownDuration = 1;
         backpack = new Item[8];
+        skillTreeRanks = 0;
+        socketedTalisman = Item.Blank;
 
         wantsToUseAbility = false;
         currentTile = null;
@@ -298,6 +304,8 @@ public class Player : Character
 
     public override Item GetItem(int index)
     {
+        if (SkillTreeFunctions.IsEnabled && index == SkillTreeFunctions.Talisman_Slot)
+            return socketedTalisman;
         if (index < 12)
             return items[index];
         return base.GetItem(index);
@@ -305,10 +313,24 @@ public class Player : Character
 
     public override void SetItem(int index, Item item)
     {
+        if (SkillTreeFunctions.IsEnabled && index == SkillTreeFunctions.Talisman_Slot)
+        {
+            socketedTalisman = item;
+            RaiseInventoryUpdated();
+            return;
+        }
         if (index < 4)
             base.SetItem(index, item);
         else if (index < 12)
             items[index] = item;
+        RaiseInventoryUpdated();
+    }
+
+    public override SlotType GetSlotType(int index)
+    {
+        if (SkillTreeFunctions.IsEnabled && index == SkillTreeFunctions.Talisman_Slot)
+            return SlotType.Talisman;
+        return base.GetSlotType(index);
     }
 
     public void SetAttacking(bool attacking, float attackAngle, Vector2 aimPosition)
@@ -510,7 +532,7 @@ public class Player : Character
         if (!(itemInfo is WeaponInfo weaponInfo)) return;
         if (shootCooldown < 0)
         {
-            shootCooldown = (int)(1000 / (weaponInfo.rateOfFire * StatFunctions.AttackSpeedModifier(HasStatusEffect(StatusEffect.Fervent), GetAlternateStatIncrease(AlternateStatType.RateOfFire))));
+            shootCooldown = StatFunctions.GetShootCooldownMs(weaponInfo.rateOfFire, GetAlternateStatIncrease(AlternateStatType.RateOfFire));
             //Debug.Log($"Time: {world.clientTime} Next Shoot: {world.clientTime + shootCooldown}");
 
             if (animation is CharacterAnimationData characterAnimation)
@@ -617,7 +639,7 @@ public class Player : Character
         lastSentPosition = position;
     }
 
-        public DamageResult ResolveOutgoingDamage(int rawDamage, int targetDefense, bool targetFortified, uint projectileId, uint time, uint targetId)
+        public DamageResult ResolveOutgoingDamage(int rawDamage, int targetDefense, bool targetFortified, uint projectileId, uint time, uint targetId, int targetDefenseMinusAmount = 0)
         {
             return StatFunctions.ResolveOutgoingDamage(
                 rawDamage,
@@ -629,7 +651,8 @@ public class Player : Character
                 projectileId,
                 time,
                 targetId,
-                gameId);
+                gameId,
+                targetDefenseMinusAmount);
         }
 
     public override bool IsHitBy(Vec2 position, Projectile projectile, out bool killed)
@@ -751,9 +774,9 @@ public class Player : Character
         AddClientEffect(StatusEffect.Grounded, duration);
     }
 
-    private void AddDash(Vec2 position, Vec2 target, int rage)
+    private void AddDash(Vec2 position, Vec2 target, int rage, uint durationMs, float extraDistance)
     {
-        AddPositionalEffect(AbilityFunctions.BladeWeaver.GetDashPositionVector(position.AngleTo(target), rage));
+        AddPositionalEffect(AbilityFunctions.BladeWeaver.GetDashPositionVector(position.AngleTo(target), rage, durationMs, extraDistance));
     }
 
     public void IncrementAbilityValue()
@@ -830,12 +853,20 @@ public class Player : Character
             case ClassType.Warrior:
                 //world.PlayWarriorAbilityEffect(new WarriorAbilityWorldEffect(gameId, position, (byte)rage, GetStatFunctional(StatType.Attack)));
                 var blast = (AreaBlast)world.PlayEffect(EffectType.AreaBlast, position.ToVector2());
-                blast.SetInfo(2, Color.white);
+                blast.SetInfo(2, GetTalismanAbilityAoeColor(Color.white));
 
+                float warriorRage = rage;
                 rage = 0;
+                if (SkillTreeFunctions.IsEnabled)
+                {
+                    var keep = BuildClientAbilityModifiers().rageKeep;
+                    rage = Mathf.Floor(warriorRage) * keep;
+                }
                 break;
             case ClassType.Alchemist:
-                world.PlayAlchemistAbilityEffect(new AlchemistAbilityWorldEffect(gameId, target, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack)));
+                var alchemistFx = new AlchemistAbilityWorldEffect(gameId, target, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack));
+                ColorFromTalisman(alchemistFx);
+                world.PlayAlchemistAbilityEffect(alchemistFx);
                 rage = 0;
                 break;
             case ClassType.Lancer:
@@ -850,16 +881,24 @@ public class Player : Character
                 rage -= AbilityFunctions.Lancer.Rage_Cost;
                 break;
             case ClassType.Commander:
-                world.PlayCommanderAbilityEffect(new CommanderAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack)));
+                var commanderFx = new CommanderAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack));
+                ColorFromTalisman(commanderFx);
+                world.PlayCommanderAbilityEffect(commanderFx);
                 rage = 0;
                 break;
             case ClassType.Minister:
                 var cost = AbilityFunctions.Minister.GetRageCost((int)Mathf.Floor(rage));
-                world.PlayMinisterAbilityEffect(new MinisterAbilityWorldEffect(gameId, position, cost, GetStatFunctional(StatType.Attack)));
+                var ministerFx = new MinisterAbilityWorldEffect(gameId, position, cost, GetStatFunctional(StatType.Attack));
+                ColorFromTalisman(ministerFx);
+                world.PlayMinisterAbilityEffect(ministerFx);
                 rage -= cost;
                 break;
             case ClassType.Berserker:
-                world.PlayBerserkerAbilityEffect(new BerserkerAbilityWorldEffect(gameId, position, position.AngleTo(target) * AngleUtils.Rad2Deg, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack)));
+                var berserkerMods = BuildClientAbilityModifiers();
+                rateOfFireBonus = Mathf.Max(rateOfFireBonus, AbilityFunctions.Berserker.RoF_Amount + berserkerMods.rofAmount);
+                var berserkerFx = new BerserkerAbilityWorldEffect(gameId, position, position.AngleTo(target) * AngleUtils.Rad2Deg, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack));
+                ColorFromTalisman(berserkerFx);
+                world.PlayBerserkerAbilityEffect(berserkerFx);
                 rage = 0;
                 break;
             case ClassType.Ranger:
@@ -868,13 +907,22 @@ public class Player : Character
                 break;
             case ClassType.Brewer:
                 AudioManager.PlaySound("drink_potion");
-                world.PlayBrewerAbilityEffect(new BrewerAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack), abilityValue));
+                var brewerMods = BuildClientAbilityModifiers();
+                if (abilityValue == 0)
+                    rateOfFireBonus = Mathf.Max(rateOfFireBonus, AbilityFunctions.Brewer.RoF_Amount + brewerMods.rofAmount);
+                var brewerFx = new BrewerAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack), abilityValue);
+                ColorFromTalisman(brewerFx);
+                world.PlayBrewerAbilityEffect(brewerFx);
                 rage = 0;
                 break;
             case ClassType.Bladeweaver:
                 var rageToUse = abilityValue;
-                world.PlayBladeweaverAbilityEffect(new BladeweaverAbilityWorldEffect(gameId));
-                AddDash(position, target, rageToUse);
+                var bladeweaverMods = BuildClientAbilityModifiers();
+                uint dashDuration = AbilityFunctions.BladeWeaver.Dash_Duration + (uint)Mathf.Max(0, bladeweaverMods.durationBonusMs);
+                var bladeweaverFx = new BladeweaverAbilityWorldEffect(gameId, dashDuration);
+                ColorFromTalisman(bladeweaverFx);
+                world.PlayBladeweaverAbilityEffect(bladeweaverFx);
+                AddDash(position, target, rageToUse, dashDuration, bladeweaverMods.abilityRangeBonus);
                 rage -= rageToUse;
 
                 var bwItem = new Item(0x2a8);
@@ -885,15 +933,39 @@ public class Player : Character
                 });
                 break;
             case ClassType.Nomad:
-                world.PlayNomadAbilityEffect(new NomadAbilityWorldEffect(gameId, target));
+                var nomadFx = new NomadAbilityWorldEffect(gameId, target);
+                ColorFromTalisman(nomadFx);
+                world.PlayNomadAbilityEffect(nomadFx);
                 rage -= AbilityFunctions.Nomad.Ability_Cost;
                 break;
         }
 
         cooldownDuration = AbilityFunctions.GetAbilityCooldownMs((byte)Mathf.Floor(rage), info.id);
+        if (SkillTreeFunctions.IsEnabled)
+        {
+            var mods = BuildClientAbilityModifiers();
+            if (mods.cooldownMul > 0 && mods.cooldownMul < 1)
+                cooldownDuration = Mathf.Max(1, (int)(cooldownDuration * mods.cooldownMul));
+            cooldownDuration = Mathf.Max(1, cooldownDuration - Mathf.Max(0, mods.cooldownFlatMs));
+        }
         cooldown = 0;
 
         world.gameManager.client.SendAsync(new TnUseAbility(world.clientTickId, position, target, abilityValue));
+    }
+
+    private void ColorFromTalisman(WorldEffect effect)
+    {
+        if (!SkillTreeFunctions.IsEnabled || socketedTalisman.IsBlank) return;
+        if (!(socketedTalisman.GetInfo() is EquipmentInfo equip)) return;
+        TalismanEffect.ApplyAbilityAoeColor(effect, equip.talismanEffects);
+    }
+
+    private Color GetTalismanAbilityAoeColor(Color fallback)
+    {
+        if (!SkillTreeFunctions.IsEnabled || socketedTalisman.IsBlank) return fallback;
+        if (!(socketedTalisman.GetInfo() is EquipmentInfo equip)) return fallback;
+        if (!TalismanEffect.TryGetAbilityAoeColor(equip.talismanEffects, out var color)) return fallback;
+        return color.ToUnityColor();
     }
 
     private static StatType[] statTypes = (StatType[])Enum.GetValues(typeof(StatType));
@@ -917,6 +989,23 @@ public class Player : Character
         var statForCost = type == StatType.MaxHealth ? GetStatBase(type) / 10 - 5 : GetStatBase(type);
         var cost = StatFunctions.GetLevelUpCost(charInfo, type, statForCost, 1);
         return cost > 0 && cost <= fullSouls;
+    }
+
+    public bool CanSpendSkillTreePoint()
+    {
+        if (!SkillTreeFunctions.IsUnlocked(GetLevel())) return false;
+        if (SkillTreeFunctions.GetSpentTotal(skillTreeRanks) >= SkillTreeFunctions.Point_Cap) return false;
+
+        int cheapest = int.MaxValue;
+        for (int i = 0; i < SkillTreeFunctions.Node_Count; i++)
+        {
+            int rank = SkillTreeFunctions.GetSpentRank(skillTreeRanks, (SkillTreeNode)i);
+            if (rank >= SkillTreeFunctions.Max_Spent_Rank) continue;
+            int cost = SkillTreeFunctions.GetRankCost(rank + 1);
+            if (cost < cheapest)
+                cheapest = cost;
+        }
+        return cheapest != int.MaxValue && cheapest <= fullSouls;
     }
 
     public void AddRage(float amount = 1, bool applyRageGainBonus = true)
@@ -957,5 +1046,30 @@ public class Player : Character
                 return lockedVigor;
         }
         return 0;
+    }
+
+    public void ApplySkillTreeState(uint packedRanks, Item talisman)
+    {
+        skillTreeRanks = packedRanks;
+        socketedTalisman = talisman;
+        RaiseInventoryUpdated();
+    }
+
+    public AbilityModifierSnapshot BuildClientAbilityModifiers()
+    {
+        if (!SkillTreeFunctions.IsUnlocked(GetLevel()))
+            return AbilityModifierSnapshot.Empty;
+        var equips = new Item[4];
+        for (int i = 0; i < 4; i++)
+            equips[i] = GetItem(i);
+        return SkillTreeFunctions.BuildSnapshot((ClassType)info.id, skillTreeRanks, equips, socketedTalisman);
+    }
+
+    public int GetGearTalentRank(SkillTreeNode node)
+    {
+        var gear = new int[SkillTreeFunctions.Node_Count];
+        for (int i = 0; i < 4; i++)
+            SkillTreeFunctions.AddGearRanks(GetItem(i), (ClassType)info.id, gear);
+        return gear[(int)node];
     }
 }

@@ -13,6 +13,15 @@ public class SpriteMetaData
 
     public SpriteMetaData(Sprite sprite)
     {
+        var tex = sprite.texture;
+        if (tex == null || !tex.isReadable)
+        {
+            colors = Array.Empty<Color>();
+            averageColor = Color.white;
+            modeColor = Color.white;
+            return;
+        }
+
         var rect = sprite.textureRect;
         var pixels = sprite.texture.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
         var colorList = new List<Color>();

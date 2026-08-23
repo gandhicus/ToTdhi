@@ -172,7 +172,7 @@ public class GameDataLoader : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        discordManager.OnApplicationQuit();
+        discordManager?.OnApplicationQuit();
 
         if (!Constants.Use_Local_Free_Store && Constants.Store_Type == StoreType.Steam)
         {

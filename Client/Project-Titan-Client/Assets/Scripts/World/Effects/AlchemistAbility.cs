@@ -25,11 +25,14 @@ public class AlchemistAbility : Effect
         transform.localEulerAngles = Vector3.zero;
     }
 
-    public void Setup(Vector2 position, float radius, float duration)
+    public void Setup(Vector2 position, float radius, float duration, Color color)
     {
         this.position = position;
         this.radius = radius;
         endTime = Time.time + duration;
+
+        var options = system.main;
+        options.startColor = color;
 
         UpdatePosition();
     }

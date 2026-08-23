@@ -73,7 +73,8 @@ public class Projectile : MonoBehaviour
         transform.localEulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg + info.rotation);
         SetSize(data.size);
 
-        GetComponent<SpriteRenderer>().sprite = TextureManager.GetSprite(info.textures[0].displaySprite);
+        var renderer = GetComponent<SpriteRenderer>();
+        renderer.sprite = TextureManager.GetSprite(info.textures[0].displaySprite);
 
         shadow = world.gameManager.objectManager.GetShadow(transform);
         shadow.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);

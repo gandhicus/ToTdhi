@@ -30,11 +30,18 @@ namespace TitanCore.Core
     {
         public abstract WorldEffectType Type { get; }
 
+        public bool hasColor;
+
+        public GameColor color;
+
         public static WorldEffect Read(BitReader r)
         {
             var type = (WorldEffectType)r.ReadUInt8();
             var effect = CreateEffect(type);
             effect.DoRead(r);
+            effect.hasColor = r.ReadBool();
+            if (effect.hasColor)
+                effect.color = GameColor.ReadColor(r);
             return effect;
         }
 
@@ -59,6 +66,9 @@ namespace TitanCore.Core
         {
             w.Write((byte)Type);
             DoWrite(w);
+            w.Write(hasColor);
+            if (hasColor)
+                color.Write(w);
         }
 
         protected abstract void DoWrite(BitWriter w);
@@ -618,24 +628,29 @@ namespace TitanCore.Core
 
         public uint ownerGameId;
 
+        public uint durationMs;
+
         public BladeweaverAbilityWorldEffect()
         {
 
         }
 
-        public BladeweaverAbilityWorldEffect(uint ownerGameId)
+        public BladeweaverAbilityWorldEffect(uint ownerGameId, uint durationMs)
         {
             this.ownerGameId = ownerGameId;
+            this.durationMs = durationMs;
         }
 
         protected override void DoRead(BitReader r)
         {
             ownerGameId = r.ReadUInt32();
+            durationMs = r.ReadUInt32();
         }
 
         protected override void DoWrite(BitWriter w)
         {
             w.Write(ownerGameId);
+            w.Write(durationMs);
         }
     }
 

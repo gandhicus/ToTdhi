@@ -64,27 +64,60 @@ namespace Pc
 
             var myClass = (TitanCore.Data.Entities.CharacterInfo)player.info;
             IReadOnlyDictionary<StatType, int> equippedFixedStats = null;
+            IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null;
             bool includeItemForScaling = true;
             if (owned)
             {
                 var equips = new Item[4];
                 for (int i = 0; i < 4; i++)
                     equips[i] = player.GetItem(i);
-                EquipmentStatFunctions.GetTooltipScalingContext(equips, obj, out equippedFixedStats, out includeItemForScaling);
+                EquipmentStatFunctions.GetTooltipScalingContext(equips, obj, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling);
             }
-            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling);
+            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats);
 
             if (obj.soulbound)
             {
                 SetBackgroundColor(soulboundColor);
             }
-            else if (equip != null && !myClass.CanUseSloType(info.slotType))
+            else if (equip != null && !myClass.CanUseEquipment(equip))
             {
                 SetBackgroundColor(cantUseColor);
             }
 
-            contentLabel.ForceMeshUpdate();
-            contentLabel.rectTransform.sizeDelta = contentLabel.bounds.size;
+            FitContentLabel();
+        }
+
+        public void ApplySkillTreeNode(Sprite icon, string title, string body)
+        {
+            if (itemImage != null)
+            {
+                itemImage.sprite = icon;
+                itemImage.material = MaterialManager.GetUIMaterial(0);
+                itemImage.enabled = icon != null;
+            }
+            nameLabel.text = title;
+            if (tierLabel != null)
+                tierLabel.text = "";
+
+            Clear();
+            AddContent(body);
+            FitContentLabel();
+            if (AutoSize)
+                ResizeContent();
+            PositionAtMouse();
+        }
+
+        public void RefitSkillTreeLayout()
+        {
+            FitContentLabel();
+            if (AutoSize)
+                ResizeContent();
+            PositionAtMouse();
+        }
+
+        private void FitContentLabel()
+        {
+            FitTextLabel(contentLabel);
         }
 
         public void NewLine()

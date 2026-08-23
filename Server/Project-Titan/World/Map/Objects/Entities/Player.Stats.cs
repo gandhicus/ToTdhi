@@ -55,6 +55,8 @@ namespace World.Map.Objects.Entities
 
         public ObjectStat<int> vigorLock = new ObjectStat<int>(ObjectStatType.VigorLock, ObjectStatScope.Private, 0, 0);
 
+        public ObjectStat<int> rateOfFireBonus = new ObjectStat<int>(ObjectStatType.RateOfFire, ObjectStatScope.Public, 0, 0);
+
         /// <summary>
         /// The amount of increase each stat has from equipment
         /// </summary>
@@ -209,13 +211,21 @@ namespace World.Map.Objects.Entities
         /// <returns></returns>
         public int GetStatFunctional(StatType type)
         {
-            return GetStatBase(type) + GetStatIncrease(type) + GetStatBonus(type);
+            var value = GetStatBase(type) + GetStatIncrease(type) + GetStatBonus(type);
+            if (type == StatType.MaxHealth)
+                return StatFunctions.ClampPlayerMaxHealth(value);
+            return value;
         }
 
         public void AddStatBonus(StatType type, int amount)
         {
             var obj = GetStatBonusObject(type);
             obj.Value += amount;
+        }
+
+        public void SetRateOfFireBonus(int amount)
+        {
+            rateOfFireBonus.Value = amount < 0 ? 0 : amount;
         }
 
         public void RemoveStatBonus(StatType type, int amount)
@@ -394,6 +404,7 @@ namespace World.Map.Objects.Entities
             if (level >= NetConstants.Max_Level && maxHealthLock.Value == 0)
                 LockStats();
 
+            RebuildAbilityModifiers();
             UpdateGoalBar();
         }
 

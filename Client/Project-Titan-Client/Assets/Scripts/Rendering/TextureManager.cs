@@ -90,9 +90,9 @@ public class TextureManager : MonoBehaviour
 
     public static Sprite GetSprite(string name)
     {
-        if (!sprites.TryGetValue(name, out var sprite))
-            return null;
-        return sprite;
+        if (name != null && sprites.TryGetValue(name, out var sprite))
+            return sprite;
+        return null;
     }
 
     public static Sprite GetDisplaySprite(ushort type)
@@ -144,6 +144,8 @@ public class TextureManager : MonoBehaviour
 
     public static Sprite GetStatusEffect(StatusEffect effect)
     {
-        return statusEffects[effect];
+        if (statusEffects.TryGetValue(effect, out var sprite))
+            return sprite;
+        return GetSprite(effect.ToString());
     }
 }

@@ -398,6 +398,7 @@ namespace World
             objects.AddObject(player);
             AssignVault(player);
             player.client.SendAsync(new TnMapInfo(player.gameId, currentMusic, WorldName, width, height, randomSeed, AllowPlayerTeleport, MaxPlayerCount));
+            player.SendSkillTreeState();
         }
         
         private void AssignVault(Player player)

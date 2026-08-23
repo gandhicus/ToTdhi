@@ -115,6 +115,8 @@ namespace TitanCore.Core
                     return StatusEffect.CritBonus;
                 case AlternateStatType.AbsorptionChance:
                     return StatusEffect.AbsorptionBonus;
+                case AlternateStatType.RateOfFire:
+                    return StatusEffect.RateOfFireBonus;
                 default:
                     return null;
             }
@@ -189,9 +191,23 @@ namespace TitanCore.Core
 
         public static string GetScaledStatTooltipText(ScaledStatIncrease scaled, int currentBonus = -1)
         {
-            var text = $"Every {scaled.perAmount} {GetStatDisplayName(scaled.fromStat)}, gain {scaled.gainAmount} {GetStatDisplayName(scaled.toStat)}";
+            var toStatName = scaled.toIsAlternate
+                ? GetAlternateStatDisplayName(scaled.toAlternateStat)
+                : GetStatDisplayName(scaled.toStat);
+            var gainText = scaled.toIsAlternate
+                ? FormatAlternateStatAmount(scaled.toAlternateStat, scaled.gainAmount)
+                : scaled.gainAmount.ToString();
+            var fromStatName = scaled.fromIsAlternate
+                ? GetAlternateStatDisplayName(scaled.fromAlternateStat)
+                : GetStatDisplayName(scaled.fromStat);
+            var text = $"Every {scaled.perAmount} {fromStatName}, gain {gainText} {toStatName}";
             if (currentBonus >= 0)
-                text += $" (currently +{currentBonus})";
+            {
+                var currentText = scaled.toIsAlternate
+                    ? FormatAlternateStatAmount(scaled.toAlternateStat, currentBonus)
+                    : $"+{currentBonus}";
+                text += $" (currently {currentText})";
+            }
             return text + ".";
         }
     }

@@ -32,10 +32,40 @@ namespace TitanCore.Core
             return stats;
         }
 
-        public static int GetScaledStatAmount(ScaledStatIncrease scaled, IReadOnlyDictionary<StatType, int> fixedStats)
+        public static Dictionary<AlternateStatType, int> GetFixedAlternateStatIncreases(Item[] equips)
         {
-            if (!fixedStats.TryGetValue(scaled.fromStat, out var sourceAmount))
-                sourceAmount = 0;
+            var stats = new Dictionary<AlternateStatType, int>();
+            if (equips == null) return stats;
+
+            for (int i = 0; i < equips.Length; i++)
+            {
+                if (equips[i].IsBlank) continue;
+                if (!(equips[i].GetInfo() is EquipmentInfo equip)) continue;
+                foreach (var increase in GetAlternateStatIncreases(equips[i], equip))
+                {
+                    if (!stats.TryGetValue(increase.Key, out var amount))
+                        amount = 0;
+                    stats[increase.Key] = amount + increase.Value;
+                }
+            }
+
+            return stats;
+        }
+
+        public static int GetScaledStatAmount(
+            ScaledStatIncrease scaled,
+            IReadOnlyDictionary<StatType, int> fixedStats,
+            IReadOnlyDictionary<AlternateStatType, int> fixedAlternateStats = null)
+        {
+            int sourceAmount = 0;
+            if (scaled.fromIsAlternate)
+            {
+                if (fixedAlternateStats != null)
+                    fixedAlternateStats.TryGetValue(scaled.fromAlternateStat, out sourceAmount);
+            }
+            else if (fixedStats != null)
+                fixedStats.TryGetValue(scaled.fromStat, out sourceAmount);
+
             return ComputeScaledAmount(sourceAmount, scaled.perAmount) * scaled.gainAmount;
         }
 
@@ -43,7 +73,9 @@ namespace TitanCore.Core
             Item item,
             EquipmentInfo equip,
             IReadOnlyDictionary<StatType, int> equippedFixedStats,
-            bool includeItemFixedStats)
+            bool includeItemFixedStats,
+            IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null,
+            bool includeItemFixedAlternateStats = true)
         {
             var stats = new Dictionary<StatType, int>();
             foreach (var increase in GetStatIncreases(item, equip))
@@ -66,14 +98,23 @@ namespace TitanCore.Core
                 }
             }
 
-            foreach (var scaled in equip.scaledStatIncreases)
+            var fixedAlternateStats = equippedFixedAlternateStats == null
+                ? new Dictionary<AlternateStatType, int>()
+                : CopyAlternateStats(equippedFixedAlternateStats);
+
+            if (includeItemFixedAlternateStats)
             {
-                var amount = GetScaledStatAmount(scaled, fixedStats);
-                if (amount == 0) continue;
-                if (!stats.TryGetValue(scaled.toStat, out var current))
-                    current = 0;
-                stats[scaled.toStat] = current + amount;
+                foreach (var increase in GetAlternateStatIncreases(item, equip))
+                {
+                    if (!fixedAlternateStats.TryGetValue(increase.Key, out var amount))
+                        amount = 0;
+                    fixedAlternateStats[increase.Key] = amount + increase.Value;
+                }
             }
+
+            var alternateStats = new Dictionary<AlternateStatType, int>();
+            foreach (var scaled in equip.scaledStatIncreases)
+                ApplyScaledStatIncrease(scaled, fixedStats, stats, alternateStats, fixedAlternateStats);
 
             return stats;
         }
@@ -87,6 +128,7 @@ namespace TitanCore.Core
             alternateStats.Clear();
 
             var fixedStats = GetFixedStatIncreases(equips);
+            var fixedAlternateStats = GetFixedAlternateStatIncreases(equips);
             foreach (var increase in fixedStats)
                 stats[increase.Key] = increase.Value;
 
@@ -99,19 +141,43 @@ namespace TitanCore.Core
                 AddAlternateStatIncreases(equips[i], equip, alternateStats);
 
                 foreach (var scaled in equip.scaledStatIncreases)
-                {
-                    var amount = GetScaledStatAmount(scaled, fixedStats);
-                    if (amount == 0) continue;
-                    if (!stats.TryGetValue(scaled.toStat, out var current))
-                        current = 0;
-                    stats[scaled.toStat] = current + amount;
-                }
+                    ApplyScaledStatIncrease(scaled, fixedStats, stats, alternateStats, fixedAlternateStats);
             }
+        }
+
+        private static void ApplyScaledStatIncrease(
+            ScaledStatIncrease scaled,
+            IReadOnlyDictionary<StatType, int> fixedStats,
+            Dictionary<StatType, int> stats,
+            Dictionary<AlternateStatType, int> alternateStats,
+            IReadOnlyDictionary<AlternateStatType, int> fixedAlternateStats = null)
+        {
+            var amount = GetScaledStatAmount(scaled, fixedStats, fixedAlternateStats);
+            if (amount == 0) return;
+
+            if (scaled.toIsAlternate)
+            {
+                if (alternateStats == null) return;
+                if (!alternateStats.TryGetValue(scaled.toAlternateStat, out var current))
+                    current = 0;
+                alternateStats[scaled.toAlternateStat] = current + amount;
+                return;
+            }
+
+            if (stats == null) return;
+            if (!stats.TryGetValue(scaled.toStat, out var statCurrent))
+                statCurrent = 0;
+            stats[scaled.toStat] = statCurrent + amount;
         }
 
         public static Dictionary<StatType, int> CopyStatsForDisplay(IReadOnlyDictionary<StatType, int> stats)
         {
             return CopyStats(stats);
+        }
+
+        public static Dictionary<AlternateStatType, int> CopyAlternateStatsForDisplay(IReadOnlyDictionary<AlternateStatType, int> stats)
+        {
+            return CopyAlternateStats(stats);
         }
 
         private static Dictionary<StatType, int> CopyStats(IReadOnlyDictionary<StatType, int> stats)
@@ -122,13 +188,23 @@ namespace TitanCore.Core
             return copy;
         }
 
+        private static Dictionary<AlternateStatType, int> CopyAlternateStats(IReadOnlyDictionary<AlternateStatType, int> stats)
+        {
+            var copy = new Dictionary<AlternateStatType, int>();
+            foreach (var increase in stats)
+                copy[increase.Key] = increase.Value;
+            return copy;
+        }
+
         public static void GetTooltipScalingContext(
             Item[] equips,
             Item item,
             out IReadOnlyDictionary<StatType, int> equippedFixedStats,
+            out IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats,
             out bool includeItemForScaling)
         {
             equippedFixedStats = GetFixedStatIncreases(equips);
+            equippedFixedAlternateStats = GetFixedAlternateStatIncreases(equips);
             includeItemForScaling = true;
             if (equips == null) return;
 

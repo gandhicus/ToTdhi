@@ -50,7 +50,7 @@ public class Object3d : MeshWorldObject
         {
             ShowPlayerDamageAlert(damageTaken);
             var pos = transform.localPosition;
-            world.gameManager.client.SendAsync(new TnHitWall(world.clientTickId, projectile.projId, (ushort)pos.x, (ushort)pos.y));
+            world.gameManager.client.SendAsync(new TnHitWall(projectile.GetExpireClientTickId(), projectile.projId, (ushort)pos.x, (ushort)pos.y));
         }
         else
             ShowAlert("-" + damageTaken, Color.red);

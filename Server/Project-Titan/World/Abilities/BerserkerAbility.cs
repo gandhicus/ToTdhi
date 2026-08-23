@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TitanCore.Core;
 using TitanCore.Net.Packets.Server;
 using Utils.NET.Geometry;
@@ -14,35 +12,52 @@ namespace World.Abilities
 
         public override void OnHit(EntityState entity, uint time, ref int damageTaken)
         {
-
         }
 
         public override void OnMove(Vec2 position, uint time)
         {
-
         }
 
         public override TnPlayEffect UseAbility(uint time, Vec2 position, Vec2 target, byte value, int attack, ref byte rage, out byte rageCost, out bool sendToSelf, out bool failedToUse)
         {
             sendToSelf = false;
-            rageCost = rage;
             failedToUse = false;
+            var mods = SkillTreeFunctions.IsEnabled ? PlayerState.abilityMods : AbilityModifierSnapshot.Empty;
+            byte spent = rage;
+            SpendDumpRage(ref rage, mods, out rageCost);
 
-            float shoutSpread = AbilityFunctions.Berserker.GetShoutSpread(rage, attack);
-            float shoutRadius = AbilityFunctions.Berserker.GetShoutRange(rage, attack);
-
+            float shoutSpread = AbilityFunctions.Berserker.GetShoutSpread(spent, attack) + mods.shoutSpreadDeg * AngleUtils.PI / 180f;
+            float shoutRadius = AbilityFunctions.Berserker.GetShoutRange(spent, attack) + mods.abilityRangeBonus;
             float shoutAngle = position.AngleTo(target);
+            float slowSec = 5f + mods.slowMs / 1000f;
+            int shoutDamage = (int)((10 + 0.4f * spent) * (1f + mods.abilityDamagePct));
 
-            var effect = AbilityFunctions.Berserker.GetShoutEffect(rage, attack);
             foreach (var enemy in player.world.objects.GetEnemiesWithin(position.x, position.y, shoutRadius))
             {
-                if (Math.Abs(AngleUtils.Difference(position.AngleTo(enemy.position.Value), shoutAngle)) > shoutSpread / 2) continue; // not within the shout cone
-                enemy.AddEffect(effect.type, effect.duration);
+                if (Math.Abs(AngleUtils.Difference(position.AngleTo(enemy.position.Value), shoutAngle)) > shoutSpread / 2)
+                    continue;
+                enemy.AddEffect(StatusEffect.Slowed, slowSec);
+                if (shoutDamage > 0)
+                {
+                    var damageTaken = enemy.GetDamageTaken(shoutDamage);
+                    enemy.Hurt(damageTaken, player);
+                    player.OnDamageEnemy(enemy, damageTaken);
+                    TriggerTalisman(TalismanTrigger.AbilityHit, time, position, enemy.position.Value, ref damageTaken);
+                    if (enemy.GetHealth() <= 0)
+                        enemy.Die(player);
+                }
             }
 
-            var worldEffectPacket = new TnPlayEffect(new BerserkerAbilityWorldEffect(player.gameId, position, shoutAngle * AngleUtils.Rad2Deg, rage, attack));
-            rage = 0;
-            return worldEffectPacket;
+            uint rofMs = AbilityFunctions.Berserker.GetRoFDurationMs(spent, attack) + (uint)Math.Max(0, mods.durationBonusMs);
+            float rofArea = AbilityFunctions.Berserker.GetRoFArea(spent, attack);
+            int rofAmt = AbilityFunctions.Berserker.RoF_Amount + mods.rofAmount;
+            foreach (var other in player.world.objects.GetPlayersWithin(position.x, position.y, rofArea))
+                other.gameState.playerState.ApplyTimedAlternateStatBonus(AlternateStatType.RateOfFire, rofAmt, time, rofMs);
+
+            if (mods.timedAttack > 0 && mods.timedAttackMs > 0)
+                PlayerState.ApplyTimedStatBonus(StatType.Attack, mods.timedAttack, time, (uint)mods.timedAttackMs);
+
+            return PlayColored(new BerserkerAbilityWorldEffect(player.gameId, position, shoutAngle * AngleUtils.Rad2Deg, spent, attack));
         }
     }
 }

@@ -55,49 +55,7 @@ namespace TitanCore.Core
 
         public static List<AbilityEffect> GetAbilityEffects(byte rage, int attack, byte value, ClassType classType)
         {
-            float rageScalar = rage / 100f;
-            float attackScalar = 0.5f + attack / 50f;
-
-            var list = new List<AbilityEffect>();
-            switch (classType)
-            {
-                case ClassType.Ranger:
-                    break;
-                case ClassType.Warrior:
-                    /*
-                    float warriorArea = 1 + attackScalar + 4 * rageScalar * attackScalar;
-                    uint warriorDuration = (uint)(1000 + 1000 * attackScalar + 4000 * rageScalar * attackScalar);
-                    list.Add(new AbilityEffect(StatusEffect.Speedy, warriorDuration, warriorArea));
-                    */
-                    break;
-                case ClassType.Commander:
-                    list.Add(new AbilityEffect(StatusEffect.Fortified, (uint)(500 + 6000 * rageScalar * attackScalar), 0));
-                    list.Add(new AbilityEffect(StatusEffect.Reach, (uint)(2000 + 10000 * rageScalar * attackScalar), 2 + 5 * rageScalar));
-                    break;
-                case ClassType.Lancer:
-                    break;
-                case ClassType.Minister:
-                    list.Add(new AbilityEffect(StatusEffect.Healing, (uint)(500 + 6000 * rageScalar * rageScalar * attackScalar), 8 * rageScalar * rageScalar * attackScalar));
-                    break;
-                case ClassType.Berserker:
-                    list.Add(new AbilityEffect(StatusEffect.Fervent, (uint)(500 + 6000 * rageScalar * attackScalar), 2 + 6 * rageScalar * attackScalar));
-                    //list.Add(new AbilityEffect(StatusEffect.Speedy, (uint)(500 + 6000 * rageScalar * rageScalar * attackScalar), 0));
-                    break;
-                case ClassType.Brewer:
-                    switch (value)
-                    {
-                        case 0:
-                            list.Add(new AbilityEffect(StatusEffect.Fervent, 1000 + (uint)(10000 * rageScalar), 6));
-                            break;
-                        case 1:
-                            list.Add(new AbilityEffect(StatusEffect.Healing, 1000 + (uint)(8000 * rageScalar), 6));
-                            break;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return list;
+            return new List<AbilityEffect>();
         }
 
         public static class Alchemist
@@ -185,6 +143,8 @@ namespace TitanCore.Core
 
         public static class Berserker
         {
+            public const int RoF_Amount = 20;
+
             public static float GetShoutSpread(int rage, int attack)
             {
                 return AngleUtils.PI * 0.25f;
@@ -198,6 +158,20 @@ namespace TitanCore.Core
             public static AbilityEffect GetShoutEffect(int rage, int attack)
             {
                 return new AbilityEffect(StatusEffect.Slowed, 5, 0);
+            }
+
+            public static float GetRoFArea(int rage, int attack)
+            {
+                float rageScalar = rage / 100f;
+                float attackScalar = 0.5f + attack / 50f;
+                return 2 + 6 * rageScalar * attackScalar;
+            }
+
+            public static uint GetRoFDurationMs(int rage, int attack)
+            {
+                float rageScalar = rage / 100f;
+                float attackScalar = 0.5f + attack / 50f;
+                return (uint)(500 + 6000 * rageScalar * attackScalar);
             }
         }
 
@@ -231,8 +205,22 @@ namespace TitanCore.Core
 
             public static Vec2 GetDashPositionVector(float angle, int rage)
             {
+                return GetDashPositionVector(angle, rage, Dash_Duration);
+            }
+
+            public static Vec2 GetDashPositionVector(float angle, int rage, uint durationMs)
+            {
                 float rageScalar = Math.Min(rage / (float)Max_Dash_Rage, 1);
-                var speed = rageScalar * Max_Dash_Distance * (1000f / Dash_Duration);
+                float duration = Math.Max(1, durationMs);
+                var speed = rageScalar * Max_Dash_Distance * (1000f / duration);
+                return Vec2.FromAngle(angle) * speed;
+            }
+
+            public static Vec2 GetDashPositionVector(float angle, int rage, uint durationMs, float extraDistance)
+            {
+                float rageScalar = Math.Min(rage / (float)Max_Dash_Rage, 1);
+                float duration = Math.Max(1, durationMs);
+                var speed = rageScalar * (Max_Dash_Distance + extraDistance) * (1000f / duration);
                 return Vec2.FromAngle(angle) * speed;
             }
 
@@ -263,11 +251,22 @@ namespace TitanCore.Core
             }
         }
 
+        public static class Brewer
+        {
+            public const int RoF_Amount = 10;
+        }
+
         public static class Nomad
         {
             public const int Ability_Cost = 35;
 
             public const float Charm_Air_Time = 0.7f;
+
+            public const int Marked_Linger_Ms = 4000;
+
+            public const int RoF_Amount = 5;
+
+            public const uint RoF_Duration_Ms = 4000;
         }
     }
 }

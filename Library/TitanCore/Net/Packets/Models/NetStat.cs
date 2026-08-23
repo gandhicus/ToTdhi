@@ -80,6 +80,8 @@ namespace TitanCore.Net.Packets.Models
                 case ObjectStatType.AttackLock:
                 case ObjectStatType.DefenseLock:
                 case ObjectStatType.VigorLock:
+                case ObjectStatType.DefenseMinus:
+                case ObjectStatType.RateOfFire:
                 case ObjectStatType.Heal:
                 case ObjectStatType.ServerDamage:
                 case ObjectStatType.HitDamage:
@@ -184,6 +186,8 @@ namespace TitanCore.Net.Packets.Models
                 case ObjectStatType.AttackLock:
                 case ObjectStatType.DefenseLock:
                 case ObjectStatType.VigorLock:
+                case ObjectStatType.DefenseMinus:
+                case ObjectStatType.RateOfFire:
                 case ObjectStatType.Heal:
                 case ObjectStatType.ServerDamage:
                 case ObjectStatType.HitDamage:

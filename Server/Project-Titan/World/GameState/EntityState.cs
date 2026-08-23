@@ -64,6 +64,11 @@ namespace World.GameState
         public int defense;
 
         /// <summary>
+        /// Defense subtracted by DefenseMinus
+        /// </summary>
+        public int defenseMinus;
+
+        /// <summary>
         /// The size of this entity
         /// </summary>
         public float size;
@@ -81,6 +86,7 @@ namespace World.GameState
             radius = 0.4f;
             health = previousSnapshot.health;
             defense = previousSnapshot.defense;
+            defenseMinus = previousSnapshot.defenseMinus;
             size = previousSnapshot.size;
             serverEffects = previousSnapshot.serverEffects;
 
@@ -100,6 +106,9 @@ namespace World.GameState
                         break;
                     case ObjectStatType.Defense:
                         defense = (int)stat.value;
+                        break;
+                    case ObjectStatType.DefenseMinus:
+                        defenseMinus = (int)stat.value;
                         break;
                     case ObjectStatType.Size:
                         size = (float)stat.value;
@@ -177,7 +186,7 @@ namespace World.GameState
 
         public int GetDamageTaken(int damage)
         {
-            return StatFunctions.DamageTaken(currentSnapshot.defense, damage, currentSnapshot.HasServerEffect(StatusEffect.Fortified));
+            return StatFunctions.DamageTaken(currentSnapshot.defense, damage, currentSnapshot.HasServerEffect(StatusEffect.Fortified), currentSnapshot.defenseMinus);
         }
     }
 }

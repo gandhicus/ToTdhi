@@ -65,27 +65,27 @@ namespace Pc
 
             var myClass = (TitanCore.Data.Entities.CharacterInfo)player.info;
             IReadOnlyDictionary<StatType, int> equippedFixedStats = null;
+            IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null;
             bool includeItemForScaling = true;
             if (owned)
             {
                 var equips = new Item[4];
                 for (int i = 0; i < 4; i++)
                     equips[i] = player.GetItem(i);
-                EquipmentStatFunctions.GetTooltipScalingContext(equips, item, out equippedFixedStats, out includeItemForScaling);
+                EquipmentStatFunctions.GetTooltipScalingContext(equips, item, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling);
             }
-            ItemDescriber.Describe(this, myClass, owned, item, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling);
+            ItemDescriber.Describe(this, myClass, owned, item, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats);
 
             if (item.soulbound)
             {
                 SetBackgroundColor(soulboundColor);
             }
-            else if (equip != null && !myClass.CanUseSloType(info.slotType))
+            else if (equip != null && !myClass.CanUseEquipment(equip))
             {
                 SetBackgroundColor(cantUseColor);
             }
 
-            contentLabel.ForceMeshUpdate();
-            contentLabel.rectTransform.sizeDelta = contentLabel.bounds.size;
+            FitTextLabel(contentLabel);
 
             background.rectTransform.anchoredPosition = new Vector2(-Screen.height * 0.26f, 0);
         }

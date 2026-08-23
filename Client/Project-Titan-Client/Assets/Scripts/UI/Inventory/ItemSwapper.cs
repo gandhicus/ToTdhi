@@ -48,12 +48,39 @@ public class ItemSwapper : MonoBehaviour
         var results = new List<RaycastResult>();
         var pointerEvent = new PointerEventData(EventSystem.current);
         pointerEvent.position = position;
-        raycaster.Raycast(pointerEvent, results);
+        if (EventSystem.current != null)
+            EventSystem.current.RaycastAll(pointerEvent, results);
+        else if (raycaster != null)
+            raycaster.Raycast(pointerEvent, results);
 
         if (results.Count == 0) return;
 
-        var result = results[0];
-        var otherSlot = result.gameObject.GetComponent<Slot>();
+        Slot otherSlot = null;
+        for (int i = 0; i < results.Count; i++)
+        {
+            var hit = results[i].gameObject;
+            if (hit.transform == transform || hit.transform.IsChildOf(transform))
+                continue;
+            otherSlot = hit.GetComponent<Slot>() ?? hit.GetComponentInParent<Slot>();
+            if (otherSlot != null && otherSlot != slot)
+                break;
+            otherSlot = null;
+        }
+        if (otherSlot == null)
+        {
+            for (int i = 0; i < results.Count; i++)
+            {
+                var hit = results[i].gameObject;
+                if (hit.transform == transform || hit.transform.IsChildOf(transform))
+                    continue;
+                var menu = hit.GetComponentInParent<SkillTreeMenu>();
+                if (menu != null && menu.SocketSlot != null)
+                {
+                    slot.Swap(menu.SocketSlot);
+                    return;
+                }
+            }
+        }
         if (otherSlot == null)
         {
             foreach (var r in results)

@@ -142,7 +142,8 @@ public class Enemy : NotPlayable
                         HasStatusEffect(StatusEffect.Fortified),
                         projectile.projId,
                         world.clientTime,
-                        gameId);
+                        gameId,
+                        GetDefenseMinusAmount());
 
                     CombatDisplay.ShowHitResult(this, result, aggregatePlayerDamage: result.type != HitResultType.Blocked && result.type != HitResultType.Absorbed);
                     world.gameManager.client.SendAsync(new TnHit(world.clientTickId, projectile.projId, gameId, Vec2.zero));
@@ -179,9 +180,10 @@ public class Enemy : NotPlayable
                 HasStatusEffect(StatusEffect.Fortified),
                 projectile.projId,
                 world.clientTime,
-                gameId);
+                gameId,
+                GetDefenseMinusAmount());
             CombatDisplay.ShowHitResult(this, result, aggregatePlayerDamage: result.type != HitResultType.Blocked && result.type != HitResultType.Absorbed);
-            world.gameManager.client.SendAsync(new TnHit(world.clientTickId, projectile.projId, gameId, Vec2.zero));
+            world.gameManager.client.SendAsync(new TnHit(projectile.GetExpireClientTickId(), projectile.projId, gameId, Vec2.zero));
             health -= result.damage;
             if (health <= 0)
                 killed = true;
@@ -220,6 +222,6 @@ public class Enemy : NotPlayable
 
     public override int GetDamageTaken(int damage)
     {
-        return StatFunctions.DamageTaken(defense, damage, HasStatusEffect(StatusEffect.Fortified));
+        return StatFunctions.DamageTaken(defense, damage, HasStatusEffect(StatusEffect.Fortified), GetDefenseMinusAmount());
     }
 }

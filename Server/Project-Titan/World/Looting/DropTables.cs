@@ -286,6 +286,14 @@ namespace World.Looting
                         new Single(Loot.Chance(0.6),
                             new Item("Seafarer's Garb"))
                         ),
+                    new SoulboundLoot(0.3f, // 8
+                        new Single(Loot.Chance(0.6),
+                            new Item("Salt Water Elixir"))
+                        ),
+                    new SoulboundLoot(0.3f, // 8
+                        new Single(Loot.Chance(3),
+                            new Item("Salt Water Elixir"))
+                        ),
                 } },
 
                 { SoulGroup.Tundra, new List<LootContainer>
@@ -315,6 +323,12 @@ namespace World.Looting
                     new SoulboundLoot(0.3f, // 4
                         new Single(Loot.Chance(4),
                             new Item("Scroll of Stamina"))
+                        ),
+                    new SoulboundLoot(0.1f, // 5
+                        new Single(Loot.Chance(5), new Item("Dumirian Kilt"))
+                        ),
+                    new SoulboundLoot(0.1f, // 6
+                        new Single(Loot.Chance(0.5), new Item("Dumirian Kilt"))
                         ),
                 } },
 
@@ -350,6 +364,12 @@ namespace World.Looting
                     new SoulboundLoot(0.3f, // 5
                         new Single(Loot.Chance(8),
                             new Item("Scroll of Fortitude"))
+                        ),
+                    new SoulboundLoot(0.1f, // 6
+                        new Single(Loot.Chance(10), new Item("Cloak of Doom"))
+                        ),
+                    new SoulboundLoot(0.1f, // 7
+                        new Single(Loot.Chance(0.5), new Item("Cloak of Doom"))
                         ),
                 } },
 
@@ -412,7 +432,39 @@ namespace World.Looting
                         new Single(Loot.Chance(15), new Item("Key to Dumir"))
                         ),
                     new SoulboundLoot(0.1f, // 14
-                        new Single(Loot.Chance(9), new Item("Aldrite's Gamble"))
+                        new Single(Loot.Chance(7), new Item("Aldrite's Gamble"))
+                        ),
+                    new SoulboundLoot(0.1f, // 15
+                        new Single(Loot.Chance(7), new Item("Skyjewel"))
+                        ),
+                    new SoulboundLoot(0.1f, // 16
+                        new Single(Loot.Chance(7), new Item("Studded Bangle"))
+                        ),
+                    new SoulboundLoot(0.1f, // 17
+                        new Single(Loot.Chance(10),
+                            new Item("Talisman of Blood"),
+                            new Item("Talisman of Nova"),
+                            new Item("Talisman of Millennia"),
+                            new Item("Symbiotic Talisman"),
+                            new Item("Talisman of Tragedy"),
+                            new Item("Ethereal Talisman"),
+                            new Item("Talisman of Strength"),
+                            new Item("Talisman of the Shield"),
+                            new Item("Talisman of Piercing"),
+                            new Item("Talisman of Celerity"))
+                        ),
+                    new SoulboundLoot(0.1f, // 18
+                        new Single(Loot.Chance(10),
+                            new Item("Talisman of Ages"),
+                            new Item("Talisman of Wrath"),
+                            new Item("Blessed Talisman"),
+                            new Item("Rogue's Talisman"),
+                            new Item("Talisman of Daybreak"),
+                            new Item("Soothing Talisman"),
+                            new Item("Talisman of Holy Water"),
+                            new Item("Talisman of Retribution"),
+                            new Item("Talisman of Spite"),
+                            new Item("Talisman of Apocalypse"))
                         ),
                 } },
 
@@ -463,7 +515,7 @@ namespace World.Looting
                         new Single(Loot.Chance(7), new Item("Arcus's Nimble Circlet"))
                         ),
                     new SoulboundLoot(0.1f, // 10
-                        new Single(Loot.Chance(7), new Item("Archmage's Sibylline Vestment"))
+                        new Single(Loot.Chance(6), new Item("Archmage's Sibylline Vestment"))
                         ),
                     new SoulboundLoot(0.1f, // 11
                         new Single(Loot.Chance(6), new Item("Thumbor"))
@@ -481,7 +533,39 @@ namespace World.Looting
                         new Single(Loot.Chance(15), new Item("Key to Valdok's Forge"))
                         ),
                     new SoulboundLoot(0.1f, // 16
-                        new Single(Loot.Chance(9), new Item("Aldrite's Gamble"))
+                        new Single(Loot.Chance(7), new Item("Aldrite's Gamble"))
+                        ),
+                    new SoulboundLoot(0.1f, // 17
+                        new Single(Loot.Chance(7), new Item("Skyjewel"))
+                        ),
+                    new SoulboundLoot(0.1f, // 18
+                        new Single(Loot.Chance(7), new Item("Studded Bangle"))
+                        ),
+                    new SoulboundLoot(0.1f, // 19
+                        new Single(Loot.Chance(10),
+                            new Item("Talisman of Blood"),
+                            new Item("Talisman of Nova"),
+                            new Item("Talisman of Millennia"),
+                            new Item("Symbiotic Talisman"),
+                            new Item("Talisman of Tragedy"),
+                            new Item("Ethereal Talisman"),
+                            new Item("Talisman of Strength"),
+                            new Item("Talisman of the Shield"),
+                            new Item("Talisman of Piercing"),
+                            new Item("Talisman of Celerity"))
+                        ),
+                    new SoulboundLoot(0.1f, // 20
+                        new Single(Loot.Chance(10),
+                            new Item("Talisman of Ages"),
+                            new Item("Talisman of Wrath"),
+                            new Item("Blessed Talisman"),
+                            new Item("Rogue's Talisman"),
+                            new Item("Talisman of Daybreak"),
+                            new Item("Soothing Talisman"),
+                            new Item("Talisman of Holy Water"),
+                            new Item("Talisman of Retribution"),
+                            new Item("Talisman of Spite"),
+                            new Item("Talisman of Apocalypse"))
                         ),
                 } },
 
@@ -541,24 +625,65 @@ namespace World.Looting
                     new SoulboundLoot(0.1f, // 11
                         new Single(Loot.Chance(4), new Item("Empyrean's Guard"))
                         ),
-                    new SoulboundLoot(0.1f, // 11
-                        new Single(Loot.Chance(3), new Item("Dark Matter"))
-                        ),
                     new SoulboundLoot(0.1f, // 12
-                        new Single(Loot.Chance(30), new Item("Key to Mannah's Fortress"))
+                        new Single(Loot.Chance(2), new Item("Dark Matter"))
                         ),
                     new SoulboundLoot(0.1f, // 13
-                        new Single(Loot.Chance(20), new Item("Key to Dumir"))
+                        new Single(Loot.Chance(30), new Item("Key to Mannah's Fortress"))
                         ),
                     new SoulboundLoot(0.1f, // 14
-                        new Single(Loot.Chance(20), new Item("Key to Valdok's Forge"))
+                        new Single(Loot.Chance(20), new Item("Key to Dumir"))
                         ),
                     new SoulboundLoot(0.1f, // 15
-                        new Single(Loot.Chance(7), new Item("Aldrite's Gamble"))
+                        new Single(Loot.Chance(20), new Item("Key to Valdok's Forge"))
                         ),
                     new SoulboundLoot(0.1f, // 16
+                        new Single(Loot.Chance(5), new Item("Aldrite's Gamble"))
+                        ),
+                    new SoulboundLoot(0.1f, // 17
                         new Single(Loot.Chance(100),
                             new Item("Scroll of Life"))
+                        ),
+                    new SoulboundLoot(0.1f, // 18
+                        new Single(Loot.Chance(7), new Item("Skyjewel"))
+                        ),
+                    new SoulboundLoot(0.1f, // 19
+                        new Single(Loot.Chance(6), new Item("Stormsong (Tehtman's Soulstring)"))
+                        ),
+                    new SoulboundLoot(0.1f, // 20
+                        new Single(Loot.Chance(6), new Item("Elixir of Enigma"))
+                        ),
+                    new SoulboundLoot(0.1f, // 21
+                        new Single(Loot.Chance(5), new Item("Ring of the Blood Moon"))
+                        ),
+                    new SoulboundLoot(0.1f, // 22
+                        new Single(Loot.Chance(5), new Item("Sadder Star"))
+                        ),
+                    new SoulboundLoot(0.1f, // 23
+                        new Single(Loot.Chance(10),
+                            new Item("Talisman of Blood"),
+                            new Item("Talisman of Nova"),
+                            new Item("Talisman of Millennia"),
+                            new Item("Symbiotic Talisman"),
+                            new Item("Talisman of Tragedy"),
+                            new Item("Ethereal Talisman"),
+                            new Item("Talisman of Strength"),
+                            new Item("Talisman of the Shield"),
+                            new Item("Talisman of Piercing"),
+                            new Item("Talisman of Celerity"))
+                        ),
+                    new SoulboundLoot(0.1f, // 24
+                        new Single(Loot.Chance(10),
+                            new Item("Talisman of Ages"),
+                            new Item("Talisman of Wrath"),
+                            new Item("Blessed Talisman"),
+                            new Item("Rogue's Talisman"),
+                            new Item("Talisman of Daybreak"),
+                            new Item("Soothing Talisman"),
+                            new Item("Talisman of Holy Water"),
+                            new Item("Talisman of Retribution"),
+                            new Item("Talisman of Spite"),
+                            new Item("Talisman of Apocalypse"))
                         ),
                 } },
             };

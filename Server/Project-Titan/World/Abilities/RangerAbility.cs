@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TitanCore.Core;
 using TitanCore.Data.Entities;
 using TitanCore.Net.Packets.Server;
 using Utils.NET.Geometry;
-using Utils.NET.Logging;
 using World.GameState;
+using World.Map.Objects.Entities;
 
 namespace World.Abilities
 {
@@ -15,52 +14,122 @@ namespace World.Abilities
     {
         public override ClassType ClassType => ClassType.Ranger;
 
+        private class RainVolley
+        {
+            public Vec2 target;
+            public float radius;
+            public int tickDamage;
+            public AbilityModifierSnapshot mods;
+            public int ticksLeft;
+            public uint nextTime;
+        }
+
+        private readonly List<RainVolley> rains = new List<RainVolley>();
+
         public override void OnHit(EntityState entity, uint time, ref int damageTaken)
         {
-
         }
 
         public override void OnMove(Vec2 position, uint time)
         {
+        }
 
+        public override void Tick(uint time)
+        {
+            for (int i = rains.Count - 1; i >= 0; i--)
+            {
+                var rain = rains[i];
+                if (time < rain.nextTime) continue;
+                bool last = rain.ticksLeft <= 1;
+                Fire(time, rain, last);
+                rain.ticksLeft--;
+                if (last)
+                {
+                    rains.RemoveAt(i);
+                    continue;
+                }
+                uint step = 300 + (uint)Math.Max(0, rain.mods.durationBonusMs) / 3;
+                rain.nextTime = time + Math.Max(1, step);
+            }
         }
 
         public override TnPlayEffect UseAbility(uint time, Vec2 position, Vec2 target, byte value, int attack, ref byte rage, out byte rageCost, out bool sendToSelf, out bool failedToUse)
         {
-            rageCost = rage;
+            var mods = SkillTreeFunctions.IsEnabled ? PlayerState.abilityMods : AbilityModifierSnapshot.Empty;
+            var rageSpent = rage;
+            SpendDumpRage(ref rage, mods, out rageCost);
             failedToUse = false;
+            sendToSelf = false;
 
+            float maxRange = 6f + mods.abilityRangeBonus;
             var targetVec = target - position;
             var curLength = targetVec.Length;
-            if (curLength > 6)
-                target = position + targetVec.ChangeLength(6, curLength);
+            if (curLength > maxRange)
+                target = position + targetVec.ChangeLength(maxRange, curLength);
 
-            var rangerRadius = AbilityFunctions.Ranger.GetRadius(rage, attack);
-            var rangerDamage = AbilityFunctions.Ranger.GetDamage(rage, attack);
-            var rangerEffect = AbilityFunctions.Ranger.GetEffect(rage, attack);
+            float rangerRadius = AbilityFunctions.Ranger.GetRadius(rageSpent, attack) + mods.abilityRadiusBonus;
+            int totalDamage = AbilityFunctions.Ranger.GetDamage(rageSpent, attack);
+            totalDamage = (int)(totalDamage * (1f + mods.abilityDamagePct));
+            int tickDamage = Math.Max(1, totalDamage / 3);
+            int extraTicks = 2;
+            if (mods.durationBonusMs >= 240)
+                extraTicks = 3;
 
-            var hit = new List<uint>();
-
-            foreach (var enemy in player.world.objects.GetEnemiesWithin(target.x, target.y, rangerRadius).ToArray())
+            var rain = new RainVolley
             {
-                // return ((EntityInfo)info).invincible || HasStatusEffect(StatusEffect.Invincible) || HasStatusEffect(StatusEffect.KnockedBack) || HasStatusEffect(StatusEffect.Grounded);
-                if (((EntityInfo)enemy.info).invincible || enemy.HasServerEffect(StatusEffect.Invincible) || enemy.HasServerEffect(StatusEffect.Invulnerable)) continue;
+                target = target,
+                radius = rangerRadius,
+                tickDamage = tickDamage,
+                mods = mods,
+                ticksLeft = extraTicks,
+                nextTime = time + 300 + (uint)Math.Max(0, mods.durationBonusMs) / 3
+            };
+            Fire(time, rain, extraTicks <= 0);
+            if (extraTicks > 0)
+                rains.Add(rain);
+            return null;
+        }
+
+        private void Fire(uint time, RainVolley rain, bool last)
+        {
+            if (player.world == null) return;
+            var hit = new List<uint>();
+            var origin = player.position.Value;
+            var target = rain.target;
+            foreach (var enemy in player.world.objects.GetEnemiesWithin(target.x, target.y, rain.radius).ToArray())
+            {
+                if (((EntityInfo)enemy.info).invincible || enemy.HasServerEffect(StatusEffect.Invincible) || enemy.HasServerEffect(StatusEffect.Invulnerable))
+                    continue;
 
                 hit.Add(enemy.gameId);
-                var damageTaken = enemy.GetDamageTaken(rangerDamage);
+                var damageTaken = enemy.GetDamageTaken(rain.tickDamage);
                 enemy.Hurt(damageTaken, player);
                 player.OnDamageEnemy(enemy, damageTaken);
+                TriggerTalisman(TalismanTrigger.AbilityHit, time, origin, enemy.position.Value, ref damageTaken);
+                TriggerTalisman(TalismanTrigger.AbilityTick, time, origin, target);
+
+                if (rain.mods.slowMs > 0)
+                    enemy.AddEffect(StatusEffect.Slowed, rain.mods.slowMs / 1000f);
+
                 if (enemy.GetHealth() <= 0)
                     enemy.Die(player);
-                if (rangerEffect.HasValue)
-                    enemy.AddEffect(rangerEffect.Value.type, rangerEffect.Value.duration);
+                if (rain.mods.rageOnKill > 0 && enemy.IsDead)
+                    PlayerState.AddRage(time, rain.mods.rageOnKill, false);
                 if (hit.Count == 255) break;
             }
 
-            var worldEffectPacket = new TnPlayEffect(new RangerAbilityWorldEffect(hit.ToArray(), target, rage, attack));
-            sendToSelf = true;
-            rage = 0;
-            return worldEffectPacket;
+            var rangerFx = new RangerAbilityWorldEffect(hit.ToArray(), target, 50, 50);
+            ColorWorldEffect(rangerFx);
+            var packet = new TnPlayEffect(rangerFx);
+            player.client.SendAsync(packet);
+            foreach (var other in player.playersSentTo)
+            {
+                if (other != player)
+                    other.client.SendAsync(packet);
+            }
+
+            if (last)
+                TriggerTalisman(TalismanTrigger.AbilityEnd, time, origin, target);
         }
     }
 }

@@ -352,7 +352,14 @@ public class ObjectManager : MonoBehaviour
         var effectSprite = statusEffectSpritePool.Get();
         effectSprite.transform.SetParent(effects.transform);
         effectSprite.sprite = TextureManager.GetStatusEffect(effect);
-        effectSprite.transform.localScale = Vector3.one;
+        float scale = 1f;
+        if (effectSprite.sprite != null)
+        {
+            float height = effectSprite.sprite.bounds.size.y;
+            if (height > 0.0001f)
+                scale = 0.5f / height;
+        }
+        effectSprite.transform.localScale = new Vector3(scale, scale, scale);
         effectSprite.transform.localEulerAngles = Vector3.zero;
         return effectSprite;
     }

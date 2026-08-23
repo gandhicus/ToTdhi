@@ -55,6 +55,8 @@ public class Character : Entity
 
     public int vigorBonus;
 
+    public int rateOfFireBonus;
+
     public int fullSouls;
 
     public byte classQuests = 0;
@@ -105,6 +107,7 @@ public class Character : Entity
         attackBonus = 0;
         defenseBonus = 0;
         vigorBonus = 0;
+        rateOfFireBonus = 0;
         fullSouls = 0;
         classQuests = 0;
         rank = Rank.Player;
@@ -249,6 +252,9 @@ public class Character : Entity
                 break;
             case ObjectStatType.VigorBonus:
                 vigorBonus = (int)stat.value;
+                break;
+            case ObjectStatType.RateOfFire:
+                rateOfFireBonus = (int)stat.value;
                 break;
             case ObjectStatType.Heal:
                 if (this is Player) break;
@@ -435,12 +441,15 @@ public class Character : Entity
 
     public override int GetDamageTaken(int damage)
     {
-        return StatFunctions.DamageTaken(GetStatFunctional(StatType.Defense), damage, HasStatusEffect(StatusEffect.Fortified));
+        return StatFunctions.DamageTaken(GetStatFunctional(StatType.Defense), damage, HasStatusEffect(StatusEffect.Fortified), GetDefenseMinusAmount());
     }
 
     public int GetStatFunctional(StatType type)
     {
-        return GetStatBase(type) + GetStatBonus(type) + GetStatIncrease(type);
+        var value = GetStatBase(type) + GetStatBonus(type) + GetStatIncrease(type);
+        if (type == StatType.MaxHealth)
+            return StatFunctions.ClampPlayerMaxHealth(value);
+        return value;
     }
 
     public int GetStatBase(StatType type)
@@ -489,7 +498,9 @@ public class Character : Entity
     public int GetAlternateStatIncrease(AlternateStatType type)
     {
         if (!alternateStatIncreases.TryGetValue(type, out var amount))
-            return 0;
+            amount = 0;
+        if (type == AlternateStatType.RateOfFire)
+            amount += rateOfFireBonus;
         return amount;
     }
 

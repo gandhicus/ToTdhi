@@ -197,7 +197,7 @@ namespace World.GameState
             switch (type)
             {
                 case StatType.MaxHealth:
-                    return maxHealth + maxHealthBonus + amount;
+                    return StatFunctions.ClampPlayerMaxHealth(maxHealth + maxHealthBonus + amount);
                 case StatType.Speed:
                     return speed + speedBonus + amount;
                 case StatType.Attack:
@@ -251,6 +251,11 @@ namespace World.GameState
         public float rage;
 
         /// <summary>
+        /// Rage percent when the current ability was activated.
+        /// </summary>
+        public float abilityActivationRage;
+
+        /// <summary>
         /// The next time an ability is available to use
         /// </summary>
         public uint nextAbility;
@@ -286,7 +291,11 @@ namespace World.GameState
 
         public ClassAbility ability;
 
+        public AbilityModifierSnapshot abilityMods;
+
         private readonly Dictionary<int, uint> procCooldowns = new Dictionary<int, uint>();
+
+        private readonly Dictionary<int, uint> talismanCooldowns = new Dictionary<int, uint>();
 
         private readonly HashSet<int> triggeredProcKeys = new HashSet<int>();
 
@@ -325,6 +334,7 @@ namespace World.GameState
 
             ability = ClassAbility.GetAbility((ClassType)player.info.id);
             ability.SetPlayer(player);
+            abilityMods = player.BuildAbilityModifiers();
         }
 
         public void StartHealth(uint time)
@@ -347,6 +357,7 @@ namespace World.GameState
             currentSnapshot.heal = 0;
             currentSnapshot.serverDamage = 0;
             AdvanceHealth(time);
+            ability?.Tick(time);
         }
 
         private float GetTargetTps(uint time)
@@ -386,7 +397,7 @@ namespace World.GameState
                     currentMoveCheckPosition = effectPosition;
                     if (currentMoveCheckTime == time)
                     {
-                        return position.DistanceTo(effectPosition) < 1;
+                        return position.DistanceTo(effectPosition) < 2;
                     }
                 }
 
@@ -419,6 +430,11 @@ namespace World.GameState
         {
             AdvanceHealth(time);
             return health;
+        }
+
+        public void AdvanceTime(uint time)
+        {
+            AdvanceHealth(time);
         }
 
         public void Damage(uint time, int damage, GameObjectInfo damagerInfo, uint damagerId, uint projectileId)
@@ -462,16 +478,23 @@ namespace World.GameState
         public int GetDamageTaken(int damage, uint time)
         {
             var defense = currentSnapshot.GetFunctionalStat(StatType.Defense);
-            return StatFunctions.DamageTaken(defense, damage, HasEffect(StatusEffect.Fortified, time));
+            return StatFunctions.DamageTaken(defense, damage, HasEffect(StatusEffect.Fortified, time), HasEffect(StatusEffect.DefenseMinus, time) ? player.GetDefenseMinusAmount() : 0);
         }
 
         public int GetTimedAlternateStatBonus(AlternateStatType type)
         {
+            return GetTimedAlternateStatBonus(type, uint.MaxValue);
+        }
+
+        public int GetTimedAlternateStatBonus(AlternateStatType type, uint time)
+        {
             int total = 0;
             for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
             {
-                if (timedAlternateStatBonuses[i].statType == type)
-                    total += timedAlternateStatBonuses[i].amount;
+                var bonus = timedAlternateStatBonuses[i];
+                if (bonus.statType != type) continue;
+                if (time != uint.MaxValue && time >= bonus.endTime) continue;
+                total += bonus.amount;
             }
             return total;
         }
@@ -484,7 +507,8 @@ namespace World.GameState
             bool defenderFortified,
             uint projectileId,
             uint time,
-            uint targetId)
+            uint targetId,
+            int defenderDefenseMinusAmount = 0)
         {
             return StatFunctions.ResolveOutgoingDamage(
                 rawDamage,
@@ -499,7 +523,8 @@ namespace World.GameState
                 projectileId,
                 time,
                 targetId,
-                player.gameId);
+                player.gameId,
+                defenderDefenseMinusAmount);
         }
 
         private void AdvanceHealth(uint time)
@@ -546,6 +571,7 @@ namespace World.GameState
 
             var rageBefore = rage;
             var rageIntegral = (byte)Math.Min(Math.Floor(rageBefore), 100);
+            abilityActivationRage = rageIntegral;
             var rageByte = rageIntegral;
             var worldEffectPacket = ability.UseAbility(time, position, target, value, attack, ref rageByte, out var rageCost, out var sendToSelf, out var failed);
             rage = StatFunctions.ApplyAbilityRageSpend(rageBefore, rageIntegral, rageByte);
@@ -581,7 +607,10 @@ namespace World.GameState
                     otherPlayer.client.SendAsync(worldEffectPacket);
             }
 
-            nextAbility = time + (uint)AbilityFunctions.GetAbilityCooldownMs(rageCost, classInfo.id);
+            if (SkillTreeFunctions.IsEnabled)
+                ability.TriggerTalisman(TalismanTrigger.AbilityUse, time, position, target);
+
+            nextAbility = time + (uint)GetAbilityCooldownMs(rageCost);
         }
 
         public bool IsInvincible(uint time)
@@ -658,14 +687,25 @@ namespace World.GameState
             AddClientStatusEffect(StatusEffect.Charmed, time, duration);
         }
 
-        public void AddDashing(Vec2 position, Vec2 target, uint time, int rage)
+        public void AddDashing(Vec2 position, Vec2 target, uint time, int rage, uint durationMs, float extraDistance)
         {
             if (HasPositionalEffect(time)) return;
             positionalEffectCollided = false;
             positionalEffectPosition = position;
             positionalEffectStartTime = time + NetConstants.Client_Delta;
-            positionalEffectVector = AbilityFunctions.BladeWeaver.GetDashPositionVector(position.AngleTo(target), rage) * (NetConstants.Client_Delta / 1000f);
-            AddClientStatusEffect(StatusEffect.Dashing, time, AbilityFunctions.BladeWeaver.Dash_Duration);
+            positionalEffectVector = AbilityFunctions.BladeWeaver.GetDashPositionVector(position.AngleTo(target), rage, durationMs, extraDistance) * (NetConstants.Client_Delta / 1000f);
+            AddClientStatusEffect(StatusEffect.Dashing, time, durationMs);
+            AddClientStatusEffect(StatusEffect.Invulnerable, time, durationMs);
+        }
+
+        public void AddDashing(Vec2 position, Vec2 target, uint time, int rage, uint durationMs)
+        {
+            AddDashing(position, target, time, rage, durationMs, 0);
+        }
+
+        public void AddDashing(Vec2 position, Vec2 target, uint time, int rage)
+        {
+            AddDashing(position, target, time, rage, AbilityFunctions.BladeWeaver.Dash_Duration, 0);
         }
 
         public void AddKnockedBack(Vec2 position, Vec2 knockerPosition, uint time, uint duration)
@@ -784,23 +824,81 @@ namespace World.GameState
             }
         }
 
+        public int GetAbilityCooldownMs(byte rageCost)
+        {
+            int cd = AbilityFunctions.GetAbilityCooldownMs(rageCost, classInfo.id);
+            if (SkillTreeFunctions.IsEnabled)
+            {
+                if (abilityMods.cooldownMul > 0 && abilityMods.cooldownMul < 1)
+                    cd = (int)(cd * abilityMods.cooldownMul);
+                cd -= Math.Max(0, abilityMods.cooldownFlatMs);
+            }
+            return Math.Max(1, cd);
+        }
+
+        public void ApplyTimedStatBonus(StatType type, int amount, uint time, uint durationMs)
+        {
+            if (amount == 0 || durationMs == 0) return;
+            ApplyProcStatBonus(type, amount, durationMs, time);
+        }
+
+        public void ApplyTimedAlternateStatBonus(AlternateStatType type, int amount, uint time, uint durationMs)
+        {
+            if (amount == 0 || durationMs == 0) return;
+            ApplyProcAlternateStatBonus(new ProcAlternateStatBonus(type, amount, durationMs), time);
+        }
+
+        public bool TryConsumeTalismanCooldown(int effectIndex, uint cooldownMs, uint time)
+        {
+            if (talismanCooldowns.TryGetValue(effectIndex, out var nextTime) && time < nextTime)
+                return false;
+            if (cooldownMs > 0)
+                talismanCooldowns[effectIndex] = time + cooldownMs;
+            return true;
+        }
+
         private void ApplyProcStatBonus(ProcStatBonus bonus, uint time)
         {
-            if (bonus.amount == 0 || bonus.durationMs == 0) return;
+            if (bonus == null) return;
+            ApplyProcStatBonus(bonus.statType, bonus.amount, bonus.durationMs, time);
+        }
 
-            player.AddStatBonus(bonus.statType, bonus.amount);
+        private void ApplyProcStatBonus(StatType statType, int amount, uint durationMs, uint time)
+        {
+            if (amount == 0 || durationMs == 0) return;
 
-            var effect = ProcFunctions.GetStatBonusEffect(bonus.statType);
+            var effect = ProcFunctions.GetStatBonusEffect(statType);
             var hasEffect = effect.HasValue;
+            uint newEnd = time + durationMs;
+
+            for (int i = 0; i < timedStatBonuses.Count; i++)
+            {
+                var existing = timedStatBonuses[i];
+                if (existing.statType != statType) continue;
+
+                int delta = amount - existing.amount;
+                if (delta > 0)
+                    player.AddStatBonus(statType, delta);
+
+                existing.amount = Math.Max(existing.amount, amount);
+                existing.endTime = Math.Max(existing.endTime, newEnd);
+                timedStatBonuses[i] = existing;
+
+                if (hasEffect)
+                    player.AddEffect(effect.Value, durationMs / 1000f);
+                return;
+            }
+
+            player.AddStatBonus(statType, amount);
             if (hasEffect)
-                player.AddEffect(effect.Value, bonus.durationMs / 1000f);
+                player.AddEffect(effect.Value, durationMs / 1000f);
 
             timedStatBonuses.Add(new TimedStatBonus
             {
-                statType = bonus.statType,
+                statType = statType,
                 effect = effect ?? StatusEffect.VigorBonus,
-                amount = bonus.amount,
-                endTime = time + bonus.durationMs,
+                amount = amount,
+                endTime = newEnd,
                 hasEffect = hasEffect
             });
         }
@@ -811,6 +909,24 @@ namespace World.GameState
 
             var effect = ProcFunctions.GetAlternateStatBonusEffect(bonus.statType);
             var hasEffect = effect.HasValue;
+
+            if (bonus.statType == AlternateStatType.RateOfFire)
+            {
+                for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
+                {
+                    var existing = timedAlternateStatBonuses[i];
+                    if (existing.statType != AlternateStatType.RateOfFire) continue;
+
+                    existing.amount = Math.Max(existing.amount, bonus.amount);
+                    existing.endTime = Math.Max(existing.endTime, time + bonus.durationMs);
+                    timedAlternateStatBonuses[i] = existing;
+                    if (hasEffect)
+                        player.AddEffect(effect.Value, bonus.durationMs / 1000f);
+                    player.SetRateOfFireBonus(GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time));
+                    return;
+                }
+            }
+
             if (hasEffect)
                 player.AddEffect(effect.Value, bonus.durationMs / 1000f);
 
@@ -822,6 +938,9 @@ namespace World.GameState
                 endTime = time + bonus.durationMs,
                 hasEffect = hasEffect
             });
+
+            if (bonus.statType == AlternateStatType.RateOfFire)
+                player.SetRateOfFireBonus(GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time));
         }
 
         private void AdvanceTimedBonuses(uint time)
@@ -835,6 +954,8 @@ namespace World.GameState
                     player.RemoveEffect(bonus.effect);
 
                 timedAlternateStatBonuses.RemoveAt(i);
+                if (bonus.statType == AlternateStatType.RateOfFire)
+                    player.SetRateOfFireBonus(GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time));
             }
 
             for (int i = timedStatBonuses.Count - 1; i >= 0; i--)

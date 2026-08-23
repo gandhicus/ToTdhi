@@ -23,6 +23,8 @@ namespace Utils.NET.Utils
 
         public static uint ParseHex(string hex)
         {
+            if (hex.StartsWith("#"))
+                hex = hex.Substring(1);
             if (hex.StartsWith("0x"))
                 hex = hex.Substring(2);
             return Convert.ToUInt32(hex, 16);

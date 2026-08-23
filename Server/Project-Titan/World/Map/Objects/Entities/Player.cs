@@ -221,6 +221,8 @@ namespace World.Map.Objects.Entities
             list.Add(defenseBonus);
             list.Add(vigorBonus);
 
+            list.Add(rateOfFireBonus);
+
             list.Add(maxHealthLock);
             list.Add(speedLock);
             list.Add(attackLock);

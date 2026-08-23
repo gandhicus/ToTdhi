@@ -476,6 +476,10 @@
 		<LootTier>14</LootTier>
 		<LootTier>15</LootTier>
 		<LootTier>16</LootTier>
+		<LootTier>17</LootTier>
+		<LootTier>18</LootTier>
+		<LootTier>19</LootTier>
+		<LootTier>20</LootTier>
 		<Defense>38</Defense>
 
 		<Size>1.3</Size>
@@ -668,6 +672,14 @@
 		<LootTier>14</LootTier>
 		<LootTier>15</LootTier>
 		<LootTier>16</LootTier>
+		<LootTier>17</LootTier>
+		<LootTier>18</LootTier>
+		<LootTier>19</LootTier>
+		<LootTier>20</LootTier>
+		<LootTier>21</LootTier>
+		<LootTier>21</LootTier>
+		<LootTier>22</LootTier>
+		<LootTier>23</LootTier>
 		<Defense>42</Defense>
 
 	</Object>
@@ -773,6 +785,10 @@
 		<LootTier>12</LootTier>
 		<LootTier>13</LootTier>
 		<LootTier>14</LootTier>
+		<LootTier>15</LootTier>
+		<LootTier>16</LootTier>
+		<LootTier>17</LootTier>
+		<LootTier>18</LootTier>
 		<Defense>32</Defense>
 
 	</Object>
@@ -1792,6 +1808,8 @@
 		<SoulMod>1.1</SoulMod>
 		<SoulGroup>Mountains</SoulGroup>
 		<LootTier>2</LootTier>
+		<LootTier>5</LootTier>
+		<LootTier>7</LootTier>
 		<Defense>32</Defense>
 
 	</Object>
@@ -1818,6 +1836,7 @@
 		<SoulGroup>Mountains</SoulGroup>
 		<LootTier>2</LootTier>
 		<LootTier>5</LootTier>
+		<LootTier>7</LootTier>
 		<Defense>24</Defense>
 
 	</Object>
@@ -1906,6 +1925,7 @@
 		<SoulGroup>Mountains</SoulGroup>
 		<LootTier>2</LootTier>
 		<LootTier>5</LootTier>
+		<LootTier>7</LootTier>
 		<Defense>30</Defense>
 
 	</Object>
@@ -1932,6 +1952,7 @@
 		<SoulGroup>Lake</SoulGroup>
 		<LootTier>3</LootTier>
 		<LootTier>4</LootTier>
+		<LootTier>8</LootTier>
 		<Defense>26</Defense>
 
 	</Object>
@@ -2021,6 +2042,7 @@
 		<LootTier>2</LootTier>
 		<LootTier>5</LootTier>
 		<LootTier>7</LootTier>
+		<LootTier>8</LootTier>
 		<Defense>22</Defense>
 
 	</Object>
@@ -2136,7 +2158,7 @@
 			<Size>1</Size>
 			<Speed>7</Speed>
 			<Range>6</Range>
-			<DamageMod>1.2</DamageMod>
+			<DamageMod>2.2</DamageMod>
 		</Projectile>
 
 		<Projectile name="Vicious Zebtling Bite" type="Circular">
@@ -2144,7 +2166,7 @@
 			<Speed>7</Speed>
 			<Radius>3</Radius>
 			<Arc>270</Arc>
-			<DamageMod>1.2</DamageMod>
+			<DamageMod>2.2</DamageMod>
 		</Projectile>
 
 		<Projectile name="Vicious Zebtling Bite" type="Circular">
@@ -2153,16 +2175,17 @@
 			<Radius>3</Radius>
 			<Arc>270</Arc>
 			<Clockwise/>
-			<DamageMod>1.2</DamageMod>
+			<DamageMod>2.2</DamageMod>
 		</Projectile>
 
 		<Size>1</Size>
-		<HealthMod>0.35</HealthMod>
-		<SoulMod>0.27</SoulMod>
+		<HealthMod>0.45</HealthMod>
+		<SoulMod>0.3</SoulMod>
 		<SoulGroup>Lake</SoulGroup>
 		<LootTier>2</LootTier>
 		<LootTier>5</LootTier>
 		<LootTier>7</LootTier>
+		<LootTier>8</LootTier>
 		<Defense>14</Defense>
 
 	</Object>
@@ -2205,6 +2228,7 @@
 		<SoulMod>4</SoulMod>
 		<SoulGroup>Tundra</SoulGroup>
 		<LootTier>3</LootTier>
+		<LootTier>5</LootTier>
 		<Defense>34</Defense>
 
 	</Object>
@@ -2230,6 +2254,7 @@
 		<SoulGroup>Tundra</SoulGroup>
 		<LootTier>2</LootTier>
 		<LootTier>4</LootTier>
+		<LootTier>6</LootTier>
 		<Defense>26</Defense>
 
 	</Object>
@@ -2265,6 +2290,7 @@
 		<SoulGroup>Tundra</SoulGroup>
 		<LootTier>2</LootTier>
 		<LootTier>4</LootTier>
+		<LootTier>6</LootTier>
 		<Defense>30</Defense>
 
 	</Object>
@@ -2303,6 +2329,7 @@
 		<SoulMod>0.24</SoulMod>
 		<SoulGroup>Tundra</SoulGroup>
 		<LootTier>1</LootTier>
+		<LootTier>6</LootTier>
 		<Defense>20</Defense>
 
 	</Object>
@@ -2585,6 +2612,8 @@
 		<LootTier>8</LootTier>
 		<LootTier>9</LootTier>
 		<LootTier>11</LootTier>
+		<LootTier>16</LootTier>
+		<LootTier>17</LootTier>
 
 	</Object>
 
@@ -2751,6 +2780,8 @@
 		<LootTier>3</LootTier>
 		<LootTier>6</LootTier>
 		<LootTier>10</LootTier>
+		<LootTier>18</LootTier>
+		<LootTier>19</LootTier>
 		<Defense>32</Defense>
 
 	</Object>
@@ -3302,6 +3333,11 @@
 		<SoulGroup>MannahsFortress</SoulGroup>
 		<LootTier>5</LootTier>
 		<LootTier>11</LootTier>
+		<LootTier>15</LootTier>
+		<LootTier>21</LootTier>
+		<LootTier>22</LootTier>
+		<LootTier>23</LootTier>
+		<LootTier>24</LootTier>
 		<Defense>30</Defense>
 
 	</Object>
@@ -4151,6 +4187,7 @@
 		<SoulGroup>Mountains</SoulGroup>
 		<LootTier>3</LootTier>
 		<LootTier>4</LootTier>
+		<LootTier>6</LootTier>
 		<Defense>38</Defense>
 
 	</Object>

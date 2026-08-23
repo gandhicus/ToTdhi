@@ -5,6 +5,7 @@ using System.Linq;
 using TitanCore.Core;
 using TitanCore.Data;
 using TitanCore.Data.Entities;
+using TitanCore.Net;
 using TitanCore.Net.Packets;
 using TitanCore.Net.Packets.Client;
 using TitanCore.Net.Packets.Models;
@@ -372,7 +373,7 @@ namespace World.GameState
                 return;
             }
 
-            if (proj.endTime != time) // proj exceeded lifetime
+            if (time < proj.endTime || time > proj.endTime + NetConstants.Client_Delta)
             {
                 Log.Write("Hit failed! Aoe end time mismatch");
                 return;
@@ -407,10 +408,8 @@ namespace World.GameState
                 return;
             }
 
-            if (!entityStates.TryGetValue(enemyId, out var enemyState)) // failed to retrieve the entity that was hit
+            if (!entityStates.TryGetValue(enemyId, out var enemyState)) // already dead or not in sight
             {
-                //Log.Write("Enemy does not exist to the player!");
-                player.client.SendAsync(new TnError("Hit check failed! Enemy does not exist to the player!"));
                 return;
             }
 
@@ -431,7 +430,7 @@ namespace World.GameState
             var enemyPos = enemyState.GetPosition(time);
             var projPos = proj.GetPosition(time);
 
-            if (projPos.DistanceTo(enemyPos) < proj.radius + enemyState.currentSnapshot.radius * enemyState.currentSnapshot.size) // Hit success!
+            if (ProjectileHitsEnemy(projPos, proj.radius, enemyState, time)) // Hit success!
             {
                 bool killed = false;
                 var result = playerState.ResolvePlayerOutgoingDamage(
@@ -442,9 +441,10 @@ namespace World.GameState
                     enemyState.currentSnapshot.HasServerEffect(StatusEffect.Fortified),
                     proj.projectileId,
                     time,
-                    enemyId);
+                    enemyId,
+                    enemyState.currentSnapshot.defenseMinus);
                 int damageTaken = result.damage;
-                playerState.ability.OnHit(enemyState, time, ref damageTaken);
+                playerState.ability.OnHit(enemyState, time, ref damageTaken, proj.item);
 
                 playerState.TriggerProcsFromDamageResult(result, time);
 
@@ -488,66 +488,74 @@ namespace World.GameState
 
         private void PlayerHitEnemyAoe(uint time, AoeProjectileState proj, uint enemyId)
         {
-            if (!entityStates.TryGetValue(enemyId, out var enemyState)) // failed to retrieve the entity that was hit
+            if (!entityStates.TryGetValue(enemyId, out var enemyState)) // already dead or not in sight
             {
-                player.client.SendAsync(new TnError("Hit check failed! Enemy does not exist to the player!"));
                 return;
             }
 
             if (proj.endTime == uint.MaxValue)
             {
-                player.client.SendAsync(new TnError("Hit check failed! Projectile never acknowledged!"));
+                Log.Write("Projectile never acknowledged!");
                 return;
             }
 
-            if (proj.endTime != time) // proj exceeded lifetime
+            if (time < proj.endTime || time > proj.endTime + NetConstants.Client_Delta * 2)
             {
-                player.client.SendAsync(new TnError("Hit check failed! Hit failed! Aoe end time mismatch"));
+                Log.Write("Hit failed! Aoe end time mismatch");
                 return;
             }
 
             var enemyPos = enemyState.GetPosition(time);
             var projPos = proj.target;
 
-            if (projPos.DistanceTo(enemyPos) < proj.data.radius && proj.hitSet.Add(enemyId)) // Hit success!
-            {
-                var result = playerState.ResolvePlayerOutgoingDamage(
-                    proj.damage,
-                    0,
-                    0,
-                    enemyState.currentSnapshot.defense,
-                    enemyState.currentSnapshot.HasServerEffect(StatusEffect.Fortified),
-                    proj.projectileId,
-                    time,
-                    enemyId);
-                int damageTaken = result.damage;
-                playerState.ability.OnHit(enemyState, time, ref damageTaken);
-
-                playerState.TriggerProcsFromDamageResult(result, time);
-
-                if (player.world.objects.TryGetEnemy(enemyState.gameId, out var enemy))
-                {
-                    enemyState.currentSnapshot.health -= damageTaken;
-                    enemy.Hurt(damageTaken, player);
-                    player.OnDamageEnemy(enemy, damageTaken);
-                    if (enemyState.currentSnapshot.health <= 0) // kill enemy
-                    {
-                        entityStates.Remove(enemyState.gameId);
-                        enemy.Die(player);
-                    }
-                }
-                else
-                {
-
-                }
-
-                playerState.AddRage(time);
-            }
-            else // Hit failed!
+            if (!ProjectileHitsEnemy(projPos, proj.data.radius, enemyState, time))
             {
                 Log.Write($"Hit Failed! Id: {proj.projectileId}, projPos: {projPos}, enemyPos: {enemyPos}");
-                player.client.SendAsync(new TnError("Hit check failed! Distance failure."));
+                return;
             }
+
+            if (!proj.hitSet.Add(enemyId))
+                return;
+
+            var result = playerState.ResolvePlayerOutgoingDamage(
+                proj.damage,
+                0,
+                0,
+                enemyState.currentSnapshot.defense,
+                enemyState.currentSnapshot.HasServerEffect(StatusEffect.Fortified),
+                proj.projectileId,
+                time,
+                enemyId,
+                enemyState.currentSnapshot.defenseMinus);
+            int damageTaken = result.damage;
+            playerState.ability.OnHit(enemyState, time, ref damageTaken, proj.item);
+
+            playerState.TriggerProcsFromDamageResult(result, time);
+
+            if (player.world.objects.TryGetEnemy(enemyState.gameId, out var enemy))
+            {
+                enemyState.currentSnapshot.health -= damageTaken;
+                enemy.Hurt(damageTaken, player);
+                player.OnDamageEnemy(enemy, damageTaken);
+                if (enemyState.currentSnapshot.health <= 0) // kill enemy
+                {
+                    entityStates.Remove(enemyState.gameId);
+                    enemy.Die(player);
+                }
+            }
+
+            playerState.AddRage(time);
+        }
+
+        private bool ProjectileHitsEnemy(Vec2 projPos, float projRadius, EntityState enemyState, uint time)
+        {
+            float hitRadius = projRadius + enemyState.currentSnapshot.radius * enemyState.currentSnapshot.size + 0.4f;
+            var snapshotPos = enemyState.GetPosition(time);
+            if (projPos.DistanceTo(snapshotPos) < hitRadius)
+                return true;
+            if (player.world.objects.TryGetEnemy(enemyState.gameId, out var live) && live.world != null && !live.IsDead)
+                return projPos.DistanceTo(live.position.Value) < hitRadius;
+            return false;
         }
 
         /*

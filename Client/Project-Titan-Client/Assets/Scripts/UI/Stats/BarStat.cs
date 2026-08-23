@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TitanCore.Core;
 using TMPro;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ public class BarStat : Stat
     public override void SetStat(int value, int extra, Player player)
     {
         max = value + extra;
+        if (statType == StatType.MaxHealth)
+            max = StatFunctions.ClampPlayerMaxHealth(max);
         CheckMax(value, player);
         Resize();
     }
@@ -32,7 +35,8 @@ public class BarStat : Stat
 
     private void Resize()
     {
-        valueBar.anchorMax = new Vector2((float)value / max, 1);
+        float percent = max <= 0 ? 0f : (float)value / max;
+        valueBar.anchorMax = new Vector2(Mathf.Clamp01(percent), 1);
         valueBar.offsetMax = new Vector2(0, 0);
     }
 }

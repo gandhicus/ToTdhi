@@ -38,7 +38,7 @@ public class LoginMenu : MonoBehaviour
     private void Start()
     {
 #if UNITY_STANDALONE
-        GameDataLoader.discordManager.UpdateState("In Menus");
+        GameDataLoader.discordManager?.UpdateState("In Menus");
 #endif
 
         for (int i = 0; i < MaterialManager.spriteUIs.Length; i++)

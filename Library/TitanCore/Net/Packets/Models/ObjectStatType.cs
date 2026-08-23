@@ -65,5 +65,7 @@ namespace TitanCore.Net.Packets.Models
         AttackLock = 58,
         DefenseLock = 59,
         VigorLock = 60,
+        DefenseMinus = 61,
+        RateOfFire = 62,
     }
 }

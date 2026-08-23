@@ -29,13 +29,10 @@ namespace World.Map.Objects.Entities
         public void ProcessShoot(TnShoot shoot)
         {
             var time = shoot.clientTickId * Client.Client_Fixed_Delta;
-            if (time < nextShootTime)
-            {
-                client.SendAsync(new TnError("Attack speed check failed!"));
-                return;
-            }
 
             if (gameState.playerState == null) return;
+
+            gameState.playerState.AdvanceTime(time);
 
             if (!gameState.playerState.AdvancePosition(shoot.position, time))
             {
@@ -53,8 +50,14 @@ namespace World.Map.Objects.Entities
             if (shoot.projectileId < projIds)
                 return;
 
-            var shootCooldown = (int)(1000 / (weaponInfo.rateOfFire * StatFunctions.AttackSpeedModifier(gameState.playerState.HasEffect(StatusEffect.Fervent, time), gameState.playerState.currentSnapshot.GetAlternateStat(AlternateStatType.RateOfFire))));
-            nextShootTime = (uint)(time + shootCooldown);
+            int rofBonus = gameState.playerState.currentSnapshot.GetAlternateStat(AlternateStatType.RateOfFire)
+                + gameState.playerState.GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time);
+            int shootCooldown = StatFunctions.GetShootCooldownMs(weaponInfo.rateOfFire, rofBonus);
+            int slack = Math.Max(96, shootCooldown / 2);
+            if (nextShootTime > 0 && time + (uint)slack < nextShootTime)
+                return;
+
+            nextShootTime = time + (uint)shootCooldown;
 
             var startProjectileId = shoot.projectileId;
             var projData = weaponInfo.projectiles[startProjectileId % weaponInfo.projectiles.Length];

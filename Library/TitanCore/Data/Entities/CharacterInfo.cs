@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using TitanCore.Core;
 using TitanCore.Data.Components;
+using TitanCore.Data.Items;
 using Utils.NET.IO.Xml;
 using Utils.NET.Utils;
 
@@ -82,6 +83,19 @@ namespace TitanCore.Data.Entities
             }
 
             return false;
+        }
+
+        public bool CanUseEquipment(EquipmentInfo equip)
+        {
+            if (equip == null)
+                return true;
+            if (equip.slotType == SlotType.Talisman)
+            {
+                if (equip.requiredClass == 0)
+                    return true;
+                return (ushort)equip.requiredClass == id;
+            }
+            return CanUseSloType(equip.slotType);
         }
 
         public bool CanEquipInSlot(SlotType itemSlotType, int slotIndex)

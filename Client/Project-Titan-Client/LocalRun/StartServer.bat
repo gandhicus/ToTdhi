@@ -19,13 +19,13 @@ set "SERVER_SETTINGS=%~dp0ServerSettings.txt"
 set "CONFIG_READER=%~dp0ReadConfigValue.ps1"
 set "TRIALS_LOCAL_SERVER_HOST=127.0.0.1"
 set "TRIALS_SERVER_ADMIN=false"
-set "TRIALS_ANTICHEAT=true"
+set "TRIALS_ANTICHEAT=false"
 set "TRIALS_LOOT_BOOST=1"
 
 if exist "%CONFIG_READER%" (
     for /f "usebackq delims=" %%A in (`powershell -NoProfile -ExecutionPolicy Bypass -File "%CONFIG_READER%" -Path "%SERVER_SETTINGS%" -Key ip -Default "127.0.0.1"`) do set "TRIALS_LOCAL_SERVER_HOST=%%A"
     for /f "usebackq delims=" %%A in (`powershell -NoProfile -ExecutionPolicy Bypass -File "%CONFIG_READER%" -Path "%SERVER_SETTINGS%" -Key admin -Default "false"`) do set "TRIALS_SERVER_ADMIN=%%A"
-    for /f "usebackq delims=" %%A in (`powershell -NoProfile -ExecutionPolicy Bypass -File "%CONFIG_READER%" -Path "%SERVER_SETTINGS%" -Key anticheat -Default "true"`) do set "TRIALS_ANTICHEAT=%%A"
+    for /f "usebackq delims=" %%A in (`powershell -NoProfile -ExecutionPolicy Bypass -File "%CONFIG_READER%" -Path "%SERVER_SETTINGS%" -Key anticheat -Default "false"`) do set "TRIALS_ANTICHEAT=%%A"
     for /f "usebackq delims=" %%A in (`powershell -NoProfile -ExecutionPolicy Bypass -File "%CONFIG_READER%" -Path "%SERVER_SETTINGS%" -Key lootBoost -Default "1"`) do set "TRIALS_LOOT_BOOST=%%A"
 )
 

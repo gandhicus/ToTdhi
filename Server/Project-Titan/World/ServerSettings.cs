@@ -17,7 +17,7 @@ namespace World
 
         public static readonly bool AdminCommands = GetBool("admin", Admin_Env, false);
 
-        public static readonly bool AntiCheat = GetBool("anticheat", Anticheat_Env, true);
+        public static readonly bool AntiCheat = GetBool("anticheat", Anticheat_Env, false);
 
         public static readonly int LootBoost = Clamp(GetInt("lootBoost", Loot_Boost_Env, 1), 1, 100);
 

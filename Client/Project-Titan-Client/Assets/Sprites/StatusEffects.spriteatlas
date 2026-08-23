@@ -56,6 +56,7 @@ SpriteAtlas:
     - d44b4f4268ee4a345b0246a812865029: 21300000
     - 3721d472a89fb6e45b762df7ea2225e6: 21300000
     - b8e4f3d2c5a6978981726354c0b9f8e2: 21300000
+    - b1c4d8e2f6a03b5c7d9e1f2a4b6c8d0e: 21300000
     - c9f5a4e3d6b7a8a992837465d1c0a9f3: 21300000
     - a6c317b4dbc3601488228f44f98ba99c: 21300000
     - d0a6b5f4e7c8b9b0a3948576e2d1b0a4: 21300000
@@ -63,10 +64,12 @@ SpriteAtlas:
     - 58fbbe65eb3b5654f8e0d92201e09e40: 21300000
     - 332835f710e9bba43a1b0d42913acfeb: 21300000
     - 4d8828392249b4743b570b18c36d7d95: 21300000
+    - e8c17d4a2b5f4c6e9a0d1f3b5c7e8a90: 21300000
     - 36bd06ba74d268146af402807f78c22b: 21300000
     - 4866acea502a4ef478fac7bc127e300d: 21300000
     - 49f9829bc470594418d16edda661d937: 21300000
     - e6e01debde9d10d4ea9e0ce434161613: 21300000
+    - f6ee500db3f93aa4a85924bdb550b86a: 21300000
     - 16f20bdd03054474b9e11a438c07572d: 21300000
     - ddc5532e90e799e46a1e575c42891289: 21300000
     - 8111446edb068ff4f9027a99c474661e: 21300000
@@ -81,6 +84,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d44b4f4268ee4a345b0246a812865029, type: 3}
   - {fileID: 21300000, guid: 3721d472a89fb6e45b762df7ea2225e6, type: 3}
   - {fileID: 21300000, guid: b8e4f3d2c5a6978981726354c0b9f8e2, type: 3}
+  - {fileID: 21300000, guid: b1c4d8e2f6a03b5c7d9e1f2a4b6c8d0e, type: 3}
   - {fileID: 21300000, guid: c9f5a4e3d6b7a8a992837465d1c0a9f3, type: 3}
   - {fileID: 21300000, guid: a6c317b4dbc3601488228f44f98ba99c, type: 3}
   - {fileID: 21300000, guid: d0a6b5f4e7c8b9b0a3948576e2d1b0a4, type: 3}
@@ -88,10 +92,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 58fbbe65eb3b5654f8e0d92201e09e40, type: 3}
   - {fileID: 21300000, guid: 332835f710e9bba43a1b0d42913acfeb, type: 3}
   - {fileID: 21300000, guid: 4d8828392249b4743b570b18c36d7d95, type: 3}
+  - {fileID: 21300000, guid: e8c17d4a2b5f4c6e9a0d1f3b5c7e8a90, type: 3}
   - {fileID: 21300000, guid: 36bd06ba74d268146af402807f78c22b, type: 3}
   - {fileID: 21300000, guid: 4866acea502a4ef478fac7bc127e300d, type: 3}
   - {fileID: 21300000, guid: 49f9829bc470594418d16edda661d937, type: 3}
   - {fileID: 21300000, guid: e6e01debde9d10d4ea9e0ce434161613, type: 3}
+  - {fileID: 21300000, guid: f6ee500db3f93aa4a85924bdb550b86a, type: 3}
   - {fileID: 21300000, guid: 16f20bdd03054474b9e11a438c07572d, type: 3}
   - {fileID: 21300000, guid: ddc5532e90e799e46a1e575c42891289, type: 3}
   - {fileID: 21300000, guid: 8111446edb068ff4f9027a99c474661e, type: 3}
@@ -105,6 +111,7 @@ SpriteAtlas:
   - InactiveDownvote
   - Dashing
   - BlockBonus
+  - RateOfFireBonus
   - CritBonus
   - Invulnerable
   - AbsorptionBonus
@@ -112,10 +119,12 @@ SpriteAtlas:
   - Slowed
   - Fervent
   - SpeedBonus
+  - DefenseMinus
   - Mundane
   - Healing
   - Grounded
   - InactiveUpvote
+  - Marked
   - DefenseBonus
   - Reach
   - AttackBonus

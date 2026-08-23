@@ -35,7 +35,7 @@ namespace World.Net.Handling
 
             if (connection.player.GetTradingWith() != null) return;
 
-            if (ownerA.DistanceTo(ownerB) > 1) return; // too far away
+            if (ownerA != ownerB && ownerA.DistanceTo(ownerB) > 1) return; // too far away
 
             if (!(ownerA is IContainer containerA)) // check if containers
             {
@@ -81,9 +81,14 @@ namespace World.Net.Handling
                 return;
             }
 
-            if ((itemA != null && !CanSwapIntoSlot(itemA, containerB, packet.slotB, slotTypeB)) ||
-                (itemB != null && !CanSwapIntoSlot(itemB, containerA, packet.slotA, slotTypeA))) // slot types wont allow a swap
+            if (itemA != null && !CanSwapIntoSlot(itemA, containerB, packet.slotB, slotTypeB))
             {
+                TryTellTalismanReject(connection, containerB, packet.slotB, itemA);
+                return;
+            }
+            if (itemB != null && !CanSwapIntoSlot(itemB, containerA, packet.slotA, slotTypeA))
+            {
+                TryTellTalismanReject(connection, containerA, packet.slotA, itemB);
                 return;
             }
 
@@ -150,10 +155,24 @@ namespace World.Net.Handling
             containerB.SetItem((int)packet.slotB, itemA);
         }
 
+        private static void TryTellTalismanReject(Client connection, IContainer container, uint slot, ServerItem item)
+        {
+            if (!(container is Player player)) return;
+            if (!SkillTreeFunctions.IsEnabled || slot != SkillTreeFunctions.Talisman_Slot) return;
+            player.CanSocketTalisman(item, out var error);
+            if (!string.IsNullOrEmpty(error))
+                connection.player.AddChat(ChatData.Error(error));
+        }
+
         private static bool CanSwapIntoSlot(ServerItem item, IContainer container, uint slot, SlotType slotType)
         {
-            if (container is Player player && player.IsEquipSlot(slot))
-                return item.itemData.CanSwapInto(slotType, (CharacterInfo)player.info, (int)slot);
+            if (container is Player player)
+            {
+                if (SkillTreeFunctions.IsEnabled && slot == SkillTreeFunctions.Talisman_Slot)
+                    return player.CanSocketTalisman(item, out _);
+                if (player.IsEquipSlot(slot))
+                    return item.itemData.CanSwapInto(slotType, (CharacterInfo)player.info, (int)slot);
+            }
             return item.itemData.CanSwapInto(slotType);
         }
 

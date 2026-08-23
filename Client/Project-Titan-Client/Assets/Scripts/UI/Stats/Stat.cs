@@ -20,10 +20,14 @@ public class Stat : MonoBehaviour
 
     public virtual void SetStat(int value, int extra, Player player)
     {
+        var total = value + extra;
+        if (statType == StatType.MaxHealth)
+            total = StatFunctions.ClampPlayerMaxHealth(total);
+
         if (extra == 0)
-            stat.text = (value).ToString();
+            stat.text = total.ToString();
         else
-            stat.text = $"{value + extra} <size=60%>{(extra > 0 ? "+" : "")}{extra}</size>";
+            stat.text = $"{total} <size=60%>{(extra > 0 ? "+" : "")}{extra}</size>";
 
         CheckMax(value, player);
     }

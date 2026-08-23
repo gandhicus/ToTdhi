@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TitanCore.Core;
+using TitanCore.Data;
 using TitanCore.Data.Components.Projectiles;
 using TitanCore.Data.Entities;
 using TitanCore.Data.Items;
@@ -13,7 +14,7 @@ namespace TitanCore.Data.Components
 {
     public static class ItemDescriber
     {
-        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack, IReadOnlyDictionary<StatType, int> equippedFixedStats = null, bool includeItemForScaling = true)
+        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack, IReadOnlyDictionary<StatType, int> equippedFixedStats = null, bool includeItemForScaling = true, IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null)
         {
             describer.Clear();
 
@@ -27,7 +28,7 @@ namespace TitanCore.Data.Components
             var neutralColor = describer.GetNeutralColor();
             var enchantColor = describer.GetEnchantColor(item.enchantLevel);
 
-            describer.AddContent(info.description);
+            describer.AddContent(info.description != null ? info.description.Trim() : "");
 
             describer.NewLine();
 
@@ -44,7 +45,7 @@ namespace TitanCore.Data.Components
             if (equip != null)
             {
                 var statIncreases = owned && equippedFixedStats != null
-                    ? EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, equippedFixedStats, includeItemForScaling)
+                    ? EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, includeItemForScaling)
                     : EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, null, true);
                 var alternateStatIncreases = EquipmentStatFunctions.GetAlternateStatIncreases(item, equip);
 
@@ -87,6 +88,9 @@ namespace TitanCore.Data.Components
                         if (owned && equippedFixedStats != null)
                         {
                             var fixedStats = EquipmentStatFunctions.CopyStatsForDisplay(equippedFixedStats);
+                            var fixedAlternateStats = equippedFixedAlternateStats == null
+                                ? new Dictionary<AlternateStatType, int>()
+                                : EquipmentStatFunctions.CopyAlternateStatsForDisplay(equippedFixedAlternateStats);
                             if (includeItemForScaling)
                             {
                                 foreach (var increase in EquipmentStatFunctions.GetStatIncreases(item, equip))
@@ -95,10 +99,39 @@ namespace TitanCore.Data.Components
                                         amount = 0;
                                     fixedStats[increase.Key] = amount + increase.Value;
                                 }
+                                foreach (var increase in EquipmentStatFunctions.GetAlternateStatIncreases(item, equip))
+                                {
+                                    if (!fixedAlternateStats.TryGetValue(increase.Key, out var amount))
+                                        amount = 0;
+                                    fixedAlternateStats[increase.Key] = amount + increase.Value;
+                                }
                             }
-                            currentBonus = EquipmentStatFunctions.GetScaledStatAmount(scaled, fixedStats);
+                            currentBonus = EquipmentStatFunctions.GetScaledStatAmount(scaled, fixedStats, fixedAlternateStats);
                         }
                         describer.AddElement(ProcFunctions.GetScaledStatTooltipText(scaled, currentBonus), neutralColor);
+                    }
+                    describer.NewLine();
+                }
+
+                if (equip.talentRanks != null && equip.talentRanks.Count > 0)
+                {
+                    describer.AddTitle("Skill Tree");
+                    foreach (var bonus in equip.talentRanks)
+                    {
+                        describer.NewLine();
+                        var classPart = bonus.classType != 0 ? $" ({bonus.classType})" : "";
+                        describer.AddElement($"+{bonus.amount} {bonus.node}{classPart}", neutralColor);
+                    }
+                    describer.NewLine();
+                }
+
+                if (equip.talismanEffects != null && equip.talismanEffects.Count > 0)
+                {
+                    describer.AddTitle("Talisman");
+                    foreach (var effect in equip.talismanEffects)
+                    {
+                        describer.NewLine();
+                        describer.AddContent(effect.Describe(), neutralColor);
                     }
                     describer.NewLine();
                 }
@@ -287,7 +320,44 @@ namespace TitanCore.Data.Components
                 }
             }
 
-            if (equip != null && equip.slotType != SlotType.Accessory && myClass != null)
+            if (equip != null && equip.effectStyles != null)
+            {
+                for (int i = 0; i < equip.effectStyles.Count; i++)
+                {
+                    var style = equip.effectStyles[i];
+                    AddTagTitle(describer, ref tagTitleAdded);
+                    describer.AddContent(EffectStyleFunctions.ToRichText(style));
+                    describer.NewLine();
+                }
+            }
+
+            if (equip != null && equip.slotType == SlotType.Talisman)
+            {
+                CharacterInfo required = null;
+                if (equip.requiredClass != 0)
+                {
+                    foreach (var obj in GameData.objects.Values)
+                    {
+                        var classInfo = obj as CharacterInfo;
+                        if (classInfo != null && classInfo.id == (ushort)equip.requiredClass)
+                        {
+                            required = classInfo;
+                            break;
+                        }
+                    }
+                }
+
+                if (myClass != null && required != null && myClass.id != required.id)
+                {
+                    describer.AddContent($"<color=#EF383B>Not usable by {myClass.name}</color>");
+                    describer.NewLine();
+                }
+
+                describer.AddTitle("Usable by");
+                describer.AddElement(required != null ? required.name : "All classes");
+                describer.NewLine();
+            }
+            else if (equip != null && equip.slotType != SlotType.Accessory && myClass != null)
             {
                 if (!myClass.CanUseSloType(equip.slotType))
                 {

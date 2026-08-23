@@ -1,0 +1,15 @@
+---
+description: After any TitanCore change, rebuild and sync TitanCore.dll into the Unity client
+alwaysApply: true
+---
+
+# Sync TitanCore to Unity
+
+The Unity client does **not** compile `Library/TitanCore` sources. It references `Client/Project-Titan-Client/Assets/Plugins/TitanCore.dll`. CS0246 for new TitanCore types (`SkillTreeNode`, `TnSkillTreeState`, etc.) means the plugin DLL is stale.
+
+After creating, editing, or deleting files under `Library/TitanCore` (or `Library/Utils.NET`):
+
+1. Run `Client/Project-Titan-Client/LocalRun/SyncTitanCoreToUnity.ps1` (builds Release netstandard2.0 and copies `TitanCore.dll` + `Utils.NET.dll` into `Assets/Plugins`).
+2. Do this in the same turn as the TitanCore edits, before telling the user to test in Unity.
+
+Do not skip this because Unity already has a TitanCore.dll — that copy is the old one.

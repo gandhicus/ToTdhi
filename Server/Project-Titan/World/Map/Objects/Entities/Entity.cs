@@ -28,6 +28,8 @@ namespace World.Map.Objects.Entities
 
         public ObjectStat<uint> statusEffects = new ObjectStat<uint>(ObjectStatType.StatusEffects, ObjectStatScope.Public, (uint)0, (uint)0);
 
+        public ObjectStat<int> defenseMinus = new ObjectStat<int>(ObjectStatType.DefenseMinus, ObjectStatScope.Public, 0, 0);
+
         private ObjectStat<int> texture = new ObjectStat<int>(ObjectStatType.Texture, ObjectStatScope.Public, 0, 0);
 
         private ObjectStat<ushort> groundObject = new ObjectStat<ushort>(ObjectStatType.GroundObject, ObjectStatScope.Public, (ushort)0, (ushort)0);
@@ -89,6 +91,7 @@ namespace World.Map.Objects.Entities
             list.Add(stopped);
             list.Add(hover);
             list.Add(statusEffects);
+            list.Add(defenseMinus);
             list.Add(heal);
             list.Add(texture);
             list.Add(emote);
@@ -108,7 +111,7 @@ namespace World.Map.Objects.Entities
 
         public int GetDamageTaken(int damage)
         {
-            return StatFunctions.DamageTaken(GetDefense(), damage, HasServerEffect(StatusEffect.Fortified));
+            return StatFunctions.DamageTaken(GetDefense(), damage, HasServerEffect(StatusEffect.Fortified), GetDefenseMinusAmount());
         }
 
         public virtual int GetDefense()
@@ -170,9 +173,24 @@ namespace World.Map.Objects.Entities
             return time > world.time.totalTime;
         }
 
+        public int GetDefenseMinusAmount()
+        {
+            if (!HasServerEffect(StatusEffect.DefenseMinus))
+                return 0;
+            return defenseMinus.Value;
+        }
+
         public void AddEffect(StatusEffect effect, float duration)
         {
+            AddEffect(effect, duration, 0);
+        }
+
+        public void AddEffect(StatusEffect effect, float duration, int amount)
+        {
+            if (world == null) return;
             statusEffectDurations[effect] = (float)world.time.totalTime + duration;
+            if (effect == StatusEffect.DefenseMinus && amount > 0)
+                defenseMinus.Value = Math.Max(defenseMinus.Value, amount);
         }
 
         public void RemoveEffect(StatusEffect effect)
@@ -185,6 +203,8 @@ namespace World.Map.Objects.Entities
             if (statusEffectDurations.Count == 0)
             {
                 statusEffects.Value = 0;
+                if (defenseMinus.Value != 0)
+                    defenseMinus.Value = 0;
                 return;
             }
 
@@ -195,6 +215,8 @@ namespace World.Map.Objects.Entities
                     effects |= (uint)1 << (int)effectPair.Key;
             }
             statusEffects.Value = effects;
+            if ((effects & ((uint)1 << (int)StatusEffect.DefenseMinus)) == 0 && defenseMinus.Value != 0)
+                defenseMinus.Value = 0;
         }
     }
 }

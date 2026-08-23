@@ -25,6 +25,14 @@ namespace TitanCore.Data.Items
 
         public List<ScaledStatIncrease> scaledStatIncreases = new List<ScaledStatIncrease>();
 
+        public List<TalentRankIncrease> talentRanks = new List<TalentRankIncrease>();
+
+        public ClassType requiredClass;
+
+        public List<TalismanEffect> talismanEffects = new List<TalismanEffect>();
+
+        public List<EffectStyle> effectStyles = new List<EffectStyle>();
+
         public EquipmentInfo() : base()
         {
 
@@ -63,6 +71,22 @@ namespace TitanCore.Data.Items
 
             foreach (var scaled in xml.Elements("ScaledStatIncrease"))
                 scaledStatIncreases.Add(new ScaledStatIncrease(scaled));
+
+            foreach (var rank in xml.Elements("TalentRank"))
+                talentRanks.Add(new TalentRankIncrease(rank));
+
+            var className = xml.String("Class", "");
+            if (!string.IsNullOrEmpty(className) && Enum.TryParse<ClassType>(className, true, out var parsedClass))
+                requiredClass = parsedClass;
+
+            foreach (var effectXml in xml.Elements("TalismanEffect"))
+                talismanEffects.Add(new TalismanEffect(effectXml));
+
+            var legacySpecial = xml.String("TalismanSpecial", "");
+            if (talismanEffects.Count == 0 && string.Equals(legacySpecial, "DefensePulse", StringComparison.OrdinalIgnoreCase))
+                talismanEffects.Add(TalismanEffect.CreateDefensePulse());
+
+            EffectStyleFunctions.ParseXml(xml, effectStyles);
         }
 
         public string GetTierDisplay()

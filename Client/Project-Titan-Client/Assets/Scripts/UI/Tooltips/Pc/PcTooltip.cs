@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -70,6 +71,23 @@ namespace Pc
             ContentSize = max;
         }
 
+        protected void FitTextLabel(TextMeshProUGUI label, float defaultWidth = 220f, float verticalPadding = 4f)
+        {
+            if (label == null) return;
+
+            float width = label.rectTransform.sizeDelta.x;
+            if (width < 8f)
+                width = label.rectTransform.rect.width;
+            if (width < 8f)
+                width = defaultWidth;
+
+            label.enableWordWrapping = true;
+            label.overflowMode = TextOverflowModes.Overflow;
+            label.ForceMeshUpdate();
+            var pref = label.GetPreferredValues(width, 0f);
+            label.rectTransform.sizeDelta = new Vector2(width, pref.y + verticalPadding);
+        }
+
         protected void SetBackgroundColor(Color color)
         {
             background.color = color;
@@ -83,7 +101,11 @@ namespace Pc
         protected virtual void LateUpdate()
         {
             if (!FollowMouse) return;
+            PositionAtMouse();
+        }
 
+        public void PositionAtMouse()
+        {
             var mousePos = Input.mousePosition;
             mousePos = new Vector3((int)mousePos.x, (int)mousePos.y, mousePos.z);
 

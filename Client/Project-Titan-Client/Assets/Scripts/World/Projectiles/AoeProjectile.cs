@@ -63,6 +63,8 @@ public class AoeProjectile : Bomb
         return false;
     }
 
+    public uint GetExpireClientTickId() => endTime / NetConstants.Client_Delta;
+
     public void WorldFixedUpdate(uint time)
     {
         if (collides)

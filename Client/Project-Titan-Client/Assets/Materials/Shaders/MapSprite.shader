@@ -177,9 +177,7 @@
 
 			fixed4 SampleSpriteTexture(float2 uv)
 			{
-				fixed4 color = tex2D(_MainTex, uv);
-
-				return color;
+				return tex2D(_MainTex, uv);
 			}
 
 			fixed4 frag(v2f IN) : SV_Target

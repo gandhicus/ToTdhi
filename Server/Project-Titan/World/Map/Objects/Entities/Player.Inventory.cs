@@ -40,6 +40,8 @@ namespace World.Map.Objects.Entities
             for (int i = 0; i < inventory.Length; i++)
             {
                 var item = inventory.GetItem(i);
+                if (item != null && SkillTreeFunctions.IsEnabled && character.talismanItemId != 0 && item.id == character.talismanItemId)
+                    item = null;
                 if (item == null)
                 {
                     character.items[i] = null;
@@ -73,6 +75,8 @@ namespace World.Map.Objects.Entities
 
         public ServerItem GetItem(int slot)
         {
+            if (SkillTreeFunctions.IsEnabled && slot == SkillTreeFunctions.Talisman_Slot)
+                return character?.talismanItem;
             return inventory.GetItem(slot);
         }
 
@@ -89,11 +93,44 @@ namespace World.Map.Objects.Entities
 
         public void SetItem(int slot, ServerItem item)
         {
+            if (SkillTreeFunctions.IsEnabled && slot == SkillTreeFunctions.Talisman_Slot)
+            {
+                if (item != null)
+                {
+                    item.containerId = character.id;
+                    RemoveInventoryCopies(item);
+                }
+                character.talismanItem = item;
+                character.talismanItemId = item?.id ?? 0;
+                RebuildAbilityModifiers();
+                SendSkillTreeState();
+                return;
+            }
+
             inventory.SetItem(slot, item);
+            if (item != null && SkillTreeFunctions.IsEnabled && character.talismanItem != null && item.id == character.talismanItemId)
+            {
+                character.talismanItem = null;
+                character.talismanItemId = 0;
+                RebuildAbilityModifiers();
+                SendSkillTreeState();
+            }
             if (slot < 4)
             {
                 RecalculateEquipmentStats();
                 SyncCombatSnapshotEquipment();
+            }
+        }
+
+        private void RemoveInventoryCopies(ServerItem item)
+        {
+            if (item == null) return;
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                var current = inventory.GetItem(i);
+                if (current == null) continue;
+                if (current == item || current.id == item.id)
+                    inventory.SetItem(i, null);
             }
         }
 
@@ -124,10 +161,13 @@ namespace World.Map.Objects.Entities
                 snapshot.extraStats,
                 snapshot.extraAlternateStats);
             gameState.playerState.currentSnapshot = snapshot;
+            RebuildAbilityModifiers();
         }
 
         public SlotType GetSlotType(int slot)
         {
+            if (SkillTreeFunctions.IsEnabled && slot == SkillTreeFunctions.Talisman_Slot)
+                return SlotType.Talisman;
             if (slot > 3) return SlotType.Generic;
             var charInfo = (CharacterInfo)info;
             return charInfo.equipSlots[slot];
@@ -140,6 +180,8 @@ namespace World.Map.Objects.Entities
 
         public int GetContainerSize()
         {
+            if (SkillTreeFunctions.IsEnabled)
+                return inventory.Length + 1;
             return inventory.Length;
         }
 

@@ -429,7 +429,7 @@ namespace World.Net
                 player.RemoveFromWorld();
                 player.SaveCharacter();
 
-                await Database.SaveItems(player.character.items);
+                await Database.SaveItems(GetSkillTreeSaveItems(player));
 
                 if (!player.character.dead)
                     LeaderboardManager.PushLiving(player.character);
@@ -645,6 +645,25 @@ namespace World.Net
             account.UnlockItem(info.id);
             SendAsync(new TnSkinUnlocked(info.id));
             player?.AddChat(ChatData.Info($"You've unlocked the '{StringUtils.Labelize(info.name)}'!"));
+        }
+
+        private static List<ServerItem> GetSkillTreeSaveItems(Player player)
+        {
+            var items = new List<ServerItem>();
+            var talisman = player.character.talismanItem;
+            if (player.character.items != null)
+            {
+                for (int i = 0; i < player.character.items.Count; i++)
+                {
+                    var item = player.character.items[i];
+                    if (item == null) continue;
+                    if (talisman != null && item.id == talisman.id) continue;
+                    items.Add(item);
+                }
+            }
+            if (talisman != null)
+                items.Add(talisman);
+            return items;
         }
     }
 }

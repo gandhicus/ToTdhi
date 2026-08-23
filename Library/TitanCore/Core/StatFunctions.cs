@@ -8,6 +8,16 @@ namespace TitanCore.Core
 {
     public static class StatFunctions
     {
+        /// <summary>
+        /// Floor for player MaxHealth after gear curses (e.g. Dark Matter) so HP cannot go negative.
+        /// </summary>
+        public const int Min_Player_MaxHealth = 60;
+
+        public static int ClampPlayerMaxHealth(int maxHealth)
+        {
+            return maxHealth < Min_Player_MaxHealth ? Min_Player_MaxHealth : maxHealth;
+        }
+
         public static float TilesPerSecond(int speed, bool slowed, bool speedy)
         {
             var tps = 4f + (speed / 50.0f) * 4f;
@@ -26,13 +36,15 @@ namespace TitanCore.Core
             return modifier;
         }
 
-        public static int DamageTaken(int defense, int damage, bool fortified)
+        public static int DamageTaken(int defense, int damage, bool fortified, int defenseMinusAmount = 0)
         {
             if (damage <= 0)
                 return 0;
             if (fortified)
                 defense *= 2;
-            int min = damage / 5;
+            if (defenseMinusAmount > 0)
+                defense = Math.Max(0, defense - defenseMinusAmount);
+            int min = damage / 2;
             if (min == 0)
                 min = 1;
             int taken = damage - defense;
@@ -85,7 +97,8 @@ namespace TitanCore.Core
             uint projectileId,
             uint time,
             uint targetId,
-            uint attackerId)
+            uint attackerId,
+            int defenderDefenseMinusAmount = 0)
         {
             return ResolveOutgoingDamage(
                 rawDamage,
@@ -100,7 +113,8 @@ namespace TitanCore.Core
                 projectileId,
                 time,
                 targetId,
-                attackerId);
+                attackerId,
+                defenderDefenseMinusAmount);
         }
 
         public static DamageResult ResolveOutgoingDamage(
@@ -116,7 +130,8 @@ namespace TitanCore.Core
             uint projectileId,
             uint time,
             uint targetId,
-            uint attackerId)
+            uint attackerId,
+            int defenderDefenseMinusAmount = 0)
         {
             return ResolveDamage(
                 rawDamage,
@@ -128,7 +143,8 @@ namespace TitanCore.Core
                 defenderDefense,
                 defenderFortified,
                 GetCombatSeed(projectileId, time, targetId),
-                GetLandingProcSeed(time, targetId, attackerId));
+                GetLandingProcSeed(time, targetId, attackerId),
+                defenderDefenseMinusAmount);
         }
 
         public static DamageResult ResolveIncomingDamage(
@@ -183,7 +199,8 @@ namespace TitanCore.Core
             int defense,
             bool fortified,
             uint hitSeed,
-            uint procSeed)
+            uint procSeed,
+            int defenseMinusAmount = 0)
         {
             if (RollChance(blockChance, CombatRoll(hitSeed)))
                 return new DamageResult(0, HitResultType.Blocked);
@@ -202,12 +219,12 @@ namespace TitanCore.Core
             }
             else if (isCrit)
             {
-                finalDamage = DamageTaken(defense, damage, fortified);
+                finalDamage = DamageTaken(defense, damage, fortified, defenseMinusAmount);
                 type = HitResultType.Critical;
             }
             else
             {
-                finalDamage = DamageTaken(defense, damage, fortified);
+                finalDamage = DamageTaken(defense, damage, fortified, defenseMinusAmount);
                 type = HitResultType.Normal;
             }
 
@@ -290,11 +307,15 @@ namespace TitanCore.Core
 
         public static float AttackSpeedModifier(bool fervent, int rofIncreases)
         {
-            float rof = 1;
-            rof += rofIncreases * 0.01f;
-            if (fervent)
-                rof *= 1.5f;
-            return rof;
+            return 1f + rofIncreases * 0.01f;
+        }
+
+        public static int GetShootCooldownMs(float weaponRateOfFire, int rofIncreases)
+        {
+            float shotsPerSecond = weaponRateOfFire * AttackSpeedModifier(false, rofIncreases);
+            if (shotsPerSecond < 0.05f)
+                return 1000;
+            return Math.Max(16, (int)Math.Round(1000.0 / shotsPerSecond));
         }
 
         public static float ApplyRageGainBonus(float baseAmount, int rageGainBonus)

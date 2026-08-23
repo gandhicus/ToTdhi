@@ -16,6 +16,7 @@ namespace TitanCore.Core
         Accessory = 7,
         Elixir = 8,
         Robe = 9,
-        Crossbow = 10
+        Crossbow = 10,
+        Talisman = 11
     }
 }

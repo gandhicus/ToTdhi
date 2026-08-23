@@ -42,6 +42,37 @@ namespace TitanDatabase.Models
                     break;
             }
 
+            if (obj.talismanItemId != 0)
+            {
+                if (obj.talismanItem == null)
+                {
+                    var talismanLoad = await Database.LoadItems(new List<ulong> { obj.talismanItemId });
+                    if (talismanLoad.result == LoadItemsResult.Success && talismanLoad.items.Count > 0 && talismanLoad.items[0] != null)
+                        obj.talismanItem = talismanLoad.items[0];
+                }
+
+                if (obj.talismanItem == null && obj.items != null)
+                {
+                    for (int i = 0; i < obj.items.Count; i++)
+                    {
+                        if (obj.items[i] == null || obj.items[i].id != obj.talismanItemId) continue;
+                        obj.talismanItem = obj.items[i];
+                        break;
+                    }
+                }
+
+                if (obj.talismanItem != null && obj.items != null)
+                {
+                    for (int i = 0; i < obj.items.Count; i++)
+                    {
+                        if (obj.items[i] == null || obj.items[i].id != obj.talismanItemId) continue;
+                        obj.items[i] = null;
+                        if (obj.itemIds != null && i < obj.itemIds.Count)
+                            obj.itemIds[i] = 0;
+                    }
+                }
+            }
+
             return new GetResponse<Character>
             {
                 result = RequestResult.Success,
@@ -87,6 +118,12 @@ namespace TitanDatabase.Models
 
         public Dictionary<CharacterStatisticType, CharacterStatistic> statistics = new Dictionary<CharacterStatisticType, CharacterStatistic>();
 
+        public uint talentRanks;
+
+        public ulong talismanItemId;
+
+        public ServerItem talismanItem;
+
         public Character()
         {
 
@@ -112,6 +149,8 @@ namespace TitanDatabase.Models
             skin = r.UInt16("skin");
             levelIncrement = r.UInt8("lvlInc");
             SetStatistics(r.UInt64List("charstats"));
+            talentRanks = r.UInt32("talentRanks", 0);
+            talismanItemId = r.UInt64("talismanItemId", 0);
         }
 
         public override void Write(ItemWriter w)
@@ -134,6 +173,8 @@ namespace TitanDatabase.Models
             w.Write("skin", skin);
             w.Write("lvlInc", levelIncrement);
             w.Write("charstats", ExportStatistics());
+            w.Write("talentRanks", talentRanks);
+            w.Write("talismanItemId", talismanItemId);
         }
 
         private void SetStatistics(List<ulong> binaries)
@@ -159,6 +200,7 @@ namespace TitanDatabase.Models
             {
                 var serverItem = items[i];
                 if (serverItem == null) continue;
+                if (talismanItemId != 0 && serverItem.id == talismanItemId) continue;
                 if (serverItem.containerId == id) continue;
                 items[i] = null;
                 itemIds[i] = 0;

@@ -55,6 +55,8 @@ namespace TitanCore.Net.Packets
         CreateResponse = 46,
         SkinUnlocked = 47,
         EnemyHitWall = 48,
-        HealthUpdate = 49
+        HealthUpdate = 49,
+        UnlockTalent = 50,
+        SkillTreeState = 51
     }
 }

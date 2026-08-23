@@ -50,6 +50,13 @@ namespace TitanCore.Net
         /// </summary>
         public const bool Use_Manual_Stat_Leveling = true;
 
+        /// <summary>
+        /// Skill tree + Talisman socket. Set false to ship the next patch with the old ability-only system
+        /// (ranks and socketed items stay saved; they just do nothing until this is true again).
+        /// Open the tree in-game with K. Fine-tune numbers in SkillTreeFunctions.
+        /// </summary>
+        public const bool Use_Skill_Tree = true;
+
         public const int Stat_Level_Cap = 60;
 
         public const int Defense_Stat_Cap = 30;
