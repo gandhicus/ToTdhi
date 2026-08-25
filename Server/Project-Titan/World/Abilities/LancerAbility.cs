@@ -28,8 +28,7 @@ namespace World.Abilities
             sendToSelf = false;
             failedToUse = false;
             var mods = SkillTreeFunctions.IsEnabled ? PlayerState.abilityMods : AbilityModifierSnapshot.Empty;
-            int cost = (int)Math.Round(AbilityFunctions.Lancer.Rage_Cost - mods.rageCostFlat);
-            cost = Math.Max(1, cost);
+            int cost = AbilityFunctions.RageSpend.GetLancerRageCost(mods);
             rageCost = (byte)cost;
 
             var lancerItem = new Item(0x2a1);

@@ -617,49 +617,52 @@ namespace World.Looting
                         new Single(Loot.Chance(7), new Item("Mannah's Capstone"))
                         ),
                     new SoulboundLoot(0.1f, // 9
-                        new Single(Loot.Chance(6), new Item("Mannah's Soul Crux"))
+                        new Single(Loot.Chance(5), new Item("Mannah's Soul Crux"))
                         ),
                     new SoulboundLoot(0.1f, // 10
                         new Single(Loot.Chance(6), new Item("Mannah's Mop"))
                         ),
                     new SoulboundLoot(0.1f, // 11
-                        new Single(Loot.Chance(4), new Item("Empyrean's Guard"))
+                        new Single(Loot.Chance(3.5), new Item("Empyrean's Guard"))
                         ),
                     new SoulboundLoot(0.1f, // 12
-                        new Single(Loot.Chance(2), new Item("Dark Matter"))
+                        new Single(Loot.Chance(1.5), new Item("Dark Matter"))
                         ),
                     new SoulboundLoot(0.1f, // 13
-                        new Single(Loot.Chance(30), new Item("Key to Mannah's Fortress"))
+                        new Single(Loot.Chance(1.5), new Item("The Big Bang"))
                         ),
                     new SoulboundLoot(0.1f, // 14
-                        new Single(Loot.Chance(20), new Item("Key to Dumir"))
+                        new Single(Loot.Chance(30), new Item("Key to Mannah's Fortress"))
                         ),
                     new SoulboundLoot(0.1f, // 15
-                        new Single(Loot.Chance(20), new Item("Key to Valdok's Forge"))
+                        new Single(Loot.Chance(20), new Item("Key to Dumir"))
                         ),
                     new SoulboundLoot(0.1f, // 16
-                        new Single(Loot.Chance(5), new Item("Aldrite's Gamble"))
+                        new Single(Loot.Chance(20), new Item("Key to Valdok's Forge"))
                         ),
                     new SoulboundLoot(0.1f, // 17
+                        new Single(Loot.Chance(5), new Item("Aldrite's Gamble"))
+                        ),
+                    new SoulboundLoot(0.1f, // 18
                         new Single(Loot.Chance(100),
                             new Item("Scroll of Life"))
                         ),
-                    new SoulboundLoot(0.1f, // 18
+                    new SoulboundLoot(0.1f, // 19
                         new Single(Loot.Chance(7), new Item("Skyjewel"))
                         ),
-                    new SoulboundLoot(0.1f, // 19
+                    new SoulboundLoot(0.1f, // 20
                         new Single(Loot.Chance(6), new Item("Stormsong (Tehtman's Soulstring)"))
                         ),
-                    new SoulboundLoot(0.1f, // 20
+                    new SoulboundLoot(0.1f, // 21
                         new Single(Loot.Chance(6), new Item("Elixir of Enigma"))
                         ),
-                    new SoulboundLoot(0.1f, // 21
+                    new SoulboundLoot(0.1f, // 22
                         new Single(Loot.Chance(5), new Item("Ring of the Blood Moon"))
                         ),
-                    new SoulboundLoot(0.1f, // 22
+                    new SoulboundLoot(0.1f, // 23
                         new Single(Loot.Chance(5), new Item("Sadder Star"))
                         ),
-                    new SoulboundLoot(0.1f, // 23
+                    new SoulboundLoot(0.1f, // 24
                         new Single(Loot.Chance(10),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
@@ -672,7 +675,7 @@ namespace World.Looting
                             new Item("Talisman of Piercing"),
                             new Item("Talisman of Celerity"))
                         ),
-                    new SoulboundLoot(0.1f, // 24
+                    new SoulboundLoot(0.1f, // 25
                         new Single(Loot.Chance(10),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),

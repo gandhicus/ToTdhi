@@ -56,21 +56,27 @@ namespace World.Map.Objects.Abilities
             if (time.totalTime >= endTime)
             {
                 if (owner != null && owner.world != null)
-                    owner.gameState.playerState.ability.TriggerTalisman(TalismanTrigger.AbilityEnd, (uint)(time.totalTime * 1000), position.Value, position.Value);
+                {
+                    var now = owner.gameState.playerState.LastClientTime;
+                    owner.gameState.playerState.ability.TriggerTalisman(TalismanTrigger.AbilityEnd, now, position.Value, position.Value);
+                }
                 world.objects.RemoveObjectPostLogic(this);
                 return;
             }
 
             if (time.totalTime < nextTick) return;
-            uint now = (uint)(time.totalTime * 1000);
             int attackAmt = 4 + mods.timedAttack;
 
             foreach (var player in world.objects.GetPlayersWithin(position.Value.x, position.Value.y, radius).ToArray())
+            {
+                var now = player.gameState.playerState.LastClientTime;
                 player.gameState.playerState.ApplyTimedStatBonus(StatType.Attack, attackAmt, now, 1050);
+            }
 
             foreach (var enemy in world.objects.GetEnemiesWithin(position.Value.x, position.Value.y, radius).ToArray())
             {
                 int damageTaken = 0;
+                var now = owner.gameState.playerState.LastClientTime;
                 owner.gameState.playerState.ability.TriggerTalisman(TalismanTrigger.AbilityTick, now, position.Value, enemy.position.Value, ref damageTaken, enemy);
                 damageTaken = enemy.GetDamageTaken(damage);
                 enemy.Hurt(damageTaken, owner);

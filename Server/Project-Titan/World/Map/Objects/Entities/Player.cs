@@ -102,6 +102,8 @@ namespace World.Map.Objects.Entities
         /// </summary>
         public ObjectStat<uint> target = new ObjectStat<uint>(ObjectStatType.Target, ObjectStatScope.Private, (uint)0, (uint)0);
 
+        public ObjectStat<float> rage = new ObjectStat<float>(ObjectStatType.Rage, ObjectStatScope.Private, 0f, 0f);
+
         public Sight sight;
 
         public bool startTick = false;
@@ -240,6 +242,7 @@ namespace World.Map.Objects.Entities
             list.Add(rank);
             list.Add(skin);
             list.Add(target);
+            list.Add(rage);
         }
 
         protected override void SetUpdatedStats(Dictionary<ObjectStatScope, List<NetStat>> changed, Dictionary<ObjectStatScope, List<NetStat>> updated)

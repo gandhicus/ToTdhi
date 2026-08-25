@@ -197,7 +197,34 @@ public class Character : Entity
         var equips = new Item[4];
         for (int i = 0; i < 4; i++)
             equips[i] = GetItem(i);
-        EquipmentStatFunctions.RecalculateEquipmentStats(equips, statIncreases, alternateStatIncreases);
+        EquipmentStatFunctions.RecalculateEquipmentStats(
+            equips,
+            statIncreases,
+            alternateStatIncreases,
+            GetScalingBonusStats(),
+            GetScalingBonusAlternateStats());
+    }
+
+    public Dictionary<StatType, int> GetScalingBonusStats()
+    {
+        return new Dictionary<StatType, int>
+        {
+            { StatType.MaxHealth, GetStatBonus(StatType.MaxHealth) },
+            { StatType.Speed, GetStatBonus(StatType.Speed) },
+            { StatType.Attack, GetStatBonus(StatType.Attack) },
+            { StatType.Defense, GetStatBonus(StatType.Defense) },
+            { StatType.Vigor, GetStatBonus(StatType.Vigor) },
+        };
+    }
+
+    public Dictionary<AlternateStatType, int> GetScalingBonusAlternateStats()
+    {
+        if (rateOfFireBonus <= 0)
+            return new Dictionary<AlternateStatType, int>();
+        return new Dictionary<AlternateStatType, int>
+        {
+            { AlternateStatType.RateOfFire, rateOfFireBonus },
+        };
     }
 
     public override SlotType GetSlotType(int index)
@@ -240,21 +267,27 @@ public class Character : Entity
                 break;
             case ObjectStatType.MaxHealthBonus:
                 maxHealthBonus = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.DefenseBonus:
                 defenseBonus = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.SpeedBonus:
                 speedBonus = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.AttackBonus:
                 attackBonus = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.VigorBonus:
                 vigorBonus = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.RateOfFire:
                 rateOfFireBonus = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.Heal:
                 if (this is Player) break;

@@ -36,6 +36,30 @@ namespace TitanCore.Core
             return modifier;
         }
 
+        /// <summary>
+        /// Attack damage bonus relative to a 1.0x damage multiplier (e.g. +50% at Attack 60).
+        /// </summary>
+        public static float AttackDamageBonusPercent(int attack, bool damaging)
+        {
+            return (AttackModifier(attack, damaging) - 1f) * 100f;
+        }
+
+        /// <summary>
+        /// Percent of incoming damage negated by defense, capped at 50%.
+        /// </summary>
+        public static float DefenseNegationPercent(int defense, int damage, bool fortified, int defenseMinusAmount = 0)
+        {
+            if (damage <= 0)
+                return 0f;
+            var taken = DamageTaken(defense, damage, fortified, defenseMinusAmount);
+            return (damage - taken) / (float)damage * 100f;
+        }
+
+        public static float HealthRegenPerSecond(int vigor, bool healing, bool sick)
+        {
+            return HealthRegen(vigor, 1000, healing, sick);
+        }
+
         public static int DamageTaken(int defense, int damage, bool fortified, int defenseMinusAmount = 0)
         {
             if (damage <= 0)

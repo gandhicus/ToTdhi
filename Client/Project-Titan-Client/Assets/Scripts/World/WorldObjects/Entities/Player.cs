@@ -808,10 +808,7 @@ public class Player : Character
             return;
         }
 
-        if (rage <= 0 || 
-            (info.id == (ushort)ClassType.Lancer && rage < AbilityFunctions.Lancer.Rage_Cost) ||
-            (info.id == (ushort)ClassType.Minister && rage < AbilityFunctions.Minister.GetRageCost((int)Mathf.Floor(rage))) ||
-            (info.id == (ushort)ClassType.Nomad && rage < AbilityFunctions.Nomad.Ability_Cost))
+        if (!HasEnoughRageForAbility())
         {
             if (first)
                 world.GameChat("Not enough rage available! Attack enemies to gain more.", ChatType.Error);
@@ -835,10 +832,7 @@ public class Player : Character
             return;
         }
 
-        if (rage <= 0 || 
-            (info.id == (ushort)ClassType.Lancer && rage < AbilityFunctions.Lancer.Rage_Cost) || 
-            (info.id == (ushort)ClassType.Minister && rage < AbilityFunctions.Minister.GetRageCost((int)Mathf.Floor(rage))) ||
-            (info.id == (ushort)ClassType.Nomad && rage < AbilityFunctions.Nomad.Ability_Cost))
+        if (!HasEnoughRageForAbility())
         {
 
             return;
@@ -854,20 +848,13 @@ public class Player : Character
                 //world.PlayWarriorAbilityEffect(new WarriorAbilityWorldEffect(gameId, position, (byte)rage, GetStatFunctional(StatType.Attack)));
                 var blast = (AreaBlast)world.PlayEffect(EffectType.AreaBlast, position.ToVector2());
                 blast.SetInfo(2, GetTalismanAbilityAoeColor(Color.white));
-
-                float warriorRage = rage;
-                rage = 0;
-                if (SkillTreeFunctions.IsEnabled)
-                {
-                    var keep = BuildClientAbilityModifiers().rageKeep;
-                    rage = Mathf.Floor(warriorRage) * keep;
-                }
+                SpendDumpAbilityRage();
                 break;
             case ClassType.Alchemist:
                 var alchemistFx = new AlchemistAbilityWorldEffect(gameId, target, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack));
                 ColorFromTalisman(alchemistFx);
                 world.PlayAlchemistAbilityEffect(alchemistFx);
-                rage = 0;
+                SpendDumpAbilityRage();
                 break;
             case ClassType.Lancer:
                 var lancerItem = new Item(0x2a1);
@@ -878,20 +865,20 @@ public class Player : Character
                 {
                     proj.damage = (ushort)AbilityFunctions.Lancer.GetProjectileDamage((int)Mathf.Floor(rage), GetStatFunctional(StatType.Attack));
                 }, offset);
-                rage -= AbilityFunctions.Lancer.Rage_Cost;
+                SpendFixedAbilityRage(GetLancerAbilityRageCost());
                 break;
             case ClassType.Commander:
                 var commanderFx = new CommanderAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack));
                 ColorFromTalisman(commanderFx);
                 world.PlayCommanderAbilityEffect(commanderFx);
-                rage = 0;
+                SpendDumpAbilityRage();
                 break;
             case ClassType.Minister:
                 var cost = AbilityFunctions.Minister.GetRageCost((int)Mathf.Floor(rage));
                 var ministerFx = new MinisterAbilityWorldEffect(gameId, position, cost, GetStatFunctional(StatType.Attack));
                 ColorFromTalisman(ministerFx);
                 world.PlayMinisterAbilityEffect(ministerFx);
-                rage -= cost;
+                SpendFixedAbilityRage(cost);
                 break;
             case ClassType.Berserker:
                 var berserkerMods = BuildClientAbilityModifiers();
@@ -899,11 +886,11 @@ public class Player : Character
                 var berserkerFx = new BerserkerAbilityWorldEffect(gameId, position, position.AngleTo(target) * AngleUtils.Rad2Deg, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack));
                 ColorFromTalisman(berserkerFx);
                 world.PlayBerserkerAbilityEffect(berserkerFx);
-                rage = 0;
+                SpendDumpAbilityRage();
                 break;
             case ClassType.Ranger:
                 world.PlayEffect(EffectType.RangerArrowsShoot, position.ToVector2());
-                rage = 0;
+                SpendDumpAbilityRage();
                 break;
             case ClassType.Brewer:
                 AudioManager.PlaySound("drink_potion");
@@ -913,7 +900,7 @@ public class Player : Character
                 var brewerFx = new BrewerAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack), abilityValue);
                 ColorFromTalisman(brewerFx);
                 world.PlayBrewerAbilityEffect(brewerFx);
-                rage = 0;
+                SpendDumpAbilityRage();
                 break;
             case ClassType.Bladeweaver:
                 var rageToUse = abilityValue;
@@ -923,7 +910,6 @@ public class Player : Character
                 ColorFromTalisman(bladeweaverFx);
                 world.PlayBladeweaverAbilityEffect(bladeweaverFx);
                 AddDash(position, target, rageToUse, dashDuration, bladeweaverMods.abilityRangeBonus);
-                rage -= rageToUse;
 
                 var bwItem = new Item(0x2a8);
                 projIds = ShootWeapon(bwItem, (WeaponInfo)bwItem.GetInfo(), target, projIds, position, world.clientTime, proj =>
@@ -931,12 +917,13 @@ public class Player : Character
                     //proj.SetSize(AbilityFunctions.Lancer.GetProjectileSize(rage));
                     proj.damage = (ushort)AbilityFunctions.BladeWeaver.GetProjectileDamage(rageToUse, GetStatFunctional(StatType.Attack));
                 });
+                SpendFixedAbilityRage(rageToUse);
                 break;
             case ClassType.Nomad:
                 var nomadFx = new NomadAbilityWorldEffect(gameId, target);
                 ColorFromTalisman(nomadFx);
                 world.PlayNomadAbilityEffect(nomadFx);
-                rage -= AbilityFunctions.Nomad.Ability_Cost;
+                SpendFixedAbilityRage(AbilityFunctions.Nomad.Ability_Cost);
                 break;
         }
 
@@ -957,14 +944,14 @@ public class Player : Character
     {
         if (!SkillTreeFunctions.IsEnabled || socketedTalisman.IsBlank) return;
         if (!(socketedTalisman.GetInfo() is EquipmentInfo equip)) return;
-        TalismanEffect.ApplyAbilityAoeColor(effect, equip.talismanEffects);
+        TalismanEffect.ApplyAbilityAoeColor(effect, equip.talismanEffects, Mathf.Floor(rage));
     }
 
     private Color GetTalismanAbilityAoeColor(Color fallback)
     {
         if (!SkillTreeFunctions.IsEnabled || socketedTalisman.IsBlank) return fallback;
         if (!(socketedTalisman.GetInfo() is EquipmentInfo equip)) return fallback;
-        if (!TalismanEffect.TryGetAbilityAoeColor(equip.talismanEffects, out var color)) return fallback;
+        if (!TalismanEffect.TryGetAbilityAoeColor(equip.talismanEffects, out var color, Mathf.Floor(rage))) return fallback;
         return color.ToUnityColor();
     }
 
@@ -1063,6 +1050,41 @@ public class Player : Character
         for (int i = 0; i < 4; i++)
             equips[i] = GetItem(i);
         return SkillTreeFunctions.BuildSnapshot((ClassType)info.id, skillTreeRanks, equips, socketedTalisman);
+    }
+
+    private int GetLancerAbilityRageCost()
+    {
+        var mods = SkillTreeFunctions.IsEnabled ? BuildClientAbilityModifiers() : AbilityModifierSnapshot.Empty;
+        return AbilityFunctions.RageSpend.GetLancerRageCost(mods);
+    }
+
+    private void SpendDumpAbilityRage()
+    {
+        var mods = SkillTreeFunctions.IsEnabled ? BuildClientAbilityModifiers() : AbilityModifierSnapshot.Empty;
+        rage = AbilityFunctions.RageSpend.SpendDumpRage(rage, mods, out _);
+    }
+
+    private void SpendFixedAbilityRage(int cost)
+    {
+        rage = AbilityFunctions.RageSpend.SpendFixedCost(rage, cost);
+    }
+
+    private bool HasEnoughRageForAbility()
+    {
+        int rageIntegral = Mathf.FloorToInt(rage);
+        if (rageIntegral <= 0) return false;
+
+        switch ((ClassType)info.id)
+        {
+            case ClassType.Lancer:
+                return rageIntegral >= GetLancerAbilityRageCost();
+            case ClassType.Minister:
+                return rageIntegral >= AbilityFunctions.Minister.GetRageCost(rageIntegral);
+            case ClassType.Nomad:
+                return rageIntegral >= AbilityFunctions.Nomad.Ability_Cost;
+            default:
+                return true;
+        }
     }
 
     public int GetGearTalentRank(SkillTreeNode node)

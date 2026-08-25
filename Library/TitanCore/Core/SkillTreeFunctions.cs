@@ -69,7 +69,7 @@ namespace TitanCore.Core
         public const int Node_Count = 8;
         public const int Max_Spent_Rank = 3;
         public const int Max_Effective_Rank = 6;
-        public const int Point_Cap = 12;
+        public const int Point_Cap = 9;
         public const int Talisman_Slot = 12;
 
         /// Character level required to see and use the tree
@@ -95,15 +95,6 @@ namespace TitanCore.Core
         public static EffectStyle GetNodeStyle(ClassType classType, SkillTreeNode node) => GetNode(classType, node).style;
 
         public static EffectStyle GetNodeStyle(SkillTreeNode node) => GetNodeStyle(ClassType.Warrior, node);
-
-        public const float Cleave_Weapon_Pct_Per_Rank = 0.04f;
-        public const float Haste_Cooldown_Per_Rank = 0.04f;
-        public const int Will_Lockout_Ms_Per_Rank = 50;
-        public const float Frustration_Keep_Per_Rank = 0.04f;
-        public const int Everlasting_Ms_Per_Rank = 500;
-        public const float Mending_Heal_Per_Rank = 0.03f;
-        public const int Aegis_Defense_Per_Rank = 3;
-        public const int Castle_MaxHealth_Per_Rank = 5;
 
         public const int Base_Pulse_Lockout_Ms = 1000;
         public const uint Base_Hymn_Duration_Ms = 8000;

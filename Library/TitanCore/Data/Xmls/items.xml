@@ -1425,7 +1425,7 @@
 
 		<StatIncrease type="Defense">24</StatIncrease>
 		<StatIncrease type="Attack">4</StatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeChance">15</AlternateStatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">20</AlternateStatIncrease>
 		<AlternateStatIncrease type="CriticalStrikeDamage">15</AlternateStatIncrease>
 	</Object>
 
@@ -1451,8 +1451,8 @@
 		<StatIncrease type="Defense">18</StatIncrease>
 		<StatIncrease type="Vigor">4</StatIncrease>
 
-		<Proc trigger="TrueDamage" cooldown="5000">
-			<AlternateStatBonus type="RateOfFire" amount="8" duration="5000"/>
+		<Proc trigger="TrueDamage" cooldown="8000">
+			<AlternateStatBonus type="RateOfFire" amount="8" duration="6000"/>
 		</Proc>
 
 	</Object>
@@ -1462,11 +1462,29 @@
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>Lifesource Chassis</Sprite>
 
-		<Description>The souls inhabiting this mantle share their collective lifesource with its wearer, blessing them with unmatched regenerative abilities.</Description>
+		<Description>The souls inhabiting this armor share their collective lifesource with its wearer, blessing them with unmatched regenerative abilities.</Description>
 
 		<StatIncrease type="Vigor">25</StatIncrease>
 
 		<ScaledStatIncrease per="5" amount="1" from="Attack" to="AbsorptionChance"/>
+
+	</Object>
+
+	<Object id="0x521" name="The Big Bang" tier="-1">
+		<Type>Equipment</Type>
+		<SlotType>HeavyArmor</SlotType>
+		<Sprite>The Big Bang</Sprite>
+
+		<Description>An armor of mystical and otherworldly craft. Said to have aided the creation of the realms, according to common legends.</Description>
+
+		<StatIncrease type="Defense">20</StatIncrease>
+		<AlternateStatIncrease type="BlockChance">5</AlternateStatIncrease>
+
+		<ScaledStatIncrease per="10" amount="2" from="TrueDamageChance" to="BlockChance"/>
+
+		<Proc trigger="CriticalStrike" cooldown="20000">
+			<AlternateStatBonus type="AbsorptionChance" amount="50" duration="5000"/>
+		</Proc>
 
 	</Object>
 
@@ -2771,8 +2789,8 @@
 		<SlotType>Talisman</SlotType>
 		<Sprite>Blessed Talisman</Sprite>
 		<Class>Lancer</Class>
-		<TalismanEffect trigger="AbilityHit" cooldown="500">
-			<Heal>1</Heal>
+		<TalismanEffect trigger="AbilityHit" rageThreshold="5">
+			<Heal>5</Heal>
 		</TalismanEffect>
 		<Support/>
 		<Description>A talisman blessed by the high ministers with the power to aid its wearer.</Description>
@@ -3042,7 +3060,7 @@
 	<Object id="0x212c" name="Talisman of Piercing" tier="-1">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
-		<Sprite>Talisman</Sprite>
+		<Sprite>Talisman of Piercing</Sprite>
 		<Class>Alchemist</Class>
 		<TalismanEffect trigger="AbilityTick">
 			<StatusEffect type="DefenseMinus" amount="15" duration="1200"/>
@@ -3059,7 +3077,7 @@
 			<Rage>2</Rage>
 		</TalismanEffect>
 		<Power/>
-		<Description>A talisman that channels its user's rage.</Description>
+		<Description>On each puddle tick while damaging enemies, gain +2 rage.</Description>
 	</Object>
 	<Object id="0x2129" name="Berserker Talisman 1" tier="-1">
 		<Type>Equipment</Type>

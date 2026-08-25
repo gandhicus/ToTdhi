@@ -55,18 +55,12 @@ namespace World.Abilities
         protected void ColorWorldEffect(WorldEffect effect)
         {
             if (!SkillTreeFunctions.IsEnabled) return;
-            TalismanEffect.ApplyAbilityAoeColor(effect, PlayerState.abilityMods.talismanEffects);
+            TalismanEffect.ApplyAbilityAoeColor(effect, PlayerState.abilityMods.talismanEffects, PlayerState.abilityActivationRage);
         }
 
         protected void SpendDumpRage(ref byte rage, AbilityModifierSnapshot mods, out byte rageCost)
         {
-            byte keep = 0;
-            if (SkillTreeFunctions.IsEnabled && mods.rageKeep > 0)
-                keep = (byte)Math.Round(rage * mods.rageKeep);
-            rageCost = (byte)Math.Max(0, rage - keep);
-            if (rageCost == 0 && rage > 0)
-                rageCost = rage;
-            rage = keep;
+            AbilityFunctions.RageSpend.SpendDumpRage(ref rage, mods, out rageCost);
         }
 
         public void TriggerTalisman(TalismanTrigger trigger, uint time, Vec2 position, Vec2 target, float? abilityRagePercent = null)
@@ -92,13 +86,13 @@ namespace World.Abilities
             {
                 var effect = effects[i];
                 if (effect.trigger != trigger) continue;
-                if (effect.ragePercentThreshold > 0 && ragePercent < effect.ragePercentThreshold) continue;
+                if (!TalismanEffect.MeetsRageThreshold(ragePercent, effect)) continue;
                 if (Math.Abs(effect.damageMul - 1f) > 0.001f && damageTaken > 0)
                     damageTaken = (int)(damageTaken * effect.damageMul);
                 if (!PlayerState.TryConsumeTalismanCooldown(i, effect.cooldownMs, time)) continue;
 
                 if (effect.statBonus != null)
-                    PlayerState.ApplyTimedStatBonus(effect.statBonus.statType, effect.statBonus.amount, time, effect.statBonus.durationMs);
+                    PlayerState.ApplyTalismanTimedStatBonus(effect.statBonus.statType, effect.statBonus.amount, time, effect.statBonus.durationMs, i);
 
                 if (effect.alternateStatBonus != null)
                     PlayerState.ApplyTimedAlternateStatBonus(effect.alternateStatBonus.statType, effect.alternateStatBonus.amount, time, effect.alternateStatBonus.durationMs);
@@ -173,6 +167,7 @@ namespace World.Abilities
                 {
                     var damageTaken = aoe.trueDamage ? aoe.damage : enemy.GetDamageTaken(aoe.damage);
                     enemy.Hurt(damageTaken, player);
+                    enemy.ServerDamage(damageTaken, player.info);
                     player.OnDamageEnemy(enemy, damageTaken);
                     if (enemy.GetHealth() <= 0)
                         enemy.Die(player);

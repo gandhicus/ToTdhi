@@ -268,5 +268,49 @@ namespace TitanCore.Core
 
             public const uint RoF_Duration_Ms = 4000;
         }
+
+        public static class RageSpend
+        {
+            public static byte GetIntegralRage(float rage)
+            {
+                return (byte)Math.Min(Math.Floor(rage), 100);
+            }
+
+            public static void SpendDumpRage(ref byte rageIntegral, AbilityModifierSnapshot mods, out byte rageCost)
+            {
+                byte keep = 0;
+                if (SkillTreeFunctions.IsEnabled && mods.rageKeep > 0)
+                    keep = (byte)Math.Round(rageIntegral * mods.rageKeep);
+                rageCost = (byte)Math.Max(0, rageIntegral - keep);
+                if (rageCost == 0 && rageIntegral > 0)
+                    rageCost = rageIntegral;
+                rageIntegral = keep;
+            }
+
+            public static float ApplySpend(float rageBefore, byte rageIntegralAfter)
+            {
+                return StatFunctions.ApplyAbilityRageSpend(rageBefore, GetIntegralRage(rageBefore), rageIntegralAfter);
+            }
+
+            public static float SpendDumpRage(float rageBefore, AbilityModifierSnapshot mods, out byte rageCost)
+            {
+                var integral = GetIntegralRage(rageBefore);
+                SpendDumpRage(ref integral, mods, out rageCost);
+                return ApplySpend(rageBefore, integral);
+            }
+
+            public static float SpendFixedCost(float rageBefore, int cost)
+            {
+                var integral = GetIntegralRage(rageBefore);
+                var after = (byte)Math.Max(0, integral - Math.Max(0, cost));
+                return ApplySpend(rageBefore, after);
+            }
+
+            public static int GetLancerRageCost(AbilityModifierSnapshot mods)
+            {
+                int cost = (int)Math.Round(Lancer.Rage_Cost - mods.rageCostFlat);
+                return Math.Max(1, cost);
+            }
+        }
     }
 }

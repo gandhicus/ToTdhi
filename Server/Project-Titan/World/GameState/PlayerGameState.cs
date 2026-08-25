@@ -614,7 +614,7 @@ namespace World.GameState
                         playerState.AddGrounded(position, time, onHit.duration);
                         break;
                     case StatusEffect.Mundane:
-                        playerState.rage = 0;
+                        playerState.ClearRage();
                         playerState.AddClientStatusEffect(onHit.type, time, onHit.duration);
                         break;
                     default:

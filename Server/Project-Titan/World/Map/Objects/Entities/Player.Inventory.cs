@@ -100,6 +100,8 @@ namespace World.Map.Objects.Entities
                     item.containerId = character.id;
                     RemoveInventoryCopies(item);
                 }
+                if (gameState?.playerState != null)
+                    gameState.playerState.ClearTalismanTimedBonuses();
                 character.talismanItem = item;
                 character.talismanItemId = item?.id ?? 0;
                 RebuildAbilityModifiers();
@@ -110,6 +112,8 @@ namespace World.Map.Objects.Entities
             inventory.SetItem(slot, item);
             if (item != null && SkillTreeFunctions.IsEnabled && character.talismanItem != null && item.id == character.talismanItemId)
             {
+                if (gameState?.playerState != null)
+                    gameState.playerState.ClearTalismanTimedBonuses();
                 character.talismanItem = null;
                 character.talismanItemId = 0;
                 RebuildAbilityModifiers();
@@ -142,7 +146,12 @@ namespace World.Map.Objects.Entities
                 var serverItem = GetItem(i);
                 equips[i] = serverItem?.itemData ?? Item.Blank;
             }
-            EquipmentStatFunctions.RecalculateEquipmentStats(equips, statIncreases, new Dictionary<AlternateStatType, int>());
+            EquipmentStatFunctions.RecalculateEquipmentStats(
+                equips,
+                statIncreases,
+                new Dictionary<AlternateStatType, int>(),
+                GetScalingBonusStats(),
+                GetScalingBonusAlternateStats());
         }
 
         public void SyncCombatSnapshotEquipment()
@@ -159,7 +168,9 @@ namespace World.Map.Objects.Entities
             EquipmentStatFunctions.RecalculateEquipmentStats(
                 snapshot.equips,
                 snapshot.extraStats,
-                snapshot.extraAlternateStats);
+                snapshot.extraAlternateStats,
+                GetScalingBonusStats(),
+                GetScalingBonusAlternateStats());
             gameState.playerState.currentSnapshot = snapshot;
             RebuildAbilityModifiers();
         }

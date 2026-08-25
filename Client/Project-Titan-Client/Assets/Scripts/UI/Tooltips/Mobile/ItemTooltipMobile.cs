@@ -59,7 +59,7 @@ namespace Mobile
                     equips[i] = player.GetItem(i);
                 EquipmentStatFunctions.GetTooltipScalingContext(equips, obj, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling);
             }
-            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats);
+            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats());
         }
 
 

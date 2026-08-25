@@ -74,7 +74,7 @@ namespace Pc
                     equips[i] = player.GetItem(i);
                 EquipmentStatFunctions.GetTooltipScalingContext(equips, item, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling);
             }
-            ItemDescriber.Describe(this, myClass, owned, item, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats);
+            ItemDescriber.Describe(this, myClass, owned, item, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats());
 
             if (item.soulbound)
             {

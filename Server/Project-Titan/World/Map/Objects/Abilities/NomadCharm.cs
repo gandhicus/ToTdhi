@@ -38,12 +38,14 @@ namespace World.Map.Objects.Abilities
         {
             if (!healed.Add(player.GetOwnerId())) return;
             int heal = 120 + mods.interactHealBonus;
+            var activationRage = ownerPlayer?.gameState.playerState.abilityActivationRage ?? 0;
             if (SkillTreeFunctions.IsEnabled && mods.talismanEffects != null)
             {
                 for (int i = 0; i < mods.talismanEffects.Length; i++)
                 {
                     var effect = mods.talismanEffects[i];
-                    if (effect.trigger == TalismanTrigger.Interact && effect.healAmount < 0)
+                    if (effect.trigger == TalismanTrigger.Interact && effect.healAmount < 0
+                        && TalismanEffect.MeetsRageThreshold(activationRage, effect))
                         heal += effect.healAmount;
                 }
             }
@@ -60,7 +62,8 @@ namespace World.Map.Objects.Abilities
                     for (int i = 0; i < mods.talismanEffects.Length; i++)
                     {
                         var effect = mods.talismanEffects[i];
-                        if (effect.trigger == TalismanTrigger.Interact)
+                        if (effect.trigger == TalismanTrigger.Interact
+                            && TalismanEffect.MeetsRageThreshold(activationRage, effect))
                             rofAmt += effect.rofAmount;
                     }
                 }

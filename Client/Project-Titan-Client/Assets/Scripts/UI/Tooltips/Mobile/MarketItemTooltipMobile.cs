@@ -81,7 +81,7 @@ namespace Mobile
                     equips[i] = player.GetItem(i);
                 EquipmentStatFunctions.GetTooltipScalingContext(equips, obj.purchasableItem, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling);
             }
-            ItemDescriber.Describe(this, (TitanCore.Data.Entities.CharacterInfo)player.info, owned, obj.purchasableItem, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats);
+            ItemDescriber.Describe(this, (TitanCore.Data.Entities.CharacterInfo)player.info, owned, obj.purchasableItem, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats());
         }
 
 

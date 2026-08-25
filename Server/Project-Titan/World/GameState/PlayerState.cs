@@ -303,8 +303,31 @@ namespace World.GameState
 
         private readonly List<TimedAlternateStatBonus> timedAlternateStatBonuses = new List<TimedAlternateStatBonus>();
 
+        private struct TimedStatSource : IEquatable<TimedStatSource>
+        {
+            public byte kind;
+            public int id;
+
+            public static TimedStatSource ByStatType => new TimedStatSource { kind = 0 };
+
+            public static TimedStatSource Talisman(int effectIndex) => new TimedStatSource { kind = 1, id = effectIndex };
+
+            public static TimedStatSource MinisterField(StatType statType) => new TimedStatSource { kind = 2, id = (int)statType };
+
+            public static TimedStatSource CommanderField => new TimedStatSource { kind = 3 };
+
+            public static TimedStatSource CommanderPulse => new TimedStatSource { kind = 4 };
+
+            public bool Equals(TimedStatSource other) => kind == other.kind && id == other.id;
+
+            public override bool Equals(object obj) => obj is TimedStatSource other && Equals(other);
+
+            public override int GetHashCode() => (kind * 397) ^ id;
+        }
+
         private struct TimedStatBonus
         {
+            public TimedStatSource source;
             public StatType statType;
             public StatusEffect effect;
             public int amount;
@@ -321,9 +344,12 @@ namespace World.GameState
             public bool hasEffect;
         }
 
+        public uint LastClientTime { get; private set; }
+
         public PlayerState(uint time, Player player, NewObjectStats newObj)
         {
             this.player = player;
+            LastClientTime = time;
             currentSnapshot = new PlayerSnapshot(newObj.stats, PlayerSnapshot.GetDefault(), time);
             health = currentSnapshot.health;
             lastHealthTime = time;
@@ -344,6 +370,7 @@ namespace World.GameState
 
         public void PushUpd(uint time, UpdatedObjectStats updStats)
         {
+            LastClientTime = time;
             AdvanceHealth(time - Client.Client_Fixed_Delta);
             currentSnapshot = new PlayerSnapshot(updStats.stats, currentSnapshot, time);
             wasSlowed = HasClientEffect(StatusEffect.Slowed, time);
@@ -499,6 +526,24 @@ namespace World.GameState
             return total;
         }
 
+        public Dictionary<AlternateStatType, int> GetTimedAlternateStatBonusesForScaling(uint time = uint.MaxValue)
+        {
+            var bonuses = new Dictionary<AlternateStatType, int>();
+            for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
+            {
+                var bonus = timedAlternateStatBonuses[i];
+                if (time != uint.MaxValue && time >= bonus.endTime) continue;
+
+                if (!bonuses.TryGetValue(bonus.statType, out var amount))
+                    amount = 0;
+                if (bonus.statType == AlternateStatType.RateOfFire)
+                    bonuses[bonus.statType] = Math.Max(amount, bonus.amount);
+                else
+                    bonuses[bonus.statType] = amount + bonus.amount;
+            }
+            return bonuses;
+        }
+
         public DamageResult ResolvePlayerOutgoingDamage(
             int rawDamage,
             int defenderBlockChance,
@@ -547,11 +592,7 @@ namespace World.GameState
         public void UseAbility(uint time, Vec2 position, Vec2 target, byte value)
         {
             if (time < nextAbility)
-            {
-                //Log.Write("Ability is not able to be used! Ability is still on cooldown");
-                player.client.SendAsync(new TnError("Ability is not able to be used! Ability is still on cooldown"));
                 return;
-            }
 
             if (HasPositionalEffect(time))
             {
@@ -560,10 +601,9 @@ namespace World.GameState
                 return;
             }
 
-            if (rage <= 0 || (player.info.id == (ushort)ClassType.Lancer && rage < AbilityFunctions.Lancer.Rage_Cost))
+            if (!HasEnoughRageForAbility())
             {
-                //Log.Write("Ability is not able to be used! Not enough rage is available");
-                player.client.SendAsync(new TnError("Ability is not able to be used! Not enough rage is available"));
+                SyncRageToClient();
                 return;
             }
 
@@ -574,13 +614,16 @@ namespace World.GameState
             abilityActivationRage = rageIntegral;
             var rageByte = rageIntegral;
             var worldEffectPacket = ability.UseAbility(time, position, target, value, attack, ref rageByte, out var rageCost, out var sendToSelf, out var failed);
-            rage = StatFunctions.ApplyAbilityRageSpend(rageBefore, rageIntegral, rageByte);
 
             if (failed)
             {
+                SyncRageToClient();
                 player.client.SendAsync(new TnError("Failed to use ability"));
                 return;
             }
+
+            rage = StatFunctions.ApplyAbilityRageSpend(rageBefore, rageIntegral, rageByte);
+            SyncRageToClient();
 
             //Log.Write($"Rage: {rage}");
 
@@ -775,7 +818,44 @@ namespace World.GameState
                 amount = StatFunctions.ApplyRageGainBonus(
                     amount,
                     currentSnapshot.GetAlternateStat(AlternateStatType.RageGain) + GetTimedAlternateStatBonus(AlternateStatType.RageGain));
-            rage = Math.Min(rage + amount, 100f);
+            SetRage(rage + amount);
+        }
+
+        public void SetRage(float value)
+        {
+            rage = Math.Max(0f, Math.Min(value, 100f));
+            SyncRageToClient();
+        }
+
+        public void ClearRage()
+        {
+            SetRage(0f);
+        }
+
+        private void SyncRageToClient()
+        {
+            player.rage.Value = rage;
+        }
+
+        private bool HasEnoughRageForAbility()
+        {
+            var rageIntegral = (int)Math.Floor(rage);
+            if (rageIntegral <= 0) return false;
+
+            switch ((ClassType)classInfo.id)
+            {
+                case ClassType.Lancer:
+                {
+                    var mods = SkillTreeFunctions.IsEnabled ? abilityMods : AbilityModifierSnapshot.Empty;
+                    return rageIntegral >= AbilityFunctions.RageSpend.GetLancerRageCost(mods);
+                }
+                case ClassType.Minister:
+                    return rageIntegral >= AbilityFunctions.Minister.GetRageCost(rageIntegral);
+                case ClassType.Nomad:
+                    return rageIntegral >= AbilityFunctions.Nomad.Ability_Cost;
+                default:
+                    return true;
+            }
         }
 
         public void TriggerProcsFromDamageResult(DamageResult result, uint time)
@@ -836,10 +916,67 @@ namespace World.GameState
             return Math.Max(1, cd);
         }
 
+        public void ApplyTalismanTimedStatBonus(StatType type, int amount, uint time, uint durationMs, int effectIndex)
+        {
+            ApplyTimedStatBonus(type, amount, time, durationMs, TimedStatSource.Talisman(effectIndex));
+        }
+
+        public void ApplyMinisterFieldStatBonus(StatType type, int amount, uint time, uint durationMs)
+        {
+            ApplyTimedStatBonus(type, amount, time, durationMs, TimedStatSource.MinisterField(type));
+        }
+
+        public void ApplyCommanderFieldStatBonus(StatType type, int amount, uint time, uint durationMs)
+        {
+            ApplyTimedStatBonus(type, amount, time, durationMs, TimedStatSource.CommanderField);
+        }
+
+        public void ApplyCommanderPulseStatBonus(StatType type, int amount, uint time, uint durationMs)
+        {
+            ApplyTimedStatBonus(type, amount, time, durationMs, TimedStatSource.CommanderPulse);
+        }
+
         public void ApplyTimedStatBonus(StatType type, int amount, uint time, uint durationMs)
         {
+            ApplyTimedStatBonus(type, amount, time, durationMs, TimedStatSource.ByStatType);
+        }
+
+        private void ApplyTimedStatBonus(StatType type, int amount, uint time, uint durationMs, TimedStatSource source)
+        {
             if (amount == 0 || durationMs == 0) return;
-            ApplyProcStatBonus(type, amount, durationMs, time);
+            ApplyProcStatBonus(type, amount, durationMs, time, source);
+        }
+
+        public void ClearMinisterFieldBonuses()
+        {
+            for (int i = timedStatBonuses.Count - 1; i >= 0; i--)
+            {
+                if (timedStatBonuses[i].source.kind != 2) continue;
+
+                var bonus = timedStatBonuses[i];
+                player.RemoveStatBonus(bonus.statType, bonus.amount);
+
+                if (bonus.hasEffect && !HasActiveTimedBonusEffect(bonus.effect, i))
+                    player.RemoveEffect(bonus.effect);
+
+                timedStatBonuses.RemoveAt(i);
+            }
+        }
+
+        public void ClearTalismanTimedBonuses()
+        {
+            for (int i = timedStatBonuses.Count - 1; i >= 0; i--)
+            {
+                if (timedStatBonuses[i].source.kind != 1) continue;
+
+                var bonus = timedStatBonuses[i];
+                player.RemoveStatBonus(bonus.statType, bonus.amount);
+
+                if (bonus.hasEffect && !HasActiveTimedBonusEffect(bonus.effect, i))
+                    player.RemoveEffect(bonus.effect);
+
+                timedStatBonuses.RemoveAt(i);
+            }
         }
 
         public void ApplyTimedAlternateStatBonus(AlternateStatType type, int amount, uint time, uint durationMs)
@@ -860,10 +997,10 @@ namespace World.GameState
         private void ApplyProcStatBonus(ProcStatBonus bonus, uint time)
         {
             if (bonus == null) return;
-            ApplyProcStatBonus(bonus.statType, bonus.amount, bonus.durationMs, time);
+            ApplyProcStatBonus(bonus.statType, bonus.amount, bonus.durationMs, time, TimedStatSource.ByStatType);
         }
 
-        private void ApplyProcStatBonus(StatType statType, int amount, uint durationMs, uint time)
+        private void ApplyProcStatBonus(StatType statType, int amount, uint durationMs, uint time, TimedStatSource source)
         {
             if (amount == 0 || durationMs == 0) return;
 
@@ -874,13 +1011,13 @@ namespace World.GameState
             for (int i = 0; i < timedStatBonuses.Count; i++)
             {
                 var existing = timedStatBonuses[i];
-                if (existing.statType != statType) continue;
+                if (!existing.source.Equals(source) || existing.statType != statType) continue;
 
                 int delta = amount - existing.amount;
-                if (delta > 0)
+                if (delta != 0)
                     player.AddStatBonus(statType, delta);
 
-                existing.amount = Math.Max(existing.amount, amount);
+                existing.amount = amount;
                 existing.endTime = Math.Max(existing.endTime, newEnd);
                 timedStatBonuses[i] = existing;
 
@@ -895,6 +1032,7 @@ namespace World.GameState
 
             timedStatBonuses.Add(new TimedStatBonus
             {
+                source = source,
                 statType = statType,
                 effect = effect ?? StatusEffect.VigorBonus,
                 amount = amount,
@@ -941,6 +1079,8 @@ namespace World.GameState
 
             if (bonus.statType == AlternateStatType.RateOfFire)
                 player.SetRateOfFireBonus(GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time));
+            else
+                player.SyncCombatSnapshotEquipment();
         }
 
         private void AdvanceTimedBonuses(uint time)
@@ -956,6 +1096,8 @@ namespace World.GameState
                 timedAlternateStatBonuses.RemoveAt(i);
                 if (bonus.statType == AlternateStatType.RateOfFire)
                     player.SetRateOfFireBonus(GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time));
+                else
+                    player.SyncCombatSnapshotEquipment();
             }
 
             for (int i = timedStatBonuses.Count - 1; i >= 0; i--)

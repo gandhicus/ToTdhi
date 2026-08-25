@@ -51,8 +51,12 @@ namespace World.Map.Objects.Abilities
 
             if (time.totalTime >= endTime)
             {
+                ClearFieldBonuses();
                 if (owner != null && owner.world != null)
-                    owner.gameState.playerState.ability.TriggerTalisman(TalismanTrigger.AbilityEnd, (uint)(time.totalTime * 1000), position.Value, position.Value);
+                {
+                    var now = owner.gameState.playerState.LastClientTime;
+                    owner.gameState.playerState.ability.TriggerTalisman(TalismanTrigger.AbilityEnd, now, position.Value, position.Value);
+                }
                 world.objects.RemoveObjectPostLogic(this);
                 return;
             }
@@ -60,17 +64,24 @@ namespace World.Map.Objects.Abilities
             foreach (var p in healedExpiration.GetExpired())
                 healed.Remove(p);
 
-            uint now = (uint)(time.totalTime * 1000);
             foreach (var player in world.objects.GetPlayersWithin(position.Value.x, position.Value.y, radius))
             {
                 Heal(player);
+                var now = player.gameState.playerState.LastClientTime;
                 int vigor = 8 + mods.vigorBonus;
-                player.gameState.playerState.ApplyTimedStatBonus(StatType.Vigor, vigor, now, 1200);
+                var state = player.gameState.playerState;
+                state.ApplyMinisterFieldStatBonus(StatType.Vigor, vigor, now, 1200);
                 if (mods.timedAttack > 0)
-                    player.gameState.playerState.ApplyTimedStatBonus(StatType.Attack, mods.timedAttack, now, 1200);
+                    state.ApplyMinisterFieldStatBonus(StatType.Attack, mods.timedAttack, now, 1200);
                 if (mods.fieldDefense > 0)
-                    player.gameState.playerState.ApplyTimedStatBonus(StatType.Defense, mods.fieldDefense, now, 1200);
+                    state.ApplyMinisterFieldStatBonus(StatType.Defense, mods.fieldDefense, now, 1200);
             }
+        }
+
+        private void ClearFieldBonuses()
+        {
+            foreach (var player in world.objects.GetPlayersWithin(position.Value.x, position.Value.y, radius))
+                player.gameState.playerState.ClearMinisterFieldBonuses();
         }
 
         private void Heal(Player player)
@@ -79,7 +90,10 @@ namespace World.Map.Objects.Abilities
             healedExpiration.Enqueue(player.gameId);
             player.Heal(healAmount);
             if (owner != null)
-                owner.gameState.playerState.ability.TriggerTalisman(TalismanTrigger.AbilityTick, (uint)(world.time.totalTime * 1000), position.Value, player.position.Value);
+            {
+                var now = owner.gameState.playerState.LastClientTime;
+                owner.gameState.playerState.ability.TriggerTalisman(TalismanTrigger.AbilityTick, now, position.Value, player.position.Value);
+            }
 
             var pkt = new TnPlayEffect(new HealLaserWorldEffect(gameId, player.gameId));
             foreach (var p in player.playersSentTo)

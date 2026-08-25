@@ -221,17 +221,48 @@ namespace World.Map.Objects.Entities
         {
             var obj = GetStatBonusObject(type);
             obj.Value += amount;
+            RecalculateEquipmentStats();
+            SyncCombatSnapshotEquipment();
         }
 
         public void SetRateOfFireBonus(int amount)
         {
             rateOfFireBonus.Value = amount < 0 ? 0 : amount;
+            RecalculateEquipmentStats();
+            SyncCombatSnapshotEquipment();
         }
 
         public void RemoveStatBonus(StatType type, int amount)
         {
             var obj = GetStatBonusObject(type);
             obj.Value -= amount;
+            RecalculateEquipmentStats();
+            SyncCombatSnapshotEquipment();
+        }
+
+        public Dictionary<StatType, int> GetScalingBonusStats()
+        {
+            return new Dictionary<StatType, int>
+            {
+                { StatType.MaxHealth, maxHealthBonus.Value },
+                { StatType.Speed, speedBonus.Value },
+                { StatType.Attack, attackBonus.Value },
+                { StatType.Defense, defenseBonus.Value },
+                { StatType.Vigor, vigorBonus.Value },
+            };
+        }
+
+        public Dictionary<AlternateStatType, int> GetScalingBonusAlternateStats()
+        {
+            var bonuses = gameState?.playerState?.GetTimedAlternateStatBonusesForScaling()
+                ?? new Dictionary<AlternateStatType, int>();
+            if (rateOfFireBonus.Value > 0)
+            {
+                if (!bonuses.TryGetValue(AlternateStatType.RateOfFire, out var amount))
+                    amount = 0;
+                bonuses[AlternateStatType.RateOfFire] = Math.Max(amount, rateOfFireBonus.Value);
+            }
+            return bonuses;
         }
 
         private void SetSouls(ulong souls)

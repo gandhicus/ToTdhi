@@ -130,7 +130,18 @@ namespace TitanCore.Data.Components
             }
         }
 
-        public static bool TryGetAbilityAoeColor(IList<TalismanEffect> effects, out GameColor color)
+        public static int GetRequiredRageThreshold(TalismanEffect effect = null)
+        {
+            if (effect == null) return DefaultRageThreshold;
+            return effect.ragePercentThreshold;
+        }
+
+        public static bool MeetsRageThreshold(float ragePercent, TalismanEffect effect = null)
+        {
+            return ragePercent >= GetRequiredRageThreshold(effect);
+        }
+
+        public static bool TryGetAbilityAoeColor(IList<TalismanEffect> effects, out GameColor color, float ragePercent)
         {
             color = GameColor.white;
             if (effects == null) return false;
@@ -138,16 +149,17 @@ namespace TitanCore.Data.Components
             {
                 var effect = effects[i];
                 if (effect == null || !effect.hasAoeColor) continue;
+                if (!MeetsRageThreshold(ragePercent, effect)) continue;
                 color = effect.aoeColor;
                 return true;
             }
             return false;
         }
 
-        public static void ApplyAbilityAoeColor(WorldEffect worldEffect, IList<TalismanEffect> effects)
+        public static void ApplyAbilityAoeColor(WorldEffect worldEffect, IList<TalismanEffect> effects, float ragePercent)
         {
             if (worldEffect == null) return;
-            if (!TryGetAbilityAoeColor(effects, out var color)) return;
+            if (!TryGetAbilityAoeColor(effects, out var color, ragePercent)) return;
             worldEffect.hasColor = true;
             worldEffect.color = color;
         }
@@ -164,6 +176,7 @@ namespace TitanCore.Data.Components
             this.statBonus = statBonus;
             this.healMul = healMul;
             this.aoe = aoe;
+            ragePercentThreshold = DefaultRageThreshold;
         }
 
         public string Describe()
@@ -244,12 +257,13 @@ namespace TitanCore.Data.Components
                 ? $" ({Highlight($"{ProcFunctions.FormatCooldownSeconds(cooldownMs)} second cooldown")})"
                 : "";
             var body = parts.Count > 0 ? string.Join(", ", parts) : "trigger";
-            var triggerName = trigger == TalismanTrigger.AbilityUse && ragePercentThreshold > 0
-                ? $"ability use at {Highlight($"{ragePercentThreshold}%")} rage or higher"
+            var requiredRage = GetRequiredRageThreshold(this);
+            var triggerName = trigger == TalismanTrigger.AbilityUse
+                ? $"ability use at {Highlight($"{requiredRage}%")} rage or higher"
                 : GetTriggerDisplayName(trigger);
             var text = $"On {triggerName}, {body}{cooldownText}.";
-            if (ragePercentThreshold > 0 && trigger != TalismanTrigger.AbilityUse)
-                text += $" Requires ability use at {Highlight($"{ragePercentThreshold}%")} rage or higher.";
+            if (trigger != TalismanTrigger.AbilityUse)
+                text += $" Requires ability use at {Highlight($"{requiredRage}%")} rage or higher.";
 
             if (healMul > 0f && Math.Abs(healMul - 1f) > 0.001f)
                 text += $" Ability heal {Highlight($"x{healMul:0.##}")}.";

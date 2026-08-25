@@ -30,7 +30,7 @@ namespace World.Abilities
             rageCost = cost;
             if (rage < cost)
             {
-                player.client.SendAsync(new TnError("Invalid minister ability usage. Not have enough rage."));
+                failedToUse = true;
                 return null;
             }
 

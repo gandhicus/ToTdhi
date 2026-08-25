@@ -57,16 +57,79 @@ namespace TitanCore.Core
             IReadOnlyDictionary<StatType, int> fixedStats,
             IReadOnlyDictionary<AlternateStatType, int> fixedAlternateStats = null)
         {
+            return GetScaledStatAmount(scaled, fixedStats, fixedAlternateStats, null, null);
+        }
+
+        public static int GetScaledStatAmount(
+            ScaledStatIncrease scaled,
+            IReadOnlyDictionary<StatType, int> fixedStats,
+            IReadOnlyDictionary<AlternateStatType, int> fixedAlternateStats,
+            IReadOnlyDictionary<StatType, int> bonusStats,
+            IReadOnlyDictionary<AlternateStatType, int> bonusAlternateStats)
+        {
             int sourceAmount = 0;
             if (scaled.fromIsAlternate)
             {
                 if (fixedAlternateStats != null)
                     fixedAlternateStats.TryGetValue(scaled.fromAlternateStat, out sourceAmount);
+                if (bonusAlternateStats != null && bonusAlternateStats.TryGetValue(scaled.fromAlternateStat, out var bonusAmount))
+                    sourceAmount += bonusAmount;
             }
-            else if (fixedStats != null)
-                fixedStats.TryGetValue(scaled.fromStat, out sourceAmount);
+            else
+            {
+                if (fixedStats != null)
+                    fixedStats.TryGetValue(scaled.fromStat, out sourceAmount);
+                if (bonusStats != null && bonusStats.TryGetValue(scaled.fromStat, out var bonusAmount))
+                    sourceAmount += bonusAmount;
+            }
 
             return ComputeScaledAmount(sourceAmount, scaled.perAmount) * scaled.gainAmount;
+        }
+
+        public static Dictionary<StatType, int> BuildScalingSourceStats(
+            IReadOnlyDictionary<StatType, int> fixedStats,
+            IReadOnlyDictionary<StatType, int> bonusStats = null)
+        {
+            var scalingStats = fixedStats == null
+                ? new Dictionary<StatType, int>()
+                : CopyStats(fixedStats);
+            MergeStatBonuses(scalingStats, bonusStats);
+            return scalingStats;
+        }
+
+        public static Dictionary<AlternateStatType, int> BuildScalingSourceAlternateStats(
+            IReadOnlyDictionary<AlternateStatType, int> fixedAlternateStats,
+            IReadOnlyDictionary<AlternateStatType, int> bonusAlternateStats = null)
+        {
+            var scalingStats = fixedAlternateStats == null
+                ? new Dictionary<AlternateStatType, int>()
+                : CopyAlternateStats(fixedAlternateStats);
+            MergeAlternateStatBonuses(scalingStats, bonusAlternateStats);
+            return scalingStats;
+        }
+
+        private static void MergeStatBonuses(Dictionary<StatType, int> stats, IReadOnlyDictionary<StatType, int> bonusStats)
+        {
+            if (bonusStats == null) return;
+            foreach (var increase in bonusStats)
+            {
+                if (increase.Value == 0) continue;
+                if (!stats.TryGetValue(increase.Key, out var amount))
+                    amount = 0;
+                stats[increase.Key] = amount + increase.Value;
+            }
+        }
+
+        private static void MergeAlternateStatBonuses(Dictionary<AlternateStatType, int> stats, IReadOnlyDictionary<AlternateStatType, int> bonusStats)
+        {
+            if (bonusStats == null) return;
+            foreach (var increase in bonusStats)
+            {
+                if (increase.Value == 0) continue;
+                if (!stats.TryGetValue(increase.Key, out var amount))
+                    amount = 0;
+                stats[increase.Key] = amount + increase.Value;
+            }
         }
 
         public static Dictionary<StatType, int> GetDisplayStatIncreases(
@@ -75,7 +138,9 @@ namespace TitanCore.Core
             IReadOnlyDictionary<StatType, int> equippedFixedStats,
             bool includeItemFixedStats,
             IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null,
-            bool includeItemFixedAlternateStats = true)
+            bool includeItemFixedAlternateStats = true,
+            IReadOnlyDictionary<StatType, int> scalingBonusStats = null,
+            IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null)
         {
             var stats = new Dictionary<StatType, int>();
             foreach (var increase in GetStatIncreases(item, equip))
@@ -113,8 +178,10 @@ namespace TitanCore.Core
             }
 
             var alternateStats = new Dictionary<AlternateStatType, int>();
+            var scalingStats = BuildScalingSourceStats(fixedStats, scalingBonusStats);
+            var scalingAlternateStats = BuildScalingSourceAlternateStats(fixedAlternateStats, scalingBonusAlternateStats);
             foreach (var scaled in equip.scaledStatIncreases)
-                ApplyScaledStatIncrease(scaled, fixedStats, stats, alternateStats, fixedAlternateStats);
+                ApplyScaledStatIncrease(scaled, scalingStats, stats, alternateStats, scalingAlternateStats);
 
             return stats;
         }
@@ -122,13 +189,17 @@ namespace TitanCore.Core
         public static void RecalculateEquipmentStats(
             Item[] equips,
             Dictionary<StatType, int> stats,
-            Dictionary<AlternateStatType, int> alternateStats)
+            Dictionary<AlternateStatType, int> alternateStats,
+            IReadOnlyDictionary<StatType, int> scalingBonusStats = null,
+            IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null)
         {
             stats.Clear();
             alternateStats.Clear();
 
             var fixedStats = GetFixedStatIncreases(equips);
             var fixedAlternateStats = GetFixedAlternateStatIncreases(equips);
+            var scalingStats = BuildScalingSourceStats(fixedStats, scalingBonusStats);
+            var scalingAlternateStats = BuildScalingSourceAlternateStats(fixedAlternateStats, scalingBonusAlternateStats);
             foreach (var increase in fixedStats)
                 stats[increase.Key] = increase.Value;
 
@@ -141,7 +212,7 @@ namespace TitanCore.Core
                 AddAlternateStatIncreases(equips[i], equip, alternateStats);
 
                 foreach (var scaled in equip.scaledStatIncreases)
-                    ApplyScaledStatIncrease(scaled, fixedStats, stats, alternateStats, fixedAlternateStats);
+                    ApplyScaledStatIncrease(scaled, scalingStats, stats, alternateStats, scalingAlternateStats);
             }
         }
 
