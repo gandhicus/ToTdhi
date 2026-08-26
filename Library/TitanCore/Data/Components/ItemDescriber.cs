@@ -14,7 +14,7 @@ namespace TitanCore.Data.Components
 {
     public static class ItemDescriber
     {
-        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack, IReadOnlyDictionary<StatType, int> equippedFixedStats = null, bool includeItemForScaling = true, IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null, IReadOnlyDictionary<StatType, int> scalingBonusStats = null, IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null)
+        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack, IReadOnlyDictionary<StatType, int> equippedFixedStats = null, bool includeItemForScaling = true, IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null, IReadOnlyDictionary<StatType, int> scalingBonusStats = null, IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null, Item[] equips = null)
         {
             describer.Clear();
 
@@ -45,9 +45,11 @@ namespace TitanCore.Data.Components
             if (equip != null)
             {
                 var statIncreases = owned && equippedFixedStats != null
-                    ? EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, includeItemForScaling, scalingBonusStats, scalingBonusAlternateStats)
+                    ? EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, includeItemForScaling, scalingBonusStats, scalingBonusAlternateStats, equips)
                     : EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, null, true);
-                var alternateStatIncreases = EquipmentStatFunctions.GetAlternateStatIncreases(item, equip);
+                var alternateStatIncreases = owned && equippedFixedStats != null
+                    ? EquipmentStatFunctions.GetDisplayAlternateStatIncreases(item, equip, equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, includeItemForScaling, scalingBonusStats, scalingBonusAlternateStats, equips)
+                    : EquipmentStatFunctions.GetAlternateStatIncreases(item, equip);
 
                 if (statIncreases.Count > 0 || alternateStatIncreases.Count > 0)
                 {
@@ -87,29 +89,20 @@ namespace TitanCore.Data.Components
                         int currentBonus = -1;
                         if (owned && equippedFixedStats != null)
                         {
-                            var fixedStats = EquipmentStatFunctions.CopyStatsForDisplay(equippedFixedStats);
-                            var fixedAlternateStats = equippedFixedAlternateStats == null
-                                ? new Dictionary<AlternateStatType, int>()
-                                : EquipmentStatFunctions.CopyAlternateStatsForDisplay(equippedFixedAlternateStats);
-                            if (includeItemForScaling)
-                            {
-                                foreach (var increase in EquipmentStatFunctions.GetStatIncreases(item, equip))
-                                {
-                                    if (!fixedStats.TryGetValue(increase.Key, out var amount))
-                                        amount = 0;
-                                    fixedStats[increase.Key] = amount + increase.Value;
-                                }
-                                foreach (var increase in EquipmentStatFunctions.GetAlternateStatIncreases(item, equip))
-                                {
-                                    if (!fixedAlternateStats.TryGetValue(increase.Key, out var amount))
-                                        amount = 0;
-                                    fixedAlternateStats[increase.Key] = amount + increase.Value;
-                                }
-                            }
+                            EquipmentStatFunctions.BuildTooltipScalingSources(
+                                equips,
+                                item,
+                                includeItemForScaling,
+                                scalingBonusStats,
+                                scalingBonusAlternateStats,
+                                out var scalingStats,
+                                out var scalingAlternateStats);
                             currentBonus = EquipmentStatFunctions.GetScaledStatAmount(
                                 scaled,
-                                EquipmentStatFunctions.BuildScalingSourceStats(fixedStats, scalingBonusStats),
-                                EquipmentStatFunctions.BuildScalingSourceAlternateStats(fixedAlternateStats, scalingBonusAlternateStats));
+                                scalingStats,
+                                scalingAlternateStats,
+                                scalingBonusStats,
+                                scalingBonusAlternateStats);
                         }
                         describer.AddElement(ProcFunctions.GetScaledStatTooltipText(scaled, currentBonus), neutralColor);
                     }

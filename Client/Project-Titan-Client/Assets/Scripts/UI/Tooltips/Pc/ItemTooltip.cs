@@ -66,14 +66,15 @@ namespace Pc
             IReadOnlyDictionary<StatType, int> equippedFixedStats = null;
             IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null;
             bool includeItemForScaling = true;
+            Item[] equips = null;
             if (owned)
             {
-                var equips = new Item[4];
+                equips = new Item[4];
                 for (int i = 0; i < 4; i++)
                     equips[i] = player.GetItem(i);
                 EquipmentStatFunctions.GetTooltipScalingContext(equips, obj, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling);
             }
-            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats());
+            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats(), equips);
 
             if (obj.soulbound)
             {

@@ -455,7 +455,7 @@
     </Projectile>
 
     <Projectile name="Balun Hammer" type="Circular">
-      <Size>1.7</Size>
+      <Size>2</Size>
       <Speed>10</Speed>
       <Radius>6</Radius>
       <Arc>360</Arc>
@@ -465,8 +465,8 @@
 
     <Titan/>
 
-    <HealthMod>38</HealthMod>
-    <SoulMod>10</SoulMod>
+    <HealthMod>41</HealthMod>
+    <SoulMod>11</SoulMod>
     <SoulGroup>Dumir</SoulGroup>
     <LootTier>4</LootTier>
     <LootTier>5</LootTier>
@@ -2809,6 +2809,7 @@
     <SoulGroup>Dumir</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>1</LootTier>
+	<LootTier>21</LootTier>
 
   </Object>
 
@@ -2834,6 +2835,7 @@
     <SoulGroup>Dumir</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>1</LootTier>
+	<LootTier>21</LootTier>
 
   </Object>
 
@@ -2861,6 +2863,7 @@
     <SoulGroup>Dumir</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>1</LootTier>
+	<LootTier>21</LootTier>
 
   </Object>
 
@@ -2875,7 +2878,7 @@
     <Projectile name="Bhaling Axe Slash" type="Circular">
       <Size>1.05</Size>
       <Speed>7</Speed>
-      <DamageMod>0.85</DamageMod>
+      <DamageMod>0.8</DamageMod>
       <Arc>180</Arc>
       <Radius>3.5</Radius>
     </Projectile>
@@ -2883,7 +2886,7 @@
     <Projectile name="Bhaling Axe Slash" type="Circular">
       <Size>1.05</Size>
       <Speed>10</Speed>
-      <DamageMod>0.85</DamageMod>
+      <DamageMod>0.8</DamageMod>
       <Arc>180</Arc>
       <Radius>5</Radius>
     </Projectile>
@@ -2891,7 +2894,7 @@
     <Projectile name="Bhaling Axe Slash" type="Circular">
       <Size>1.05</Size>
       <Speed>13</Speed>
-      <DamageMod>0.85</DamageMod>
+      <DamageMod>0.8</DamageMod>
       <Arc>180</Arc>
       <Radius>6.5</Radius>
     </Projectile>
@@ -2899,7 +2902,7 @@
     <Projectile name="Bhaling Axe Slash" type="Circular">
       <Size>1.05</Size>
       <Speed>16</Speed>
-      <DamageMod>0.85</DamageMod>
+      <DamageMod>0.8</DamageMod>
       <Arc>180</Arc>
       <Radius>8</Radius>
     </Projectile>
@@ -2907,7 +2910,7 @@
     <Projectile name="Bhaling Axe Slash" type="Circular">
       <Size>1.05</Size>
       <Speed>7</Speed>
-      <DamageMod>0.85</DamageMod>
+      <DamageMod>0.8</DamageMod>
       <Arc>180</Arc>
       <Radius>3.5</Radius>
       <Clockwise/>
@@ -2916,7 +2919,7 @@
     <Projectile name="Bhaling Axe Slash" type="Circular">
       <Size>1.05</Size>
       <Speed>10</Speed>
-      <DamageMod>0.85</DamageMod>
+      <DamageMod>0.8</DamageMod>
       <Arc>180</Arc>
       <Radius>5</Radius>
       <Clockwise/>
@@ -2925,7 +2928,7 @@
     <Projectile name="Bhaling Axe Slash" type="Circular">
       <Size>1.05</Size>
       <Speed>13</Speed>
-      <DamageMod>0.85</DamageMod>
+      <DamageMod>0.8</DamageMod>
       <Arc>180</Arc>
       <Radius>6.5</Radius>
       <Clockwise/>
@@ -2934,7 +2937,7 @@
     <Projectile name="Bhaling Axe Slash" type="Circular">
       <Size>1.05</Size>
       <Speed>16</Speed>
-      <DamageMod>0.85</DamageMod>
+      <DamageMod>0.8</DamageMod>
       <Arc>180</Arc>
       <Radius>8</Radius>
       <Clockwise/>
@@ -2947,6 +2950,7 @@
     <SoulGroup>Dumir</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>1</LootTier>
+	<LootTier>21</LootTier>
 
   </Object>
 
@@ -2992,6 +2996,7 @@
     <SoulGroup>Dumir</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>1</LootTier>
+	<LootTier>21</LootTier>
 
   </Object>
 
@@ -3017,6 +3022,7 @@
     <SoulGroup>Dumir</SoulGroup>
     <LootTier>0</LootTier>
     <LootTier>1</LootTier>
+	<LootTier>21</LootTier>
 
   </Object>
 

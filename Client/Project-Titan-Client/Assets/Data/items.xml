@@ -739,6 +739,9 @@
 		</Projectile>
 
 		<RateOfFire>3</RateOfFire>
+
+		<AlternateStatIncrease type="RageGain">-30</AlternateStatIncrease>
+
 	</Object>
 
 	<Object id="0x14b" name="Ceremonial Bow" tier="-1">
@@ -2001,7 +2004,7 @@
 		<Sprite>UT Ring 2</Sprite>
 
 		<StatIncrease type="Speed">4</StatIncrease>
-		<StatIncrease type="Attack">6</StatIncrease>
+		<StatIncrease type="Attack">4</StatIncrease>
 		<AlternateStatIncrease type="AbsorptionChance">2</AlternateStatIncrease>
 
 		<Description>A gold band engulfed with luscious emeralds.</Description>
@@ -2113,7 +2116,7 @@
 			<AlternateStatBonus type="BlockChance" amount="50" duration="3000"/>
 		</Proc>
 
-		<ScaledStatIncrease per="1" amount="10" from="AbsorptionChance" to="TrueDamageChance"/>
+		<ScaledStatIncrease per="1" amount="5" from="AbsorptionChance" to="TrueDamageChance"/>
 
 		<Description>A wonderfully beautiful bangle studded with sparkling diamonds, said to bring good fortune to those with clear minds.</Description>
 	</Object>
