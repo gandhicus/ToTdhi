@@ -49,7 +49,7 @@ public class GameDataLoader : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        xmlMap = xmls.ToDictionary(_ => _.name);
+        BuildXmlMap();
         LoadGameData();
         MeshManager.Init(meshTexture, meshes);
         TextureManager.Init(spriteAtlases);
@@ -76,19 +76,81 @@ public class GameDataLoader : MonoBehaviour
 #endif
     }
 
+    /// <summary>
+    /// Turns the Inspector-assigned `xmls` array into a name -> asset lookup.
+    ///
+    /// This used to be a one-line ToDictionary, which throws if the array contains a
+    /// duplicate file name or an empty slot. Both are easy to cause by accident when
+    /// dragging assets into the Inspector, and the resulting exception fired inside
+    /// Awake, leaving the whole game half-initialised with no useful message.
+    /// Now each bad entry is reported and skipped.
+    /// </summary>
+    private void BuildXmlMap()
+    {
+        xmlMap.Clear();
+
+        if (xmls == null)
+        {
+            Debug.LogError("[GameDataLoader] The 'xmls' list on the GameDataLoader object is empty. No game data can be loaded.");
+            return;
+        }
+
+        for (int i = 0; i < xmls.Length; i++)
+        {
+            var asset = xmls[i];
+
+            // An empty Inspector slot. Consequence: whatever data file was meant to be
+            // there is missing, which LoadGameData will report by name below.
+            if (asset == null)
+            {
+                Debug.LogError($"[GameDataLoader] 'xmls' slot {i} is empty - skipping it.");
+                continue;
+            }
+
+            if (xmlMap.ContainsKey(asset.name))
+            {
+                Debug.LogError($"[GameDataLoader] Duplicate data file '{asset.name}' in 'xmls' - keeping the first one.");
+                continue;
+            }
+
+            xmlMap.Add(asset.name, asset);
+        }
+    }
+
     private void LoadGameData()
     {
         //BetterStreamingAssets.Initialize();
         GameData.ClearObjects();
 
         Debug.Log("Loading game data...");
-        GameData.LoadFiles(xmlMap.Keys, LoadResource);
-        Debug.Log($"Loaded {GameData.objects.Count} objects");
+
+        // GameData.LoadFiles names any file it cannot parse and then throws, because a
+        // client running on partial item/enemy data would silently disagree with the
+        // server about object ids. Catching it here keeps the exception from escaping
+        // Awake mid-way through setup, and logs something a designer can act on.
+        try
+        {
+            GameData.LoadFiles(xmlMap.Keys, LoadResource);
+            Debug.Log($"Loaded {GameData.objects.Count} objects");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[GameDataLoader] Game data failed to load: {e.Message}");
+        }
     }
 
+    /// <summary>
+    /// Hands GameData the bytes for one data file. Returning null instead of indexing
+    /// blindly lets GameData report the file by name rather than throwing a
+    /// KeyNotFoundException from inside the loader.
+    /// </summary>
     private Stream LoadResource(string name)
     {
-        var asset = xmlMap[name];
+        if (!xmlMap.TryGetValue(name, out var asset) || asset == null)
+        {
+            Debug.LogError($"[GameDataLoader] Data file '{name}' is missing from the loader.");
+            return null;
+        }
         return new MemoryStream(asset.bytes);
     }
 

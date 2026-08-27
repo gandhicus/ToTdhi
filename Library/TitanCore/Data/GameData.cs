@@ -38,25 +38,76 @@ namespace TitanCore.Data
         /// <param name="directory"></param>
         public static void LoadDirectory(string directory, bool overwrite = true)
         {
+            // Checked up front so a wrong working directory reports the path it actually
+            // looked in, instead of an unhelpful DirectoryNotFoundException from
+            // EnumerateFiles that mentions no path at all.
+            if (!Directory.Exists(directory))
+                throw new InvalidDataException($"[GameData] Data directory not found: '{Path.GetFullPath(directory)}'. The server was started from the wrong folder, or the Data folder is missing.");
+
             LoadFiles(Directory.EnumerateFiles(directory), _ => File.OpenRead(_), overwrite);
         }
 
+        /// <summary>
+        /// Loads a set of game data files through a caller-supplied reader. The reader
+        /// indirection exists because the server reads from disk while the Unity client
+        /// reads from embedded TextAssets.
+        ///
+        /// Error handling policy here is deliberate and worth understanding:
+        ///
+        /// Each file is parsed inside its own try/catch so that a failure can be reported
+        /// by *name* - previously a single malformed tag produced a raw XML parser
+        /// exception that named no file, leaving you to guess which one you broke.
+        ///
+        /// But we do NOT silently carry on afterwards. Item and enemy definitions are the
+        /// shared contract between client and server; running with half of them loaded
+        /// would produce mismatched object ids and desyncs that are far harder to diagnose
+        /// than a failed startup. So failures are collected, every bad file is named, and
+        /// then one clear exception is thrown at the end.
+        /// </summary>
         public static void LoadFiles(IEnumerable<string> files, Func<string, Stream> reader, bool overwrite = true)
         {
             if (!overwrite && objects.Count > 0) return;
             ClearObjects();
+
             int count = 0;
+            var failures = new List<string>();
+
             foreach (var file in files)
             {
                 //if (!file.EndsWith(".xml")) continue; // exclude non-xmls
                 var fileName = Path.GetFileName(file);
                 if (fileName.Equals("dungeons.xml", StringComparison.OrdinalIgnoreCase))
                     continue;
+
                 Log.Write($"Loading data file {fileName}", ConsoleColor.Yellow);
-                AddFile(GameDataFile.Load(reader(file)));
-                Log.Write($"Loaded {objects.Count - count} objects from {fileName}", ConsoleColor.Green);
-                count = objects.Count;
+                try
+                {
+                    // The reader can legitimately hand back null (for example a client
+                    // TextAsset that was renamed or removed from the Inspector list), so
+                    // that case is turned into a named failure rather than a
+                    // NullReferenceException deep inside the parser.
+                    var stream = reader(file);
+                    if (stream == null)
+                        throw new InvalidDataException("the data file could not be opened (reader returned nothing)");
+
+                    using (stream)
+                        AddFile(GameDataFile.Load(stream));
+
+                    Log.Write($"Loaded {objects.Count - count} objects from {fileName}", ConsoleColor.Green);
+                    count = objects.Count;
+                }
+                catch (Exception e)
+                {
+                    // Recorded rather than rethrown immediately: if you broke three files
+                    // we would rather tell you about all three in one run.
+                    Log.Error($"[GameData] Failed to load '{fileName}': {e.Message}");
+                    failures.Add($"{fileName} ({e.Message})");
+                }
             }
+
+            if (failures.Count > 0)
+                throw new InvalidDataException($"[GameData] {failures.Count} data file(s) failed to load and the game cannot run with incomplete data: {string.Join("; ", failures)}");
+
             Log.Write($"Loaded {objects.Count} objects.", ConsoleColor.Green);
         }
 

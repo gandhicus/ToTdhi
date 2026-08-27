@@ -32,28 +32,84 @@ namespace World.Logic.States
         /// </summary>
         public static Dictionary<ushort, EntityState> states = new Dictionary<ushort, EntityState>();
 
+        /// <summary>
+        /// Reads every .ls behaviour script in a directory and maps each one to the
+        /// game object it drives.
+        ///
+        /// This runs during server startup, and the whole point of the error handling
+        /// below is that a content typo should never be able to stop the server from
+        /// booting. A bad script name means one enemy stands still; it does not mean
+        /// nobody can log in. So every failure path here logs the exact file and name
+        /// involved and then moves on to the next script.
+        /// </summary>
         public static void LoadLogic(string directory)
         {
+            // A missing scripts folder used to surface as a bare DirectoryNotFoundException
+            // from Directory.GetFiles with no indication of which path was wrong.
+            if (!Directory.Exists(directory))
+            {
+                Log.Error($"[EntityState] Logic script directory not found: '{Path.GetFullPath(directory)}'. No enemy behaviour was loaded - enemies will be inert.");
+                return;
+            }
+
+            int loaded = 0;
+            int skipped = 0;
+
             foreach (var file in Directory.GetFiles(directory, "*.ls", SearchOption.AllDirectories))
             {
-                using (var stream = File.OpenRead(file))
+                var fileName = Path.GetFileName(file);
+
+                // Parsing is wrapped per file so one malformed script only costs us that
+                // script. Without this, a single syntax error anywhere under Logic/Scripts
+                // aborted startup with a stack trace that named no file at all.
+                try
                 {
-                    var reader = new LogicScriptReader(stream);
-                    var actions = reader.ReadActions();
-
-                    foreach (var action in actions)
+                    using (var stream = File.OpenRead(file))
                     {
-                        if (!(action is EntityState entityState)) continue;
-                        var info = GameData.GetObjectByName(entityState.name);
-                        if (info == null)
-                        {
-                            Log.Error($"'{entityState.name}' does not exist | {Path.GetFileName(file)}");
-                        }
+                        var reader = new LogicScriptReader(stream);
+                        var actions = reader.ReadActions();
 
-                        states.Add(info.id, entityState);
+                        foreach (var action in actions)
+                        {
+                            if (!(action is EntityState entityState)) continue;
+
+                            var info = GameData.GetObjectByName(entityState.name);
+                            if (info == null)
+                            {
+                                // The original code logged this and then immediately read
+                                // info.id, so the message you needed was printed one line
+                                // before a NullReferenceException killed the server.
+                                Log.Error($"[EntityState] '{entityState.name}' does not exist | {fileName} - skipping this state. Check the name against enemies.xml.");
+                                skipped++;
+                                continue;
+                            }
+
+                            // Two scripts claiming the same entity is a content mistake, not
+                            // a crash. Dictionary.Add would throw here; keep the first and
+                            // say which entity is contested.
+                            if (states.ContainsKey(info.id))
+                            {
+                                Log.Error($"[EntityState] Duplicate logic for '{entityState.name}' (id {info.id}) | {fileName} - keeping the first definition loaded.");
+                                skipped++;
+                                continue;
+                            }
+
+                            states.Add(info.id, entityState);
+                            loaded++;
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    // Reaching here means the script could not be read or parsed at all.
+                    // Consequence: every enemy defined in this file keeps its default
+                    // (do-nothing) behaviour. The server still starts.
+                    Log.Error($"[EntityState] Failed to read logic script '{fileName}': {e.Message}");
+                    skipped++;
+                }
             }
+
+            Log.Write($"[EntityState] Loaded {loaded} entity states ({skipped} skipped).");
         }
 
         /// <summary>
