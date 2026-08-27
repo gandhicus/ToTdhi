@@ -1,5 +1,25 @@
 <Dungeons>
-  <!-- Enemy spawn density. 1 = original, 0.5 = half as many, 0 = none. Decorations are unchanged. -->
+  <!--
+    This file does two jobs.
+
+    1. DENSITY TUNING for dungeons that already exist as C# classes. Give the entry the
+       dungeon's exact display name and a <Density>. 1 = original, 0.5 = half as many
+       enemies, 0 = none. Decorations are unchanged.
+
+    2. DEFINING A WHOLE DUNGEON, with no C# needed. Add a <Key> and a <MapFile> and the
+       entry becomes a real dungeon that can be opened by a gate key item or by a boss's
+       create_gate death action. Both fields are required; with only one the entry falls
+       back to being density-only and the server logs why.
+
+    Data-driven dungeons cover the "load a map, play some music, kill the boss on a
+    marker" shape. The procedurally generated dungeons (Dumir, Valdok's Forge, Bubra
+    Barrens) build their maps in code and still need their own classes.
+
+    NOTE ON DENSITY: it only works for dungeons that generate enemies in code. A
+    data-driven dungeon takes its enemies from its map file, so <Density> has no
+    effect on one - edit the map instead.
+  -->
+
   <Dungeon name="Bubra Barrens">
     <Density>0.5</Density>
   </Dungeon>
@@ -9,4 +29,36 @@
   <Dungeon name="Dumir">
     <Density>0.5</Density>
   </Dungeon>
+
+  <!--
+    ===================================================================
+    TEMPLATE ONLY - DISABLED. The server does not load anything below.
+    ===================================================================
+
+    Everything from here to the closing marker sits inside this XML comment, so the
+    parser never sees it and no dungeon is created. To turn it into a real dungeon:
+    copy the block out above this comment, then change the values.
+
+    Only name, Key, MapFile and Portal are required; everything else has a default.
+
+  <Dungeon name="Dungeon 6">
+    <Key>dungeon6</Key>                    Short name used by gate keys and create_gate
+    <MapFile>dungeon6.mef</MapFile>        Lives in Server\...\World\Map\Files\
+    <Portal>0xa86</Portal>                 Object id of the portal players click
+    <Music>Dark_Recluse</Music>
+    <MaxPlayers>20</MaxPlayers>
+    <PortalTime>-1</PortalTime>            Seconds the portal stays open; -1 = until finished
+    <TargetPlayers>2</TargetPlayers>       Player count the dungeon is balanced for
+    <ScalePerPlayer>0.2</ScalePerPlayer>   Enemy health change per player above target
+    <LimitSight />                         Presence of the tag turns it on
+    <AllowPlayerTeleport />
+
+    Objectives, completed in order. 'region' is a marker painted on the map;
+    'index' picks which marker when the map has several of that type.
+    <Boss id="0x1089" region="Tag1" />
+    <Boss id="0x108a" region="Tag2" index="0" />
+  </Dungeon>
+
+    =================== end of disabled template ======================
+  -->
 </Dungeons>

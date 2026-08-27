@@ -27,6 +27,7 @@ using World.Instances;
 using TitanDatabase.Instances;
 using World.Instances.Packets;
 using World.Worlds;
+using World.Worlds.Gates;
 using TitanCore.Net.Packets.Server;
 using TitanDatabase.Broadcasting.Packets;
 using TitanDatabase.Broadcasting;
@@ -137,6 +138,12 @@ namespace World
 
             GameData.LoadDirectory("Data/Xmls/", false);
             DungeonSettings.Load("Data/Xmls/dungeons.xml");
+
+            // Must run after dungeons.xml is read, since that is where the definitions
+            // come from. Kept ahead of the logic scripts so that by the time any
+            // create_gate action could fire, every dungeon key is already known.
+            RegisterDataDrivenDungeons();
+
             EntityState.LoadLogic("Logic/Scripts/");
 
             LeaderboardManager.Initialize().WaitOne();
@@ -169,6 +176,44 @@ namespace World
 
                 //LogDps();
             }
+        }
+
+        /// <summary>
+        /// Adds every fully-defined dungeon from dungeons.xml to the gate registry, so it
+        /// can be opened by a boss drop or a gate key exactly like a hand-written one.
+        ///
+        /// Each definition is validated here rather than when a player tries to enter,
+        /// because a startup error is something you notice and a runtime one is something
+        /// a player finds for you. A dungeon that fails validation is simply not
+        /// registered, so its key stays unknown and any key item using it reports
+        /// "this key doesn't seem to work" instead of opening a broken world.
+        /// </summary>
+        private void RegisterDataDrivenDungeons()
+        {
+            foreach (var definition in DungeonSettings.Definitions)
+            {
+                // Captured into a local so each closure gets its own definition rather
+                // than sharing the loop variable.
+                var d = definition;
+
+                if (d.portal == 0 || !GameData.objects.ContainsKey(d.portal))
+                {
+                    Log.Error($"[WorldModule] Dungeon '{d.name}' has no valid <Portal> object id, so nothing could be clicked to enter it. Not registering it.");
+                    continue;
+                }
+
+                var mapPath = Path.Combine("Map", "Files", d.mapFile);
+                if (!File.Exists(mapPath))
+                {
+                    Log.Error($"[WorldModule] Dungeon '{d.name}' points at map file '{d.mapFile}', which does not exist at '{mapPath}'. Not registering it.");
+                    continue;
+                }
+
+                if (GateRegistry.Register(d.key, () => new DataDrivenGate(d)))
+                    Log.Write($"[WorldModule] Registered data-driven dungeon '{d.name}' under key '{d.key}'", ConsoleColor.Green);
+            }
+
+            Log.Write($"[WorldModule] Dungeon keys available: {string.Join(", ", GateRegistry.Keys)}", ConsoleColor.Green);
         }
 
         private void LogDps()

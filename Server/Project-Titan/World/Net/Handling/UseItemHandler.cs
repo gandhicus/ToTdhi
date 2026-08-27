@@ -90,18 +90,27 @@ namespace World.Net.Handling
             }
             else if (itemInfo is GateKeyInfo gateKeyInfo)
             {
-                var gateType = GateSpawner.ResolveGateType(gateKeyInfo.gateType);
-                if (gateType == null)
+                // The key's <Gate> value is looked up in the registry. An unknown key is
+                // a content mistake (a key item pointing at a dungeon that does not
+                // exist), so the player gets a readable message and keeps their item
+                // rather than having it consumed for nothing.
+                if (!GateRegistry.IsRegistered(gateKeyInfo.gateType))
                 {
                     connection.player.AddChat(ChatData.Error("This key doesn't seem to work."));
                     return;
                 }
 
-                GateSpawner.SpawnGate(
+                var gate = GateSpawner.SpawnGate(
                     connection.player.world,
-                    gateType,
+                    gateKeyInfo.gateType,
                     connection.player.position.Value,
                     GateSpawner.KeyPortalDurationSeconds);
+
+                if (gate == null)
+                {
+                    connection.player.AddChat(ChatData.Error("This key doesn't seem to work."));
+                    return;
+                }
             }
 
             if (item.count > 1)
