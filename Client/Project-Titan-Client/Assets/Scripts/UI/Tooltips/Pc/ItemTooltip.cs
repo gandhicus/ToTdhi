@@ -85,6 +85,7 @@ namespace Pc
                 SetBackgroundColor(cantUseColor);
             }
 
+            FitNameHeader(nameLabel, contentLabel);
             FitContentLabel();
         }
 
@@ -102,6 +103,7 @@ namespace Pc
 
             Clear();
             AddContent(body);
+            FitNameHeader(nameLabel, contentLabel);
             FitContentLabel();
             if (AutoSize)
                 ResizeContent();
@@ -110,6 +112,7 @@ namespace Pc
 
         public void RefitSkillTreeLayout()
         {
+            FitNameHeader(nameLabel, contentLabel);
             FitContentLabel();
             if (AutoSize)
                 ResizeContent();

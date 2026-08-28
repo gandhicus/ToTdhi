@@ -86,6 +86,7 @@ namespace Pc
                 SetBackgroundColor(cantUseColor);
             }
 
+            FitNameHeader(nameLabel, contentLabel);
             FitTextLabel(contentLabel);
 
             background.rectTransform.anchoredPosition = new Vector2(-Screen.height * 0.26f, 0);
