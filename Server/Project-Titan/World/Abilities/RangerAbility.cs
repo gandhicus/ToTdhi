@@ -7,6 +7,7 @@ using TitanCore.Net.Packets.Server;
 using Utils.NET.Geometry;
 using World.GameState;
 using World.Map.Objects.Entities;
+using World.Net;
 
 namespace World.Abilities
 {
@@ -22,6 +23,8 @@ namespace World.Abilities
             public AbilityModifierSnapshot mods;
             public int ticksLeft;
             public uint nextTime;
+            public uint step;
+            public uint lastFireTime;
         }
 
         private readonly List<RainVolley> rains = new List<RainVolley>();
@@ -39,7 +42,9 @@ namespace World.Abilities
             for (int i = rains.Count - 1; i >= 0; i--)
             {
                 var rain = rains[i];
-                if (time < rain.nextTime) continue;
+                // Skip if this client-time already spawned a volley (UseAbility fires
+                // immediately, then Tick can run in the same packet burst).
+                if (time < rain.nextTime || time <= rain.lastFireTime) continue;
                 bool last = rain.ticksLeft <= 1;
                 Fire(time, rain, last);
                 rain.ticksLeft--;
@@ -48,8 +53,7 @@ namespace World.Abilities
                     rains.RemoveAt(i);
                     continue;
                 }
-                uint step = 300 + (uint)Math.Max(0, rain.mods.durationBonusMs) / 3;
-                rain.nextTime = time + Math.Max(1, step);
+                rain.nextTime = rain.nextTime + rain.step;
             }
         }
 
@@ -75,6 +79,10 @@ namespace World.Abilities
             if (mods.durationBonusMs >= 240)
                 extraTicks = 3;
 
+            uint step = 300 + (uint)Math.Max(0, mods.durationBonusMs) / 3;
+            if (step < 1)
+                step = 1;
+
             var rain = new RainVolley
             {
                 target = target,
@@ -82,7 +90,9 @@ namespace World.Abilities
                 tickDamage = tickDamage,
                 mods = mods,
                 ticksLeft = extraTicks,
-                nextTime = time + 300 + (uint)Math.Max(0, mods.durationBonusMs) / 3
+                step = step,
+                nextTime = time + step,
+                lastFireTime = 0
             };
             Fire(time, rain, extraTicks <= 0);
             if (extraTicks > 0)
@@ -118,14 +128,20 @@ namespace World.Abilities
                 if (hit.Count == 255) break;
             }
 
+            rain.lastFireTime = time;
+
             var rangerFx = new RangerAbilityWorldEffect(hit.ToArray(), target, 50, 50);
             ColorWorldEffect(rangerFx);
             var packet = new TnPlayEffect(rangerFx);
-            player.client.SendAsync(packet);
+            // One packet per connection — caster is often also in playersSentTo.
+            var sent = new HashSet<Client>();
+            if (player.client != null && sent.Add(player.client))
+                player.client.SendAsync(packet);
             foreach (var other in player.playersSentTo)
             {
-                if (other != player)
-                    other.client.SendAsync(packet);
+                if (other?.client == null) continue;
+                if (!sent.Add(other.client)) continue;
+                other.client.SendAsync(packet);
             }
 
             if (last)

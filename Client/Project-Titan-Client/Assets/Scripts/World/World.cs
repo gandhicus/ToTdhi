@@ -56,6 +56,10 @@ public class World : MonoBehaviour
 
     private ConcurrentQueue<TnPacket> packetQueue = new ConcurrentQueue<TnPacket>();
 
+    // Duplicate RangerAbility packets spawn two rains on top of each other (darker arrows).
+    private Vector3 lastRangerArrowsPosition;
+    private float lastRangerArrowsSpawnTime = -1f;
+
     [HideInInspector]
     public uint clientTickId = 0;
 
@@ -1171,6 +1175,16 @@ public class World : MonoBehaviour
 
         Vector3 position = rangerEffect.position.ToVector2();
         position.z = -4;
+
+        // Follow-up volleys are ~300ms apart; anything closer is a doubled first volley.
+        if (lastRangerArrowsSpawnTime >= 0f && Time.time - lastRangerArrowsSpawnTime < 0.12f)
+        {
+            var delta = position - lastRangerArrowsPosition;
+            if (delta.sqrMagnitude < 0.5f)
+                return;
+        }
+        lastRangerArrowsPosition = position;
+        lastRangerArrowsSpawnTime = Time.time;
 
         var arrows = (RangerArrows)PlayEffect(EffectType.RangerArrows, position);
         arrows.SetInfo(rangerRadius, rangerEffect.hasColor ? rangerEffect.color.ToUnityColor() : (Color?)null);
