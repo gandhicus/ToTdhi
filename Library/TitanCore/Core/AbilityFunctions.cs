@@ -257,7 +257,7 @@ namespace TitanCore.Core
 
             public static int GetHealAmount(byte rage, int attack)
             {
-                return (int)(rage * 0.7f + attack * rage / 100f);
+                return (int)(rage * 0.5f + attack * rage / 100f);
             }
 
             public static uint GetAbilityDuration(byte rage)
