@@ -644,10 +644,10 @@ namespace World.Looting
                         new Single(Loot.Chance(3.5), new Item("Empyrean's Guard"))
                         ),
                     new SoulboundLoot(0.1f, // 12
-                        new Single(Loot.Chance(1.5), new Item("Dark Matter"))
+                        new Single(Loot.Chance(1), new Item("Dark Matter"))
                         ),
                     new SoulboundLoot(0.1f, // 13
-                        new Single(Loot.Chance(1.5), new Item("The Big Bang"))
+                        new Single(Loot.Chance(1), new Item("The Big Bang"))
                         ),
                     new SoulboundLoot(0.1f, // 14
                         new Single(Loot.Chance(30), new Item("Key to Mannah's Fortress"))
@@ -678,7 +678,7 @@ namespace World.Looting
                         new Single(Loot.Chance(5), new Item("Ring of the Blood Moon"))
                         ),
                     new SoulboundLoot(0.1f, // 23
-                        new Single(Loot.Chance(4), new Item("Sadder Star"))
+                        new Single(Loot.Chance(1), new Item("Sadder Star"))
                         ),
                     new SoulboundLoot(0.1f, // 24
                         new Single(Loot.Chance(10),

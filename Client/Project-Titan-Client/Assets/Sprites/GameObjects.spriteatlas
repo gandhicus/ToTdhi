@@ -815,6 +815,7 @@ SpriteAtlas:
     - 0b2d077726964a645a25d38e8f3b1abe: 21300000
     - 98aa6b770c8f21e4f98a190f35fbd7c4: 21300000
     - 22c13c773c04b994abb8ec69b699868e: 21300000
+    - 6e9f8c7788799544a8f991188fc8a192: 21300000
     - 23a1be77003de0f42a59b0f6577ef2fb: 21300000
     - c2c9b08792c13ee4a88a588af2a8e5a1: 21300000
     - 06ba0987c3b5e7143b2c98536f8cf98c: 21300000
@@ -2430,6 +2431,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0b2d077726964a645a25d38e8f3b1abe, type: 3}
   - {fileID: 21300000, guid: 98aa6b770c8f21e4f98a190f35fbd7c4, type: 3}
   - {fileID: 21300000, guid: 22c13c773c04b994abb8ec69b699868e, type: 3}
+  - {fileID: 21300000, guid: 6e9f8c7788799544a8f991188fc8a192, type: 3}
   - {fileID: 21300000, guid: 23a1be77003de0f42a59b0f6577ef2fb, type: 3}
   - {fileID: 21300000, guid: c2c9b08792c13ee4a88a588af2a8e5a1, type: 3}
   - {fileID: 21300000, guid: 06ba0987c3b5e7143b2c98536f8cf98c, type: 3}
@@ -4044,6 +4046,7 @@ SpriteAtlas:
   - WisperingEnt-1
   - DarkMushroom-5
   - Beach Crab Strike
+  - Loot Chest 8
   - DragonKnight-12
   - FireLight-3
   - PrinceOfSands-4

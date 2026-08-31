@@ -271,6 +271,12 @@ public class VaultMenu : MonoBehaviour
     {
         switch (tier)
         {
+            case ItemTier.Fabled:
+                return 103;
+            case ItemTier.Mythic:
+                return 102;
+            case ItemTier.Rare:
+                return 101;
             case ItemTier.Untiered:
                 return 100;
             default:

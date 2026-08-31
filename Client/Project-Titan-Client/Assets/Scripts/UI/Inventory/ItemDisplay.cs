@@ -9,17 +9,12 @@ using UnityEngine.UI;
 public class ItemDisplay : MonoBehaviour
 {
 
-    private static Color utColor = new Color(0.7354136f, 0.1839623f, 1f, 1);
-
     public static Color GetTierColor(ItemTier tier)
     {
-        switch (tier)
-        {
-            case ItemTier.Untiered:
-                return utColor;
-            default:
-                return Color.white;
-        }
+        var hex = EquipmentInfo.GetTierColorHex(tier);
+        if (hex != null && ColorUtility.TryParseHtmlString(hex, out var namedColor))
+            return namedColor;
+        return Color.white;
     }
 
     public Image itemImage;

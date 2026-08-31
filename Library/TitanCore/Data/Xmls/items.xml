@@ -159,7 +159,7 @@
 		<RateOfFire>4.3</RateOfFire>
 	</Object>
 
-	<Object id="0x109" name="Sword of Unknown UT" tier="-1">
+	<Object id="0x109" name="Sword of Unknown UT" tier="-2">
 		<Type>Weapon</Type>
 		<SlotType>Sword</SlotType>
 		<Sprite>Sword 10</Sprite>
@@ -175,7 +175,7 @@
 
 		<RateOfFire>4</RateOfFire>
 	</Object>
-	<Object id="0x10a" name="Thumbor" tier="-1">
+	<Object id="0x10a" name="Thumbor" tier="-3">
 		<Type>Weapon</Type>
 		<SlotType>Sword</SlotType>
 		<Sprite>Thumbor</Sprite>
@@ -420,7 +420,7 @@
 		<RateOfFire>2.4</RateOfFire>
 	</Object>
 
-	<Object id="0x129" name="Mannah's Soul Crux" tier="-1">
+	<Object id="0x129" name="Mannah's Soul Crux" tier="-3">
 		<Type>Weapon</Type>
 		<SlotType>Claymore</SlotType>
 		<Sprite>Claymore 10</Sprite>
@@ -442,7 +442,7 @@
 		<RateOfFire>2</RateOfFire>
 	</Object>
 
-	<Object id="0x12a" name="Bothmur's Zweihander" tier="-1">
+	<Object id="0x12a" name="Bothmur's Zweihander" tier="-3">
 		<Type>Weapon</Type>
 		<SlotType>Claymore</SlotType>
 
@@ -676,7 +676,7 @@
 		<RateOfFire>5.2</RateOfFire>
 	</Object>
 
-	<Object id="0x149" name="Stormsong (Tehtman's Soulstring)" tier="-1">
+	<Object id="0x149" name="Stormsong (Tehtman's Soulstring)" tier="-3">
 		<Type>Weapon</Type>
 		<SlotType>Bow</SlotType>
 		<Sprite>Bow 10</Sprite>
@@ -701,7 +701,7 @@
 		<RateOfFire>4.8</RateOfFire>
 	</Object>
 
-	<Object id="0x14a" name="Oda's Transcendent Longbow" tier="-1">
+	<Object id="0x14a" name="Oda's Transcendent Longbow" tier="-3">
 		<Type>Weapon</Type>
 		<SlotType>Bow</SlotType>
 
@@ -744,7 +744,7 @@
 
 	</Object>
 
-	<Object id="0x14b" name="Ceremonial Bow" tier="-1">
+	<Object id="0x14b" name="Ceremonial Bow" tier="-2">
 		<Type>Weapon</Type>
 		<SlotType>Bow</SlotType>
 
@@ -994,7 +994,7 @@
 		<RateOfFire>3.6</RateOfFire>
 	</Object>
 
-	<Object id="0x169" name="Mannah's Mop" tier="-1">
+	<Object id="0x169" name="Mannah's Mop" tier="-3">
 		<Type>Weapon</Type>
 		<SlotType>Spear</SlotType>
 		<Sprite>Spear_10</Sprite>
@@ -1015,7 +1015,7 @@
 		<RateOfFire>2</RateOfFire>
 	</Object>
 
-	<Object id="0x523" name="Raeg's Ethereal Spear" tier="-1">
+	<Object id="0x523" name="Raeg's Ethereal Spear" tier="-3">
 		<Type>Weapon</Type>
 		<SlotType>Spear</SlotType>
 		<Sprite>Raeg's Ethereal Spear</Sprite>
@@ -1256,7 +1256,7 @@
 		<RateOfFire>1.2</RateOfFire>
 	</Object>
 
-	<Object id="0x189" name="Elixir of Enigma" tier="-1">
+	<Object id="0x189" name="Elixir of Enigma" tier="-3">
 		<Type>Weapon</Type>
 		<SlotType>Elixir</SlotType>
 		<Sprite>Elixir 10</Sprite>
@@ -1312,7 +1312,7 @@
 		<RateOfFire>1.2</RateOfFire>
 	</Object>
 
-	<Object id="0x516" name="Salt Water Elixir" tier="-1">
+	<Object id="0x516" name="Salt Water Elixir" tier="-2">
 		<Type>Weapon</Type>
 		<SlotType>Elixir</SlotType>
 		<Sprite>Salt Water Elixir</Sprite>
@@ -1440,7 +1440,7 @@
 
 	</Object>
 
-	<Object id="0x209" name="Valdok's Impervious Aegis" tier="-1">
+	<Object id="0x209" name="Valdok's Impervious Aegis" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>HeavyArmor 10</Sprite>
@@ -1453,7 +1453,7 @@
 		<AlternateStatIncrease type="CriticalStrikeDamage">15</AlternateStatIncrease>
 	</Object>
 
-	<Object id="0x505" name="Chestplate of the Forest" tier="-1">
+	<Object id="0x505" name="Chestplate of the Forest" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>Chestplate of the Forest</Sprite>
@@ -1465,7 +1465,7 @@
 		<StatIncrease type="Defense">4</StatIncrease>
 	</Object>
 
-	<Object id="0x512" name="Shining Armor" tier="-1">
+	<Object id="0x512" name="Shining Armor" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>Shining Armor</Sprite>
@@ -1481,7 +1481,7 @@
 
 	</Object>
 
-	<Object id="0x513" name="Lifesource Chassis" tier="-1">
+	<Object id="0x513" name="Lifesource Chassis" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>Lifesource Chassis</Sprite>
@@ -1494,7 +1494,7 @@
 
 	</Object>
 
-	<Object id="0x521" name="The Big Bang" tier="-1">
+	<Object id="0x521" name="The Big Bang" tier="-4">
 		<Type>Equipment</Type>
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>The Big Bang</Sprite>
@@ -1631,7 +1631,7 @@
 
 	</Object>
 
-	<Object id="0x229" name="Empyrean's Guard" tier="-1">
+	<Object id="0x229" name="Empyrean's Guard" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>LightArmor</SlotType>
 		<Sprite>LightArmor 10</Sprite>
@@ -1644,7 +1644,7 @@
 		<AlternateStatIncrease type="RateOfFire">5</AlternateStatIncrease>
 	</Object>
 
-	<Object id="0x504" name="Windward Cloak" tier="-1">
+	<Object id="0x504" name="Windward Cloak" tier="-2">
 		<Type>Equipment</Type>
 		<Sprite>Windward Cloak</Sprite>
 		<SlotType>Robe</SlotType>
@@ -1656,7 +1656,7 @@
 		<StatIncrease type="MaxHealth">30</StatIncrease>
 	</Object>
 
-	<Object id="0x507" name="Dark Matter" tier="-1">
+	<Object id="0x507" name="Dark Matter" tier="-4">
 		<Type>Equipment</Type>
 		<Sprite>Dark Matter</Sprite>
 		<SlotType>LightArmor</SlotType>
@@ -1670,7 +1670,7 @@
 	</Object>
 
 
-	<Object id="0x515" name="Dumirian Kilt" tier="-1">
+	<Object id="0x515" name="Dumirian Kilt" tier="-2">
 		<Type>Equipment</Type>
 		<Sprite>Dumirian Kilt</Sprite>
 		<SlotType>LightArmor</SlotType>
@@ -1682,7 +1682,7 @@
 		<StatIncrease type="Defense">11</StatIncrease>
 	</Object>
 
-	<Object id="0x524" name="Plague Hide" tier="-1">
+	<Object id="0x524" name="Plague Hide" tier="-3">
 		<Type>Equipment</Type>
 		<Sprite>Plague Hide</Sprite>
 		<SlotType>LightArmor</SlotType>
@@ -1809,7 +1809,7 @@
 
 	</Object>
 
-	<Object id="0x249" name="Archmage's Sibylline Vestment" tier="-1">
+	<Object id="0x249" name="Archmage's Sibylline Vestment" tier="-3">
 		<Type>Equipment</Type>
 		<Sprite>Robe 10</Sprite>
 		<SlotType>Robe</SlotType>
@@ -1822,7 +1822,7 @@
 		<AlternateStatIncrease type="AbsorptionChance">3</AlternateStatIncrease>
 	</Object>
 
-	<Object id="0x511" name="Seafarer's Garb" tier="-1">
+	<Object id="0x511" name="Seafarer's Garb" tier="-3">
 		<Type>Equipment</Type>
 		<Sprite>Seafarer's Garb</Sprite>
 		<SlotType>Robe</SlotType>
@@ -1835,7 +1835,7 @@
 		<AlternateStatIncrease type="GroundedResistance">50</AlternateStatIncrease>
 	</Object>
 
-	<Object id="0x518" name="Sadder Star" tier="-1">
+	<Object id="0x518" name="Sadder Star" tier="-4">
 		<Type>Equipment</Type>
 		<Sprite>Sadder Star</Sprite>
 		<SlotType>Robe</SlotType>
@@ -1851,7 +1851,7 @@
 
 	</Object>
 
-	<Object id="0x519" name="Cloak of Doom" tier="-1">
+	<Object id="0x519" name="Cloak of Doom" tier="-2">
 		<Type>Equipment</Type>
 		<Sprite>Cloak of Doom</Sprite>
 		<SlotType>Robe</SlotType>
@@ -2020,7 +2020,7 @@
 		<Description>A tremendous ruby fixed on top of a gleaming gold ring.</Description>
 	</Object>
 
-	<Object id="0x290" name="Ring of the Lonely Spirit" tier="-1">
+	<Object id="0x290" name="Ring of the Lonely Spirit" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 1</Sprite>
@@ -2033,7 +2033,7 @@
 		<Description>A ring affixed with a jewel trinity. Rumored to benefit all aspects of life.</Description>
 	</Object>
 
-	<Object id="0x291" name="Adorned Band" tier="-1">
+	<Object id="0x291" name="Adorned Band" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 2</Sprite>
@@ -2045,7 +2045,7 @@
 		<Description>A gold band engulfed with luscious emeralds.</Description>
 	</Object>
 
-	<Object id="0x292" name="Ring of Sinful Beauty" tier="-1">
+	<Object id="0x292" name="Ring of Sinful Beauty" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 3</Sprite>
@@ -2059,7 +2059,7 @@
 		<Description>A brilliant platinum ring adorned with a grand, diamond-shaped, ruby.</Description>
 	</Object>
 
-	<Object id="0x293" name="Ring of Stalwart Vitality" tier="-1">
+	<Object id="0x293" name="Ring of Stalwart Vitality" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 4</Sprite>
@@ -2071,7 +2071,7 @@
 		<Description>A hefty and brawny stone affixed on a platinum band.</Description>
 	</Object>
 
-	<Object id="0x294" name="Mezhier's Ring of Valor" tier="-1">
+	<Object id="0x294" name="Mezhier's Ring of Valor" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 5</Sprite>
@@ -2086,7 +2086,7 @@
 		<Description>A ring worn by valorant warriors. Said to possess the spirit of Mezhier.</Description>
 	</Object>
 
-	<Object id="0x295" name="Tehtman's Brutal Band" tier="-1">
+	<Object id="0x295" name="Tehtman's Brutal Band" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 6</Sprite>
@@ -2097,7 +2097,7 @@
 		<Description>A blazing amber placed upon a bronze band.</Description>
 	</Object>
 
-	<Object id="0x296" name="Arcus's Nimble Circlet" tier="-1">
+	<Object id="0x296" name="Arcus's Nimble Circlet" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 7</Sprite>
@@ -2108,7 +2108,7 @@
 		<Description>A magnificent emerald placed upon a bronze band.</Description>
 	</Object>
 
-	<Object id="0x297" name="Mannah's Capstone" tier="-1">
+	<Object id="0x297" name="Mannah's Capstone" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 8</Sprite>
@@ -2122,7 +2122,7 @@
 		<Description>A dazzling gold ring. A pristine amethyst crowns the band and is enveloped in gold leaves.</Description>
 	</Object>
 
-	<Object id="0x517" name="Ring of the Blood Moon" tier="-1">
+	<Object id="0x517" name="Ring of the Blood Moon" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Ring of the Blood Moon</Sprite>
@@ -2139,7 +2139,7 @@
 		<Description>A terrifying and menacing ring, infamous as a symbol for blood and murder in certain circles.</Description>
 	</Object>
 
-	<Object id="0x520" name="Studded Bangle" tier="-1">
+	<Object id="0x520" name="Studded Bangle" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Studded Bangle</Sprite>
@@ -2156,7 +2156,7 @@
 		<Description>A wonderfully beautiful bangle studded with sparkling diamonds, said to bring good fortune to those with clear minds.</Description>
 	</Object>
 
-	<Object id="0x501" name="Desert Rose" tier="-1">
+	<Object id="0x501" name="Desert Rose" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Desert Rose</Sprite>
@@ -2168,7 +2168,7 @@
 		<Description>Each of these immaculate gemstones are formed over centuries through being weathered in the shifting sands of the dunes. The gods of the overworld recognize their beauty, blessing them with their strength.</Description>
 	</Object>
 
-	<Object id="0x502" name="Rage Ring" tier="-1">
+	<Object id="0x502" name="Rage Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>UT Ring 6</Sprite>
@@ -2178,7 +2178,7 @@
 		<Description>Test</Description>
 	</Object>
 
-	<Object id="0x503" name="Corrupted Skull of Mezhier" tier="-1">
+	<Object id="0x503" name="Corrupted Skull of Mezhier" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Corrupted Skull of Mezhier</Sprite>
@@ -2190,7 +2190,7 @@
 		<Description>After his death, Mezhier's corpse resided in the Whispering Woods as his eternal resting place. When Rictorn's reign begun, his skull was corrupted due to Rictorn's evil presence.</Description>
 	</Object>
 
-	<Object id="0x508" name="Tear of Life" tier="-1">
+	<Object id="0x508" name="Tear of Life" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Tear of Life</Sprite>
@@ -2202,7 +2202,7 @@
 		<Description>A ring that is affixed with a cool, tear-dropped gem. It's said that many of these same gems helped create the overworld's wildlife.</Description>
 	</Object>
 
-	<Object id="0x509" name="Aldrite's Gamble" tier="-1">
+	<Object id="0x509" name="Aldrite's Gamble" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Aldrite's Gamble</Sprite>
@@ -2222,7 +2222,7 @@
 		<Description>It was Aldrite who initially discovered this ring during his travels. Interestingly, each time it's discovered again, it acts completely differently.</Description>
 	</Object>
 
-	<Object id="0x50a" name="TEST Crit Proc Ring" tier="-1">
+	<Object id="0x50a" name="TEST Crit Proc Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Tear of Life</Sprite>
@@ -2238,7 +2238,7 @@
 		<Description>Test</Description>
 	</Object>
 
-	<Object id="0x506" name="Quartz Ring" tier="-1">
+	<Object id="0x506" name="Quartz Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Quartz Ring</Sprite>
@@ -2249,7 +2249,7 @@
 		<Description>A ring topped with a beautiful, yet rough, hunk of pink quartz.</Description>
 	</Object>
 
-	<Object id="0x510" name="Band of Oceanic Radiance" tier="-1">
+	<Object id="0x510" name="Band of Oceanic Radiance" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Band of Oceanic Radiance</Sprite>
@@ -2265,7 +2265,7 @@
 		<Description>A petite but beautiful ring forged from a perfect silver. On top sits a shining pearl, which radiates with secrets of the sea once thought lost to time.</Description>
 	</Object>
 
-	<Object id="0x514" name="Skyjewel" tier="-1">
+	<Object id="0x514" name="Skyjewel" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Skyjewel</Sprite>
@@ -2281,7 +2281,7 @@
 		<Description>A marvelous, bright blue diamond houses this glaring ring. Such unconcealed power, though, is destined to make you stand out amongst the crowd.</Description>
 	</Object>
 
-	<Object id="0x522" name="Firefly" tier="-1">
+	<Object id="0x522" name="Firefly" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Firefly</Sprite>
@@ -2292,7 +2292,7 @@
 		<Description>A ring transfused with the glow and finesse of the firefly.</Description>
 	</Object>
 
-	<Object id="0x50b" name="TEST Rage Crit Ring" tier="-1">
+	<Object id="0x50b" name="TEST Rage Crit Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Speed Ring 5</Sprite>
@@ -2307,7 +2307,7 @@
 		<Description>Test</Description>
 	</Object>
 
-	<Object id="0x50c" name="TEST Block Ring" tier="-1">
+	<Object id="0x50c" name="TEST Block Ring" tier="-2">
 		<Type>Equipment</Type>
 		<Sprite>Windward Cloak</Sprite>
 		<SlotType>Robe</SlotType>
@@ -2323,7 +2323,7 @@
 		<Description>Test</Description>
 	</Object>
 
-	<Object id="0x50d" name="TEST Scaling Ring" tier="-1">
+	<Object id="0x50d" name="TEST Scaling Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Defense Ring 3</Sprite>
@@ -2533,7 +2533,7 @@
 
 	</Object>
 
-	<Object id="0x2aa" name="Soulless Ring" tier="-1">
+	<Object id="0x2aa" name="Soulless Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 
@@ -2548,7 +2548,7 @@
 
 	</Object>
 
-	<Object id="0x2ab" name="Robe of Soulless Rejuvenation" tier="-1">
+	<Object id="0x2ab" name="Robe of Soulless Rejuvenation" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Robe</SlotType>
 		<Sprite>Soulless Robe</Sprite>
@@ -2568,7 +2568,7 @@
 
 	</Object>
 
-	<Object id="0x2ac" name="Breastplate of Soulless Vigor" tier="-1">
+	<Object id="0x2ac" name="Breastplate of Soulless Vigor" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>Soulless Heavy Armor</Sprite>
@@ -2588,7 +2588,7 @@
 
 	</Object>
 
-	<Object id="0x2ad" name="Tunic of Soulless Wraith" tier="-1">
+	<Object id="0x2ad" name="Tunic of Soulless Wraith" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>LightArmor</SlotType>
 		<Sprite>Soulless Light Armor</Sprite>
@@ -2618,7 +2618,7 @@
 		<Consumable/>
 	</Object>
 
-	<Object id="0x2af" name="TEST Piercing Blade" tier="-1">
+	<Object id="0x2af" name="TEST Piercing Blade" tier="-2">
 		<Type>Weapon</Type>
 		<SlotType>Sword</SlotType>
 		<Sprite>Sword 3</Sprite>
@@ -2636,7 +2636,7 @@
 		<AlternateStatIncrease type="CriticalStrikeChance">100</AlternateStatIncrease>
 	</Object>
 
-	<Object id="0x2b0" name="TEST Aegis Plate" tier="-1">
+	<Object id="0x2b0" name="TEST Aegis Plate" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>HeavyArmor 1</Sprite>
@@ -2744,7 +2744,7 @@
 		<Droppable/>
 	</Object>
 
-	<Object id="0x2100" name="Talisman of Blood" tier="-1">
+	<Object id="0x2100" name="Talisman of Blood" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Blood</Sprite>
@@ -2757,7 +2757,7 @@
 		<Description>A talisman that was forged from the blood of giants and blessed by the Liches.</Description>
 	</Object>
 
-	<Object id="0x2101" name="TEST Aegis Ring" tier="-1">
+	<Object id="0x2101" name="TEST Aegis Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Defense Ring 1</Sprite>
@@ -2767,7 +2767,7 @@
 		<Defense/>
 	</Object>
 
-	<Object id="0x2102" name="Talisman of Ages" tier="-1">
+	<Object id="0x2102" name="Talisman of Ages" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Ages</Sprite>
@@ -2782,7 +2782,7 @@
 		<Description>A talisman that seems to manipulate time itself, slowing enemies as it activates.</Description>
 	</Object>
 
-	<Object id="0x2110" name="Talisman of Nova" tier="-1">
+	<Object id="0x2110" name="Talisman of Nova" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Nova</Sprite>
@@ -2794,7 +2794,7 @@
 		<Power/>
 		<Description>A talisman that releases a nova of pure energy upon activating.</Description>
 	</Object>
-	<Object id="0x2111" name="Ranger Talisman 2" tier="-1">
+	<Object id="0x2111" name="Ranger Talisman 2" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -2808,7 +2808,7 @@
 		<Focus/>
 		<Description>On ability hit, apply Mundane for 1 second.</Description>
 	</Object>
-	<Object id="0x2112" name="Talisman of Wrath" tier="-1">
+	<Object id="0x2112" name="Talisman of Wrath" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Wrath</Sprite>
@@ -2819,7 +2819,7 @@
 		<Power/>
 		<Description>A talisman that holds a great anger underneath.</Description>
 	</Object>
-	<Object id="0x2113" name="Talisman of Millennia" tier="-1">
+	<Object id="0x2113" name="Talisman of Millennia" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Millennia</Sprite>
@@ -2833,7 +2833,7 @@
 		<Focus/>
 		<Description>A talisman that was crafted over thousands of years, tangled within the sands of time.</Description>
 	</Object>
-	<Object id="0x2114" name="Blessed Talisman" tier="-1">
+	<Object id="0x2114" name="Blessed Talisman" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Blessed Talisman</Sprite>
@@ -2844,7 +2844,7 @@
 		<Support/>
 		<Description>A talisman blessed by the high ministers with the power to aid its wearer.</Description>
 	</Object>
-	<Object id="0x2115" name="Lancer Talisman 3" tier="-1">
+	<Object id="0x2115" name="Lancer Talisman 3" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -2855,7 +2855,7 @@
 		<Defense/>
 		<Description>On throw, gain +6 Defense for 0.8 seconds.</Description>
 	</Object>
-	<Object id="0x2116" name="Symbiotic Talisman" tier="-1">
+	<Object id="0x2116" name="Symbiotic Talisman" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Symbiotic Talisman</Sprite>
@@ -2869,7 +2869,7 @@
 		<Focus/>
 		<Description>A talisman that is affixed to its users' essence.</Description>
 	</Object>
-	<Object id="0x2117" name="Rogue's Talisman" tier="-1">
+	<Object id="0x2117" name="Rogue's Talisman" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Rogue's Talisman</Sprite>
@@ -2883,7 +2883,7 @@
 		<Focus/>
 		<Description>A talisman inspired by the cunning power of the rogues, trapping enemies in their place.</Description>
 	</Object>
-	<Object id="0x2118" name="Bladeweaver Talisman 3" tier="-1">
+	<Object id="0x2118" name="Bladeweaver Talisman 3" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -2894,7 +2894,7 @@
 		<Defense/>
 		<Description>When the dash ends, gain +4 Speed for 0.2 seconds.</Description>
 	</Object>
-	<Object id="0x2119" name="Nomad Talisman 1" tier="-1">
+	<Object id="0x2119" name="Nomad Talisman 1" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -2905,7 +2905,7 @@
 		<Power/>
 		<Description>Hitting a Marked enemy deals x1.25 damage.</Description>
 	</Object>
-	<Object id="0x211a" name="Talisman of Tragedy" tier="-1">
+	<Object id="0x211a" name="Talisman of Tragedy" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Tragedy</Sprite>
@@ -2916,7 +2916,7 @@
 		<Power/>
 		<Description>A talisman that was once cursed for bringing bad luck.</Description>
 	</Object>
-	<Object id="0x211b" name="Nomad Talisman 3" tier="-1">
+	<Object id="0x211b" name="Nomad Talisman 3" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -2930,7 +2930,7 @@
 		<Focus/>
 		<Description>Hitting a Marked enemy applies Slowed for 1 second.</Description>
 	</Object>
-	<Object id="0x211c" name="Nomad Talisman 4" tier="-1">
+	<Object id="0x211c" name="Nomad Talisman 4" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -2941,7 +2941,7 @@
 		<Support/>
 		<Description>On charm interact, heal 20 HP.</Description>
 	</Object>
-	<Object id="0x212e" name="Talisman of Daybreak" tier="-1">
+	<Object id="0x212e" name="Talisman of Daybreak" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Daybreak</Sprite>
@@ -2953,7 +2953,7 @@
 		<Power/>
 		<Description>A talisman that harnesses the light of dawn.</Description>
 	</Object>
-	<Object id="0x211d" name="Ethereal Talisman" tier="-1">
+	<Object id="0x211d" name="Ethereal Talisman" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Ethereal Talisman</Sprite>
@@ -2964,7 +2964,7 @@
 		<Support/>
 		<Description>A talisman that is said to have originated from the high mages.</Description>
 	</Object>
-	<Object id="0x211e" name="Soothing Talisman" tier="-1">
+	<Object id="0x211e" name="Soothing Talisman" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Soothing Talisman</Sprite>
@@ -2975,7 +2975,7 @@
 		<Support/>
 		<Description>A talisman that helps soothe its bearer's wounds.</Description>
 	</Object>
-	<Object id="0x211f" name="Brewer Talisman 3" tier="-1">
+	<Object id="0x211f" name="Brewer Talisman 3" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -2989,7 +2989,7 @@
 		<Focus/>
 		<Description>A talisman that can electrocute enemies upon activating, halting their pace.</Description>
 	</Object>
-	<Object id="0x2120" name="Talisman of Strength" tier="-1">
+	<Object id="0x2120" name="Talisman of Strength" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Strength</Sprite>
@@ -3000,7 +3000,7 @@
 		<Power/>
 		<Description>A talisman that sharpens its bearer's blade upon activation.</Description>
 	</Object>
-	<Object id="0x2121" name="Talisman of Holy Water" tier="-1">
+	<Object id="0x2121" name="Talisman of Holy Water" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Holy Water</Sprite>
@@ -3011,7 +3011,7 @@
 		<Support/>
 		<Description>A talisman that is able to purify its user.</Description>
 	</Object>
-	<Object id="0x2122" name="Commander Talisman 3" tier="-1">
+	<Object id="0x2122" name="Commander Talisman 3" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -3025,7 +3025,7 @@
 		<Focus/>
 		<Description>When the Defense buff ends, Slowed nova for 1 second.</Description>
 	</Object>
-	<Object id="0x2123" name="Minister Talisman 1" tier="-1">
+	<Object id="0x2123" name="Minister Talisman 1" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -3036,7 +3036,7 @@
 		<Support/>
 		<Description>On ability use, heal 25 HP.</Description>
 	</Object>
-	<Object id="0x2124" name="Talisman of the Shield" tier="-1">
+	<Object id="0x2124" name="Talisman of the Shield" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of the Shield</Sprite>
@@ -3047,7 +3047,7 @@
 		<Defense/>
 		<Description>A talisman that hardens like a shield to protect its bearer.</Description>
 	</Object>
-	<Object id="0x2125" name="Minister Talisman 3" tier="-1">
+	<Object id="0x2125" name="Minister Talisman 3" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -3058,7 +3058,7 @@
 		<Support/>
 		<Description>When the pillar ends, heal 30 HP.</Description>
 	</Object>
-	<Object id="0x212f" name="Talisman of Retribution" tier="-1">
+	<Object id="0x212f" name="Talisman of Retribution" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Retribution</Sprite>
@@ -3070,7 +3070,7 @@
 		<Power/>
 		<Description>A talisman that smites demons and other monsters from afar.</Description>
 	</Object>
-	<Object id="0x2126" name="Alchemist Talisman 1" tier="-1">
+	<Object id="0x2126" name="Alchemist Talisman 1" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -3082,7 +3082,7 @@
 		<Power/>
 		<Description>On each puddle tick, deal 10 extra damage.</Description>
 	</Object>
-	<Object id="0x2127" name="Alchemist Talisman 2" tier="-1">
+	<Object id="0x2127" name="Alchemist Talisman 2" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -3094,7 +3094,7 @@
 		<Power/>
 		<Description>On ability use, a mini blast dealing 20 damage.</Description>
 	</Object>
-	<Object id="0x2128" name="Alchemist Talisman 3" tier="-1">
+	<Object id="0x2128" name="Alchemist Talisman 3" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -3106,7 +3106,7 @@
 		<Power/>
 		<Description>When the puddle ends, burst 40 damage around you.</Description>
 	</Object>
-	<Object id="0x212c" name="Talisman of Piercing" tier="-1">
+	<Object id="0x212c" name="Talisman of Piercing" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Piercing</Sprite>
@@ -3117,7 +3117,7 @@
 		<Focus/>
 		<Description>A talisman that can pierce through the toughest armor.</Description>
 	</Object>
-	<Object id="0x212d" name="Talisman of Spite" tier="-1">
+	<Object id="0x212d" name="Talisman of Spite" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Spite</Sprite>
@@ -3128,7 +3128,7 @@
 		<Power/>
 		<Description>On each puddle tick while damaging enemies, gain +2 rage.</Description>
 	</Object>
-	<Object id="0x2129" name="Berserker Talisman 1" tier="-1">
+	<Object id="0x2129" name="Berserker Talisman 1" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
@@ -3139,7 +3139,7 @@
 		<Power/>
 		<Description>On shout hit, gain +20% Rate of Fire for 1 second.</Description>
 	</Object>
-	<Object id="0x212a" name="Talisman of Celerity" tier="-1">
+	<Object id="0x212a" name="Talisman of Celerity" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Celerity</Sprite>
@@ -3150,7 +3150,7 @@
 		<Agility/>
 		<Description>A talisman that makes its bearer's feet feel lighter in combat.</Description>
 	</Object>
-	<Object id="0x212b" name="Talisman of Apocalypse" tier="-1">
+	<Object id="0x212b" name="Talisman of Apocalypse" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Apocalypse</Sprite>

@@ -6,6 +6,9 @@ namespace TitanCore.Core
 {
     public enum ItemTier
     {
+        Fabled = -4,
+        Mythic = -3,
+        Rare = -2,
         Untiered = -1,
         Starter = 0,
         Tier1 = 1,

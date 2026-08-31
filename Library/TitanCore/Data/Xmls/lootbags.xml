@@ -62,5 +62,11 @@
 
     <Sfx type="spawn">loot_appear</Sfx>
   </Object>
+
+  <Object id="0xf0a" name="Loot Chest 8">
+    <Type>LootBag</Type>
+
+    <Sfx type="spawn">loot_appear</Sfx>
+  </Object>
   
 </Objects>

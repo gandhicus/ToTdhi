@@ -286,6 +286,18 @@ namespace TitanCore.Data.Components
                 describer.NewLine();
             }
 
+            if (equip != null)
+            {
+                var rarityName = equip.GetTierFullName();
+                var rarityHex = EquipmentInfo.GetTierColorHex(equip.tier);
+                if (rarityName != null && rarityHex != null)
+                {
+                    AddTagTitle(describer, ref tagTitleAdded);
+                    describer.AddContent($"<color={rarityHex}>{rarityName}</color>");
+                    describer.NewLine();
+                }
+            }
+
             if (info.consumable && owned)
             {
                 AddTagTitle(describer, ref tagTitleAdded);

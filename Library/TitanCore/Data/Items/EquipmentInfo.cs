@@ -93,12 +93,52 @@ namespace TitanCore.Data.Items
         {
             switch (tier)
             {
+                case ItemTier.Fabled:
+                    return "FB";
+                case ItemTier.Mythic:
+                    return "MT";
+                case ItemTier.Rare:
+                    return "RA";
                 case ItemTier.Untiered:
                     return "UT";
                 case ItemTier.Starter:
                     return "S";
                 default:
                     return "T" + (int)tier;
+            }
+        }
+
+        public string GetTierFullName()
+        {
+            switch (tier)
+            {
+                case ItemTier.Fabled:
+                    return "Fabled";
+                case ItemTier.Mythic:
+                    return "Mythic";
+                case ItemTier.Rare:
+                    return "Rare";
+                case ItemTier.Untiered:
+                    return "Untiered";
+                default:
+                    return null;
+            }
+        }
+
+        public static string GetTierColorHex(ItemTier itemTier)
+        {
+            switch (itemTier)
+            {
+                case ItemTier.Fabled:
+                    return "#6755ff";
+                case ItemTier.Mythic:
+                    return "#53cefa";
+                case ItemTier.Rare:
+                    return "#4ad161";
+                case ItemTier.Untiered:
+                    return "#bb2fff";
+                default:
+                    return null;
             }
         }
     }

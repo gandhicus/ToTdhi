@@ -272,10 +272,20 @@ namespace World.Map.Objects.Entities
 
             if (equip != null)
             {
-                if (equip.tier == ItemTier.Untiered)
+                if (equip.tier == ItemTier.Fabled)
+                {
+                    livingTime = 300;
+                    return 0xf0a;
+                }
+                if (equip.tier == ItemTier.Mythic || equip.tier == ItemTier.Untiered)
                 {
                     livingTime = 300;
                     return 0xf07;
+                }
+                if (equip.tier == ItemTier.Rare)
+                {
+                    livingTime = 200;
+                    return 0xf06;
                 }
 
                 if (equip.slotType == SlotType.Accessory)
