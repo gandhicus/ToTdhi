@@ -2178,14 +2178,13 @@
 		<Description>Test</Description>
 	</Object>
 
-	<Object id="0x503" name="Corrupted Skull of Mezhier" tier="-2">
+	<Object id="0x503" name="Corrupted Skull of Mezhier" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Corrupted Skull of Mezhier</Sprite>
 
-		<AlternateStatIncrease type="RageGain">20</AlternateStatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeChance">5</AlternateStatIncrease>
-		<StatIncrease type="Attack">3</StatIncrease>
+		<AlternateStatIncrease type="RageGain">15</AlternateStatIncrease>
+		<StatIncrease type="Attack">2</StatIncrease>
 
 		<Description>After his death, Mezhier's corpse resided in the Whispering Woods as his eternal resting place. When Rictorn's reign begun, his skull was corrupted due to Rictorn's evil presence.</Description>
 	</Object>
