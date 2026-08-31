@@ -25,6 +25,7 @@ namespace World.Abilities
             var mods = SkillTreeFunctions.IsEnabled ? PlayerState.abilityMods : AbilityModifierSnapshot.Empty;
             byte spent = rage;
             SpendDumpRage(ref rage, mods, out rageCost);
+            SkillTreeFunctions.ApplyRageToOnUseStats(ref mods, spent);
 
             float shoutSpread = AbilityFunctions.Berserker.GetShoutSpread(spent, attack) + mods.shoutSpreadDeg * AngleUtils.PI / 180f;
             float shoutRadius = AbilityFunctions.Berserker.GetShoutRange(spent, attack) + mods.abilityRangeBonus;

@@ -51,6 +51,7 @@ SpriteAtlas:
     cachedData: {fileID: 0}
     packedSpriteRenderDataKeys:
     - 5f94af20d4e051c4a927ec6c80098cd7: 21300000
+    - 1d6ef06008404324aaf6d0e83f4347ad: 21300000
     - 3540a39110d377a42b75fc851a2032a3: 21300000
     - a7f3e2d1c4b5968870615243b9a8e7f1: 21300000
     - d44b4f4268ee4a345b0246a812865029: 21300000
@@ -79,6 +80,7 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 5f94af20d4e051c4a927ec6c80098cd7, type: 3}
+  - {fileID: 21300000, guid: 1d6ef06008404324aaf6d0e83f4347ad, type: 3}
   - {fileID: 21300000, guid: 3540a39110d377a42b75fc851a2032a3, type: 3}
   - {fileID: 21300000, guid: a7f3e2d1c4b5968870615243b9a8e7f1, type: 3}
   - {fileID: 21300000, guid: d44b4f4268ee4a345b0246a812865029, type: 3}
@@ -106,6 +108,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ac2b96df12d578c4d9e7e13455e80b24, type: 3}
   m_PackedSpriteNamesToIndex:
   - Speedy
+  - MaxHealthBonus
   - Damaging
   - TrueBonus
   - InactiveDownvote

@@ -45,8 +45,25 @@ namespace TitanDatabase.Models
             }
         }
 
+        private static bool EnsureClient()
+        {
+            if (Database.Client != null)
+                return true;
+            Log.Write("Database.Client is not initialized. Start DynamoDB Local on port 8000, then restart the server.");
+            return false;
+        }
+
         protected static async Task<GetResponse<Dictionary<string, AttributeValue>>> GetItemAsync(GetItemRequest request)
         {
+            if (!EnsureClient())
+            {
+                return new GetResponse<Dictionary<string, AttributeValue>>
+                {
+                    result = RequestResult.InternalServerError,
+                    item = null
+                };
+            }
+
             GetItemResponse response = null;
             try
             {
@@ -102,6 +119,14 @@ namespace TitanDatabase.Models
 
         protected static async Task<DeleteResponse> DeleteItemAsync(DeleteItemRequest request)
         {
+            if (!EnsureClient())
+            {
+                return new DeleteResponse
+                {
+                    result = RequestResult.InternalServerError
+                };
+            }
+
             DeleteItemResponse response;
             try
             {
@@ -165,6 +190,14 @@ namespace TitanDatabase.Models
 
         protected static async Task<PutResponse> PutItemAsync(PutItemRequest request)
         {
+            if (!EnsureClient())
+            {
+                return new PutResponse
+                {
+                    result = RequestResult.InternalServerError
+                };
+            }
+
             PutItemResponse response;
             try
             {

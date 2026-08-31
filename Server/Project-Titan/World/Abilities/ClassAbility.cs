@@ -46,6 +46,10 @@ namespace World.Abilities
         {
         }
 
+        public virtual void WorldTick(ref WorldTime time)
+        {
+        }
+
         protected TnPlayEffect PlayColored(WorldEffect effect)
         {
             ColorWorldEffect(effect);

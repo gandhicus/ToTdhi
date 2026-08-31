@@ -28,7 +28,10 @@ namespace World.Abilities
             slashHit = true;
             TriggerTalisman(TalismanTrigger.AbilityHit, time, player.position.Value, entity.GetPosition(time), ref damageTaken);
             if (mods.speedOnHit > 0 && mods.speedOnHitMs > 0 && time < dashEndTime)
-                PlayerState.ApplyTimedStatBonus(StatType.Speed, mods.speedOnHit, time, (uint)mods.speedOnHitMs);
+            {
+                int speed = SkillTreeFunctions.ScaleOnUseStat(mods.speedOnHit, spentRage);
+                PlayerState.ApplyTimedStatBonus(StatType.Speed, speed, time, (uint)mods.speedOnHitMs);
+            }
         }
 
         public override void OnMove(Vec2 position, uint time)

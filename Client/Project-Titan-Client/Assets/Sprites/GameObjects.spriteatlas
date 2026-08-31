@@ -412,6 +412,7 @@ SpriteAtlas:
     - c32c31336cb3f6040a31125e4e8180a0: 21300000
     - 18f891334fdd34b48b288385f092c0b3: 21300000
     - 687d423314ccfe048821dca448e5e67a: 21300000
+    - 72c7c333f07729b4c81cf11baa0a99ef: 21300000
     - 97b00933db371fe44a6e12e0d49e1352: 21300000
     - 16fa59337c33b85449085b676e3a96ad: 21300000
     - c8822d335b1504184a732312aaa01546: 21300000
@@ -431,6 +432,7 @@ SpriteAtlas:
     - 94dbc453c5d6d34478a10c701594f1ee: 21300000
     - 95104953869dc7f439ade5a0e54fe63e: 21300000
     - bbb769538fcbe274a9fb82983a02bfc1: 21300000
+    - a852b953e7da1224c9b20b50579ca0d5: 21300000
     - 83b7fa533eabf72418a638b1a398cc81: 21300000
     - 9772716310153d14d8511e8c39025f85: 21300000
     - f7d8d2639af864a4b885dee290f5a8b7: 21300000
@@ -2025,6 +2027,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c32c31336cb3f6040a31125e4e8180a0, type: 3}
   - {fileID: 21300000, guid: 18f891334fdd34b48b288385f092c0b3, type: 3}
   - {fileID: 21300000, guid: 687d423314ccfe048821dca448e5e67a, type: 3}
+  - {fileID: 21300000, guid: 72c7c333f07729b4c81cf11baa0a99ef, type: 3}
   - {fileID: 21300000, guid: 97b00933db371fe44a6e12e0d49e1352, type: 3}
   - {fileID: 21300000, guid: 16fa59337c33b85449085b676e3a96ad, type: 3}
   - {fileID: 21300000, guid: c8822d335b1504184a732312aaa01546, type: 3}
@@ -2044,6 +2047,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 94dbc453c5d6d34478a10c701594f1ee, type: 3}
   - {fileID: 21300000, guid: 95104953869dc7f439ade5a0e54fe63e, type: 3}
   - {fileID: 21300000, guid: bbb769538fcbe274a9fb82983a02bfc1, type: 3}
+  - {fileID: 21300000, guid: a852b953e7da1224c9b20b50579ca0d5, type: 3}
   - {fileID: 21300000, guid: 83b7fa533eabf72418a638b1a398cc81, type: 3}
   - {fileID: 21300000, guid: 9772716310153d14d8511e8c39025f85, type: 3}
   - {fileID: 21300000, guid: f7d8d2639af864a4b885dee290f5a8b7, type: 3}
@@ -3637,6 +3641,7 @@ SpriteAtlas:
   - CrusadingKnight-8
   - FrostGiant-2
   - MinisterPillarT4-5
+  - Firefly
   - LightArmor 1
   - Alchemist-5
   - Berserker-12
@@ -3656,6 +3661,7 @@ SpriteAtlas:
   - Royal Advisor Shot 4
   - Claymore 9 Slash
   - Robe 5
+  - Plague Hide
   - BhalingSwordsman-4
   - ForestWanderer-Agro-2
   - Dust Devil Gust

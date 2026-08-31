@@ -48,6 +48,7 @@ namespace World.Abilities
             int durationMs = AbilityFunctions.Minister.GetPillarDurationMs(cost) + Math.Max(0, mods.durationBonusMs);
             float tickSec = Math.Max(0.4f, (mods.pulseLockoutMs > 0 ? mods.pulseLockoutMs : 2000) / 1000f);
 
+            SkillTreeFunctions.ApplyRageToOnUseStats(ref mods, cost);
             var pillar = new MinisterPillar(player, heal, radius, durationMs / 1000f, tickSec, mods, (float)player.world.time.totalTime);
             pillar.position.Value = position;
             pillar.Initialize(GameData.objects[pillarType]);

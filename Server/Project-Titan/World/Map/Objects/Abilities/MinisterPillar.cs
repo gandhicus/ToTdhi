@@ -24,6 +24,7 @@ namespace World.Map.Objects.Abilities
         private Player owner;
         private ExpirationQueue<uint> healedExpiration;
         private HashSet<uint> healed = new HashSet<uint>();
+        private HashSet<uint> absorptionGiven = new HashSet<uint>();
 
         public MinisterPillar(int rage, int attack, Vec2 position, float time)
             : this(null, AbilityFunctions.Minister.GetHealAmount(rage, attack), AbilityFunctions.Minister.GetPillarRadius(rage), AbilityFunctions.Minister.GetPillarDurationMs(rage) / 1000f, 2f, AbilityModifierSnapshot.Empty, time)
@@ -70,11 +71,15 @@ namespace World.Map.Objects.Abilities
                 var now = player.gameState.playerState.LastClientTime;
                 int vigor = 8 + mods.vigorBonus;
                 var state = player.gameState.playerState;
-                state.ApplyMinisterFieldStatBonus(StatType.Vigor, vigor, now, 1200);
+                uint vigorMs = mods.vigorBonusMs > 0 ? (uint)mods.vigorBonusMs : 1200;
+                state.ApplyMinisterFieldStatBonus(StatType.Vigor, vigor, now, vigorMs);
                 if (mods.timedAttack > 0)
-                    state.ApplyMinisterFieldStatBonus(StatType.Attack, mods.timedAttack, now, 1200);
+                    state.ApplyMinisterFieldStatBonus(StatType.Attack, mods.timedAttack, now, (uint)mods.timedAttackMs);
                 if (mods.fieldDefense > 0)
-                    state.ApplyMinisterFieldStatBonus(StatType.Defense, mods.fieldDefense, now, 1200);
+                    state.ApplyMinisterFieldStatBonus(StatType.Defense, mods.fieldDefense, now, (uint)mods.fieldDefenseMs);
+                // Once per player: re-applying every tick extends the 6s timer for the whole pillar lifetime.
+                if (mods.absorptionChance > 0 && absorptionGiven.Add(player.gameId))
+                    state.ApplyTimedAlternateStatBonus(AlternateStatType.AbsorptionChance, mods.absorptionChance, now, (uint)mods.absorptionChanceMs);
             }
         }
 

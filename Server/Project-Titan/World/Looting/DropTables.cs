@@ -81,6 +81,9 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(15), ItemTier.Tier2),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
+                    new SoulboundLoot(0.2f, // 4
+                        new Single(Loot.Chance(8), new Item("Firefly"))
+                        ),
                 } },
 
                 { SoulGroup.RictornsGate, new List<LootContainer>
@@ -467,7 +470,10 @@ namespace World.Looting
                             new Item("Talisman of Apocalypse"))
                         ),
                     new SoulboundLoot(0.1f, // 19
-                        new Single(Loot.Chance(0.3), new Item("Shining Armor"))
+                        new Single(Loot.Chance(0.4), new Item("Shining Armor"))
+                        ),
+                    new SoulboundLoot(0.1f, // 20
+                        new Single(Loot.Chance(0.4), new Item("Plague Hide"))
                         ),
                 } },
 
@@ -571,7 +577,13 @@ namespace World.Looting
                             new Item("Talisman of Apocalypse"))
                         ),
                     new SoulboundLoot(0.1f, // 21
-                        new Single(Loot.Chance(0.3), new Item("Shining Armor"))
+                        new Single(Loot.Chance(0.4), new Item("Shining Armor"))
+                        ),
+                    new SoulboundLoot(0.1f, // 22
+                        new Single(Loot.Chance(0.4), new Item("Plague Hide"))
+                        ),
+                    new SoulboundLoot(0.1f, // 23
+                        new Single(Loot.Chance(4), new Item("Raeg's Ethereal Spear"))
                         ),
                 } },
 

@@ -23,6 +23,7 @@ namespace World.Abilities
             var mods = SkillTreeFunctions.IsEnabled ? PlayerState.abilityMods : AbilityModifierSnapshot.Empty;
             byte spent = rage;
             SpendDumpRage(ref rage, mods, out rageCost);
+            SkillTreeFunctions.ApplyRageToOnUseStats(ref mods, spent);
             failedToUse = false;
             sendToSelf = false;
 

@@ -44,6 +44,12 @@ namespace WebServer
                 Log.Write("Failed to create database client!");
             }
 
+            if (Database.Client == null)
+            {
+                Log.Write("Web server cannot start without DynamoDB. Run Database/DynamoDb/run.bat (port 8000) and try again.");
+                return;
+            }
+
             GameData.LoadDirectory("Data/Xmls/", false);
 
             LeaderboardManager.Initialize().WaitOne();

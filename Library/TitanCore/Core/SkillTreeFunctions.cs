@@ -8,14 +8,14 @@ namespace TitanCore.Core
 {
     public enum SkillTreeNode : byte
     {
-        Cleave = 0,
-        Haste = 1,
-        Will = 2,
-        Frustration = 3,
-        Everlasting = 4,
-        Mending = 5,
-        Aegis = 6,
-        Castle = 7
+        Slot0 = 0,
+        Slot1 = 1,
+        Slot2 = 2,
+        Slot3 = 3,
+        Slot4 = 4,
+        Slot5 = 5,
+        Slot6 = 6,
+        Slot7 = 7
     }
 
     public struct AbilityModifierSnapshot
@@ -32,7 +32,12 @@ namespace TitanCore.Core
         public float rageKeep;
         public float rageCostFlat;
         public int hymnDefense;
+        public int hymnDefenseMs;
         public int hymnMaxHealth;
+        public int hymnMaxHealthMs;
+        public int hymnMaxHealthRageChunk;
+        public int hymnBlockChance;
+        public int hymnBlockChanceMs;
         public float abilityDamagePct;
         public float abilityRadiusBonus;
         public float abilityRangeBonus;
@@ -55,14 +60,17 @@ namespace TitanCore.Core
         public int markedLingerMs;
         public int rofAmount;
         public int vigorBonus;
+        public int vigorBonusMs;
+        public int absorptionChance;
+        public int absorptionChanceMs;
+        public int absorptionRageChunk;
         public float selfHealBurstPct;
         public int fieldDefense;
+        public int fieldDefenseMs;
         public float shoutSpreadDeg;
         public TalismanEffect[] talismanEffects;
     }
 
-
-    /// Nodes
 
     public static class SkillTreeFunctions
     {
@@ -76,8 +84,6 @@ namespace TitanCore.Core
         public const int Unlock_Level = NetConstants.Class_Quest_Level_2;
 
         public static readonly int[] Rank_Essence_Cost = { 0, 150, 300, 450 };
-
-        // public static readonly string[] Column_Names = { "Paladin", "Bastion" };
 
         public static ClassSkillTrees.NodeDef GetNode(ClassType classType, SkillTreeNode node)
         {
@@ -94,10 +100,10 @@ namespace TitanCore.Core
 
         public static EffectStyle GetNodeStyle(ClassType classType, SkillTreeNode node) => GetNode(classType, node).style;
 
-        public static EffectStyle GetNodeStyle(SkillTreeNode node) => GetNodeStyle(ClassType.Warrior, node);
-
         public const int Base_Pulse_Lockout_Ms = 1000;
         public const uint Base_Hymn_Duration_Ms = 8000;
+
+        public const int On_Use_Stat_Rage_Chunk = 25;
 
         public static bool IsEnabled => NetConstants.Use_Skill_Tree;
 
@@ -159,6 +165,41 @@ namespace TitanCore.Core
             return perRank * Math.Max(0, rank);
         }
 
+        public static int ScaleOnUseRank(int perRank, int rank)
+        {
+            rank = Math.Max(0, rank);
+            if (rank <= 2)
+                return perRank * rank;
+            return perRank * 2 + (rank - 2);
+        }
+
+        public static int ScaleOnUseStat(int perChunkAtRank, int rageSpent)
+        {
+            return ScaleOnUseStat(perChunkAtRank, rageSpent, On_Use_Stat_Rage_Chunk);
+        }
+
+        public static int ScaleOnUseStat(int perChunkAtRank, int rageSpent, int rageChunk)
+        {
+            if (perChunkAtRank <= 0 || rageSpent <= 0 || rageChunk < 1)
+                return 0;
+            return perChunkAtRank * (rageSpent / rageChunk);
+        }
+
+        public static void ApplyRageToOnUseStats(ref AbilityModifierSnapshot mods, int rageSpent)
+        {
+            mods.hymnDefense = ScaleOnUseStat(mods.hymnDefense, rageSpent);
+            int maxHealthChunk = mods.hymnMaxHealthRageChunk > 0 ? mods.hymnMaxHealthRageChunk : On_Use_Stat_Rage_Chunk;
+            mods.hymnMaxHealth = ScaleOnUseStat(mods.hymnMaxHealth, rageSpent, maxHealthChunk);
+            mods.hymnBlockChance = ScaleOnUseStat(mods.hymnBlockChance, rageSpent);
+            mods.timedAttack = ScaleOnUseStat(mods.timedAttack, rageSpent);
+            mods.speedOnHit = ScaleOnUseStat(mods.speedOnHit, rageSpent);
+            mods.vigorBonus = ScaleOnUseStat(mods.vigorBonus, rageSpent);
+            mods.fieldDefense = ScaleOnUseStat(mods.fieldDefense, rageSpent);
+            mods.rofAmount = ScaleOnUseStat(mods.rofAmount, rageSpent);
+            int absorptionChunk = mods.absorptionRageChunk > 0 ? mods.absorptionRageChunk : On_Use_Stat_Rage_Chunk;
+            mods.absorptionChance = ScaleOnUseStat(mods.absorptionChance, rageSpent, absorptionChunk);
+        }
+
         public static AbilityModifierSnapshot BuildSnapshot(ClassType classType, uint packedRanks, Item[] equips, Item talisman)
         {
             var snap = AbilityModifierSnapshot.Empty;
@@ -207,14 +248,9 @@ namespace TitanCore.Core
             }
         }
 
-        public static bool TryParseNode(string name, out SkillTreeNode node)
-        {
-            return TryParseNode(ClassType.Warrior, name, out node);
-        }
-
         public static bool TryParseNode(ClassType classType, string name, out SkillTreeNode node)
         {
-            node = SkillTreeNode.Cleave;
+            node = SkillTreeNode.Slot0;
             if (string.IsNullOrEmpty(name))
                 return false;
             if (int.TryParse(name, out int index) && index >= 1 && index <= Node_Count)
@@ -231,8 +267,6 @@ namespace TitanCore.Core
                     return true;
                 }
             }
-            if (classType == ClassType.Warrior && Enum.TryParse(name, true, out node))
-                return true;
             return false;
         }
 
@@ -252,19 +286,9 @@ namespace TitanCore.Core
             return sb.ToString();
         }
 
-        public static string GetNodeEffect(SkillTreeNode node, int effective)
-        {
-            return GetNodeEffect(ClassType.Warrior, node, effective);
-        }
-
         public static string GetNodeEffect(ClassType classType, SkillTreeNode node, int effective)
         {
             return GetNode(classType, node).effect(effective);
-        }
-
-        public static string DescribeNode(SkillTreeNode node, int spent, int gear, int essence, int pointsLeft)
-        {
-            return DescribeNode(ClassType.Warrior, node, spent, gear, essence, pointsLeft);
         }
 
         public static string DescribeNode(ClassType classType, SkillTreeNode node, int spent, int gear, int essence, int pointsLeft)

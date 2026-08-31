@@ -51,7 +51,10 @@ namespace World.Abilities
                     otherPlayer.gameState.AddAllyProjectiles(projectiles);
 
             if (mods.timedAttack > 0 && mods.timedAttackMs > 0)
+            {
+                SkillTreeFunctions.ApplyRageToOnUseStats(ref mods, rage);
                 PlayerState.ApplyTimedStatBonus(StatType.Attack, mods.timedAttack, time, (uint)mods.timedAttackMs);
+            }
 
             rage = (byte)Math.Max(0, rage - cost);
             return null;

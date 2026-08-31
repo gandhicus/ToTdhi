@@ -328,6 +328,7 @@ namespace World.Map.Objects.Entities
             TickQuest(ref time);
             TickPet(ref time);
             TickMovement(ref time);
+            gameState?.playerState?.ability?.WorldTick(ref time);
         }
 
         /// <summary>

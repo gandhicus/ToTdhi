@@ -933,7 +933,45 @@ namespace World.GameState
 
         public void ApplyCommanderPulseStatBonus(StatType type, int amount, uint time, uint durationMs)
         {
+            if (amount == 0 || durationMs == 0) return;
+
+            var effect = ProcFunctions.GetStatBonusEffect(type);
+            var hasEffect = effect.HasValue;
+            uint newEnd = time + durationMs;
+
+            for (int i = 0; i < timedStatBonuses.Count; i++)
+            {
+                var existing = timedStatBonuses[i];
+                if (!existing.source.Equals(TimedStatSource.CommanderPulse) || existing.statType != type)
+                    continue;
+
+                player.AddStatBonus(type, amount);
+                existing.amount += amount;
+                existing.endTime = Math.Max(existing.endTime, newEnd);
+                timedStatBonuses[i] = existing;
+
+                if (hasEffect)
+                    player.AddEffect(effect.Value, durationMs / 1000f);
+                return;
+            }
+
             ApplyTimedStatBonus(type, amount, time, durationMs, TimedStatSource.CommanderPulse);
+        }
+
+        public void ClearCommanderPulseBonuses()
+        {
+            for (int i = timedStatBonuses.Count - 1; i >= 0; i--)
+            {
+                if (timedStatBonuses[i].source.kind != 4) continue;
+
+                var bonus = timedStatBonuses[i];
+                player.RemoveStatBonus(bonus.statType, bonus.amount);
+
+                if (bonus.hasEffect && !HasActiveTimedBonusEffect(bonus.effect, i))
+                    player.RemoveEffect(bonus.effect);
+
+                timedStatBonuses.RemoveAt(i);
+            }
         }
 
         public void ApplyTimedStatBonus(StatType type, int amount, uint time, uint durationMs)
@@ -1061,6 +1099,38 @@ namespace World.GameState
                     if (hasEffect)
                         player.AddEffect(effect.Value, bonus.durationMs / 1000f);
                     player.SetRateOfFireBonus(GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time));
+                    return;
+                }
+            }
+
+            if (bonus.statType == AlternateStatType.BlockChance)
+            {
+                for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
+                {
+                    var existing = timedAlternateStatBonuses[i];
+                    if (existing.statType != AlternateStatType.BlockChance) continue;
+
+                    existing.amount = bonus.amount;
+                    existing.endTime = Math.Max(existing.endTime, time + bonus.durationMs);
+                    timedAlternateStatBonuses[i] = existing;
+                    if (hasEffect)
+                        player.AddEffect(effect.Value, bonus.durationMs / 1000f);
+                    return;
+                }
+            }
+
+            if (bonus.statType == AlternateStatType.AbsorptionChance)
+            {
+                for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
+                {
+                    var existing = timedAlternateStatBonuses[i];
+                    if (existing.statType != AlternateStatType.AbsorptionChance) continue;
+
+                    existing.amount = bonus.amount;
+                    existing.endTime = Math.Max(existing.endTime, time + bonus.durationMs);
+                    timedAlternateStatBonuses[i] = existing;
+                    if (hasEffect)
+                        player.AddEffect(effect.Value, bonus.durationMs / 1000f);
                     return;
                 }
             }

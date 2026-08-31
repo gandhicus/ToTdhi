@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using TitanCore.Core;
 using UnityEngine;
@@ -36,34 +35,53 @@ public class StatusEffects : MonoBehaviour
 
     private void UpdateEffects()
     {
-        bool changes = false;
         for (int i = 0; i < effectTypes.Length; i++)
         {
             var effect = effectTypes[i];
-            if (toFollow.HasStatusEffect(effect))
+            if (toFollow.HasStatusEffect(effect) && HasIconSprite(effect))
             {
                 if (effects.ContainsKey(effect)) continue;
-                var effectSprite = toFollow.world.gameManager.objectManager.GetStatusEffectSprite(this, effect); // add effect sprite
+                var effectSprite = toFollow.world.gameManager.objectManager.GetStatusEffectSprite(this, effect);
                 effects.Add(effect, effectSprite);
-                changes = true;
             }
             else
             {
                 if (!effects.TryGetValue(effect, out var effectSprite)) continue;
                 effects.Remove(effect);
-                toFollow.world.gameManager.objectManager.ReturnStatusEffectSprite(effectSprite); // remove effect sprite
-                changes = true;
+                toFollow.world.gameManager.objectManager.ReturnStatusEffectSprite(effectSprite);
             }
         }
 
-        if (!changes || effects.Count == 0) return;
-        // realign sprites
+        LayoutVisibleIcons();
+    }
 
-        int index = 0;
-        float spread = (effects.Count - 1) * Sprite_Spacing;
+    private static bool HasIconSprite(StatusEffect effect)
+    {
+        return TextureManager.GetStatusEffect(effect) != null;
+    }
+
+    private static bool IsVisibleIcon(SpriteRenderer sprite)
+    {
+        return sprite != null && sprite.sprite != null && sprite.enabled;
+    }
+
+    private void LayoutVisibleIcons()
+    {
+        int visible = 0;
         foreach (var sprite in effects.Values)
         {
-            sprite.transform.localPosition = new Vector3(-spread / 2 + Sprite_Spacing * index, 0, 0);
+            if (IsVisibleIcon(sprite))
+                visible++;
+        }
+
+        if (visible == 0) return;
+
+        float spread = (visible - 1) * Sprite_Spacing;
+        int index = 0;
+        foreach (var sprite in effects.Values)
+        {
+            if (!IsVisibleIcon(sprite)) continue;
+            sprite.transform.localPosition = new Vector3(-spread / 2f + Sprite_Spacing * index, 0, 0);
             index++;
         }
     }

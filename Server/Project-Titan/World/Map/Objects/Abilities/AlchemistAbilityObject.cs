@@ -66,11 +66,12 @@ namespace World.Map.Objects.Abilities
 
             if (time.totalTime < nextTick) return;
             int attackAmt = 4 + mods.timedAttack;
+            uint attackMs = mods.timedAttackMs > 0 ? (uint)mods.timedAttackMs : 1050;
 
             foreach (var player in world.objects.GetPlayersWithin(position.Value.x, position.Value.y, radius).ToArray())
             {
                 var now = player.gameState.playerState.LastClientTime;
-                player.gameState.playerState.ApplyTimedStatBonus(StatType.Attack, attackAmt, now, 1050);
+                player.gameState.playerState.ApplyTimedStatBonus(StatType.Attack, attackAmt, now, attackMs);
             }
 
             foreach (var enemy in world.objects.GetEnemiesWithin(position.Value.x, position.Value.y, radius).ToArray())

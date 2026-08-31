@@ -58,6 +58,21 @@ namespace TitanCore.Core
             return new List<AbilityEffect>();
         }
 
+        public static class Commander
+        {
+            public const int BasePulseLockoutMs = 2500;
+            public const int MinPulseLockoutMs = 1200;
+            public const int PulseDefense = 3;
+            public const int MaxPulseStacks = 5;
+
+            public static int GetDefenseDurationMs(int rage, int attack)
+            {
+                float rageScalar = rage / 100f;
+                float attackScalar = 0.5f + attack / 50f;
+                return (int)(1000 + 7000 * rageScalar * attackScalar);
+            }
+        }
+
         public static class Alchemist
         {
             public const float Air_Time = 1;

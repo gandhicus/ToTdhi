@@ -86,8 +86,11 @@ namespace World.Abilities
 
             if (SkillTreeFunctions.IsEnabled)
             {
-                PlayerState.ApplyTimedStatBonus(StatType.Defense, mods.hymnDefense, time, duration);
-                PlayerState.ApplyTimedStatBonus(StatType.MaxHealth, mods.hymnMaxHealth, time, duration);
+                SkillTreeFunctions.ApplyRageToOnUseStats(ref mods, rage);
+                if (mods.hymnDefense > 0)
+                    PlayerState.ApplyTimedStatBonus(StatType.Defense, mods.hymnDefense, time, (uint)mods.hymnDefenseMs);
+                if (mods.hymnMaxHealth > 0)
+                    PlayerState.ApplyTimedStatBonus(StatType.MaxHealth, mods.hymnMaxHealth, time, (uint)mods.hymnMaxHealthMs);
                 TriggerTalisman(TalismanTrigger.AbilityPulse, time, position, target);
             }
 

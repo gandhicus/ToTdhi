@@ -90,6 +90,12 @@ namespace World
                 Log.Write("Failed to create client!");
             }
 
+            if (Database.Client == null)
+            {
+                Log.Write("World server cannot start without DynamoDB. Run Database/DynamoDb/run.bat (port 8000) and try again.");
+                return;
+            }
+
             var startWorlds = new List<World>();
             bool local = ModularProgram.manifest.Value<bool>("local", true);
             if (!local)

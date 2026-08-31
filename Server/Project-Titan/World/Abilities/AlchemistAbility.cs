@@ -27,6 +27,7 @@ namespace World.Abilities
             var mods = SkillTreeFunctions.IsEnabled ? PlayerState.abilityMods : AbilityModifierSnapshot.Empty;
             byte spent = rage;
             SpendDumpRage(ref rage, mods, out rageCost);
+            SkillTreeFunctions.ApplyRageToOnUseStats(ref mods, spent);
 
             var alchemistEffect = new AlchemistAbilityWorldEffect(player.gameId, target, spent, attack);
             ColorWorldEffect(alchemistEffect);
