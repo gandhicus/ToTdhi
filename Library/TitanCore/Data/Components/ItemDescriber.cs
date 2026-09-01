@@ -54,17 +54,22 @@ namespace TitanCore.Data.Components
                 if (statIncreases.Count > 0 || alternateStatIncreases.Count > 0)
                 {
                     describer.AddTitle("On Equip");
+                    bool showRollRanges = EquipmentStatFunctions.HasRolledStats(item) && equip.statRollPool != null;
                     foreach (var increase in statIncreases)
                     {
                         if (increase.Value == 0) continue;
                         describer.NewLine();
                         describer.AddElement($"{(increase.Value > 0 ? "+" : "")}{increase.Value} {GetStatName(increase.Key)}", neutralColor);
+                        if (showRollRanges && equip.statRollPool.TryGetPrimaryDisplayRange(increase.Key, equip.statIncreases, out var rangeMin, out var rangeMax))
+                            describer.AddElement(FormatRollRange(rangeMin, rangeMax, false), GameColor.white);
                     }
                     foreach (var increase in alternateStatIncreases)
                     {
                         if (increase.Value == 0) continue;
                         describer.NewLine();
                         AddAlternateStatElement(describer, increase.Key, increase.Value, neutralColor);
+                        if (showRollRanges && equip.statRollPool.TryGetAlternateDisplayRange(increase.Key, equip.alternateStatIncreases, out var altMin, out var altMax))
+                            describer.AddElement(FormatRollRange(altMin, altMax, true), GameColor.white);
                     }
                     describer.NewLine();
                 }
@@ -428,6 +433,13 @@ namespace TitanCore.Data.Components
             if (tagTitleAdded || describer.GetAllowsEmptyTitle()) return;
             tagTitleAdded = true;
             describer.AddTitle("Tags");
+        }
+
+        private static string FormatRollRange(int min, int max, bool percent)
+        {
+            var minText = min > 0 ? "+" + min : min.ToString();
+            var suffix = percent ? "%" : "";
+            return $"[{minText}-{max}{suffix}]";
         }
 
         public static string GetStatName(StatType type)

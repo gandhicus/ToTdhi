@@ -1,3 +1,4 @@
+using System;
 using TitanCore.Core;
 using Utils.NET.IO.Xml;
 
@@ -15,6 +16,10 @@ namespace TitanCore.Data.Components
 
         public int max;
 
+        public int weight;
+
+        public bool always;
+
         public StatRollEntry(XmlParser xml, bool isAlternate)
         {
             this.isAlternate = isAlternate;
@@ -25,6 +30,8 @@ namespace TitanCore.Data.Components
 
             min = xml.AtrInt("min", 1);
             max = xml.AtrInt("max", min);
+            weight = xml.AtrInt("weight", 1);
+            always = string.Equals(xml.AtrString("always", "false"), "true", StringComparison.OrdinalIgnoreCase);
         }
 
         public string GetKey()
