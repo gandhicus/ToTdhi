@@ -688,17 +688,19 @@
 			<Range>6.5</Range>
 			<Amount>2</Amount>
 			<AngleGap>20</AngleGap>
-			<MinDamageMod>3.3</MinDamageMod>
-			<MaxDamageMod>4.5</MaxDamageMod>
+			<MinDamageMod>4.5</MinDamageMod>
+			<MaxDamageMod>5.5</MaxDamageMod>
 		</Projectile>
 		<Projectile name="Bow 10 Arrow">
 			<Speed>14</Speed>
 			<Range>6.5</Range>
-			<MinDamageMod>5.7</MinDamageMod>
-			<MaxDamageMod>6.4</MaxDamageMod>
+			<MinDamageMod>6.7</MinDamageMod>
+			<MaxDamageMod>7.4</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>4.8</RateOfFire>
+		<RateOfFire>5</RateOfFire>
+
+		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
 	</Object>
 
 	<Object id="0x14a" name="Oda's Transcendent Longbow" tier="-3">
@@ -2659,7 +2661,7 @@
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Speed Ring 5</Sprite>
-		<StatIncrease type="Speed">5</StatIncrease>
+		<StatIncrease type="Speed">6</StatIncrease>
 
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Speed" min="-1" max="1" always="true"/>
@@ -2682,7 +2684,7 @@
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Attack Ring 5</Sprite>
-		<StatIncrease type="Attack">5</StatIncrease>
+		<StatIncrease type="Attack">6</StatIncrease>
 
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Attack" min="-1" max="1" always="true"/>
@@ -2705,7 +2707,7 @@
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Defense Ring 5</Sprite>
-		<StatIncrease type="Defense">5</StatIncrease>
+		<StatIncrease type="Defense">6</StatIncrease>
 
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-1" max="1" always="true"/>
@@ -2728,7 +2730,7 @@
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Vigor Ring 5</Sprite>
-		<StatIncrease type="Vigor">5</StatIncrease>
+		<StatIncrease type="Vigor">6</StatIncrease>
 
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Vigor" min="-1" max="1" always="true"/>

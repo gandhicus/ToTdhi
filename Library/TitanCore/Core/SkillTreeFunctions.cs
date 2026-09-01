@@ -83,7 +83,7 @@ namespace TitanCore.Core
         /// Character level required to see and use the tree
         public const int Unlock_Level = NetConstants.Class_Quest_Level_2;
 
-        public static readonly int[] Rank_Essence_Cost = { 0, 150, 300, 450 };
+        public static readonly int[] Rank_Essence_Cost = { 0, 250, 450, 700 };
 
         public static ClassSkillTrees.NodeDef GetNode(ClassType classType, SkillTreeNode node)
         {

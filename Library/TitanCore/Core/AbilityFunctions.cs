@@ -201,7 +201,8 @@ namespace TitanCore.Core
             {
                 var attackScalar = 0.5f + attack / 75f;
                 var rageScalar = rage / 100f;
-                return (ushort)(10 + (80 + attackScalar * 1100) * rageScalar);
+                // +50% vs the old 3-volley total, now that the ability is a single hit.
+                return (ushort)((10 + (80 + attackScalar * 1100) * rageScalar) * 1.5f);
             }
 
             public static AbilityEffect? GetEffect(int rage, int attack)

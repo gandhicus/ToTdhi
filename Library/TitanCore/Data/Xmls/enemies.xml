@@ -3308,21 +3308,21 @@
 			<Size>1.2</Size>
 			<Speed>7</Speed>
 			<Range>20</Range>
-			<DamageMod>1</DamageMod>
+			<DamageMod>0.9</DamageMod>
 		</Projectile>
 
 		<Projectile name="Royal Advisor Shot 2">
 			<Size>1.1</Size>
 			<Speed>9</Speed>
 			<Range>20</Range>
-			<DamageMod>1.3</DamageMod>
+			<DamageMod>1.1</DamageMod>
 		</Projectile>
 
 		<Projectile name="Royal Advisor Shot 3">
 			<Size>1.1</Size>
 			<Speed>7</Speed>
 			<Range>8</Range>
-			<DamageMod>1.1</DamageMod>
+			<DamageMod>1</DamageMod>
 			<Spin>1.8</Spin>
 		</Projectile>
 
@@ -3330,27 +3330,27 @@
 			<Size>1.2</Size>
 			<Speed>9</Speed>
 			<Range>18</Range>
-			<DamageMod>1.5</DamageMod>
+			<DamageMod>1.3</DamageMod>
 		</Projectile>
 
 		<Projectile name="Royal Advisor Shot 2">
 			<Size>1.1</Size>
 			<Speed>7</Speed>
 			<Range>20</Range>
-			<DamageMod>1.3</DamageMod>
+			<DamageMod>1.1</DamageMod>
 		</Projectile>
 
 		<Projectile name="Royal Advisor Shot 3">
 			<Size>1.1</Size>
 			<Speed>3</Speed>
 			<Range>8</Range>
-			<DamageMod>1.1</DamageMod>
+			<DamageMod>1</DamageMod>
 			<Spin>1.8</Spin>
 		</Projectile>
 
 		<Size>1.2</Size>
-		<HealthMod>80</HealthMod>
-		<SoulMod>5</SoulMod>
+		<HealthMod>65</HealthMod>
+		<SoulMod>6</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
 		<LootTier>5</LootTier>
 		<LootTier>11</LootTier>
@@ -3376,7 +3376,7 @@
 			<Size>1.1</Size>
 			<Speed>6</Speed>
 			<Range>16</Range>
-			<DamageMod>1.5</DamageMod>
+			<DamageMod>1.2</DamageMod>
 		</Projectile>
 
 		<Projectile name="Royal Idol Blast">
@@ -3387,11 +3387,11 @@
 		</Projectile>
 
 		<Size>1</Size>
-		<HealthMod>12</HealthMod>
-		<SoulMod>1</SoulMod>
+		<HealthMod>6.5</HealthMod>
+		<SoulMod>1.5</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
 		<LootTier>2</LootTier>
-		<Defense>50</Defense>
+		<Defense>20</Defense>
 
 	</Object>
 
@@ -3419,11 +3419,11 @@
 		</Projectile>
 
 		<Size>1.2</Size>
-		<HealthMod>12</HealthMod>
-		<SoulMod>1</SoulMod>
+		<HealthMod>7</HealthMod>
+		<SoulMod>1.5</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
 		<LootTier>6</LootTier>
-		<Defense>50</Defense>
+		<Defense>30</Defense>
 
 	</Object>
 
@@ -3451,10 +3451,10 @@
 		</Projectile>
 
 		<Size>1.2</Size>
-		<HealthMod>12</HealthMod>
+		<HealthMod>9</HealthMod>
 		<SoulMod>0</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
-		<Defense>50</Defense>
+		<Defense>35</Defense>
 
 		<Invincible/>
 
@@ -4136,7 +4136,7 @@
 		<Titan/>
 
 		<Size>1.2</Size>
-		<HealthMod>45</HealthMod>
+		<HealthMod>38</HealthMod>
 		<SoulMod>8</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
 		<Defense>42</Defense>

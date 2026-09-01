@@ -82,7 +82,7 @@ namespace TitanCore.Core
             {
                 N("Cleave", "Warrior/Cleave", EffectStyle.Power, r => $"+{Pct(CleaveWeaponPct, r)} weapon damage on ability pulse"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{SecI(HasteCooldownMs, r)} ability cooldown"),
-                N("Will", "Warrior/Will", EffectStyle.Power, r => WillLine(WillLockoutMs, r, ExtraPulsesAt(r))),
+                N("Will", "Warrior/Will", EffectStyle.Agility, r => WillLine(WillLockoutMs, r, ExtraPulsesAt(r))),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability use"),
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Sec(EverlastingMs, r)} ability duration"),
                 N("Mending", "Warrior/Mending", EffectStyle.Support, r => $"+{Pct(MendingHeal, r)} ability heal"),
@@ -125,7 +125,8 @@ namespace TitanCore.Core
         {
             public const float WrathDamagePct = 0.15f;
             public const float ManifestRadius = 0.8f;
-            public const int EverlastingMs = 80;
+            public const int BlightAttack = 2;
+            public const int BlightMs = 6000;
             public const float FrustrationKeep = 0.08f;
             public const float HasteCooldownPct = 0.05f;
             public const float UnfurlRange = 1f;
@@ -136,7 +137,7 @@ namespace TitanCore.Core
             {
                 N("Wrath", "Ranger/Wrath", EffectStyle.Power, r => $"+{Pct(WrathDamagePct, r)} ability damage"),
                 N("Manifest", "Ranger/ManifestPower", EffectStyle.Power, r => $"+{Sc(ManifestRadius, r):0.#} tile ability radius"),
-                N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Sc(EverlastingMs, r)} ms ability duration"),
+                N("Blight", "Lancer/Blight", EffectStyle.Power, r => OnUseStat(BlightAttack, BlightMs, r, "Attack")),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability use"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
                 N("Unfurl", "Ranger/Unfurl", EffectStyle.Power, r => $"+{Sc(UnfurlRange, r)} tile ability range"),
@@ -148,7 +149,7 @@ namespace TitanCore.Core
             {
                 snap.abilityDamagePct = Sc(WrathDamagePct, r[0]);
                 snap.abilityRadiusBonus = Sc(ManifestRadius, r[1]);
-                snap.durationBonusMs = Sc(EverlastingMs, r[2]);
+                SetOnUse(ref snap.timedAttack, ref snap.timedAttackMs, BlightAttack, BlightMs, r[2]);
                 snap.rageKeep = Sc(FrustrationKeep, r[3]);
                 snap.cooldownMul = MulMinus(HasteCooldownPct, r[4]);
                 snap.abilityRangeBonus = Sc(UnfurlRange, r[5]);

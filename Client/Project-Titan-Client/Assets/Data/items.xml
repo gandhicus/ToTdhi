@@ -688,17 +688,19 @@
 			<Range>6.5</Range>
 			<Amount>2</Amount>
 			<AngleGap>20</AngleGap>
-			<MinDamageMod>3.3</MinDamageMod>
-			<MaxDamageMod>4.5</MaxDamageMod>
+			<MinDamageMod>4.5</MinDamageMod>
+			<MaxDamageMod>5.5</MaxDamageMod>
 		</Projectile>
 		<Projectile name="Bow 10 Arrow">
 			<Speed>14</Speed>
 			<Range>6.5</Range>
-			<MinDamageMod>5.7</MinDamageMod>
-			<MaxDamageMod>6.4</MaxDamageMod>
+			<MinDamageMod>6.7</MinDamageMod>
+			<MaxDamageMod>7.4</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>4.8</RateOfFire>
+		<RateOfFire>5</RateOfFire>
+
+		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
 	</Object>
 
 	<Object id="0x14a" name="Oda's Transcendent Longbow" tier="-3">

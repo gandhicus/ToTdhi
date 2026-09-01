@@ -1176,7 +1176,7 @@ public class World : MonoBehaviour
         Vector3 position = rangerEffect.position.ToVector2();
         position.z = -4;
 
-        // Follow-up volleys are ~300ms apart; anything closer is a doubled first volley.
+        // Duplicate RangerAbility packets spawn two rains on top of each other.
         if (lastRangerArrowsSpawnTime >= 0f && Time.time - lastRangerArrowsSpawnTime < 0.12f)
         {
             var delta = position - lastRangerArrowsPosition;

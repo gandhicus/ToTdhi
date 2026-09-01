@@ -444,7 +444,7 @@ namespace World.Looting
                         new Single(Loot.Chance(5), new Item("Studded Bangle"))
                         ),
                     new SoulboundLoot(0.1f, // 17
-                        new Single(Loot.Chance(10),
+                        new Single(Loot.Chance(15),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
                             new Item("Talisman of Millennia"),
@@ -457,7 +457,7 @@ namespace World.Looting
                             new Item("Talisman of Celerity"))
                         ),
                     new SoulboundLoot(0.1f, // 18
-                        new Single(Loot.Chance(10),
+                        new Single(Loot.Chance(15),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),
                             new Item("Blessed Talisman"),
@@ -551,7 +551,7 @@ namespace World.Looting
                         new Single(Loot.Chance(5), new Item("Studded Bangle"))
                         ),
                     new SoulboundLoot(0.1f, // 19
-                        new Single(Loot.Chance(10),
+                        new Single(Loot.Chance(15),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
                             new Item("Talisman of Millennia"),
@@ -564,7 +564,7 @@ namespace World.Looting
                             new Item("Talisman of Celerity"))
                         ),
                     new SoulboundLoot(0.1f, // 20
-                        new Single(Loot.Chance(10),
+                        new Single(Loot.Chance(15),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),
                             new Item("Blessed Talisman"),
@@ -635,13 +635,13 @@ namespace World.Looting
                         new Single(Loot.Chance(5), new Item("Mannah's Capstone"))
                         ),
                     new SoulboundLoot(0.1f, // 9
-                        new Single(Loot.Chance(3.5), new Item("Mannah's Soul Crux"))
+                        new Single(Loot.Chance(4), new Item("Mannah's Soul Crux"))
                         ),
                     new SoulboundLoot(0.1f, // 10
                         new Single(Loot.Chance(4), new Item("Mannah's Mop"))
                         ),
                     new SoulboundLoot(0.1f, // 11
-                        new Single(Loot.Chance(3.5), new Item("Empyrean's Guard"))
+                        new Single(Loot.Chance(4), new Item("Empyrean's Guard"))
                         ),
                     new SoulboundLoot(0.1f, // 12
                         new Single(Loot.Chance(1), new Item("Dark Matter"))
@@ -681,7 +681,7 @@ namespace World.Looting
                         new Single(Loot.Chance(1), new Item("Sadder Star"))
                         ),
                     new SoulboundLoot(0.1f, // 24
-                        new Single(Loot.Chance(10),
+                        new Single(Loot.Chance(15),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
                             new Item("Talisman of Millennia"),
@@ -694,7 +694,7 @@ namespace World.Looting
                             new Item("Talisman of Celerity"))
                         ),
                     new SoulboundLoot(0.1f, // 25
-                        new Single(Loot.Chance(10),
+                        new Single(Loot.Chance(15),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),
                             new Item("Blessed Talisman"),
