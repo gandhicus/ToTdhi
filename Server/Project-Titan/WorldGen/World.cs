@@ -7,7 +7,6 @@ using TitanCore.Net.Packets.Models;
 using Utils.NET;
 using Utils.NET.Geometry;
 using Utils.NET.Logging;
-using Utils.NET.Partitioning;
 using Utils.NET.Pathfinding;
 using Utils.NET.Utils;
 using WorldGen.Nodes;
@@ -93,6 +92,229 @@ namespace WorldGen
             Assign(offset);
         }
 
+        /// <summary>
+        /// Builds the island shape without towns, rivers, or difficulty bands.
+        /// Those extra passes are for the old preview tool; live overworld only needs land plus biome blobs.
+        /// </summary>
+        public void GenerateIsland(int pointCount, int relaxations)
+        {
+            // Keep the Perlin sample in a small range. Offsets of ~100000 make adjacent
+            // tiles round to the same float, which crenellates the beach into 1-tile teeth.
+            var offset = new Vec2(
+                8f + (float)(random.NextDouble()) * 40f,
+                8f + (float)(random.NextDouble()) * 40f);
+
+            var points = new Vector[pointCount];
+            for (int i = 0; i < points.Length; i++)
+                points[i] = new Vector(shapeRandom.NextDouble() * width, shapeRandom.NextDouble() * height);
+
+            GenerateNodes(points);
+            for (int i = 0; i < relaxations; i++)
+            {
+                GenerateNodes(RelaxPoints());
+            }
+
+            GeneratePixelMap();
+            landOffset = offset;
+            AssignLand(offset);
+        }
+
+        /// <summary>
+        /// Perlin offset used by the island land test. Rasterization samples the same function per tile
+        /// so the beach follows a smooth curve instead of Voronoi cell edges.
+        /// </summary>
+        public Vec2 landOffset;
+
+        /// <summary>
+        /// Tile the player (and Fireside) should spawn on. Set by TryAssignRealmBiomes.
+        /// </summary>
+        public Int2 spawnTile;
+
+        private static readonly OverworldBiomeType[] interiorBiomes = new OverworldBiomeType[]
+        {
+            OverworldBiomeType.Meadows,
+            OverworldBiomeType.Wilderness,
+            OverworldBiomeType.Dunes,
+            OverworldBiomeType.Shallows,
+            OverworldBiomeType.Peaks,
+            OverworldBiomeType.Tundra
+        };
+
+        /// <summary>
+        /// Layout matching the old painted island: Meadows in the south-east (spawn),
+        /// Wilderness south-west, Dunes in the middle, Shallows north of that,
+        /// Peaks north-west and Tundra north-east. Values are island-bounding-box UVs (y=0 is south).
+        /// </summary>
+        private static readonly Vec2[] interiorSeedUvs = new Vec2[]
+        {
+            new Vec2(0.68f, 0.20f),
+            new Vec2(0.28f, 0.28f),
+            new Vec2(0.50f, 0.46f),
+            new Vec2(0.50f, 0.60f),
+            new Vec2(0.30f, 0.80f),
+            new Vec2(0.72f, 0.80f)
+        };
+
+        private const int Min_Cells_Per_Biome = 25;
+        private const int Spawn_Edge_Margin = 40;
+
+        /// <summary>
+        /// Paints each Voronoi cell as a compact realm blob and picks a south-Meadows beach spawn.
+        /// Returns false when the island is too small or a biome would be missing — caller should retry with a new seed.
+        /// </summary>
+        public bool TryAssignRealmBiomes()
+        {
+            if (landCenters == null || landCenters.Count == 0) return false;
+
+            var interior = new List<Center>();
+            foreach (var center in landCenters)
+            {
+                if (center.water) continue;
+                if (center.coast) continue;
+                interior.Add(center);
+            }
+
+            if (interior.Count < interiorBiomes.Length * Min_Cells_Per_Biome) return false;
+
+            float minX = float.MaxValue, minY = float.MaxValue, maxX = float.MinValue, maxY = float.MinValue;
+            foreach (var center in landCenters)
+            {
+                if (center.position.x < minX) minX = center.position.x;
+                if (center.position.y < minY) minY = center.position.y;
+                if (center.position.x > maxX) maxX = center.position.x;
+                if (center.position.y > maxY) maxY = center.position.y;
+            }
+
+            float sizeX = maxX - minX;
+            float sizeY = maxY - minY;
+            if (sizeX < 1 || sizeY < 1) return false;
+
+            var seedCenters = new Center[interiorBiomes.Length];
+            var usedIds = new HashSet<int>();
+            for (int i = 0; i < interiorBiomes.Length; i++)
+            {
+                float jitterX = (float)(random.NextDouble() * 0.08 - 0.04);
+                float jitterY = (float)(random.NextDouble() * 0.08 - 0.04);
+                var uv = interiorSeedUvs[i];
+                var target = new Vec2(minX + (uv.x + jitterX) * sizeX, minY + (uv.y + jitterY) * sizeY);
+                var pick = interior.Closest(_ => _.position.SqrDistanceTo(target));
+                if (pick == null || !usedIds.Add(pick.id)) return false;
+                seedCenters[i] = pick;
+            }
+
+            foreach (var center in centers)
+            {
+                if (center.water)
+                {
+                    center.biomeType = OverworldBiomeType.Ocean;
+                    continue;
+                }
+
+                var closest = seedCenters[0];
+                float closestDistance = center.position.SqrDistanceTo(seedCenters[0].position);
+                for (int i = 1; i < seedCenters.Length; i++)
+                {
+                    var distance = center.position.SqrDistanceTo(seedCenters[i].position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closest = seedCenters[i];
+                    }
+                }
+
+                for (int i = 0; i < seedCenters.Length; i++)
+                {
+                    if (seedCenters[i] == closest)
+                    {
+                        center.biomeType = interiorBiomes[i];
+                        break;
+                    }
+                }
+            }
+
+            // The south coast is the spawn landing. Force it to Meadows so Fireside is not in dunes/wilderness.
+            var southLand = landCenters.OrderBy(_ => _.position.y).Take(24).ToArray();
+            foreach (var cell in southLand)
+                cell.biomeType = OverworldBiomeType.Meadows;
+
+            var counts = new Dictionary<OverworldBiomeType, int>();
+            foreach (var biome in interiorBiomes)
+                counts[biome] = 0;
+            foreach (var center in landCenters)
+            {
+                if (center.coast || center.water) continue;
+                if (!counts.ContainsKey(center.biomeType)) continue;
+                counts[center.biomeType] = counts[center.biomeType] + 1;
+            }
+            foreach (var biome in interiorBiomes)
+            {
+                if (counts[biome] < Min_Cells_Per_Biome) return false;
+            }
+
+            if (!TryPickSpawn(southLand)) return false;
+
+            Log.Write($"Overworld biomes Meadows={counts[OverworldBiomeType.Meadows]} Wilderness={counts[OverworldBiomeType.Wilderness]} Dunes={counts[OverworldBiomeType.Dunes]} Shallows={counts[OverworldBiomeType.Shallows]} Peaks={counts[OverworldBiomeType.Peaks]} Tundra={counts[OverworldBiomeType.Tundra]}");
+            return true;
+        }
+
+        private bool TryPickSpawn(Center[] southLand)
+        {
+            Center best = null;
+            foreach (var cell in southLand)
+            {
+                if (cell.biomeType != OverworldBiomeType.Meadows) continue;
+                int x = (int)cell.position.x;
+                int y = (int)cell.position.y;
+                if (x < Spawn_Edge_Margin || y < 8 || x >= width - Spawn_Edge_Margin || y >= height - 48)
+                    continue;
+                if (best == null || cell.position.y < best.position.y)
+                    best = cell;
+            }
+
+            if (best == null)
+            {
+                foreach (var cell in landCenters)
+                {
+                    if (cell.biomeType != OverworldBiomeType.Meadows) continue;
+                    int x = (int)cell.position.x;
+                    int y = (int)cell.position.y;
+                    if (x < Spawn_Edge_Margin || y < 8 || x >= width - Spawn_Edge_Margin || y >= height - 48)
+                        continue;
+                    if (best == null || cell.position.y < best.position.y)
+                        best = cell;
+                }
+            }
+
+            if (best == null) return false;
+
+            spawnTile = new Int2((int)best.position.x, (int)best.position.y);
+            return true;
+        }
+
+        /// <summary>
+        /// Same land test as Voronoi cells, but at a tile. Used so the shoreline is a curve instead of cell polygons.
+        /// </summary>
+        public bool IsLandAt(int x, int y)
+        {
+            return IsLandAt(new Vec2(x + 0.5f, y + 0.5f), landOffset);
+        }
+
+        private bool IsLand(Center center, Vec2 offset)
+        {
+            return IsLandAt(center.position, offset);
+        }
+
+        private bool IsLandAt(Vec2 position, Vec2 offset)
+        {
+            // Doubles so neighboring tiles actually get different noise samples.
+            // Float math with a large offset used to quantize the shoreline into 1-tile jags.
+            double px = (position.x - width * 0.5) / width * 2.0;
+            double py = (position.y - height * 0.5) / width * 2.0;
+            double perlin = Perlin.Noise(offset.x + px * Perlin_Scale, offset.y + py * Perlin_Scale, 0) - 0.5;
+            double n = -Math.Sqrt(px * 1.3 * px * 1.3 + py * py) + 0.65 + perlin * 0.9;
+            return n > 0;
+        }
+
         private void GenerateNodes(Vector[] points)
         {
             var voronoi = Fortune.ComputeVoronoiGraph(points);
@@ -105,13 +327,31 @@ namespace WorldGen
             int index = 0;
             foreach (var center in centers)
             {
+                // Hull cells often have no finite corners. Averaging an empty set is NaN,
+                // and Fortune then throws "same key (NaN;NaN)" on the next relaxation.
+                if (center.corners.Count == 0)
+                {
+                    points[index++] = new Vector(center.position.x, center.position.y);
+                    continue;
+                }
+
                 Vec2 p = new Vec2(0, 0);
                 foreach (var corner in center.corners)
                     p += corner.position;
                 p /= center.corners.Count;
+                if (float.IsNaN(p.x) || float.IsNaN(p.y) || float.IsInfinity(p.x) || float.IsInfinity(p.y))
+                    p = center.position;
                 points[index++] = new Vector(p.x, p.y);
             }
             return points;
+        }
+
+        private static bool IsInvalidPoint(Vector point)
+        {
+            if (point == null) return true;
+            if (point == Fortune.VVUnkown || point == Fortune.VVInfinite) return true;
+            return double.IsNaN(point[0]) || double.IsNaN(point[1])
+                || double.IsInfinity(point[0]) || double.IsInfinity(point[1]);
         }
         
         private void GenerateRelations(Vector[] points, VoronoiGraph voronoi)
@@ -126,16 +366,23 @@ namespace WorldGen
 
             foreach (var point in points)
             {
+                if (IsInvalidPoint(point)) continue;
+                if (centerMap.ContainsKey(point)) continue;
                 centerMap.Add(point, new Center(new Vec2((float)point[0], (float)point[1]), centerIds++));
             }
             foreach (var point in voronoi.Vertizes)
             {
+                if (IsInvalidPoint(point)) continue;
+                if (cornerMap.ContainsKey(point)) continue;
                 cornerMap.Add(point, new Corner(new Vec2((float)point[0], (float)point[1]), cornerIds++));
             }
 
             foreach (var edge in voronoi.Edges)
             {
                 if (edge.IsPartlyInfinite || edge.VVertexA == Fortune.VVUnkown || edge.VVertexB == Fortune.VVUnkown) continue;
+                if (IsInvalidPoint(edge.VVertexA) || IsInvalidPoint(edge.VVertexB)) continue;
+                if (!centerMap.ContainsKey(edge.LeftData) || !centerMap.ContainsKey(edge.RightData)) continue;
+                if (!cornerMap.ContainsKey(edge.VVertexA) || !cornerMap.ContainsKey(edge.VVertexB)) continue;
 
                 var newEdge = new Edge(edgeIds++);
                 edgeMap.Add(edge, newEdge);
@@ -222,18 +469,27 @@ namespace WorldGen
             landCorners = corners.Where(_ => !_.water).ToList();
         }
 
-        private bool IsLand(Center center, Vec2 offset)
-        {
-            var p = (center.position - (width / 2)) / width * 2;
-            var perlin = (float)Perlin.Noise(offset.x + p.x * Perlin_Scale, offset.y + p.y * Perlin_Scale, 0) - 0.5f;
-            var n = -(p * new Vec2(1.3f, 1)).Length + 0.65f + perlin * 0.9f;
-            return n > 0;
-        }
-
         private void RemoveIslands()
         {
+            // Pixel lookup can miss when a cell has no finite corners, which used to
+            // enqueue null and NRE on neighbors. Start from the nearest actual land cell.
+            Center first = null;
+            float best = float.MaxValue;
+            var mapCenter = new Vec2(width / 2f, height / 2f);
+            foreach (var center in centers)
+            {
+                if (center == null || center.water) continue;
+                if (float.IsNaN(center.position.x) || float.IsNaN(center.position.y)) continue;
+                float d = center.position.SqrDistanceTo(mapCenter);
+                if (d < best)
+                {
+                    best = d;
+                    first = center;
+                }
+            }
+            if (first == null) return;
+
             HashSet<Center> mainland = new HashSet<Center>();
-            var first = GetCenterNear(width / 2, height / 2);
             mainland.Add(first);
 
             Queue<Center> toAssign = new Queue<Center>();
@@ -242,9 +498,13 @@ namespace WorldGen
             while (toAssign.Count > 0)
             {
                 var center = toAssign.Dequeue();
+                if (center == null) continue;
                 foreach (var neighbor in center.neighbors)
-                    if (!neighbor.water && mainland.Add(neighbor))
+                {
+                    if (neighbor == null || neighbor.water) continue;
+                    if (mainland.Add(neighbor))
                         toAssign.Enqueue(neighbor);
+                }
             }
 
             foreach (var center in centers)
@@ -467,50 +727,71 @@ namespace WorldGen
         private void GeneratePixelMap()
         {
             pixelMap = new Center[width * height];
-            var partitions = new ArrayPartitionMap<PartitionedCenter>(width, height, width / 20);
+
+            // Bucket sites by position and search nearby cells. Cheaper than a partition
+            // query per tile (those copied HashSets on every pixel).
+            const int cell = 32;
+            int gw = (width + cell - 1) / cell;
+            int gh = (height + cell - 1) / cell;
+            var buckets = new List<Center>[gw * gh];
+            for (int i = 0; i < buckets.Length; i++)
+                buckets[i] = new List<Center>(8);
+
             foreach (var center in centers)
-                partitions.Add(new PartitionedCenter(center));
-            for (int y = 0; y < height; y++)
             {
+                if (center == null) continue;
+                if (float.IsNaN(center.position.x) || float.IsNaN(center.position.y)) continue;
+                int gx = (int)center.position.x / cell;
+                int gy = (int)center.position.y / cell;
+                if (gx < 0) gx = 0;
+                else if (gx >= gw) gx = gw - 1;
+                if (gy < 0) gy = 0;
+                else if (gy >= gh) gy = gh - 1;
+                buckets[gy * gw + gx].Add(center);
+            }
+
+            System.Threading.Tasks.Parallel.For(0, height, y =>
+            {
+                int gy = y / cell;
                 for (int x = 0; x < width; x++)
                 {
-                    long index = y * width + x;
-                    pixelMap[index] = GetClosestCenter(partitions, x, y);
+                    int gx = x / cell;
+                    Center closest = FindClosestCenter(buckets, gw, gh, gx, gy, x, y, 1);
+                    if (closest == null)
+                        closest = FindClosestCenter(buckets, gw, gh, gx, gy, x, y, 3);
+                    pixelMap[y * width + x] = closest;
                 }
-            }
+            });
         }
 
-        private Center GetClosestCenter(ArrayPartitionMap<PartitionedCenter> partitions, int x, int y)
+        private static Center FindClosestCenter(List<Center>[] buckets, int gw, int gh, int gx, int gy, int x, int y, int radius)
         {
             Center closest = null;
-            float distance = 9999999;
-
-            foreach (var partitioned in partitions.GetNearObjects(new Rect(x, y, 0, 0)))
+            float best = float.MaxValue;
+            for (int oy = -radius; oy <= radius; oy++)
             {
-                var dis = partitioned.center.position.DistanceTo(new Vec2(x, y));
-                if (dis < distance)
+                int cy = gy + oy;
+                if (cy < 0 || cy >= gh) continue;
+                for (int ox = -radius; ox <= radius; ox++)
                 {
-                    distance = dis;
-                    closest = partitioned.center;
+                    int cx = gx + ox;
+                    if (cx < 0 || cx >= gw) continue;
+                    var bucket = buckets[cy * gw + cx];
+                    for (int i = 0; i < bucket.Count; i++)
+                    {
+                        var c = bucket[i];
+                        float dx = c.position.x - x;
+                        float dy = c.position.y - y;
+                        float d = dx * dx + dy * dy;
+                        if (d < best)
+                        {
+                            best = d;
+                            closest = c;
+                        }
+                    }
                 }
             }
-
             return closest;
-        }
-
-        private class PartitionedCenter : IPartitionable
-        {
-            public Rect BoundingRect { get; private set; }
-
-            public IntRect LastBoundingRect { get; set; }
-
-            public Center center;
-
-            public PartitionedCenter(Center center)
-            {
-                this.center = center;
-                BoundingRect = Rect.FromBounds(center.corners.Select(_ => _.position));
-            }
         }
 
         #region Rasterization

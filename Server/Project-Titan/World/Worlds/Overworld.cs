@@ -49,10 +49,14 @@ namespace World.Worlds
 
         private string worldName = WorldModule.ServerName.Split('.').Last();
 
+        /// <summary>
+        /// Build a new island each time this world starts. The baked overworld.mef is left on disk
+        /// as a reference but is no longer loaded. Waypoints still spawn after this, from biome tiles.
+        /// </summary>
         protected override MapElementFile LoadMap()
         {
-            var map = base.LoadMap();
-            return map;
+            Log.Write("Generating overworld...");
+            return WorldGen.OverworldGenerator.Generate();
         }
 
         protected override void DoInitWorld()
@@ -70,7 +74,7 @@ namespace World.Worlds
             objects.AddObject(portal);
 
             var fireside = SetPiece.Load("fireside.mef");
-            ApplySetPiece(fireside, spawn + new Int2(-7, 9));
+            ApplySetPiece(fireside, spawn + new Int2(WorldGen.OverworldGenerator.Fireside_Offset_X, WorldGen.OverworldGenerator.Fireside_Offset_Y));
 
             spawnSystem = new SpawnSystem(this);
             spawnSystem.AddNoSpawnZone(spawn, 20);

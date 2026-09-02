@@ -151,7 +151,10 @@ public class Enemy : NotPlayable
                     killed = health <= 0;
                     this.killed = killed;
                     if (result.damage > 0)
+                    {
                         world.player.AddRage();
+                        world.player.ApplyNomadMarkedHitRage(this, projectile.startTime);
+                    }
                 }
                 else
                 {
@@ -188,7 +191,10 @@ public class Enemy : NotPlayable
             if (health <= 0)
                 killed = true;
             if (result.damage > 0)
+            {
                 world.player.AddRage();
+                world.player.ApplyNomadMarkedHitRage(this, 0);
+            }
         }
         else
         {

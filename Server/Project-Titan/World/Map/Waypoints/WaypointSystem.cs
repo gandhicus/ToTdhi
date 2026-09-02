@@ -87,6 +87,7 @@ namespace World.Map.Waypoints
                 waypoint.Initialize(info);
                 waypoint.waypointName.Value = definition.name;
                 waypoint.position.Value = position.Value.ToVec2() + 0.5f;
+                ClearPad(position.Value, 2);
                 world.objects.AddObject(waypoint);
                 world.spawnSystem.AddNoSpawnZone(waypoint.position.Value, 10);
                 waypoints.Add(waypoint);
@@ -183,13 +184,13 @@ namespace World.Map.Waypoints
                 var dy = tile.y - centroidY;
                 var distance = dx * dx + dy * dy;
 
-                if (world.tiles.CanWalk(tile.x + 0.5f, tile.y + 0.5f) && distance < bestDistance)
+                if (IsOpenPad(tile) && distance < bestDistance)
                 {
                     bestDistance = distance;
                     best = tile;
                 }
 
-                if (distance < fallbackDistance)
+                if (world.tiles.CanWalk(tile.x + 0.5f, tile.y + 0.5f) && distance < fallbackDistance)
                 {
                     fallbackDistance = distance;
                     fallback = tile;
@@ -197,6 +198,40 @@ namespace World.Map.Waypoints
             }
 
             return best ?? fallback;
+        }
+
+        private bool IsOpenPad(Int2 tile)
+        {
+            if (!world.tiles.PlayerCanWalk(tile.x + 0.5f, tile.y + 0.5f))
+                return false;
+
+            var mapTile = world.tiles.GetTile(tile.x, tile.y);
+            if (mapTile.tileType == 0xb0e) return false;
+
+            var objInfo = mapTile.GetObjectInfo();
+            if (objInfo == null) return true;
+            if (objInfo is Object3dInfo) return false;
+            if (objInfo is StaticObjectInfo staticObj && staticObj.collidable) return false;
+            return true;
+        }
+
+        private void ClearPad(Int2 center, int radius)
+        {
+            int r2 = radius * radius;
+            for (int y = center.y - radius; y <= center.y + radius; y++)
+            {
+                for (int x = center.x - radius; x <= center.x + radius; x++)
+                {
+                    if (x < 0 || y < 0 || x >= world.width || y >= world.height) continue;
+                    int dx = x - center.x;
+                    int dy = y - center.y;
+                    if (dx * dx + dy * dy > r2) continue;
+                    var tile = world.tiles.GetTile(x, y);
+                    if (tile.tileType == 0) continue;
+                    tile.objectType = 0;
+                    world.tiles.SetTile(tile);
+                }
+            }
         }
     }
 }

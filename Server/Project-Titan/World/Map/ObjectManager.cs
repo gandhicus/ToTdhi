@@ -400,8 +400,9 @@ namespace World.Map
                 var rect = SightRect(player.GetTickPosition());
                 foreach (var obj in objectChunks.GetNearObjects(rect))
                 {
-                    if (obj.Ticks)
-                        obj.Tick(ref time);
+                    // Snapshot may still contain something that already died this tick.
+                    if (obj.world == null || !obj.Ticks) continue;
+                    obj.Tick(ref time);
                 }
             }
 

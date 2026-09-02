@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Utils.NET.Geometry;
 using Utils.NET.Pathfinding;
+using WorldGen.Rasterization;
 
 namespace WorldGen.Nodes
 {
@@ -33,6 +34,12 @@ namespace WorldGen.Nodes
         public bool town = false;
 
         public Center townRegion;
+
+        /// <summary>
+        /// Named overworld realm this cell belongs to. Ocean/Beach are the shoreline ring;
+        /// interior cells are compact biome blobs so waypoints can sit in each biome's middle.
+        /// </summary>
+        public OverworldBiomeType biomeType = OverworldBiomeType.Ocean;
 
         public Center(Vec2 position, int id)
         {

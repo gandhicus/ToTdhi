@@ -63,8 +63,18 @@ namespace Utils.NET.Partitioning
 
         protected override IEnumerable<T> GetPartition(int partitionX, int partitionY)
         {
-            return partitions[partitionX, partitionY];
+            var partition = partitions[partitionX, partitionY];
+            if (partition.Count == 0)
+                return emptyPartition;
+
+            // Copy before returning. Callers tick/spawn/despawn while enumerating, and HashSet
+            // throws if it is mutated during foreach.
+            var copy = new T[partition.Count];
+            partition.CopyTo(copy);
+            return copy;
         }
+
+        private static readonly T[] emptyPartition = new T[0];
 
         protected override void AddToPartition(T o, int partitionX, int partitionY)
         {
