@@ -166,6 +166,10 @@ namespace TitanCore.Core
             return perRank * Math.Max(0, rank);
         }
 
+        // On-use bonuses (Blight, Aegis, Wrath, …) do not stay linear after rank 2.
+        // Ranks 1–2 each add the full per-rank constant. Rank 3 and every gear rank
+        // after that add only +1, so Blight's +2 Attack does not become +12 at rank 6.
+        // Rank 1 = 2, rank 2 = 4, rank 3 = 5, rank 6 = 8.
         public static int ScaleOnUseRank(int perRank, int rank)
         {
             rank = Math.Max(0, rank);
@@ -179,6 +183,9 @@ namespace TitanCore.Core
             return ScaleOnUseStat(perChunkAtRank, rageSpent, On_Use_Stat_Rage_Chunk);
         }
 
+        // Rage is not diminishing: each filled 25-rage chunk (or a skill's own chunk)
+        // pays the already-diminished per-chunk amount from ScaleOnUseRank. 100 rage
+        // with Blight rank 2 is 4 chunks × 4 Attack = +16 Attack for the duration.
         public static int ScaleOnUseStat(int perChunkAtRank, int rageSpent, int rageChunk)
         {
             if (perChunkAtRank <= 0 || rageSpent <= 0 || rageChunk < 1)
@@ -188,6 +195,7 @@ namespace TitanCore.Core
 
         public static void ApplyRageToOnUseStats(ref AbilityModifierSnapshot mods, int rageSpent)
         {
+            // Snapshot fields still hold the per-chunk value until this runs at cast.
             mods.hymnDefense = ScaleOnUseStat(mods.hymnDefense, rageSpent);
             int maxHealthChunk = mods.hymnMaxHealthRageChunk > 0 ? mods.hymnMaxHealthRageChunk : On_Use_Stat_Rage_Chunk;
             mods.hymnMaxHealth = ScaleOnUseStat(mods.hymnMaxHealth, rageSpent, maxHealthChunk);

@@ -6,6 +6,11 @@ namespace TitanCore.Core
     /// Skill tree definitions per class. Each nested *Tree holds rank constants, tooltip
     /// copy, and snapshot apply together so a class can be read in one place.
     /// After edits, rebuild TitanCore (SyncTitanCoreToUnity.ps1) and restart the server.
+    ///
+    /// Most nodes use Scale (linear: per-rank × rank). On-use timed stats such as Blight
+    /// use OnUse / ScaleOnUseRank instead: full per-rank value on ranks 1–2, then only +1
+    /// per rank through 6. SetOnUse writes that diminished per-chunk amount onto the
+    /// snapshot; ApplyRageToOnUseStats later multiplies it by rage/25 at cast time.
     /// </summary>
     public static class ClassSkillTrees
     {
@@ -123,7 +128,7 @@ namespace TitanCore.Core
 
         private static class RangerTree
         {
-            public const float WrathDamagePct = 0.15f;
+            public const float WrathDamagePct = 0.10f;
             public const float ManifestRadius = 0.8f;
             public const int BlightAttack = 2;
             public const int BlightMs = 5000;
@@ -197,9 +202,9 @@ namespace TitanCore.Core
 
         private static class BladeweaverTree
         {
-            public const float WrathDamagePct = 0.04f;
+            public const float WrathDamagePct = 0.05f;
             public const float UnfurlRange = 1f;
-            public const int EverlastingMs = 20;
+            public const int EverlastingMs = 60;
             public const float FrustrationKeep = 0.06f;
             public const float HasteChargeDurationPct = 0.20f;
             public const float ManifestSizePct = 0.15f;
@@ -458,7 +463,7 @@ namespace TitanCore.Core
         {
             public const float WrathDamagePct = 0.08f;
             public const float UnfurlRange = 0.6f;
-            public const float ManifestSpreadDeg = 6f;
+            public const float ManifestSpreadDeg = 8f;
             public const int EnigmaSlowMs = 600;
             public const float HasteCooldownPct = 0.05f;
             public const int EverlastingRofMs = 500;
@@ -498,11 +503,14 @@ namespace TitanCore.Core
 
         private static float Sc(float perRank, int rank) => SkillTreeFunctions.Scale(perRank, rank);
         private static int Sc(int perRank, int rank) => SkillTreeFunctions.Scale(perRank, rank);
+
+        // Blight / Aegis / Wrath / Castle block / Purify / etc. Ranks past 2 are +1, not +perRank.
         private static int OnUse(int perRank, int rank) => SkillTreeFunctions.ScaleOnUseRank(perRank, rank);
         private static int MsIf(int durationMs, int rank) => rank > 0 ? durationMs : 0;
         private static float MulMinus(float perRank, int rank) => 1f - Sc(perRank, rank);
         private static float MulPlus(float perRank, int rank) => 1f + Sc(perRank, rank);
 
+        // Stores the diminished per-chunk bonus. Duration is flat (any rank > 0). Rage is applied at cast.
         private static void SetOnUse(ref int amount, ref int durationMs, int perRank, int ms, int rank)
         {
             amount = OnUse(perRank, rank);
@@ -539,6 +547,7 @@ namespace TitanCore.Core
 
         private static string OnUseStat(int perRank, int durationMs, int r, string stat)
         {
+            // Tooltip already uses the diminished per-chunk value (e.g. Blight rank 3 = +5 Attack, not +6).
             return $"+{OnUse(perRank, r)} {stat} per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage consumed for {durationMs / 1000f:0.#}s";
         }
 

@@ -30,14 +30,14 @@ namespace TitanCore.Core
 
         public static float AttackModifier(int attack, bool damaging)
         {
-            var modifier = 0.5f + (attack / 60.0f);
+            var modifier = 0.35f + (attack / 40.0f);
             if (damaging)
                 modifier *= 1.5f;
             return modifier;
         }
 
         /// <summary>
-        /// Attack damage bonus relative to a 1.0x damage multiplier (e.g. +50% at Attack 60).
+        /// Attack damage bonus relative to a 1.0x damage multiplier (e.g. +35% at Attack 40).
         /// </summary>
         public static float AttackDamageBonusPercent(int attack, bool damaging)
         {

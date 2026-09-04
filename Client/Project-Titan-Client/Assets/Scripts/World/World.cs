@@ -1174,9 +1174,7 @@ public class World : MonoBehaviour
         var rangerRadius = rangerEffect.radius > 0
             ? rangerEffect.radius
             : AbilityFunctions.Ranger.GetRadius(rangerEffect.rage, rangerEffect.attack);
-        var rangerDamage = rangerEffect.damage > 0
-            ? rangerEffect.damage
-            : AbilityFunctions.Ranger.GetDamage(rangerEffect.rage, rangerEffect.attack);
+        var rangerDamage = rangerEffect.damage > 0 ? rangerEffect.damage : 1;
 
         Vector3 position = rangerEffect.position.ToVector2();
         position.z = -4;

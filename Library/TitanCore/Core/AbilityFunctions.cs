@@ -201,17 +201,34 @@ namespace TitanCore.Core
 
         public static class Ranger
         {
+            // 10x one arrow at 100 rage (30% Attack). T8 is ~1.3k–2.4k at Attack 40.
+            // Uses a single shot so multi-arrow bows do not also inflate rain.
+            public const float Weapon_Damage_Mul = 1f;
+
+            public const float Rage_Damage_At_100 = 10f;
+
+            public const float Attack_Scale = 0.3f;
+
             public static float GetRadius(int rage, int attack)
             {
                 return 2 + (rage / 100f) * 4;
             }
 
-            public static ushort GetDamage(int rage, int attack)
+            public static float PartialAttackModifier(int attack, bool damaging)
             {
-                var attackScalar = 0.5f + attack / 75f;
-                var rageScalar = rage / 100f;
-                // +50% vs the old 3-volley total, now that the ability is a single hit.
-                return (ushort)((10 + (80 + attackScalar * 1100) * rageScalar) * 1.5f);
+                float full = StatFunctions.AttackModifier(attack, damaging);
+                return 1f + (full - 1f) * Attack_Scale;
+            }
+
+            // weaponShotDamage already includes full AttackModifier from the shot roll.
+            public static int ScaleWeaponDamage(int weaponShotDamage, int attack, bool damaging)
+            {
+                float full = StatFunctions.AttackModifier(attack, damaging);
+                if (full < 0.01f)
+                    full = 0.01f;
+                float raw = weaponShotDamage / full;
+                float partial = PartialAttackModifier(attack, damaging);
+                return Math.Max(1, (int)(raw * partial * Weapon_Damage_Mul));
             }
 
             public static AbilityEffect? GetEffect(int rage, int attack)

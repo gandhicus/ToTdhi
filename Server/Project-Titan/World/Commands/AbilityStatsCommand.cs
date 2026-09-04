@@ -60,7 +60,7 @@ namespace World.Commands
             switch (classType)
             {
                 case ClassType.Ranger:
-                    WriteRanger(player, mods, rage, attack);
+                    WriteRanger(player, playerState, mods, rage, attack, time);
                     break;
                 case ClassType.Warrior:
                     WriteWarrior(player, playerState, mods, rage, attack, time);
@@ -103,12 +103,34 @@ namespace World.Commands
             return null;
         }
 
-        private static void WriteRanger(Player player, AbilityModifierSnapshot mods, int rage, int attack)
+        private static void WriteRanger(Player player, PlayerState playerState, AbilityModifierSnapshot mods, int rage, int attack, uint time)
         {
             WriteDumpRageCost(player, mods, rage);
-            int damage = ScaleDamage(AbilityFunctions.Ranger.GetDamage(rage, attack), mods.abilityDamagePct);
-            int damageFull = ScaleDamage(AbilityFunctions.Ranger.GetDamage(100, attack), mods.abilityDamagePct);
-            Pair(player, "Damage", Num(damage), Num(damageFull), rage);
+            GetHeldWeapon(playerState, out var weapon);
+            bool damaging = playerState.HasEffect(StatusEffect.Damaging, time);
+            if (TryGetWeaponOutgoing(playerState, time, out var minDmg, out var maxDmg) && weapon != null)
+            {
+                byte spent = DumpSpent(mods, rage);
+                byte spentFull = DumpSpent(mods, 100);
+                Line(player, $"Bow shot: {FormatRangeNum((int)Math.Round(minDmg), (int)Math.Round(maxDmg))} (rain uses 1 arrow, not the volley)");
+
+                int rainMin = ScaleRanger(minDmg, mods.abilityDamagePct, spent, attack, damaging);
+                int rainMax = ScaleRanger(maxDmg, mods.abilityDamagePct, spent, attack, damaging);
+                int rainMinFull = ScaleRanger(minDmg, mods.abilityDamagePct, spentFull, attack, damaging);
+                int rainMaxFull = ScaleRanger(maxDmg, mods.abilityDamagePct, spentFull, attack, damaging);
+                Pair(player, "Rain damage", FormatRangeNum(rainMin, rainMax), FormatRangeNum(rainMinFull, rainMaxFull), spent);
+
+                float vsNow = RangerVsDisplayedVolley(spent, attack, damaging);
+                float vsFull = RangerVsDisplayedVolley(100, attack, damaging);
+                string attackShare = $"{AbilityFunctions.Ranger.Attack_Scale * 100f:0}% Attack scaling";
+                if (spent >= 100)
+                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x bow shot ({attackShare}, {FormatNumber(AbilityFunctions.Ranger.Weapon_Damage_Mul * AbilityFunctions.Ranger.Rage_Damage_At_100)}x raw at 100 rage)");
+                else
+                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x shot ({FormatNumber(vsFull)}x at 100 rage, {attackShare})");
+            }
+            else
+                Line(player, "Rain damage: equip a weapon to see ability damage");
+
             Pair(player, "Radius", Tiles(AbilityFunctions.Ranger.GetRadius(rage, attack) + mods.abilityRadiusBonus),
                 Tiles(AbilityFunctions.Ranger.GetRadius(100, attack) + mods.abilityRadiusBonus), rage);
             Line(player, $"Cast range: {Tiles(6f + mods.abilityRangeBonus)}");
@@ -512,6 +534,13 @@ namespace World.Commands
             return Math.Max(1, (int)(scaled * (1f + abilityDamagePct)));
         }
 
+        private static int ScaleRanger(float weaponOutgoing, float abilityDamagePct, int rage, int attack, bool damaging)
+        {
+            int scaled = AbilityFunctions.Ranger.ScaleWeaponDamage((int)Math.Round(weaponOutgoing), attack, damaging);
+            scaled = AbilityFunctions.RageSpend.ApplyRageDamageMul(scaled, rage, AbilityFunctions.Ranger.Rage_Damage_At_100);
+            return Math.Max(1, (int)(scaled * (1f + abilityDamagePct)));
+        }
+
         private static int ScaleBladeweaver(float weaponOutgoing, float abilityDamagePct, int rage)
         {
             int scaled = AbilityFunctions.BladeWeaver.ScaleWeaponDamage((int)Math.Round(weaponOutgoing), rage);
@@ -529,6 +558,18 @@ namespace World.Commands
         {
             return AbilityFunctions.Berserker.Weapon_Damage_Mul
                 * AbilityFunctions.Berserker.Rage_Damage_At_100
+                * Math.Max(0, rage) / 100f;
+        }
+
+        private static float RangerVsDisplayedVolley(int rage, int attack, bool damaging)
+        {
+            float full = StatFunctions.AttackModifier(attack, damaging);
+            if (full < 0.01f)
+                full = 0.01f;
+            float partial = AbilityFunctions.Ranger.PartialAttackModifier(attack, damaging);
+            return (partial / full)
+                * AbilityFunctions.Ranger.Weapon_Damage_Mul
+                * AbilityFunctions.Ranger.Rage_Damage_At_100
                 * Math.Max(0, rage) / 100f;
         }
 

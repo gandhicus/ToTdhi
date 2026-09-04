@@ -38,7 +38,10 @@ namespace World.Abilities
                 target = position + targetVec.ChangeLength(maxRange, curLength);
 
             float rangerRadius = AbilityFunctions.Ranger.GetRadius(rageSpent, attack) + mods.abilityRadiusBonus;
-            int damage = AbilityFunctions.Ranger.GetDamage(rageSpent, attack);
+            bool damaging = PlayerState.HasEffect(StatusEffect.Damaging, time);
+            int weaponDamage = player.GetHeldWeaponShotDamage(time, time);
+            int damage = AbilityFunctions.Ranger.ScaleWeaponDamage(weaponDamage, attack, damaging);
+            damage = AbilityFunctions.RageSpend.ApplyRageDamageMul(damage, rageSpent, AbilityFunctions.Ranger.Rage_Damage_At_100);
             damage = Math.Max(1, (int)(damage * (1f + mods.abilityDamagePct)));
 
             Fire(time, target, rangerRadius, damage, mods, rageSpent, attack);
