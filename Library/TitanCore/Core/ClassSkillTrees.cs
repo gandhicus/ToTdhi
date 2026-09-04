@@ -87,7 +87,7 @@ namespace TitanCore.Core
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Sec(EverlastingMs, r)} ability duration"),
                 N("Mending", "Warrior/Mending", EffectStyle.Support, r => $"+{Pct(MendingHeal, r)} ability heal"),
                 N("Aegis", "Warrior/Aegis", EffectStyle.Defense, r => OnUseStat(AegisDefense, AegisDefenseMs, r, "Defense")),
-                N("Castle", "Warrior/Castle", EffectStyle.Defense, r => $"+{CastleHealth(r)} Max Health per {CastleRageChunk} rage for {CastleMaxHealthMs / 1000f:0.#}s"),
+                N("Castle", "Warrior/Castle", EffectStyle.Defense, r => $"+{CastleHealth(r)} Max Health per {CastleRageChunk} rage consumed for {CastleMaxHealthMs / 1000f:0.#}s"),
             };
 
             public static void Apply(int[] r, ref AbilityModifierSnapshot snap)
@@ -217,7 +217,7 @@ namespace TitanCore.Core
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability hit"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteChargeDurationPct, r)} charge duration"),
                 N("Manifest", "Ranger/ManifestPower", EffectStyle.Power, r => $"+{Pct(ManifestSizePct, r)} ability size"),
-                N("Alacrity", "Bladeweaver/Alacrity", EffectStyle.Agility, r => $"+{AlacrityAmount(r)} Speed per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage for {AlacrityMs / 1000f:0.#}s"),
+                N("Alacrity", "Bladeweaver/Alacrity", EffectStyle.Agility, r => $"+{AlacrityAmount(r)} Speed per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage consumed for {AlacrityMs / 1000f:0.#}s"),
                 N("Aegis", "Warrior/Aegis", EffectStyle.Defense, r => $"+{Sec(AegisInvulnMs, r)} Invulnerable after ability ends"),
             };
 
@@ -539,7 +539,7 @@ namespace TitanCore.Core
 
         private static string OnUseStat(int perRank, int durationMs, int r, string stat)
         {
-            return $"+{OnUse(perRank, r)} {stat} per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage for {durationMs / 1000f:0.#}s";
+            return $"+{OnUse(perRank, r)} {stat} per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage consumed for {durationMs / 1000f:0.#}s";
         }
 
         private static string OnUseStatPct(int perRank, int durationMs, int r, string stat)
@@ -549,17 +549,17 @@ namespace TitanCore.Core
 
         private static string OnUseStatPct(int perRank, int durationMs, int r, string stat, int rageChunk)
         {
-            return $"+{OnUse(perRank, r)}% {stat} per {rageChunk} rage for {durationMs / 1000f:0.#}s";
+            return $"+{OnUse(perRank, r)}% {stat} per {rageChunk} rage consumed for {durationMs / 1000f:0.#}s";
         }
 
         private static string OnUseStatRage(int perRank, int r, string stat)
         {
-            return $"+{OnUse(perRank, r)} {stat} per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage";
+            return $"+{OnUse(perRank, r)} {stat} per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage consumed";
         }
 
         private static string OnUseStatRagePct(int perRank, int r, string stat)
         {
-            return $"+{OnUse(perRank, r)}% {stat} per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage";
+            return $"+{OnUse(perRank, r)}% {stat} per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage consumed";
         }
 
         private static string Pct(float perRank, int r) => $"{Sc(perRank, r) * 100:0}%";

@@ -31,7 +31,7 @@ namespace World.Abilities
             float shoutRadius = AbilityFunctions.Berserker.GetShoutRange(spent, attack) + mods.abilityRangeBonus;
             float shoutAngle = position.AngleTo(target);
             float slowSec = 5f + mods.slowMs / 1000f;
-            int weaponDamage = player.GetHeldWeaponShotDamage(time, time);
+            int weaponDamage = player.GetHeldWeaponVolleyDamage(time, time);
             int shoutDamage = AbilityFunctions.Berserker.ScaleWeaponDamage(weaponDamage);
             shoutDamage = AbilityFunctions.RageSpend.ApplyRageDamageMul(shoutDamage, spent, AbilityFunctions.Berserker.Rage_Damage_At_100);
             shoutDamage = Math.Max(1, (int)(shoutDamage * (1f + mods.abilityDamagePct)));

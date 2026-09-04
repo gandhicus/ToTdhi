@@ -233,10 +233,15 @@ namespace World.Commands
         private static void WriteBerserker(Player player, PlayerState playerState, AbilityModifierSnapshot mods, int rage, int attack, uint time)
         {
             WriteDumpRageCost(player, mods, rage);
-            if (TryGetWeaponOutgoing(playerState, time, out var minDmg, out var maxDmg))
+            GetHeldWeapon(playerState, out var weapon);
+            if (TryGetWeaponVolleyOutgoing(playerState, time, out var minDmg, out var maxDmg) && weapon != null)
             {
                 byte spent = DumpSpent(mods, rage);
                 byte spentFull = DumpSpent(mods, 100);
+                int shots = WeaponFunctions.GetVolleyShotCount(weapon.projectiles);
+                string shotWord = shots == 1 ? "shot" : "shots";
+                Line(player, $"Claymore volley: {FormatRangeNum((int)Math.Round(minDmg), (int)Math.Round(maxDmg))} ({shots} {shotWord} summed)");
+
                 int shoutMin = ScaleBerserker(minDmg, mods.abilityDamagePct, spent);
                 int shoutMax = ScaleBerserker(maxDmg, mods.abilityDamagePct, spent);
                 int shoutMinFull = ScaleBerserker(minDmg, mods.abilityDamagePct, spentFull);
@@ -245,9 +250,9 @@ namespace World.Commands
                 float vsNow = BerserkerWeaponShotMul(spent);
                 float vsFull = BerserkerWeaponShotMul(100);
                 if (spent >= 100)
-                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x a claymore shot (30% weapon x 6.7x at 100 rage, Wrath included)");
+                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x claymore volley (30% weapon x 6.7x at 100 rage, Wrath included)");
                 else
-                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x claymore ({FormatNumber(vsFull)}x at 100 rage, Wrath included)");
+                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x volley ({FormatNumber(vsFull)}x at 100 rage, Wrath included)");
             }
             else
                 Line(player, "Shout damage: equip a weapon to see ability damage");
@@ -387,7 +392,7 @@ namespace World.Commands
             {
                 int chunk = SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
                 int now = SkillTreeFunctions.ScaleOnUseStat(mods.speedOnHit, rage, chunk);
-                Line(player, $"On slash hit: +{now} Speed for {FormatSec(mods.speedOnHitMs)} ({mods.speedOnHit} per {chunk} rage)");
+                Line(player, $"On slash hit: +{now} Speed for {FormatSec(mods.speedOnHitMs)} ({mods.speedOnHit} per {chunk} rage consumed)");
             }
             if (classType == ClassType.Brewer && mods.hymnDefense > 0 && mods.timedDefenseMs > 0)
                 OnUseStat(player, mods.hymnDefense, mods.timedDefenseMs, rage, "Defense");
@@ -429,7 +434,7 @@ namespace World.Commands
                 chunk = SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
             int now = SkillTreeFunctions.ScaleOnUseStat(perChunk, rage, chunk);
             string unit = percent ? "%" : "";
-            Line(player, $"On use: +{now}{unit} {stat} for {FormatSec(durationMs)} ({perChunk}{unit} per {chunk} rage)");
+            Line(player, $"On use: +{now}{unit} {stat} for {FormatSec(durationMs)} ({perChunk}{unit} per {chunk} rage consumed)");
         }
 
         private static bool TryGetWeaponRaw(PlayerState playerState, out int minDamage, out int maxDamage)
