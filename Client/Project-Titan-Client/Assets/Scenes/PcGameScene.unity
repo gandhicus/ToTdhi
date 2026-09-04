@@ -33384,7 +33384,7 @@ PrefabInstance:
     - target: {fileID: 4597133164858737653, guid: 1e183bd86b16bd94592b56a9a58441e6,
         type: 3}
       propertyPath: m_text
-      value: <sprite name="Premium"><space=-0.1em>80
+      value: <sprite name="Currency"><space=-0.1em>200
       objectReference: {fileID: 0}
     - target: {fileID: 4597133164858737653, guid: 1e183bd86b16bd94592b56a9a58441e6,
         type: 3}

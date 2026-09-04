@@ -27,6 +27,8 @@ namespace TitanCore.Net.Web
 
         public long currency;
 
+        public long deathCurrency;
+
         public string name;
 
         public string email;
@@ -57,11 +59,12 @@ namespace TitanCore.Net.Web
             this.requiredBuild = requiredBuild;
         }
 
-        public WebDescribeResponse(WebDescribeResult result, ulong accountId, long currency, string name, string email, int maxCharacters, ClassQuest[] classQuests, WebCharacterInfo[] characters, uint[] unlockedItems)
+        public WebDescribeResponse(WebDescribeResult result, ulong accountId, long currency, long deathCurrency, string name, string email, int maxCharacters, ClassQuest[] classQuests, WebCharacterInfo[] characters, uint[] unlockedItems)
         {
             this.result = result;
             this.accountId = accountId;
             this.currency = currency;
+            this.deathCurrency = deathCurrency;
             this.name = name;
             this.email = email;
             this.maxCharacters = maxCharacters;

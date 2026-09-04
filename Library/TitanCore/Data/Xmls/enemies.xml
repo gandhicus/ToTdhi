@@ -470,16 +470,13 @@
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>4</LootTier>
 		<LootTier>5</LootTier>
+		<LootTier>8</LootTier>
+		<LootTier>9</LootTier>
 		<LootTier>11</LootTier>
 		<LootTier>12</LootTier>
 		<LootTier>13</LootTier>
 		<LootTier>14</LootTier>
 		<LootTier>15</LootTier>
-		<LootTier>16</LootTier>
-		<LootTier>17</LootTier>
-		<LootTier>18</LootTier>
-		<LootTier>19</LootTier>
-		<LootTier>20</LootTier>
 		<Defense>38</Defense>
 
 		<Size>1.3</Size>
@@ -673,17 +670,6 @@
 		<LootTier>15</LootTier>
 		<LootTier>16</LootTier>
 		<LootTier>17</LootTier>
-		<LootTier>18</LootTier>
-		<LootTier>19</LootTier>
-		<LootTier>20</LootTier>
-		<LootTier>21</LootTier>
-		<LootTier>21</LootTier>
-		<LootTier>22</LootTier>
-		<LootTier>23</LootTier>
-		<LootTier>24</LootTier>
-		<LootTier>25</LootTier>
-		<LootTier>26</LootTier>
-		<LootTier>27</LootTier>
 		<Defense>42</Defense>
 
 	</Object>
@@ -784,15 +770,12 @@
 		<SoulGroup>ValdoksForge</SoulGroup>
 		<LootTier>4</LootTier>
 		<LootTier>5</LootTier>
-		<LootTier>7</LootTier>
-		<LootTier>10</LootTier>
+		<LootTier>8</LootTier>
+		<LootTier>9</LootTier>
 		<LootTier>12</LootTier>
 		<LootTier>13</LootTier>
 		<LootTier>14</LootTier>
 		<LootTier>15</LootTier>
-		<LootTier>16</LootTier>
-		<LootTier>17</LootTier>
-		<LootTier>18</LootTier>
 		<Defense>32</Defense>
 
 	</Object>
@@ -2387,8 +2370,7 @@
 		<SoulGroup>ValdoksForge</SoulGroup>
 		<LootTier>0</LootTier>
 		<LootTier>1</LootTier>
-		<LootTier>19</LootTier>
-		<LootTier>20</LootTier>
+		<LootTier>10</LootTier>
 		<Defense>28</Defense>
 
 	</Object>
@@ -2424,8 +2406,7 @@
 		<SoulGroup>ValdoksForge</SoulGroup>
 		<LootTier>0</LootTier>
 		<LootTier>1</LootTier>
-		<LootTier>19</LootTier>
-		<LootTier>20</LootTier>
+		<LootTier>10</LootTier>
 		<Defense>26</Defense>
 
 	</Object>
@@ -2461,8 +2442,7 @@
 		<SoulMod>1.5</SoulMod>
 		<SoulGroup>ValdoksForge</SoulGroup>
 		<LootTier>2</LootTier>
-		<LootTier>19</LootTier>
-		<LootTier>20</LootTier>
+		<LootTier>10</LootTier>
 		<Defense>32</Defense>
 
 	</Object>
@@ -2520,8 +2500,7 @@
 		<SoulMod>1.8</SoulMod>
 		<SoulGroup>ValdoksForge</SoulGroup>
 		<LootTier>2</LootTier>
-		<LootTier>19</LootTier>
-		<LootTier>20</LootTier>
+		<LootTier>10</LootTier>
 		<Defense>24</Defense>
 
 	</Object>
@@ -2547,8 +2526,7 @@
 		<SoulMod>1.1</SoulMod>
 		<SoulGroup>ValdoksForge</SoulGroup>
 		<LootTier>2</LootTier>
-		<LootTier>19</LootTier>
-		<LootTier>20</LootTier>
+		<LootTier>10</LootTier>
 		<Defense>24</Defense>
 
 	</Object>
@@ -2624,11 +2602,10 @@
 		<SoulMod>6</SoulMod>
 		<SoulGroup>ValdoksForge</SoulGroup>
 		<LootTier>3</LootTier>
-		<LootTier>8</LootTier>
+		<LootTier>7</LootTier>
 		<LootTier>9</LootTier>
 		<LootTier>11</LootTier>
-		<LootTier>16</LootTier>
-		<LootTier>17</LootTier>
+		<LootTier>14</LootTier>
 
 	</Object>
 
@@ -2749,9 +2726,8 @@
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>3</LootTier>
 		<LootTier>6</LootTier>
-		<LootTier>8</LootTier>
-		<LootTier>12</LootTier>
-		<LootTier>23</LootTier>
+		<LootTier>9</LootTier>
+		<LootTier>16</LootTier>
 		<Defense>36</Defense>
 
 	</Object>
@@ -2795,9 +2771,9 @@
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>3</LootTier>
 		<LootTier>6</LootTier>
-		<LootTier>10</LootTier>
-		<LootTier>18</LootTier>
-		<LootTier>19</LootTier>
+		<LootTier>9</LootTier>
+		<LootTier>13</LootTier>
+		<LootTier>17</LootTier>
 		<Defense>32</Defense>
 
 	</Object>
@@ -2824,8 +2800,7 @@
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>0</LootTier>
 		<LootTier>1</LootTier>
-		<LootTier>21</LootTier>
-		<LootTier>22</LootTier>
+		<LootTier>10</LootTier>
 
 	</Object>
 
@@ -2850,8 +2825,7 @@
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>0</LootTier>
 		<LootTier>1</LootTier>
-		<LootTier>21</LootTier>
-		<LootTier>22</LootTier>
+		<LootTier>10</LootTier>
 
 	</Object>
 
@@ -2879,8 +2853,7 @@
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>0</LootTier>
 		<LootTier>1</LootTier>
-		<LootTier>21</LootTier>
-		<LootTier>22</LootTier>
+		<LootTier>10</LootTier>
 
 	</Object>
 
@@ -2966,8 +2939,7 @@
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>0</LootTier>
 		<LootTier>1</LootTier>
-		<LootTier>21</LootTier>
-		<LootTier>22</LootTier>
+		<LootTier>10</LootTier>
 
 	</Object>
 
@@ -3012,8 +2984,7 @@
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>0</LootTier>
 		<LootTier>1</LootTier>
-		<LootTier>21</LootTier>
-		<LootTier>22</LootTier>
+		<LootTier>10</LootTier>
 
 	</Object>
 
@@ -3038,8 +3009,7 @@
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>0</LootTier>
 		<LootTier>1</LootTier>
-		<LootTier>21</LootTier>
-		<LootTier>22</LootTier>
+		<LootTier>10</LootTier>
 
 	</Object>
 
@@ -3359,13 +3329,12 @@
 		<SoulGroup>MannahsFortress</SoulGroup>
 		<LootTier>3</LootTier>
 		<LootTier>5</LootTier>
-		<LootTier>11</LootTier>
+		<LootTier>8</LootTier>
+		<LootTier>9</LootTier>
+		<LootTier>12</LootTier>
+		<LootTier>13</LootTier>
 		<LootTier>15</LootTier>
-		<LootTier>21</LootTier>
-		<LootTier>22</LootTier>
-		<LootTier>23</LootTier>
-		<LootTier>24</LootTier>
-		<LootTier>25</LootTier>
+		<LootTier>16</LootTier>
 		<Defense>30</Defense>
 
 	</Object>

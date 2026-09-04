@@ -1251,7 +1251,8 @@ namespace TitanDatabase
             return new WebDescribeResponse(
                 WebDescribeResult.Success, 
                 account.id,
-                account.premiumCurrency, 
+                account.premiumCurrency,
+                account.deathCurrency,
                 account.playerName, 
                 account.email, 
                 account.maxCharacters, 

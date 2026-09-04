@@ -2847,6 +2847,16 @@
 
 	</Object>
 
+	<Object id="0x2b1" name="Greater Healing Spell">
+		<Type>Item</Type>
+
+		<Description>An enchanted healing spell, blessed by the high mages to aid only the most capable warriors.</Description>
+		<Consumable/>
+
+		<Heals>200</Heals>
+
+	</Object>
+
 	<Object id="0x2a8" name="Bladeweaver Ability">
 		<Type>Weapon</Type>
 		<Sprite>Spear 1</Sprite>

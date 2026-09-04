@@ -130,9 +130,9 @@ public class CharactersMenu : MonoBehaviour
     public void OnPurchaseSlot()
     {
         var cost = NetConstants.GetCharacterSlotCost(Account.describe.maxCharacters);
-        if (Account.describe.currency < cost)
+        if (Account.describe.deathCurrency < cost)
         {
-            Debug.Log("Not enough gold to purchase slot");
+            Debug.Log("Not enough souls to purchase slot");
             return;
         }
 
@@ -159,7 +159,7 @@ public class CharactersMenu : MonoBehaviour
             }
             else
             {
-                Account.describe.currency = response.item.currency;
+                Account.describe.deathCurrency = response.item.currency;
                 Account.describe.maxCharacters++;
                 purchaseCharacter.GetComponent<PurchaseSlot>().SetPrice(NetConstants.GetCharacterSlotCost(Account.describe.maxCharacters));
                 CreateView();
@@ -169,6 +169,6 @@ public class CharactersMenu : MonoBehaviour
 
     private void UpdateCurrencyLabel()
     {
-        currencyLabel.text = Constants.Premium_Currency_Sprite + Account.describe.currency;
+        currencyLabel.text = Constants.Death_Currency_Sprite + Account.describe.deathCurrency;
     }
 }

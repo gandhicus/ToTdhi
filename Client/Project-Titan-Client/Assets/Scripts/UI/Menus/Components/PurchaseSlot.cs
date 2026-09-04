@@ -12,7 +12,7 @@ public class PurchaseSlot : MonoBehaviour
 
     public void SetPrice(int price)
     {
-        priceLabel.text = Constants.Premium_Currency_Sprite + price;
+        priceLabel.text = Constants.Death_Currency_Sprite + price;
     }
 
     public void OnClick()

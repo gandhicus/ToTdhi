@@ -264,15 +264,15 @@ namespace WebServer
             try
             {
                 var cost = NetConstants.GetCharacterSlotCost(account.maxCharacters);
-                if (account.premiumCurrency < cost)
+                if (account.deathCurrency < cost)
                 {
                     return new WebPurchaseSlotResponse(WebPurchaseSlotResult.NotEnoughGold, 0);
                 }
 
-                account.premiumCurrency -= cost;
+                account.deathCurrency -= cost;
                 account.maxCharacters++;
 
-                return new WebPurchaseSlotResponse(WebPurchaseSlotResult.Success, account.premiumCurrency);
+                return new WebPurchaseSlotResponse(WebPurchaseSlotResult.Success, account.deathCurrency);
             }
             finally
             {

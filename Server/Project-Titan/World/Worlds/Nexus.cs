@@ -22,7 +22,7 @@ namespace World.Worlds
 
         private static MarketItem[] packageItems = new MarketItem[]
         {
-            new MarketItem(new Item(0x2a9, true, 1), 0, 1000), // beginner's pack
+            new MarketItem(new Item(0x2a9, true, 1), 1000, 0), // beginner's pack
         };
 
         #endregion
@@ -31,11 +31,11 @@ namespace World.Worlds
 
         private static MarketItem[] emoteItems = new MarketItem[]
         {
-            new MarketItem(new Item(0x2000, true, 1), 1000, 150), // f
-            new MarketItem(new Item(0x2001, true, 1), 1000, 150), // heart
-            new MarketItem(new Item(0x2002, true, 1), 1000, 150), // danger
-            new MarketItem(new Item(0x2003, true, 1), 1000, 150), // thumbs up
-            new MarketItem(new Item(0x2004, true, 1), 1000, 150), // rare chest
+            new MarketItem(new Item(0x2000, true, 1), 200, 0), // f
+            new MarketItem(new Item(0x2001, true, 1), 200, 0), // heart
+            new MarketItem(new Item(0x2002, true, 1), 200, 0), // danger
+            new MarketItem(new Item(0x2003, true, 1), 200, 0), // thumbs up
+            new MarketItem(new Item(0x2004, true, 1), 200, 0), // rare chest
         };
 
         #endregion
@@ -44,10 +44,10 @@ namespace World.Worlds
 
         private static MarketItem[] companionItems = new MarketItem[]
         {
-            new MarketItem(new Item(0x3003, true, 1), 3500, 300), // snail companion
-            new MarketItem(new Item(0x3001, true, 1), 4000, 400), // hula companion
-            new MarketItem(new Item(0x3005, true, 1), 4500, 500), // mammoth companion
-            new MarketItem(new Item(0x3007, true, 1), 4000, 400), // tortoise companion
+            new MarketItem(new Item(0x3003, true, 1), 2000, 0), // snail companion
+            new MarketItem(new Item(0x3001, true, 1), 2000, 0), // hula companion
+            new MarketItem(new Item(0x3005, true, 1), 2000, 0), // mammoth companion
+            new MarketItem(new Item(0x3007, true, 1), 2000, 0), // tortoise companion
         };
 
         #endregion
@@ -56,8 +56,8 @@ namespace World.Worlds
 
         private static MarketItem[] antiqueItems = new MarketItem[]
         {
-            //new MarketItem(new Item(0x2a6, true, 3), 0, 35), // health vial
-            new MarketItem(new Item(0x2a7, true, 1), 25, 15), // healing spell
+            new MarketItem(new Item(0x2a6, true, 3), 45, 0), // health vial
+            new MarketItem(new Item(0x2a7, true, 1), 30, 0), // healing spell
             //new MarketItem(new Item(0x2aa, false, 1), 12000, 0), // soulless ring
             new MarketItem(new Item(0x2ab, false, 1), 8000, 0), // soulless robe
             new MarketItem(new Item(0x2ac, false, 1), 8000, 0), // soulless heavy armor
@@ -77,19 +77,19 @@ namespace World.Worlds
 
         private static MarketItem[] skinItems = new MarketItem[]
         {
-            new MarketItem(new Item(0x5000, true, 1), 0, 850), // dragon warrior
-            new MarketItem(new Item(0x5001, true, 1), 0, 850), // mist dancer
-            new MarketItem(new Item(0x5002, true, 1), 0, 850), // soul hunter
-            new MarketItem(new Item(0x5003, true, 1), 0, 850), // plague doctor
-            new MarketItem(new Item(0x5004, true, 1), 0, 850), // prince of sands
-            new MarketItem(new Item(0x5005, true, 1), 2000, 300), // baldweaver
-            new MarketItem(new Item(0x5006, true, 1), 0, 850), // mannah's guard
-            new MarketItem(new Item(0x5007, true, 1), 0, 1600), // mythic brotherhood
-            new MarketItem(new Item(0x5008, true, 1), 0, 850), // crusading commander
-            new MarketItem(new Item(0x5009, true, 1), 0, 850), // black lancer
-            new MarketItem(new Item(0x500a, true, 1), 0, 850), // crusading minister
-            new MarketItem(new Item(0x500b, true, 1), 0, 1600), // master of the order
-            new MarketItem(new Item(0x500c, true, 1), 0, 850), // skeletal brewer
+            new MarketItem(new Item(0x5000, true, 1), 1000, 0), // dragon warrior
+            new MarketItem(new Item(0x5001, true, 1), 1000, 0), // mist dancer
+            new MarketItem(new Item(0x5002, true, 1), 1000, 0), // soul hunter
+            new MarketItem(new Item(0x5003, true, 1), 1000, 0), // plague doctor
+            new MarketItem(new Item(0x5004, true, 1), 1000, 0), // prince of sands
+            new MarketItem(new Item(0x5005, true, 1), 1000, 0), // baldweaver
+            new MarketItem(new Item(0x5006, true, 1), 1000, 0), // mannah's guard
+            new MarketItem(new Item(0x5007, true, 1), 2000, 0), // mythic brotherhood
+            new MarketItem(new Item(0x5008, true, 1), 1000, 0), // crusading commander
+            new MarketItem(new Item(0x5009, true, 1), 1000, 0), // black lancer
+            new MarketItem(new Item(0x500a, true, 1), 1000, 0), // crusading minister
+            new MarketItem(new Item(0x500b, true, 1), 2000, 0), // master of the order
+            new MarketItem(new Item(0x500c, true, 1), 1000, 0), // skeletal brewer
         };
 
         #endregion

@@ -16,7 +16,9 @@ namespace TitanCore.Net
 
         public const int Game_Connection_Port = 12000;
 
-        public const int Vault_Slot_Cost = 80;
+        public const int Vault_Slot_Cost = 200;
+
+        public const int Character_Slot_Cost = 1000;
 
         public const int Max_Vault_Slots = 600;
 
@@ -90,15 +92,7 @@ namespace TitanCore.Net
 
         public static int GetCharacterSlotCost(int maxCharacters)
         {
-            switch (maxCharacters)
-            {
-                case 1:
-                    return 600;
-                case 2:
-                    return 800;
-                default:
-                    return 1000;
-            }
+            return Character_Slot_Cost;
         }
 
         public static int GetLevelUpCost(int increment)

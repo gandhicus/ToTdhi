@@ -17,9 +17,9 @@ namespace World.Net.Handling
                 return;
             }
 
-            if (connection.account.premiumCurrency < NetConstants.Vault_Slot_Cost)
+            if (connection.account.deathCurrency < NetConstants.Vault_Slot_Cost)
             {
-                connection.player.AddChat(ChatData.Error($"Not enough {NetConstants.Premium_Currency_Name}s to purchase a vault slot!"));
+                connection.player.AddChat(ChatData.Error($"Not enough souls to purchase a vault slot!"));
                 return;
             }
 
@@ -30,8 +30,8 @@ namespace World.Net.Handling
                 return;
             }
 
-            connection.account.premiumCurrency -= NetConstants.Vault_Slot_Cost;
-            connection.player.premiumCurrency.Value = connection.account.premiumCurrency;
+            connection.account.deathCurrency -= NetConstants.Vault_Slot_Cost;
+            connection.player.deathCurrency.Value = connection.account.deathCurrency;
 
             vault.AddVaultSlot();
 

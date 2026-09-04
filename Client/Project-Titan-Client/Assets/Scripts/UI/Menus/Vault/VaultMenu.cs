@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TitanCore.Core;
 using TitanCore.Data.Items;
+using TitanCore.Net;
 using TitanCore.Net.Packets.Client;
 using TMPro;
 using UnityEngine;
@@ -334,6 +335,10 @@ public class VaultMenu : MonoBehaviour
         content.sizeDelta = new Vector2(content.sizeDelta.x, (-last.y + last.height) * width);
         purchaseSlot.GetComponent<FadeInMoveUp>().ResetPosition();
         purchaseSlot.gameObject.SetActive(true);
+
+        var priceLabel = purchaseSlot.GetComponentInChildren<TextMeshProUGUI>(true);
+        if (priceLabel != null)
+            priceLabel.text = Constants.Death_Currency_Sprite + NetConstants.Vault_Slot_Cost;
     }
 
     private int GetSlotsPerRow()

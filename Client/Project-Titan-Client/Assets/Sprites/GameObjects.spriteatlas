@@ -1246,6 +1246,7 @@ SpriteAtlas:
     - c84a8abb805297941a9372c346d9647a: 21300000
     - fd0c1bbb4180a1743b404daf2bb6ec32: 21300000
     - fe9f6bbb99f25274aba24effd3dca399: 21300000
+    - 9e4c2a18b7f64d3a8c1e5b90d6f2a847: 21300000
     - 52eadcbb44869f04e95e168e5c0c9993: 21300000
     - c34f2fbbb55744048a4423923527be3d: 21300000
     - 5db2efbb35486ae4bbd24fb7cdd75040: 21300000
@@ -2878,6 +2879,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c84a8abb805297941a9372c346d9647a, type: 3}
   - {fileID: 21300000, guid: fd0c1bbb4180a1743b404daf2bb6ec32, type: 3}
   - {fileID: 21300000, guid: fe9f6bbb99f25274aba24effd3dca399, type: 3}
+  - {fileID: 21300000, guid: 9e4c2a18b7f64d3a8c1e5b90d6f2a847, type: 3}
   - {fileID: 21300000, guid: 52eadcbb44869f04e95e168e5c0c9993, type: 3}
   - {fileID: 21300000, guid: c34f2fbbb55744048a4423923527be3d, type: 3}
   - {fileID: 21300000, guid: 5db2efbb35486ae4bbd24fb7cdd75040, type: 3}
@@ -4509,6 +4511,7 @@ SpriteAtlas:
   - DarkPixie-1
   - HealingCharm
   - Healing Spell
+  - Greater Healing Spell
   - BhalingSwordsman-2
   - MannahsSoulCrux-Ascended-2
   - DumirianFire-3
