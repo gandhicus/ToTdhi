@@ -99,6 +99,7 @@ namespace World.Commands
             var primaryProjectile = weaponInfo.projectiles[0];
 
             player.AddChat(ChatData.Info(weaponInfo.name));
+            player.AddChat(ChatData.Info($"Attack {attack}: {FormatNumber(attackMod)}x ({StatFunctions.Attack_Modifier_Base:0.##} + Attack/{StatFunctions.Attack_Modifier_Divisor:0})"));
             player.AddChat(ChatData.Info($"DPS at 0 Defense: {FormatDps(minDamagePerShot, maxDamagePerShot, 0, weaponInfo.rateOfFire, trueDamageChance, critChance, critDamageBonus)}"));
             player.AddChat(ChatData.Info($"DPS at 20 Defense: {FormatDps(minDamagePerShot, maxDamagePerShot, 20, weaponInfo.rateOfFire, trueDamageChance, critChance, critDamageBonus)}"));
             player.AddChat(ChatData.Info($"DPS at 40 Defense: {FormatDps(minDamagePerShot, maxDamagePerShot, 40, weaponInfo.rateOfFire, trueDamageChance, critChance, critDamageBonus)}"));

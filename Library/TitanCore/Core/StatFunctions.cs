@@ -28,9 +28,12 @@ namespace TitanCore.Core
             return tps;
         }
 
+        public const float Attack_Modifier_Base = 0.35f;
+        public const float Attack_Modifier_Divisor = 40f;
+
         public static float AttackModifier(int attack, bool damaging)
         {
-            var modifier = 0.35f + (attack / 40.0f);
+            var modifier = Attack_Modifier_Base + (attack / Attack_Modifier_Divisor);
             if (damaging)
                 modifier *= 1.5f;
             return modifier;

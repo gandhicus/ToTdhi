@@ -38,6 +38,7 @@ namespace World.Commands
                 : 0;
 
             var attackBonus = StatFunctions.AttackDamageBonusPercent(attack, damaging);
+            var attackMod = StatFunctions.AttackModifier(attack, damaging);
             var tilesPerSecond = StatFunctions.TilesPerSecond(speed, slowed, speedy);
             var healthPerSecond = StatFunctions.HealthRegenPerSecond(vigor, healing, sick);
 
@@ -54,6 +55,7 @@ namespace World.Commands
             var rofBonus = snapshot.GetAlternateStat(AlternateStatType.RateOfFire)
                 + playerState.GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time);
 
+            player.AddChat(ChatData.Info($"Attack {attack}: {FormatNumber(attackMod)}x weapon damage ({FormatAttackFormula(damaging)})"));
             player.AddChat(ChatData.Info($"Attack damage bonus: {FormatPercent(attackBonus)}"));
             player.AddChat(ChatData.Info($"Tiles/sec: {FormatNumber(tilesPerSecond)}"));
             player.AddChat(ChatData.Info($"HP/sec: {FormatNumber(healthPerSecond)}"));
@@ -64,6 +66,12 @@ namespace World.Commands
             player.AddChat(ChatData.Info($"Block: {FormatPercent(blockChance)} | Absorption: {FormatPercent(absorptionChance)} | RoF bonus: {FormatPercent(rofBonus)}"));
 
             return null;
+        }
+
+        private static string FormatAttackFormula(bool damaging)
+        {
+            var formula = $"{StatFunctions.Attack_Modifier_Base:0.##} + Attack/{StatFunctions.Attack_Modifier_Divisor:0}";
+            return damaging ? formula + ", x1.5 Damaging" : formula;
         }
 
         private static string FormatPercent(float value)
