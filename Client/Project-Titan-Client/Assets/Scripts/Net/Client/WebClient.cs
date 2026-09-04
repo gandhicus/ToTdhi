@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using TitanCore.Core;
@@ -71,8 +72,15 @@ public static class WebClient
 
             var content = new FormUrlEncodedContent(query);
             var response = await client.PostAsync(url, content);
+            var xml = await response.Content.ReadAsStringAsync();
             var ser = new XmlSerializer(typeof(T));
-            result = (T)ser.Deserialize(await response.Content.ReadAsStreamAsync());
+            result = (T)ser.Deserialize(new StringReader(xml));
+            if (result is WebDescribeResponse describe)
+            {
+                var fromXml = ReadXmlInt64(xml, "deathCurrency");
+                if (fromXml.HasValue)
+                    describe.deathCurrency = fromXml.Value;
+            }
         }
         catch (Exception e)
         {
@@ -81,6 +89,18 @@ public static class WebClient
         }
 
         resultCallback(new Response<T>(result));
+    }
+
+    private static long? ReadXmlInt64(string xml, string elementName)
+    {
+        if (string.IsNullOrEmpty(xml) || string.IsNullOrEmpty(elementName))
+            return null;
+        var match = Regex.Match(xml, $"<{elementName}>(-?\\d+)</{elementName}>");
+        if (!match.Success)
+            return null;
+        if (!long.TryParse(match.Groups[1].Value, out var value))
+            return null;
+        return value;
     }
 
     private static string GetConfiguredWebServerUrl()

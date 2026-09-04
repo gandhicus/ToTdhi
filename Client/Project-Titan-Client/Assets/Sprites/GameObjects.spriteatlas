@@ -887,6 +887,7 @@ SpriteAtlas:
     - d33b52187fbc07745a77bc4c2086a7b3: 21300000
     - 2280741883b97584d9333115778bb269: 21300000
     - 1bc8b81812ed4b76a99bf1f1b7340d05: 21300000
+    - 9e4c2a18b7f64d3a8c1e5b90d6f2a847: 21300000
     - a5a38f18ce2e3f643985656ff7ab7b0a: 21300000
     - eda4102868e960e43bb9e11497e35e41: 21300000
     - 309631281103d6b498061a3fc832de71: 21300000
@@ -1246,7 +1247,6 @@ SpriteAtlas:
     - c84a8abb805297941a9372c346d9647a: 21300000
     - fd0c1bbb4180a1743b404daf2bb6ec32: 21300000
     - fe9f6bbb99f25274aba24effd3dca399: 21300000
-    - 9e4c2a18b7f64d3a8c1e5b90d6f2a847: 21300000
     - 52eadcbb44869f04e95e168e5c0c9993: 21300000
     - c34f2fbbb55744048a4423923527be3d: 21300000
     - 5db2efbb35486ae4bbd24fb7cdd75040: 21300000
@@ -2520,6 +2520,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d33b52187fbc07745a77bc4c2086a7b3, type: 3}
   - {fileID: 21300000, guid: 2280741883b97584d9333115778bb269, type: 3}
   - {fileID: 21300000, guid: 1bc8b81812ed4b76a99bf1f1b7340d05, type: 3}
+  - {fileID: 21300000, guid: 9e4c2a18b7f64d3a8c1e5b90d6f2a847, type: 3}
   - {fileID: 21300000, guid: a5a38f18ce2e3f643985656ff7ab7b0a, type: 3}
   - {fileID: 21300000, guid: eda4102868e960e43bb9e11497e35e41, type: 3}
   - {fileID: 21300000, guid: 309631281103d6b498061a3fc832de71, type: 3}
@@ -2879,7 +2880,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c84a8abb805297941a9372c346d9647a, type: 3}
   - {fileID: 21300000, guid: fd0c1bbb4180a1743b404daf2bb6ec32, type: 3}
   - {fileID: 21300000, guid: fe9f6bbb99f25274aba24effd3dca399, type: 3}
-  - {fileID: 21300000, guid: 9e4c2a18b7f64d3a8c1e5b90d6f2a847, type: 3}
   - {fileID: 21300000, guid: 52eadcbb44869f04e95e168e5c0c9993, type: 3}
   - {fileID: 21300000, guid: c34f2fbbb55744048a4423923527be3d, type: 3}
   - {fileID: 21300000, guid: 5db2efbb35486ae4bbd24fb7cdd75040, type: 3}
@@ -4152,6 +4152,7 @@ SpriteAtlas:
   - Loot Chest 1
   - GiantFrog-2
   - SkeletalBrewer-11
+  - Greater Healing Spell
   - Mannah-Meditate-2
   - Claymore 1 Slash
   - Hydra Effect
@@ -4511,7 +4512,6 @@ SpriteAtlas:
   - DarkPixie-1
   - HealingCharm
   - Healing Spell
-  - Greater Healing Spell
   - BhalingSwordsman-2
   - MannahsSoulCrux-Ascended-2
   - DumirianFire-3

@@ -102,7 +102,7 @@ namespace World.Map.Market
 
         private void AddDisplay(MarketItem purchasable, Int2 position, float endTime, World world)
         {
-            var display = new MarketDisplay(purchasable.item, purchasable.premiumCost, purchasable.cost);
+            var display = new MarketDisplay(purchasable.item, purchasable.cost, purchasable.premiumCost);
             display.position.Value = position.ToVec2() + 0.5f;
             world.objects.AddObject(display);
 

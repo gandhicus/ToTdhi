@@ -424,6 +424,10 @@ namespace World.Net
         {
             if (account == null) return;
 
+            var currencySave = await account.Put();
+            if (currencySave.result != RequestResult.Success)
+                Log.Write("Failed to save account currencies: " + currencySave.result);
+
             if (player != null)
             {
                 player.RemoveFromWorld();

@@ -15,7 +15,7 @@ public static class Constants
 
     public const string Premium_Currency_Sprite = "<sprite name=\"Premium\">";
 
-    public const string Death_Currency_Sprite = "<sprite name=\"Currency\">";
+    public const string Death_Currency_Sprite = "<sprite=\"LabelSprites\" name=\"Currency\">";
 
     public const string Souls_Sprite = "<sprite name=\"Souls\">";
 

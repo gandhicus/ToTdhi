@@ -26,11 +26,11 @@ namespace World.Map.Objects.Map
 
         public ObjectStat<long> cost = new ObjectStat<long>(ObjectStatType.DeathCurrency, ObjectStatScope.Public, (long)0, (long)0);
 
-        public MarketDisplay(Item item, long premiumCost, long cost)
+        public MarketDisplay(Item item, long cost, long premiumCost)
         {
             purchasable.Value = item;
-            this.premiumCost.Value = premiumCost;
             this.cost.Value = cost;
+            this.premiumCost.Value = premiumCost;
 
             Initialize(GameData.objects[0xa50]);
         }

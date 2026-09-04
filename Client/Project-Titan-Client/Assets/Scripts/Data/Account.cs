@@ -20,6 +20,14 @@ public static class Account
 
     public static WebDescribeResponse describe;
 
+    public static void ApplyDescribe(WebDescribeResponse response)
+    {
+        long previousDeath = describe != null ? describe.deathCurrency : 0;
+        describe = response;
+        if (describe != null && describe.deathCurrency == 0 && previousDeath > 0)
+            describe.deathCurrency = previousDeath;
+    }
+
     public static ClassQuest GetClassQuest(ushort type)
     {
         if (describe == null) return new ClassQuest(type, 0);

@@ -38,6 +38,7 @@ namespace World.Map.Objects.Entities
 
             client.account.deathCurrency += reward.totalReward;
             client.account.CharacterDied(character.id);
+            _ = client.account.Put();
 
             LeaderboardManager.PushDeath(character);
 

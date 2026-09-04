@@ -18,6 +18,8 @@ namespace World.Worlds
     {
         #region Market Items
 
+        // First number is soul cost, second is token cost. Rebuild and restart the World server after edits.
+
         #region Packages
 
         private static MarketItem[] packageItems = new MarketItem[]
@@ -44,10 +46,10 @@ namespace World.Worlds
 
         private static MarketItem[] companionItems = new MarketItem[]
         {
-            new MarketItem(new Item(0x3003, true, 1), 2000, 0), // snail companion
-            new MarketItem(new Item(0x3001, true, 1), 2000, 0), // hula companion
-            new MarketItem(new Item(0x3005, true, 1), 2000, 0), // mammoth companion
-            new MarketItem(new Item(0x3007, true, 1), 2000, 0), // tortoise companion
+            new MarketItem(new Item(0x3003, true, 1), 1000, 0), // snail companion
+            new MarketItem(new Item(0x3001, true, 1), 1000, 0), // hula companion
+            new MarketItem(new Item(0x3005, true, 1), 1000, 0), // mammoth companion
+            new MarketItem(new Item(0x3007, true, 1), 1000, 0), // tortoise companion
         };
 
         #endregion

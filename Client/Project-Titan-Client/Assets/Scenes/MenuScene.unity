@@ -5873,7 +5873,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <sprite name="Premium"><space=-0.4em> 0
+  m_text: <sprite="LabelSprites" name="Currency"><space=-0.4em> 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e63938445ac6bf247a2056c178b581a1, type: 2}
   m_sharedMaterial: {fileID: 8561178035320027419, guid: e63938445ac6bf247a2056c178b581a1,

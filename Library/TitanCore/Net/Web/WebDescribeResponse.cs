@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 using TitanCore.Core;
 
 namespace TitanCore.Net.Web
@@ -27,6 +28,7 @@ namespace TitanCore.Net.Web
 
         public long currency;
 
+        [XmlElement("deathCurrency")]
         public long deathCurrency;
 
         public string name;

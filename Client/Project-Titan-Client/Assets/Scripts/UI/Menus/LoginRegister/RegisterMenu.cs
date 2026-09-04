@@ -167,7 +167,7 @@ public class RegisterMenu : MonoBehaviour
             }
             else
             {
-                Account.describe = describeResponse.item;
+                Account.ApplyDescribe(describeResponse.item);
                 gameObject.SetActive(false);
                 //playerMenu.SetActive(true);
             }

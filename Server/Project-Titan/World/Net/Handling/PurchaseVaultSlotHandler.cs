@@ -32,6 +32,7 @@ namespace World.Net.Handling
 
             connection.account.deathCurrency -= NetConstants.Vault_Slot_Cost;
             connection.player.deathCurrency.Value = connection.account.deathCurrency;
+            _ = connection.account.Put();
 
             vault.AddVaultSlot();
 

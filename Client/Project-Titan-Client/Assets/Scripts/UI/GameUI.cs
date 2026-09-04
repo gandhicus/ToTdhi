@@ -161,6 +161,8 @@ public abstract class GameUI : MonoBehaviour
 
     public void SetDeathCurrency(long amount)
     {
+        if (Account.describe != null)
+            Account.describe.deathCurrency = amount;
         deathCurrencyLabel.text = $"{Constants.Death_Currency_Sprite}{amount.ToString("N0")}";
     }
 

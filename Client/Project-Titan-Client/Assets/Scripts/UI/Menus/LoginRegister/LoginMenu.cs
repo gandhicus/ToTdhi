@@ -308,7 +308,7 @@ public class LoginMenu : MonoBehaviour
             }
             else
             {
-                Account.describe = describeResponse.item;
+                Account.ApplyDescribe(describeResponse.item);
                 Account.loggedInAccessToken = currentAccessToken;
                 Account.savedAccessToken = currentAccessToken;
 

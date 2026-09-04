@@ -129,13 +129,6 @@ public class CharactersMenu : MonoBehaviour
 
     public void OnPurchaseSlot()
     {
-        var cost = NetConstants.GetCharacterSlotCost(Account.describe.maxCharacters);
-        if (Account.describe.deathCurrency < cost)
-        {
-            Debug.Log("Not enough souls to purchase slot");
-            return;
-        }
-
         overlay.SetActive(true);
         WebClient.SendPurchaseSlot(Account.savedAccessToken, OnPurchaseSlotResponse);
     }
@@ -153,9 +146,27 @@ public class CharactersMenu : MonoBehaviour
             var response = purchaseResponse;
             purchaseResponse = null;
 
-            if (response.item == null || response.item.result != WebPurchaseSlotResult.Success)
+            if (response.exception != null)
             {
-
+                ApplicationAlert.Show("Uh oh.", "Unable to reach the server to buy a character slot.", null, "Okay");
+            }
+            else if (response.item == null || response.item.result != WebPurchaseSlotResult.Success)
+            {
+                var result = response.item != null ? response.item.result : WebPurchaseSlotResult.InternalServerError;
+                string message;
+                switch (result)
+                {
+                    case WebPurchaseSlotResult.NotEnoughGold:
+                        message = "Not enough souls to buy a character slot.";
+                        break;
+                    case WebPurchaseSlotResult.AccountInUse:
+                        message = "Your account is still in a world. Return to the menu fully, then try again.";
+                        break;
+                    default:
+                        message = "Unable to buy a character slot.";
+                        break;
+                }
+                ApplicationAlert.Show("Uh oh.", message, null, "Okay");
             }
             else
             {

@@ -29,6 +29,16 @@ if exist "%CONFIG_READER%" (
     for /f "usebackq delims=" %%A in (`powershell -NoProfile -ExecutionPolicy Bypass -File "%CONFIG_READER%" -Path "%SERVER_SETTINGS%" -Key lootBoost -Default "1"`) do set "TRIALS_LOOT_BOOST=%%A"
 )
 
+where dotnet >nul 2>nul
+if not errorlevel 1 (
+    echo Publishing server so Nexus.cs and other server edits apply...
+    dotnet publish "%SERVER_PROJECT%" -c Debug -m:1 -nr:false -p:UseSharedCompilation=false -p:DebugType=None -p:DebugSymbols=false -o "%SERVER_BUILD%"
+    if errorlevel 1 (
+        echo Server publish failed. Trying the last successful build...
+    )
+    echo.
+)
+
 echo Starting Trials of Titan local server...
 echo LAN/Hamachi host: %TRIALS_LOCAL_SERVER_HOST%
 echo Admin commands: %TRIALS_SERVER_ADMIN%
