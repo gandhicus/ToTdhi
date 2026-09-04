@@ -79,8 +79,9 @@ namespace World.Abilities
             var bladeweaverWeaponInfo = (WeaponInfo)bladeweaverItem.GetInfo();
             var bladeweaverProjData = bladeweaverWeaponInfo.projectiles[0];
 
+            int weaponDamage = player.GetHeldWeaponVolleyDamage(player.projIds, time);
             var bladeweaverProjectiles = player.GetProjectiles(bladeweaverItem, bladeweaverProjData, bladeweaverWeaponInfo, player.projIds, player.gameId, position.AngleTo(target), false, time);
-            int damage = AbilityFunctions.BladeWeaver.GetProjectileDamage(value, attack);
+            int damage = AbilityFunctions.BladeWeaver.ScaleWeaponDamage(weaponDamage, value);
             damage = (int)(damage * (1f + mods.abilityDamagePct));
             var bwProjDamage = (ushort)Math.Max(1, damage);
             for (int i = 0; i < bladeweaverProjectiles.Length; i++)

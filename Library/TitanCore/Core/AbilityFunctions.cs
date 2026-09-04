@@ -35,7 +35,7 @@ namespace TitanCore.Core
                 case ClassType.Commander:
                     return 10000;
                 case ClassType.Lancer:
-                    return 80;
+                    return 1000;
                 case ClassType.Alchemist:
                     return 10000;
                 case ClassType.Minister:
@@ -90,27 +90,21 @@ namespace TitanCore.Core
 
         public static class Lancer
         {
-            private const float Angle_Offset = 5f * (AngleUtils.PI / 180.0f);
+            public const int Rage_Cost = 25;
 
-            public const int Rage_Cost = 5;
+            public const ushort Ability_Item_Id = 0x2a1;
 
-            public static float GetAngleOffset(uint projId)
+            public const float Weapon_Damage_Mul = 2f;
+
+            public const int Nova_Count = 12;
+
+            public const int Nova_Hits_Per_Target = 3;
+
+            public static IEnumerable<float> GetNovaAngles(float aimAngle)
             {
-                var offsetId = projId % 5;
-                switch (offsetId)
-                {
-                    case 0:
-                        return Angle_Offset;
-                    case 1:
-                        return Angle_Offset * -2;
-                    case 2:
-                        return 0;
-                    case 3:
-                        return Angle_Offset * -1;
-                    case 4:
-                        return Angle_Offset * 2;
-                }
-                return 0;
+                float step = (float)Math.PI * 2f / Nova_Count;
+                for (int i = 0; i < Nova_Count; i++)
+                    yield return aimAngle + i * step;
             }
 
             public static float GetProjectileSize(int rage)
@@ -118,10 +112,16 @@ namespace TitanCore.Core
                 return 1f + (rage / 100f);
             }
 
-            public static int GetProjectileDamage(int rage, int attack)
+            public static int ScaleWeaponDamage(int weaponShotDamage)
             {
-                var damage = 10 + rage;
-                return (int)(damage * (0.5f + attack / 50f));
+                return Math.Max(1, (int)(weaponShotDamage * Weapon_Damage_Mul));
+            }
+
+            public static bool RollsPierce(int pierceChancePercent, uint projectileId, uint ownerGameId)
+            {
+                if (pierceChancePercent <= 0) return false;
+                int chance = Math.Min(100, pierceChancePercent);
+                return (StatFunctions.GetCombatSeed(projectileId, 0, ownerGameId) % 100u) < (uint)chance;
             }
         }
 
@@ -159,6 +159,15 @@ namespace TitanCore.Core
         public static class Berserker
         {
             public const int RoF_Amount = 20;
+
+            public const float Weapon_Damage_Mul = 0.3f;
+
+            public const float Rage_Damage_At_100 = 20f / 3f;
+
+            public static int ScaleWeaponDamage(int weaponShotDamage)
+            {
+                return Math.Max(1, (int)(weaponShotDamage * Weapon_Damage_Mul));
+            }
 
             public static float GetShoutSpread(int rage, int attack)
             {
@@ -219,6 +228,18 @@ namespace TitanCore.Core
 
             public static int Max_Dash_Rage = 25;
 
+            public const float Rage_Charge_Per_Second = 100f;
+
+            public const float Charge_Hold_Timeout_Sec = 3f;
+
+            public static int GetChargedRage(float heldTimeSec, float currentRage, float chargeDurationMul)
+            {
+                float durationMul = chargeDurationMul > 0f ? chargeDurationMul : 1f;
+                int fromHold = (int)(heldTimeSec * Rage_Charge_Per_Second / durationMul);
+                int cappedByBar = Math.Max(0, (int)Math.Floor(currentRage));
+                return Math.Max(0, Math.Min(Max_Dash_Rage, Math.Min(fromHold, cappedByBar)));
+            }
+
             public static Vec2 GetDashPositionVector(float angle, int rage)
             {
                 return GetDashPositionVector(angle, rage, Dash_Duration);
@@ -245,10 +266,13 @@ namespace TitanCore.Core
                 return 1f + (rage / Max_Dash_Rage);
             }
 
-            public static int GetProjectileDamage(int rage, int attack)
+            // 3x the sword volley at 25 rage matches the old flat slash on a T8 sword at Attack 60.
+            public const float Weapon_Damage_Mul = 3f;
+
+            public static int ScaleWeaponDamage(int weaponVolleyDamage, int rage)
             {
-                var damage = 10 + rage * 45;
-                return (int)(damage * (0.5f + attack / 75f));
+                float rageScalar = Math.Min(1f, Math.Max(0, rage) / (float)Max_Dash_Rage);
+                return Math.Max(1, (int)(weaponVolleyDamage * Weapon_Damage_Mul * rageScalar));
             }
         }
 
@@ -265,6 +289,15 @@ namespace TitanCore.Core
             {
                 return 10000;
             }
+
+            public static int GetCleaveOutgoing(int minDamage, int maxDamage, int attack, bool damaging, float weaponDamagePct)
+            {
+                if (weaponDamagePct <= 0) return 0;
+                float mid = (minDamage + maxDamage) * 0.5f;
+                float outgoing = mid * StatFunctions.AttackModifier(attack, damaging) * weaponDamagePct;
+                if (outgoing <= 0) return 0;
+                return (int)outgoing;
+            }
         }
 
         public static class Brewer
@@ -280,9 +313,16 @@ namespace TitanCore.Core
 
             public const int Marked_Linger_Ms = 4000;
 
+            public const float Marked_Hit_Mul = 1.15f;
+
             public const int RoF_Amount = 5;
 
             public const uint RoF_Duration_Ms = 4000;
+
+            public static int ScaleMarkedDamage(int damageTaken, float wrathPct)
+            {
+                return (int)(damageTaken * (Marked_Hit_Mul + wrathPct));
+            }
         }
 
         public static class RageSpend
@@ -326,6 +366,19 @@ namespace TitanCore.Core
             {
                 int cost = (int)Math.Round(Lancer.Rage_Cost - mods.rageCostFlat);
                 return Math.Max(1, cost);
+            }
+
+            public const float Damage_Mul_At_100_Rage = 3f;
+
+            public static int ApplyRageDamageMul(int baseDamage, int rage)
+            {
+                return ApplyRageDamageMul(baseDamage, rage, Damage_Mul_At_100_Rage);
+            }
+
+            public static int ApplyRageDamageMul(int baseDamage, int rage, float mulAt100Rage)
+            {
+                float mul = mulAt100Rage * Math.Max(0, rage) / 100f;
+                return Math.Max(1, (int)(baseDamage * mul));
             }
         }
     }

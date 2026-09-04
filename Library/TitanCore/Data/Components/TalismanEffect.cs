@@ -65,6 +65,8 @@ namespace TitanCore.Data.Components
 
         public int healAmount;
 
+        public int maxHitsPerTarget;
+
         public float rageGain;
 
         public int rofAmount;
@@ -84,6 +86,7 @@ namespace TitanCore.Data.Components
             trigger = xml.AtrEnum("trigger", TalismanTrigger.AbilityPulse);
             ragePercentThreshold = xml.AtrInt("rageThreshold", DefaultRageThreshold);
             cooldownMs = (uint)xml.AtrInt("cooldown", 0);
+            maxHitsPerTarget = xml.AtrInt("maxHitsPerTarget", 0);
 
             foreach (var child in xml.Elements("StatBonus"))
                 statBonus = new ProcStatBonus(child);
@@ -192,10 +195,13 @@ namespace TitanCore.Data.Components
                 parts.Add($"gain {Highlight($"{ProcFunctions.FormatAlternateStatAmount(alternateStatBonus.statType, alternateStatBonus.amount)} {ProcFunctions.GetAlternateStatDisplayName(alternateStatBonus.statType)}")} for {Highlight($"{ProcFunctions.FormatDurationSeconds(alternateStatBonus.durationMs)} seconds")}");
             }
 
-            if (healAmount > 0)
-                parts.Add($"heal {Highlight($"{healAmount} HP")}");
-            else if (healAmount < 0)
-                parts.Add($"heal {Highlight($"{healAmount} HP")}");
+            if (healAmount != 0)
+            {
+                var healText = $"heal {Highlight($"{healAmount} HP")}";
+                if (maxHitsPerTarget > 0)
+                    healText += $" (at most {Highlight($"{maxHitsPerTarget}")} times per enemy per ability, {Highlight($"{healAmount * maxHitsPerTarget} HP")})";
+                parts.Add(healText);
+            }
 
             if (Math.Abs(rageGain) > 0.001f)
                 parts.Add($"gain {Highlight($"+{rageGain:0.#} rage")}");
@@ -285,7 +291,7 @@ namespace TitanCore.Data.Components
 
         private static string Highlight(string value)
         {
-            return $"<color=#FFFFFF>{value}</color>";
+            return ProcFunctions.Highlight(value);
         }
 
         public static string GetTriggerDisplayName(TalismanTrigger trigger)

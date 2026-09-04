@@ -89,6 +89,7 @@ namespace World.Worlds
             new MarketItem(new Item(0x5009, true, 1), 0, 850), // black lancer
             new MarketItem(new Item(0x500a, true, 1), 0, 850), // crusading minister
             new MarketItem(new Item(0x500b, true, 1), 0, 1600), // master of the order
+            new MarketItem(new Item(0x500c, true, 1), 0, 850), // skeletal brewer
         };
 
         #endregion

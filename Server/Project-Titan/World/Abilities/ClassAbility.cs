@@ -38,6 +38,11 @@ namespace World.Abilities
             OnHit(entity, time, ref damageTaken);
         }
 
+        public virtual void OnHit(EntityState entity, uint time, ref int damageTaken, ushort sourceItem, uint projectileStartTime)
+        {
+            OnHit(entity, time, ref damageTaken, sourceItem);
+        }
+
         public abstract TnPlayEffect UseAbility(uint time, Vec2 position, Vec2 target, byte value, int attack, ref byte rage, out byte rageCost, out bool sendToSelf, out bool failedToUse);
 
         public abstract void OnMove(Vec2 position, uint time);
@@ -70,15 +75,15 @@ namespace World.Abilities
         public void TriggerTalisman(TalismanTrigger trigger, uint time, Vec2 position, Vec2 target, float? abilityRagePercent = null)
         {
             int damageTaken = 0;
-            TriggerTalisman(trigger, time, position, target, ref damageTaken, null, abilityRagePercent);
+            TriggerTalisman(trigger, time, position, target, ref damageTaken, null, abilityRagePercent, 0);
         }
 
         public void TriggerTalisman(TalismanTrigger trigger, uint time, Vec2 position, Vec2 target, ref int damageTaken, float? abilityRagePercent = null)
         {
-            TriggerTalisman(trigger, time, position, target, ref damageTaken, null, abilityRagePercent);
+            TriggerTalisman(trigger, time, position, target, ref damageTaken, null, abilityRagePercent, 0);
         }
 
-        public void TriggerTalisman(TalismanTrigger trigger, uint time, Vec2 position, Vec2 target, ref int damageTaken, Entity hitEnemy, float? abilityRagePercent = null)
+        public void TriggerTalisman(TalismanTrigger trigger, uint time, Vec2 position, Vec2 target, ref int damageTaken, Entity hitEnemy, float? abilityRagePercent = null, uint projectileStartTime = 0, uint shotTargetId = 0)
         {
             if (!SkillTreeFunctions.IsEnabled) return;
             var effects = PlayerState.abilityMods.talismanEffects;
@@ -105,7 +110,11 @@ namespace World.Abilities
                     player.Heal(effect.healAmount);
 
                 if (effect.rageGain > 0)
-                    PlayerState.AddRage(time, effect.rageGain, false);
+                {
+                    uint targetId = shotTargetId != 0 ? shotTargetId : (hitEnemy != null ? hitEnemy.gameId : 0);
+                    if (projectileStartTime == 0 || PlayerState.TryConsumeTalismanShotRage(i, targetId, projectileStartTime))
+                        PlayerState.AddRage(time, effect.rageGain, false);
+                }
 
                 if (hitEnemy != null && effect.statusEffects != null)
                 {
@@ -119,13 +128,18 @@ namespace World.Abilities
                 }
 
                 if (effect.aoe != null)
-                    FireTalismanAoe(effect, time, position, target);
+                    FireAoe(effect.aoe, time, position, target, effect.hasAoeColor, effect.aoeColor);
             }
         }
 
-        private void FireTalismanAoe(TalismanEffect effect, uint time, Vec2 position, Vec2 target)
+        public void FireAoe(TalismanAoe aoe, uint time, Vec2 position, Vec2 target)
         {
-            var aoe = effect.aoe;
+            FireAoe(aoe, time, position, target, false, default);
+        }
+
+        public void FireAoe(TalismanAoe aoe, uint time, Vec2 position, Vec2 target, bool hasFallbackColor, GameColor fallbackColor)
+        {
+            if (aoe == null) return;
             Vec2 blast;
             if (aoe.at == TalismanAoeAt.Self)
             {
@@ -184,10 +198,10 @@ namespace World.Abilities
                 blastEffect.hasColor = true;
                 blastEffect.color = aoe.color;
             }
-            else if (effect.hasAoeColor)
+            else if (hasFallbackColor)
             {
                 blastEffect.hasColor = true;
-                blastEffect.color = effect.aoeColor;
+                blastEffect.color = fallbackColor;
             }
             var packet = new TnPlayEffect(blastEffect);
             player.client.SendAsync(packet);

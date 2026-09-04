@@ -110,13 +110,12 @@ namespace World.Abilities
 
             ProjectileData proj = weaponInfo.projectiles[0];
             WeaponFunctions.GetProjectileDamage(weaponInfo.slotType, proj, out var minDamage, out var maxDamage);
-            float mid = (minDamage + maxDamage) * 0.5f;
             int attack = PlayerState.currentSnapshot.GetFunctionalStat(StatType.Attack);
             bool damaging = PlayerState.HasEffect(StatusEffect.Damaging, time);
-            float outgoing = mid * StatFunctions.AttackModifier(attack, damaging) * mods.weaponDamagePct;
+            int outgoing = AbilityFunctions.Warrior.GetCleaveOutgoing(minDamage, maxDamage, attack, damaging, mods.weaponDamagePct);
             if (outgoing <= 0) return 0;
 
-            return entity.GetDamageTaken((int)outgoing);
+            return entity.GetDamageTaken(outgoing);
         }
     }
 }

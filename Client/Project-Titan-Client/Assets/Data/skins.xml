@@ -182,4 +182,19 @@
     <Consumable/>
     <Unlockable/>
   </Object>
+
+  <Object id="0x500c" name="Skeletal Brewer Skin">
+    <Type>SkinUnlocker</Type>
+
+    <Texture>
+      <Type>Character</Type>
+      <Set>SkeletalBrewer</Set>
+    </Texture>
+
+    <Description>Unlocks the "Skeletal Brewer" skin for a brewer.</Description>
+
+    <CharacterType>0xa</CharacterType>
+    <Consumable/>
+    <Unlockable/>
+  </Object>
 </Objects>

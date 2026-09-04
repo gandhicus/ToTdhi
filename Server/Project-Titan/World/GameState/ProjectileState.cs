@@ -41,6 +41,8 @@ namespace World.GameState
 
         public uint hitTime = uint.MaxValue;
 
+        public HashSet<uint> hitEnemies;
+
         public ProjectileState(Enemy enemy, EnemyProjectile projectile)
         {
             ownerInfo = enemy.info;

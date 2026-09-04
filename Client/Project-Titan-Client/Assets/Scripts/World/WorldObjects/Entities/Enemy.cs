@@ -127,6 +127,13 @@ public class Enemy : NotPlayable
         {
             if (!HasStatusEffect(StatusEffect.Invulnerable))
             {
+                if (projectile.lancerNova && world.player != null
+                    && !world.player.TryConsumeLancerNovaHit(gameId, projectile.startTime))
+                {
+                    world.gameManager.client.SendAsync(new TnHit(world.clientTickId, projectile.projId, gameId, Vec2.zero));
+                    return true;
+                }
+
                 int rawDamage = projectile.damage;
                 if (projectile.players)
                 {
@@ -144,6 +151,7 @@ public class Enemy : NotPlayable
                         world.clientTime,
                         gameId,
                         GetDefenseMinusAmount());
+                    world.player.ApplyClientAbilityHitModifiers(this, ref result);
 
                     CombatDisplay.ShowHitResult(this, result, aggregatePlayerDamage: result.type != HitResultType.Blocked && result.type != HitResultType.Absorbed);
                     world.gameManager.client.SendAsync(new TnHit(world.clientTickId, projectile.projId, gameId, Vec2.zero));
@@ -152,7 +160,8 @@ public class Enemy : NotPlayable
                     this.killed = killed;
                     if (result.damage > 0)
                     {
-                        world.player.AddRage();
+                        if (projectile.grantsRage)
+                            world.player.AddRage();
                         world.player.ApplyNomadMarkedHitRage(this, projectile.startTime);
                     }
                 }
@@ -185,6 +194,7 @@ public class Enemy : NotPlayable
                 world.clientTime,
                 gameId,
                 GetDefenseMinusAmount());
+            world.player.ApplyClientAbilityHitModifiers(this, ref result);
             CombatDisplay.ShowHitResult(this, result, aggregatePlayerDamage: result.type != HitResultType.Blocked && result.type != HitResultType.Absorbed);
             world.gameManager.client.SendAsync(new TnHit(projectile.GetExpireClientTickId(), projectile.projId, gameId, Vec2.zero));
             health -= result.damage;

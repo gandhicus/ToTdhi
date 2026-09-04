@@ -20,6 +20,8 @@ public class NomadCharm : SpriteWorldObject
 
     public static HashSet<uint> consumedCharms = new HashSet<uint>();
 
+    public static readonly List<NomadCharm> ActiveCharms = new List<NomadCharm>();
+
     public override void Enable()
     {
         base.Enable();
@@ -27,6 +29,15 @@ public class NomadCharm : SpriteWorldObject
         consumed = false;
 
         transform.localEulerAngles = new Vector3(0, 0, 0);
+
+        if (!ActiveCharms.Contains(this))
+            ActiveCharms.Add(this);
+    }
+
+    public override void Disable()
+    {
+        ActiveCharms.Remove(this);
+        base.Disable();
     }
 
     public override void NetUpdate(NetStat[] stats, bool first)

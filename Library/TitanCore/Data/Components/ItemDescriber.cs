@@ -79,8 +79,10 @@ namespace TitanCore.Data.Components
                     describer.AddTitle("Procs");
                     foreach (var proc in equip.procs)
                     {
+                        var procText = ProcFunctions.GetProcTooltipText(proc);
+                        if (string.IsNullOrEmpty(procText)) continue;
                         describer.NewLine();
-                        describer.AddElement(ProcFunctions.GetProcTooltipText(proc), neutralColor);
+                        AddIndentedBody(describer, procText, neutralColor);
                     }
                     describer.NewLine();
                 }
@@ -109,7 +111,7 @@ namespace TitanCore.Data.Components
                                 scalingBonusStats,
                                 scalingBonusAlternateStats);
                         }
-                        describer.AddElement(ProcFunctions.GetScaledStatTooltipText(scaled, currentBonus), neutralColor);
+                        AddIndentedBody(describer, ProcFunctions.GetScaledStatTooltipText(scaled, currentBonus), neutralColor);
                     }
                     describer.NewLine();
                 }
@@ -132,7 +134,7 @@ namespace TitanCore.Data.Components
                     foreach (var effect in equip.talismanEffects)
                     {
                         describer.NewLine();
-                        describer.AddContent(effect.Describe(), neutralColor);
+                        AddIndentedBody(describer, effect.Describe(), neutralColor);
                     }
                     describer.NewLine();
                 }
@@ -392,6 +394,12 @@ namespace TitanCore.Data.Components
                     }
                 }
             }
+        }
+
+        private static void AddIndentedBody(IDescriber describer, string text, GameColor color)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+            describer.AddContent($"<indent=0.3em>{text}</indent>", color);
         }
 
         private static void AddAlternateStatElement(IDescriber describer, AlternateStatType type, int value, GameColor color)

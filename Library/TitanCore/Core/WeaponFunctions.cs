@@ -33,5 +33,28 @@ namespace TitanCore.Core
             min = (ushort)(baseDamage * data.minDamageMod);
             max = (ushort)(baseDamage * data.maxDamageMod);
         }
+
+        public static int GetVolleyShotCount(ProjectileData[] projectiles)
+        {
+            if (projectiles == null || projectiles.Length == 0)
+                return 0;
+            return Math.Max(1, projectiles[0].amount);
+        }
+
+        // Two-shot swords store both slashes in the volley; summing them so ability
+        // scaling is not stuck on the first projectile alone.
+        public static void GetVolleyDamage(SlotType slotType, ProjectileData[] projectiles, out int min, out int max)
+        {
+            min = 0;
+            max = 0;
+            int count = GetVolleyShotCount(projectiles);
+            for (int i = 0; i < count; i++)
+            {
+                var shot = projectiles[i % projectiles.Length];
+                GetProjectileDamage(slotType, shot, out var shotMin, out var shotMax);
+                min += shotMin;
+                max += shotMax;
+            }
+        }
     }
 }

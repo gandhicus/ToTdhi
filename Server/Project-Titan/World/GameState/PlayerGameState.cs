@@ -282,7 +282,16 @@ namespace World.GameState
         {
             if (playerProjectileStates.ContainsKey(proj.projectileId))
                 return;
-            playerProjectileStates.Add(proj.projectileId, new ProjectileState(time, proj, position));
+            var state = new ProjectileState(time, proj, position);
+            if (proj.item == AbilityFunctions.Lancer.Ability_Item_Id && SkillTreeFunctions.IsEnabled)
+            {
+                var mods = playerState.abilityMods;
+                if (mods.projectileSizePct > 0)
+                    state.radius *= 1f + mods.projectileSizePct;
+                if (mods.abilityRangeBonus > 0 && state.data.speed > 0)
+                    state.reach += mods.abilityRangeBonus / state.data.speed;
+            }
+            playerProjectileStates.Add(proj.projectileId, state);
         }
 
         public void AddPlayerAoeProjectile(uint time, Vec2 position, AllyAoeProjectile proj)
@@ -432,6 +441,22 @@ namespace World.GameState
 
             if (ProjectileHitsEnemy(projPos, proj.radius, enemyState, time)) // Hit success!
             {
+                if (proj.hitEnemies == null)
+                    proj.hitEnemies = new HashSet<uint>();
+                if (!proj.hitEnemies.Add(enemyId))
+                    return;
+
+                bool lancerNovaOverflow = proj.item == AbilityFunctions.Lancer.Ability_Item_Id
+                    && !playerState.TryConsumeLancerNovaHit(enemyId, proj.startTime);
+                if (lancerNovaOverflow)
+                {
+                    bool pierceOverflow = SkillTreeFunctions.IsEnabled
+                        && AbilityFunctions.Lancer.RollsPierce(playerState.abilityMods.pierceChance, proj.projectileId, player.gameId);
+                    if (!proj.data.ignoreEntity && !pierceOverflow)
+                        playerProjectileStates.Remove(playerProjId);
+                    return;
+                }
+
                 bool killed = false;
                 var result = playerState.ResolvePlayerOutgoingDamage(
                     proj.damage,
@@ -444,9 +469,9 @@ namespace World.GameState
                     enemyId,
                     enemyState.currentSnapshot.defenseMinus);
                 int damageTaken = result.damage;
-                playerState.ability.OnHit(enemyState, time, ref damageTaken, proj.item);
+                playerState.ability.OnHit(enemyState, time, ref damageTaken, proj.item, proj.startTime);
 
-                playerState.TriggerProcsFromDamageResult(result, time);
+                playerState.TriggerProcsFromDamageResult(result, time, enemyPos);
 
                 if (player.world.objects.TryGetEnemy(enemyState.gameId, out var enemy))
                 {
@@ -473,10 +498,14 @@ namespace World.GameState
 
                 }
 
-                playerState.AddRage(time);
+                if (proj.item != AbilityFunctions.Lancer.Ability_Item_Id)
+                    playerState.AddRage(time);
 
-                if ((!killed || !proj.data.fallthrough) && !proj.data.ignoreEntity)
-                    playerProjectileStates.Remove(playerProjId); // TODO add multi-hit / passthrough
+                bool pierce = proj.item == AbilityFunctions.Lancer.Ability_Item_Id
+                    && SkillTreeFunctions.IsEnabled
+                    && AbilityFunctions.Lancer.RollsPierce(playerState.abilityMods.pierceChance, proj.projectileId, player.gameId);
+                if ((!killed || !proj.data.fallthrough) && !proj.data.ignoreEntity && !pierce)
+                    playerProjectileStates.Remove(playerProjId);
             }
             else // Hit failed!
             {
@@ -528,9 +557,9 @@ namespace World.GameState
                 enemyId,
                 enemyState.currentSnapshot.defenseMinus);
             int damageTaken = result.damage;
-            playerState.ability.OnHit(enemyState, time, ref damageTaken, proj.item);
+            playerState.ability.OnHit(enemyState, time, ref damageTaken, proj.item, 0);
 
-            playerState.TriggerProcsFromDamageResult(result, time);
+            playerState.TriggerProcsFromDamageResult(result, time, enemyPos);
 
             if (player.world.objects.TryGetEnemy(enemyState.gameId, out var enemy))
             {

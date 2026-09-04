@@ -72,10 +72,10 @@ namespace TitanCore.Core
             public const int EverlastingMs = 500;
             public const float MendingHeal = 0.03f;
             public const int AegisDefense = 2;
-            public const int AegisDefenseMs = 6000;
+            public const int AegisDefenseMs = 5000;
             public const int CastleMaxHealth = 10;
             public const int CastleMaxHealthHigh = 5;
-            public const int CastleMaxHealthMs = 6000;
+            public const int CastleMaxHealthMs = 5000;
             public const int CastleRageChunk = 50;
 
             public static readonly NodeDef[] Nodes =
@@ -126,11 +126,11 @@ namespace TitanCore.Core
             public const float WrathDamagePct = 0.15f;
             public const float ManifestRadius = 0.8f;
             public const int BlightAttack = 2;
-            public const int BlightMs = 6000;
+            public const int BlightMs = 5000;
             public const float FrustrationKeep = 0.08f;
             public const float HasteCooldownPct = 0.05f;
             public const float UnfurlRange = 1f;
-            public const int EnigmaSlowMs = 400;
+            public const int EnigmaSlowMs = 1000;
             public const int GriefRageOnKill = 4;
 
             public static readonly NodeDef[] Nodes =
@@ -161,13 +161,14 @@ namespace TitanCore.Core
         private static class LancerTree
         {
             public const float WrathDamagePct = 0.08f;
-            public const float FrustrationRageCost = 0.5f;
+            public const float FrustrationRageCost = 2.5f;
             public const float ManifestSizePct = 0.10f;
             public const int GriefRageOnKill = 3;
-            public const int HasteCooldownMs = 8;
-            public const float AttunedWobblePct = 0.10f;
+            public const float HasteCooldownPct = 0.10f;
+            public const float AttunedRange = 0.5f;
             public const int BlightAttack = 2;
-            public const int BlightMs = 6000;
+            public const int BlightMs = 2500;
+            public const int PiercingChancePct = 30;
 
             public static readonly NodeDef[] Nodes =
             {
@@ -175,9 +176,9 @@ namespace TitanCore.Core
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"-{Sc(FrustrationRageCost, r):0.#} rage cost"),
                 N("Manifest", "Ranger/ManifestPower", EffectStyle.Power, r => $"+{Pct(ManifestSizePct, r)} ability size"),
                 N("Grief", "Ranger/Grief", EffectStyle.Power, r => $"+{Sc(GriefRageOnKill, r)} rage on ability kill"),
-                N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Sc(HasteCooldownMs, r)} ms ability cooldown"),
-                N("Attuned", "Lancer/Attuned", EffectStyle.Power, r => $"-{Pct(AttunedWobblePct, r)} angle wobble"),
-                N("Piercing", "Lancer/Piercing", EffectStyle.Power, r => $"+{r / 2} pierce"),
+                N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
+                N("Attuned", "Lancer/Attuned", EffectStyle.Power, r => $"+{Sc(AttunedRange, r):0.#} tile ability range"),
+                N("Piercing", "Lancer/Piercing", EffectStyle.Power, r => $"+{Sc(PiercingChancePct, r)}% chance for ability hits to pierce"),
                 N("Blight", "Lancer/Blight", EffectStyle.Power, r => OnUseStat(BlightAttack, BlightMs, r, "Attack")),
             };
 
@@ -187,23 +188,25 @@ namespace TitanCore.Core
                 snap.rageCostFlat = Sc(FrustrationRageCost, r[1]);
                 snap.projectileSizePct = Sc(ManifestSizePct, r[2]);
                 snap.rageOnKill = Sc(GriefRageOnKill, r[3]);
-                snap.cooldownFlatMs = Sc(HasteCooldownMs, r[4]);
-                snap.wobbleMul = MulMinus(AttunedWobblePct, r[5]);
-                snap.pierce = r[6] / 2;
+                snap.cooldownMul = MulMinus(HasteCooldownPct, r[4]);
+                snap.abilityRangeBonus = Sc(AttunedRange, r[5]);
+                snap.pierceChance = Sc(PiercingChancePct, r[6]);
                 SetOnUse(ref snap.timedAttack, ref snap.timedAttackMs, BlightAttack, BlightMs, r[7]);
             }
         }
 
         private static class BladeweaverTree
         {
-            public const float WrathDamagePct = 0.03f;
-            public const float UnfurlRange = 0.4f;
+            public const float WrathDamagePct = 0.04f;
+            public const float UnfurlRange = 1f;
             public const int EverlastingMs = 20;
             public const float FrustrationKeep = 0.06f;
-            public const int HasteCooldownMs = 1000;
+            public const float HasteChargeDurationPct = 0.20f;
             public const float ManifestSizePct = 0.15f;
-            public const int AlacritySpeed = 2;
-            public const int AlacrityMs = 6000;
+            public const int AlacritySpeed = 3;
+            public const int AlacritySpeedRank3 = 8;
+            public const int AlacritySpeedHigh = 2;
+            public const int AlacrityMs = 8000;
             public const int AegisInvulnMs = 150;
 
             public static readonly NodeDef[] Nodes =
@@ -212,9 +215,9 @@ namespace TitanCore.Core
                 N("Unfurl", "Bladeweaver/Unfurl", EffectStyle.Agility, r => $"+{Sc(UnfurlRange, r):0.#} tile ability range"),
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Sc(EverlastingMs, r)} ms ability duration"),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability hit"),
-                N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{SecI(HasteCooldownMs, r)} ability cooldown"),
+                N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteChargeDurationPct, r)} charge duration"),
                 N("Manifest", "Ranger/ManifestPower", EffectStyle.Power, r => $"+{Pct(ManifestSizePct, r)} ability size"),
-                N("Alacrity", "Bladeweaver/Alacrity", EffectStyle.Agility, r => OnUseStat(AlacritySpeed, AlacrityMs, r, "Speed")),
+                N("Alacrity", "Bladeweaver/Alacrity", EffectStyle.Agility, r => $"+{AlacrityAmount(r)} Speed per {SkillTreeFunctions.On_Use_Stat_Rage_Chunk} rage for {AlacrityMs / 1000f:0.#}s"),
                 N("Aegis", "Warrior/Aegis", EffectStyle.Defense, r => $"+{Sec(AegisInvulnMs, r)} Invulnerable after ability ends"),
             };
 
@@ -224,28 +227,37 @@ namespace TitanCore.Core
                 snap.abilityRangeBonus = Sc(UnfurlRange, r[1]);
                 snap.durationBonusMs = Sc(EverlastingMs, r[2]);
                 snap.rageKeep = Sc(FrustrationKeep, r[3]);
-                snap.cooldownFlatMs = Sc(HasteCooldownMs, r[4]);
+                snap.chargeDurationMul = MulMinus(HasteChargeDurationPct, r[4]);
                 snap.projectileSizePct = Sc(ManifestSizePct, r[5]);
-                SetOnUse(ref snap.speedOnHit, ref snap.speedOnHitMs, AlacritySpeed, AlacrityMs, r[6]);
+                snap.speedOnHit = AlacrityAmount(r[6]);
+                snap.speedOnHitMs = MsIf(AlacrityMs, r[6]);
                 snap.postDashInvulnMs = Sc(AegisInvulnMs, r[7]);
+            }
+
+            public static int AlacrityAmount(int rank)
+            {
+                rank = Math.Max(0, rank);
+                if (rank <= 2)
+                    return AlacritySpeed * rank;
+                return AlacritySpeedRank3 + AlacritySpeedHigh * (rank - 3);
             }
         }
 
         private static class NomadTree
         {
-            public const float WrathMarkedDamagePct = 0.08f;
-            public const int FrustrationMarkedRage = 1;
+            public const float WrathMarkedDamagePct = 0.06f;
+            public const float FrustrationMarkedRage = 0.5f;
             public const int MendingInteractHeal = 10;
             public const int EverlastingMs = 2000;
             public const float HasteCooldownPct = 0.08f;
-            public const float ManifestRadius = 0.3f;
-            public const int FlickerRofMs = 500;
+            public const float ManifestRadius = 0.5f;
+            public const int FlickerRofMs = 1000;
             public const int ResonateLingerMs = 1000;
 
             public static readonly NodeDef[] Nodes =
             {
                 N("Wrath", "Ranger/Wrath", EffectStyle.Power, r => $"+{Pct(WrathMarkedDamagePct, r)} damage to Marked enemies"),
-                N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"+{Sc(FrustrationMarkedRage, r)} rage when hitting Marked enemies"),
+                N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"+{Sc(FrustrationMarkedRage, r):0.#} rage when hitting Marked enemies"),
                 N("Mending", "Warrior/Mending", EffectStyle.Support, r => $"+{Sc(MendingInteractHeal, r)} heal on charm interact"),
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{SecI(EverlastingMs, r)} ability duration"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
@@ -277,7 +289,7 @@ namespace TitanCore.Core
             public const float FrustrationKeep = 0.08f;
             public const int EnigmaSlowMs = 800;
             public const int AegisDefense = 2;
-            public const int AegisDefenseMs = 6000;
+            public const int AegisDefenseMs = 5000;
 
             public static readonly NodeDef[] Nodes =
             {
@@ -311,13 +323,13 @@ namespace TitanCore.Core
             public const float UnfurlDurationPct = 0.15f;
             public const int BrandishMs = 500;
             public const int BlightAttack = 2;
-            public const int BlightMs = 6000;
+            public const int BlightMs = 5000;
             public const int HasteCooldownMs = 1000;
             public const float FrustrationKeep = 0.08f;
             public const int AegisDefense = 2;
-            public const int AegisDefenseMs = 6000;
+            public const int AegisDefenseMs = 5000;
             public const int CastleBlockChancePct = 1;
-            public const int CastleBlockChanceMs = 6000;
+            public const int CastleBlockChanceMs = 5000;
 
             public static readonly NodeDef[] Nodes =
             {
@@ -354,12 +366,12 @@ namespace TitanCore.Core
             public const int EverlastingMs = 1000;
             public const float HasteCooldownPct = 0.05f;
             public const int PurifyAbsorptionChance = 1;
-            public const int PurifyAbsorptionMs = 6000;
+            public const int PurifyAbsorptionMs = 5000;
             public const int PurifyRageChunk = 50;
             public const int WrathAttack = 2;
-            public const int WrathAttackMs = 6000;
+            public const int WrathAttackMs = 5000;
             public const int AegisDefense = 2;
-            public const int AegisDefenseMs = 6000;
+            public const int AegisDefenseMs = 5000;
 
             public static readonly NodeDef[] Nodes =
             {
@@ -406,7 +418,7 @@ namespace TitanCore.Core
             public const float HasteCooldownPct = 0.05f;
             public const float FrustrationKeep = 0.08f;
             public const int BlightAttack = 2;
-            public const int BlightMs = 6000;
+            public const int BlightMs = 5000;
             public const int EnigmaSlowMs = 300;
 
             public static readonly NodeDef[] Nodes =
@@ -444,7 +456,7 @@ namespace TitanCore.Core
 
         private static class BerserkerTree
         {
-            public const float WrathDamagePct = 0.20f;
+            public const float WrathDamagePct = 0.08f;
             public const float UnfurlRange = 0.6f;
             public const float ManifestSpreadDeg = 6f;
             public const int EnigmaSlowMs = 600;
@@ -452,7 +464,7 @@ namespace TitanCore.Core
             public const int EverlastingRofMs = 500;
             public const int FlickerRof = 2;
             public const int BlightAttack = 2;
-            public const int BlightMs = 6000;
+            public const int BlightMs = 5000;
 
             public static readonly NodeDef[] Nodes =
             {

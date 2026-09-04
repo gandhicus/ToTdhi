@@ -15,17 +15,27 @@ namespace World.Abilities
 
         public override void OnHit(EntityState entity, uint time, ref int damageTaken)
         {
+            ApplyMarkedHit(entity, time, ref damageTaken, 0);
+        }
+
+        public override void OnHit(EntityState entity, uint time, ref int damageTaken, ushort sourceItem, uint projectileStartTime)
+        {
+            ApplyMarkedHit(entity, time, ref damageTaken, projectileStartTime);
+        }
+
+        private void ApplyMarkedHit(EntityState entity, uint time, ref int damageTaken, uint projectileStartTime)
+        {
+            player.world.objects.TryGetEnemy(entity.gameId, out var live);
             bool marked = entity.currentSnapshot.HasServerEffect(StatusEffect.Marked);
-            if (!marked && player.world.objects.TryGetEnemy(entity.gameId, out var live) && live.HasServerEffect(StatusEffect.Marked))
+            if (!marked && live != null && live.HasServerEffect(StatusEffect.Marked))
                 marked = true;
             if (!marked) return;
 
             var mods = SkillTreeFunctions.IsEnabled ? PlayerState.abilityMods : AbilityModifierSnapshot.Empty;
-            damageTaken = (int)(damageTaken * (1.15f + mods.markedDamagePct));
-            int rage = 2 + mods.markedRage;
-            if (rage > 0)
-                PlayerState.AddRage(time, rage, false);
-            TriggerTalisman(TalismanTrigger.HitMarked, time, player.position.Value, entity.GetPosition(time), ref damageTaken);
+            damageTaken = AbilityFunctions.Nomad.ScaleMarkedDamage(damageTaken, mods.markedDamagePct);
+            if (mods.markedRage > 0)
+                PlayerState.AddRage(time, mods.markedRage, false);
+            TriggerTalisman(TalismanTrigger.HitMarked, time, player.position.Value, entity.GetPosition(time), ref damageTaken, live, null, projectileStartTime, entity.gameId);
         }
 
         public override void OnMove(Vec2 position, uint time)

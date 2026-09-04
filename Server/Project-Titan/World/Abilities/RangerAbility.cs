@@ -41,7 +41,7 @@ namespace World.Abilities
             int damage = AbilityFunctions.Ranger.GetDamage(rageSpent, attack);
             damage = Math.Max(1, (int)(damage * (1f + mods.abilityDamagePct)));
 
-            Fire(time, target, rangerRadius, damage, mods);
+            Fire(time, target, rangerRadius, damage, mods, rageSpent, attack);
 
             if (mods.timedAttack > 0 && mods.timedAttackMs > 0)
                 PlayerState.ApplyTimedStatBonus(StatType.Attack, mods.timedAttack, time, (uint)mods.timedAttackMs);
@@ -50,7 +50,7 @@ namespace World.Abilities
         }
 
         // One rain at the aim point: hit every enemy in radius, then play the arrow VFX once.
-        private void Fire(uint time, Vec2 target, float radius, int damage, AbilityModifierSnapshot mods)
+        private void Fire(uint time, Vec2 target, float radius, int damage, AbilityModifierSnapshot mods, int rageSpent, int attack)
         {
             if (player.world == null) return;
             var hit = new List<uint>();
@@ -77,7 +77,7 @@ namespace World.Abilities
                 if (hit.Count == 255) break;
             }
 
-            var rangerFx = new RangerAbilityWorldEffect(hit.ToArray(), target, 50, 50);
+            var rangerFx = new RangerAbilityWorldEffect(hit.ToArray(), target, (byte)rageSpent, attack, radius, damage);
             ColorWorldEffect(rangerFx);
             var packet = new TnPlayEffect(rangerFx);
             if (player.client != null)

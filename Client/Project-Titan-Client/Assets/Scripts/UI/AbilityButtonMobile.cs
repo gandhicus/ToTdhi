@@ -161,7 +161,8 @@ public class AbilityButtonMobile : MonoBehaviour, IPointerDownHandler, IPointerU
             else if (abilityPressed)
             {
                 float heldTime = Time.time - abilityDownTime;
-                int rageToUse = Mathf.Min(Mathf.Clamp((int)(heldTime * 100), 0, (int)Mathf.Floor(world.player.rage)), AbilityFunctions.BladeWeaver.Max_Dash_Rage);
+                float chargeMul = world.player.BuildClientAbilityModifiers().chargeDurationMul;
+                int rageToUse = AbilityFunctions.BladeWeaver.GetChargedRage(heldTime, world.player.rage, chargeMul);
                 if (abilityUp)
                 {
                     world.player.SetAbilityValue((byte)rageToUse);
@@ -172,7 +173,7 @@ public class AbilityButtonMobile : MonoBehaviour, IPointerDownHandler, IPointerU
                 }
                 else
                 {
-                    if (heldTime > 3)
+                    if (heldTime > AbilityFunctions.BladeWeaver.Charge_Hold_Timeout_Sec)
                     {
                         abilityPressed = false;
                         rageUseGauge.value = 0;
@@ -182,7 +183,7 @@ public class AbilityButtonMobile : MonoBehaviour, IPointerDownHandler, IPointerU
                 }
             }
         }
-        else if (abilityDown || (classType == ClassType.Lancer && abilityPressed))
+        else if (abilityDown)
         {
             world.player.UseAbility(abilityDown);
         }

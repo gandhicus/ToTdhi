@@ -541,17 +541,23 @@ namespace TitanCore.Core
 
         public int attack;
 
+        public float radius;
+
+        public int damage;
+
         public RangerAbilityWorldEffect()
         {
 
         }
 
-        public RangerAbilityWorldEffect(uint[] hit, Vec2 position, byte rage, int attack)
+        public RangerAbilityWorldEffect(uint[] hit, Vec2 position, byte rage, int attack, float radius, int damage)
         {
             this.hit = hit;
             this.position = position;
             this.rage = rage;
             this.attack = attack;
+            this.radius = radius;
+            this.damage = damage;
         }
 
         protected override void DoRead(BitReader r)
@@ -562,6 +568,8 @@ namespace TitanCore.Core
             position = r.ReadVec2();
             rage = r.ReadUInt8();
             attack = r.ReadInt32();
+            radius = r.ReadFloat();
+            damage = r.ReadInt32();
         }
 
         protected override void DoWrite(BitWriter w)
@@ -572,6 +580,8 @@ namespace TitanCore.Core
             w.Write(position);
             w.Write(rage);
             w.Write(attack);
+            w.Write(radius);
+            w.Write(damage);
         }
     }
 

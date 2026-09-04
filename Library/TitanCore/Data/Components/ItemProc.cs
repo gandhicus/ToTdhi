@@ -76,6 +76,8 @@ namespace TitanCore.Data.Components
 
         public ProcRageGain rageGain;
 
+        public TalismanAoe aoe;
+
         public ItemProc(XmlParser xml)
         {
             trigger = xml.AtrEnum("trigger", ProcTrigger.CriticalStrike);
@@ -89,6 +91,9 @@ namespace TitanCore.Data.Components
 
             foreach (var child in xml.Elements("Rage"))
                 rageGain = new ProcRageGain(child);
+
+            foreach (var child in xml.Elements("Aoe"))
+                aoe = new TalismanAoe(child);
         }
     }
 }

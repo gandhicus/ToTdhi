@@ -45,7 +45,7 @@ namespace TitanCore.Core
         public int rageOnKill;
         public float projectileSizePct;
         public float wobbleMul;
-        public int pierce;
+        public int pierceChance;
         public int timedAttack;
         public int timedAttackMs;
         public int timedDefenseMs;
@@ -53,7 +53,7 @@ namespace TitanCore.Core
         public int speedOnHitMs;
         public int postDashInvulnMs;
         public float markedDamagePct;
-        public int markedRage;
+        public float markedRage;
         public int interactHealBonus;
         public float markRadiusBonus;
         public int rofDurationBonusMs;
@@ -68,6 +68,7 @@ namespace TitanCore.Core
         public int fieldDefense;
         public int fieldDefenseMs;
         public float shoutSpreadDeg;
+        public float chargeDurationMul;
         public TalismanEffect[] talismanEffects;
     }
 
@@ -83,7 +84,7 @@ namespace TitanCore.Core
         /// Character level required to see and use the tree
         public const int Unlock_Level = NetConstants.Class_Quest_Level_2;
 
-        public static readonly int[] Rank_Essence_Cost = { 0, 250, 450, 700 };
+        public static readonly int[] Rank_Essence_Cost = { 0, 200, 350, 500 };
 
         public static ClassSkillTrees.NodeDef GetNode(ClassType classType, SkillTreeNode node)
         {
@@ -219,6 +220,7 @@ namespace TitanCore.Core
             snap.cooldownMul = 1f;
             snap.wobbleMul = 1f;
             snap.durationMul = 1f;
+            snap.chargeDurationMul = 1f;
             ClassSkillTrees.ApplyRanks(classType, ranks, ref snap);
 
             if (!talisman.IsBlank && talisman.GetInfo() is EquipmentInfo equip && equip.talismanEffects != null && equip.talismanEffects.Count > 0)

@@ -34,6 +34,10 @@ public class Player : Character
 
     public int cooldownDuration = 1;
 
+    private uint warriorAbilityEndTime;
+
+    private uint warriorNextPulseTime;
+
     private bool wantsToUseAbility = false;
 
     private TileInfo currentTile;
@@ -57,6 +61,12 @@ public class Player : Character
     public uint skillTreeRanks;
 
     public Item socketedTalisman = Item.Blank;
+
+    private float abilityActivationRage;
+
+    private readonly Dictionary<long, uint> hitMarkedTalismanShots = new Dictionary<long, uint>();
+
+    private readonly Dictionary<uint, (uint burst, int count)> lancerNovaHits = new Dictionary<uint, (uint, int)>();
 
     public Vec2 lastSentPosition;
 
@@ -133,6 +143,8 @@ public class Player : Character
 
         cooldown = 1;
         cooldownDuration = 1;
+        warriorAbilityEndTime = 0;
+        warriorNextPulseTime = 0;
         backpack = new Item[8];
         skillTreeRanks = 0;
         socketedTalisman = Item.Blank;
@@ -622,6 +634,22 @@ public class Player : Character
         return (ushort)damage;
     }
 
+    private int GetHeldWeaponVolleyDamage(uint projectileId)
+    {
+        var item = GetItem(0);
+        if (item.IsBlank || !(item.GetInfo() is WeaponInfo weaponInfo) || weaponInfo.projectiles == null || weaponInfo.projectiles.Length == 0)
+            return 1;
+
+        int shotCount = WeaponFunctions.GetVolleyShotCount(weaponInfo.projectiles);
+        int total = 0;
+        for (int i = 0; i < shotCount; i++)
+        {
+            var shot = weaponInfo.projectiles[i % weaponInfo.projectiles.Length];
+            total += PlayerDamage(item.enchantType, item.enchantLevel, weaponInfo.slotType, shot, projectileId + (uint)i);
+        }
+        return Mathf.Max(1, total);
+    }
+
     public void PositionSent(Vec2 position)
     {
         Int2 tilePos = position;
@@ -838,6 +866,8 @@ public class Player : Character
             return;
         }
 
+        abilityActivationRage = Mathf.Floor(rage);
+
         Vec2 position = GetNetworkPosition();
         var target = abilityAimPosition == Vector2.zero ? aimPosition.ToVec2() : abilityAimPosition.ToVec2();
         abilityAimPosition = Vector2.zero;
@@ -846,6 +876,9 @@ public class Player : Character
         {
             case ClassType.Warrior:
                 //world.PlayWarriorAbilityEffect(new WarriorAbilityWorldEffect(gameId, position, (byte)rage, GetStatFunctional(StatType.Attack)));
+                var warriorMods = BuildClientAbilityModifiers();
+                warriorAbilityEndTime = world.clientTime + AbilityFunctions.Warrior.GetAbilityDuration(0) + (uint)Mathf.Max(0, warriorMods.durationBonusMs);
+                warriorNextPulseTime = 0;
                 var blast = (AreaBlast)world.PlayEffect(EffectType.AreaBlast, position.ToVector2());
                 blast.SetInfo(2, GetTalismanAbilityAoeColor(Color.white));
                 SpendDumpAbilityRage();
@@ -857,14 +890,30 @@ public class Player : Character
                 SpendDumpAbilityRage();
                 break;
             case ClassType.Lancer:
-                var lancerItem = new Item(0x2a1);
-                var offset = AbilityFunctions.Lancer.GetAngleOffset(projIds);
-                //target = position + Vec2.FromAngle(position.AngleTo(target));
-
-                projIds = ShootWeapon(lancerItem, (WeaponInfo)lancerItem.GetInfo(), target, projIds, position, world.clientTime, proj =>
+                var lancerItem = new Item(AbilityFunctions.Lancer.Ability_Item_Id);
+                var lancerMods = SkillTreeFunctions.IsEnabled ? BuildClientAbilityModifiers() : AbilityModifierSnapshot.Empty;
+                int lancerRage = Mathf.FloorToInt(rage);
+                float lancerAim = position.AngleTo(target);
+                foreach (var novaAngle in AbilityFunctions.Lancer.GetNovaAngles(lancerAim))
                 {
-                    proj.damage = (ushort)AbilityFunctions.Lancer.GetProjectileDamage((int)Mathf.Floor(rage), GetStatFunctional(StatType.Attack));
-                }, offset);
+                    projIds = ShootWeapon(lancerItem, (WeaponInfo)lancerItem.GetInfo(), target, projIds, position, world.clientTime, proj =>
+                    {
+                        int weaponDmg = 1;
+                        var held = GetItem(0);
+                        if (!held.IsBlank && held.GetInfo() is WeaponInfo heldWep && heldWep.projectiles != null && heldWep.projectiles.Length > 0)
+                            weaponDmg = PlayerDamage(held.enchantType, held.enchantLevel, heldWep.slotType, heldWep.projectiles[0], proj.projId);
+                        int dmg = AbilityFunctions.Lancer.ScaleWeaponDamage(weaponDmg);
+                        dmg = AbilityFunctions.RageSpend.ApplyRageDamageMul(dmg, lancerRage);
+                        dmg = (int)(dmg * (1f + lancerMods.abilityDamagePct));
+                        proj.damage = (ushort)Mathf.Max(1, dmg);
+                        proj.pierceThrough = AbilityFunctions.Lancer.RollsPierce(lancerMods.pierceChance, proj.projId, gameId);
+                        proj.grantsRage = false;
+                        proj.lancerNova = true;
+                        if (lancerMods.projectileSizePct > 0)
+                            proj.SetSize(proj.data.size * (1f + lancerMods.projectileSizePct));
+                        proj.AddRangeTiles(lancerMods.abilityRangeBonus);
+                    }, novaAngle - lancerAim);
+                }
                 SpendFixedAbilityRage(GetLancerAbilityRageCost());
                 break;
             case ClassType.Commander:
@@ -914,8 +963,10 @@ public class Player : Character
                 var bwItem = new Item(0x2a8);
                 projIds = ShootWeapon(bwItem, (WeaponInfo)bwItem.GetInfo(), target, projIds, position, world.clientTime, proj =>
                 {
-                    //proj.SetSize(AbilityFunctions.Lancer.GetProjectileSize(rage));
-                    proj.damage = (ushort)AbilityFunctions.BladeWeaver.GetProjectileDamage(rageToUse, GetStatFunctional(StatType.Attack));
+                    int weaponDamage = GetHeldWeaponVolleyDamage(projIds);
+                    int dmg = AbilityFunctions.BladeWeaver.ScaleWeaponDamage(weaponDamage, rageToUse);
+                    dmg = (int)(dmg * (1f + bladeweaverMods.abilityDamagePct));
+                    proj.damage = (ushort)Mathf.Max(1, dmg);
                 });
                 SpendFixedAbilityRage(rageToUse);
                 break;
@@ -1001,6 +1052,103 @@ public class Player : Character
         if (applyRageGainBonus)
             amount = StatFunctions.ApplyRageGainBonus(amount, GetAlternateStatIncrease(AlternateStatType.RageGain));
         rage = Math.Min(rage + amount, 100f);
+    }
+
+    public bool TryConsumeLancerNovaHit(uint enemyId, uint burstTime)
+    {
+        if (lancerNovaHits.TryGetValue(enemyId, out var rec) && rec.burst == burstTime)
+        {
+            if (rec.count >= AbilityFunctions.Lancer.Nova_Hits_Per_Target)
+                return false;
+            lancerNovaHits[enemyId] = (burstTime, rec.count + 1);
+            return true;
+        }
+        lancerNovaHits[enemyId] = (burstTime, 1);
+        return true;
+    }
+
+    public void ApplyClientAbilityHitModifiers(Entity enemy, ref DamageResult result)
+    {
+        if ((ClassType)info.id == ClassType.Nomad && IsNomadMarked(enemy))
+        {
+            float wrath = 0f;
+            if (SkillTreeFunctions.IsEnabled)
+                wrath = BuildClientAbilityModifiers().markedDamagePct;
+            result.damage = AbilityFunctions.Nomad.ScaleMarkedDamage(result.damage, wrath);
+        }
+
+        int cleave = ConsumeWarriorCleaveOutgoing(world.clientTime);
+        if (cleave > 0)
+            result.damage += enemy.GetDamageTaken(cleave);
+    }
+
+    private int ConsumeWarriorCleaveOutgoing(uint time)
+    {
+        if ((ClassType)info.id != ClassType.Warrior) return 0;
+        if (time > warriorAbilityEndTime) return 0;
+        if (time < warriorNextPulseTime) return 0;
+
+        var mods = SkillTreeFunctions.IsEnabled ? BuildClientAbilityModifiers() : AbilityModifierSnapshot.Empty;
+        int lockout = mods.pulseLockoutMs > 0 ? mods.pulseLockoutMs : SkillTreeFunctions.Base_Pulse_Lockout_Ms;
+        warriorNextPulseTime = time + (uint)lockout;
+        if (mods.weaponDamagePct <= 0) return 0;
+
+        var held = GetItem(0);
+        if (held.IsBlank || !(held.GetInfo() is WeaponInfo weaponInfo) || weaponInfo.projectiles == null || weaponInfo.projectiles.Length == 0)
+            return 0;
+
+        WeaponFunctions.GetProjectileDamage(weaponInfo.slotType, weaponInfo.projectiles[0], out var minDamage, out var maxDamage);
+        return AbilityFunctions.Warrior.GetCleaveOutgoing(
+            minDamage,
+            maxDamage,
+            GetStatFunctional(StatType.Attack),
+            HasStatusEffect(StatusEffect.Damaging),
+            mods.weaponDamagePct);
+    }
+
+    public void ApplyNomadMarkedHitRage(Entity enemy, uint projectileStartTime)
+    {
+        if ((ClassType)info.id != ClassType.Nomad) return;
+        if (enemy == null || HasStatusEffect(StatusEffect.Mundane)) return;
+        if (!IsNomadMarked(enemy)) return;
+
+        var mods = SkillTreeFunctions.IsEnabled ? BuildClientAbilityModifiers() : AbilityModifierSnapshot.Empty;
+        if (mods.markedRage > 0)
+            AddRage(mods.markedRage, false);
+
+        if (!SkillTreeFunctions.IsEnabled || mods.talismanEffects == null) return;
+        for (int i = 0; i < mods.talismanEffects.Length; i++)
+        {
+            var effect = mods.talismanEffects[i];
+            if (effect.trigger != TalismanTrigger.HitMarked) continue;
+            if (effect.rageGain <= 0) continue;
+            if (!TalismanEffect.MeetsRageThreshold(abilityActivationRage, effect)) continue;
+            if (projectileStartTime != 0)
+            {
+                long key = ((long)i << 32) ^ enemy.gameId;
+                if (hitMarkedTalismanShots.TryGetValue(key, out var lastShot) && lastShot == projectileStartTime)
+                    continue;
+                hitMarkedTalismanShots[key] = projectileStartTime;
+            }
+            AddRage(effect.rageGain, false);
+        }
+    }
+
+    private bool IsNomadMarked(Entity enemy)
+    {
+        if (enemy.HasStatusEffect(StatusEffect.Marked)) return true;
+
+        float radius = 1f;
+        if (SkillTreeFunctions.IsEnabled)
+            radius += BuildClientAbilityModifiers().markRadiusBonus;
+        for (int i = 0; i < NomadCharm.ActiveCharms.Count; i++)
+        {
+            var charm = NomadCharm.ActiveCharms[i];
+            if (charm == null || charm.world == null) continue;
+            if (Vector2.Distance(charm.Position, enemy.Position) <= radius + enemy.radius * enemy.size)
+                return true;
+        }
+        return false;
     }
 
     private const float Emote_Cooldown = 0;

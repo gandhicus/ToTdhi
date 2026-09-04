@@ -159,7 +159,7 @@
 		<RateOfFire>4.3</RateOfFire>
 	</Object>
 
-	<Object id="0x109" name="Sword of Unknown UT" tier="-2">
+	<Object id="0x109" name="Sword of Unknown" tier="-3">
 		<Type>Weapon</Type>
 		<SlotType>Sword</SlotType>
 		<Sprite>Sword 10</Sprite>
@@ -167,7 +167,7 @@
 		<Description>A large and environmentally-friendly blade. Still has yet to discover its own name and description.</Description>
 
 		<Projectile name="Sword 10 Slash" type="Parametric">
-			<Lifetime>2</Lifetime>
+			<Lifetime>2.5</Lifetime>
 			<Radius>4</Radius>
 			<MinDamageMod>8</MinDamageMod>
 			<MaxDamageMod>10</MaxDamageMod>
@@ -186,9 +186,9 @@
 			<Speed>12</Speed>
 			<Range>4</Range>
 			<Frequency>0.5</Frequency>
-			<Amplitude>1</Amplitude>
-			<MinDamageMod>3.8</MinDamageMod>
-			<MaxDamageMod>5</MaxDamageMod>
+			<Amplitude>0.5</Amplitude>
+			<MinDamageMod>4.2</MinDamageMod>
+			<MaxDamageMod>5.5</MaxDamageMod>
 			<Amount>2</Amount>
 		</Projectile>
 
@@ -196,9 +196,9 @@
 			<Speed>12</Speed>
 			<Range>5</Range>
 			<Frequency>0.5</Frequency>
-			<Amplitude>2</Amplitude>
-			<MinDamageMod>3</MinDamageMod>
-			<MaxDamageMod>4</MaxDamageMod>
+			<Amplitude>1.5</Amplitude>
+			<MinDamageMod>3.3</MinDamageMod>
+			<MaxDamageMod>4.5</MaxDamageMod>
 			<Amount>2</Amount>
 		</Projectile>
 
@@ -2615,6 +2615,27 @@
 		<Description>A ring transfused with the glow and finesse of the firefly.</Description>
 	</Object>
 
+	<Object id="0x525" name="The Malevolant Eye" tier="-4">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>The Malevolant Eye</Sprite>
+
+		<StatIncrease type="Speed">4</StatIncrease>
+		<StatIncrease type="MaxHealth">40</StatIncrease>
+		<AlternateStatIncrease type="RateOfFire">4</AlternateStatIncrease>
+		
+		<ScaledStatIncrease per="10" amount="5" from="CriticalStrikeChance" to="TrueDamageChance"/>
+
+		<Proc trigger="TrueDamage" cooldown="10000">
+			<AoeColor>orange</AoeColor>
+			<Aoe radius="3" damage="400" at="Target" lifetime="0.2" color="orange">
+				<StatusEffect type="DefenseMinus" amount="30" duration="5000"/>
+			</Aoe>
+		</Proc>
+
+		<Description>A glistening, crystalline eye that holds horrifying secrets, corrupting those without strong spirits.</Description>
+	</Object>
+
 	<Object id="0x50b" name="TEST Rage Crit Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
@@ -3159,10 +3180,10 @@
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Millennia</Sprite>
 		<Class>Lancer</Class>
-		<TalismanEffect trigger="AbilityHit" cooldown="400">
+		<TalismanEffect trigger="AbilityHit">
 			<AoeColor>orange</AoeColor>
-			<Aoe radius="1.2" damage="0" at="Target" lifetime="0.2" color="orange">
-				<StatusEffect type="Slowed">1200</StatusEffect>
+			<Aoe radius="5" damage="0" at="Target" lifetime="0.2" color="orange">
+				<StatusEffect type="Slowed">3000</StatusEffect>
 			</Aoe>
 		</TalismanEffect>
 		<Focus/>
@@ -3173,8 +3194,8 @@
 		<SlotType>Talisman</SlotType>
 		<Sprite>Blessed Talisman</Sprite>
 		<Class>Lancer</Class>
-		<TalismanEffect trigger="AbilityHit" rageThreshold="5">
-			<Heal>5</Heal>
+		<TalismanEffect trigger="AbilityHit" rageThreshold="25" maxHitsPerTarget="3">
+			<Heal>15</Heal>
 		</TalismanEffect>
 		<Support/>
 		<Description>A talisman blessed by the high ministers with the power to aid its wearer.</Description>
@@ -3246,7 +3267,7 @@
 		<Sprite>Talisman of Tragedy</Sprite>
 		<Class>Nomad</Class>
 		<TalismanEffect trigger="HitMarked">
-			<Rage>1</Rage>
+			<Rage>2</Rage>
 		</TalismanEffect>
 		<Power/>
 		<Description>A talisman that was once cursed for bringing bad luck.</Description>
@@ -3480,7 +3501,7 @@
 		<Sprite>Talisman of Celerity</Sprite>
 		<Class>Berserker</Class>
 		<TalismanEffect trigger="AbilityUse">
-			<StatBonus type="Speed" amount="12" duration="12000"/>
+			<StatBonus type="Speed" amount="12" duration="8000"/>
 		</TalismanEffect>
 		<Agility/>
 		<Description>A talisman that makes its bearer's feet feel lighter in combat.</Description>
@@ -3490,10 +3511,10 @@
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Apocalypse</Sprite>
 		<Class>Berserker</Class>
-		<TalismanEffect trigger="AbilityHit" cooldown="1000">
+		<TalismanEffect trigger="AbilityHit" cooldown="5000">
 			<AoeColor>orange</AoeColor>
-			<Aoe radius="1.5" damage="0" at="Target" lifetime="0.2" color="orange">
-				<StatusEffect type="DefenseMinus" amount="20" duration="3000"/>
+			<Aoe radius="3" damage="0" at="Target" lifetime="0.2" color="orange">
+				<StatusEffect type="DefenseMinus" amount="20" duration="8000"/>
 			</Aoe>
 		</TalismanEffect>
 		<Focus/>

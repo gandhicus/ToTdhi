@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using TitanCore.Data.Components;
 
 namespace TitanCore.Core
@@ -157,24 +158,29 @@ namespace TitanCore.Core
             return seconds.ToString("0.#");
         }
 
+        public static string Highlight(string value)
+        {
+            return $"<color=#FFFFFF>{value}</color>";
+        }
+
         public static string GetProcTooltipText(ItemProc proc)
         {
             var trigger = GetTriggerDisplayName(proc.trigger);
             var cooldownText = proc.cooldownMs > 0
-                ? $" ({FormatCooldownSeconds(proc.cooldownMs)} second cooldown)"
+                ? $" ({Highlight($"{FormatCooldownSeconds(proc.cooldownMs)} second cooldown")})"
                 : "";
 
             if (proc.statBonus != null)
             {
                 var durationText = FormatDurationSeconds(proc.statBonus.durationMs);
-                return $"On {trigger}, gain +{proc.statBonus.amount} {GetStatDisplayName(proc.statBonus.statType)} for {durationText} seconds{cooldownText}.";
+                return $"On {trigger}, gain {Highlight($"+{proc.statBonus.amount} {GetStatDisplayName(proc.statBonus.statType)}")} for {Highlight($"{durationText} seconds")}{cooldownText}.";
             }
 
             if (proc.alternateStatBonus != null)
             {
                 var durationText = FormatDurationSeconds(proc.alternateStatBonus.durationMs);
                 var amountText = FormatAlternateStatAmount(proc.alternateStatBonus.statType, proc.alternateStatBonus.amount);
-                return $"On {trigger}, gain {amountText} {GetAlternateStatDisplayName(proc.alternateStatBonus.statType)} for {durationText} seconds{cooldownText}.";
+                return $"On {trigger}, gain {Highlight($"{amountText} {GetAlternateStatDisplayName(proc.alternateStatBonus.statType)}")} for {Highlight($"{durationText} seconds")}{cooldownText}.";
             }
 
             if (proc.rageGain != null)
@@ -183,10 +189,56 @@ namespace TitanCore.Core
                 var rageText = Math.Abs(rageAmount - Math.Round(rageAmount)) < 0.001f
                     ? ((int)Math.Round(rageAmount)).ToString()
                     : rageAmount.ToString("0.#");
-                return $"On {trigger}, gain +{rageText} Rage{cooldownText}.";
+                return $"On {trigger}, gain {Highlight($"+{rageText} Rage")}{cooldownText}.";
+            }
+
+            if (proc.aoe != null)
+            {
+                var aoe = proc.aoe;
+                string aoeText;
+                if (aoe.at == TalismanAoeAt.Self)
+                    aoeText = $"release a {Highlight($"{aoe.radius:0.#} tile")} AoE around you";
+                else if (aoe.at == TalismanAoeAt.RandomTarget)
+                    aoeText = $"fire a {Highlight($"{aoe.radius:0.#} tile")} AoE at a random enemy";
+                else
+                    aoeText = $"fire a {Highlight($"{aoe.radius:0.#} tile")} AoE at the target";
+
+                if (aoe.damage > 0)
+                {
+                    aoeText += aoe.trueDamage
+                        ? $" dealing {Highlight($"{aoe.damage} true damage")}"
+                        : $" dealing {Highlight($"{aoe.damage} damage")}";
+                }
+
+                if (aoe.statusEffects != null && aoe.statusEffects.Length > 0)
+                {
+                    var effects = new StringBuilder();
+                    for (int i = 0; i < aoe.statusEffects.Length; i++)
+                    {
+                        if (i > 0)
+                            effects.Append(i == aoe.statusEffects.Length - 1 ? " and " : ", ");
+                        effects.Append(Highlight(DescribeStatusEffect(aoe.statusEffects[i])));
+                    }
+                    aoeText += $" that applies {effects}";
+                }
+
+                return $"On {trigger}, {aoeText}{cooldownText}.";
             }
 
             return "";
+        }
+
+        public static string DescribeStatusEffect(StatusEffectData hit)
+        {
+            string name;
+            if (hit.type == StatusEffect.DefenseMinus)
+                name = hit.amount != 0 ? $"-{Math.Abs(hit.amount)} Defense" : "Defense Minus";
+            else
+                name = hit.type.ToString();
+
+            if (hit.duration > 0)
+                return $"{name} for {FormatDurationSeconds(hit.duration)} seconds";
+            return name;
         }
 
         public static string GetScaledStatTooltipText(ScaledStatIncrease scaled, int currentBonus = -1)
@@ -200,13 +252,13 @@ namespace TitanCore.Core
             var fromStatName = scaled.fromIsAlternate
                 ? GetAlternateStatDisplayName(scaled.fromAlternateStat)
                 : GetStatDisplayName(scaled.fromStat);
-            var text = $"Every {scaled.perAmount} {fromStatName}, gain {gainText} {toStatName}";
+            var text = $"Every {Highlight(scaled.perAmount.ToString())} {fromStatName}, gain {Highlight(gainText)} {toStatName}";
             if (currentBonus >= 0)
             {
                 var currentText = scaled.toIsAlternate
                     ? FormatAlternateStatAmount(scaled.toAlternateStat, currentBonus)
                     : $"+{currentBonus}";
-                text += $" (currently {currentText})";
+                text += $" (currently {Highlight(currentText)})";
             }
             return text + ".";
         }

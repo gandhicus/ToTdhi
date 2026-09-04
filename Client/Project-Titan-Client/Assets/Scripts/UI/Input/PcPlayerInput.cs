@@ -255,10 +255,11 @@ public class PcPlayerInput : MonoBehaviour, IPointerDownHandler
             else if (abilityPressed)
             {
                 float heldTime = Time.time - abilityDownTime;
-                int rageToUse = Mathf.Min(Mathf.Clamp((int)(heldTime * 100), 0, (int)Mathf.Floor(world.player.rage)), AbilityFunctions.BladeWeaver.Max_Dash_Rage);
+                float chargeMul = world.player.BuildClientAbilityModifiers().chargeDurationMul;
+                int rageToUse = AbilityFunctions.BladeWeaver.GetChargedRage(heldTime, world.player.rage, chargeMul);
                 if (held)
                 {
-                    if (heldTime > 3)
+                    if (heldTime > AbilityFunctions.BladeWeaver.Charge_Hold_Timeout_Sec)
                     {
                         abilityPressed = false;
                         rageUseGauge.value = 0;
@@ -276,7 +277,7 @@ public class PcPlayerInput : MonoBehaviour, IPointerDownHandler
                 }
             }
         }
-        else if (down || (classType == ClassType.Lancer && Input.GetKey(useAbility.GetKey())))
+        else if (down)
         {
             world.player.UseAbility(down);
         }

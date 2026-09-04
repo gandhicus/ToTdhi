@@ -130,6 +130,38 @@ namespace World.Map.Objects.Entities
             return (ushort)(damage * EnchantFunctions.Damage(level));
         }
 
+        public ushort GetHeldWeaponShotDamage(uint projectileId, uint time)
+        {
+            var item = GetItem(0)?.itemData ?? Item.Blank;
+            if (item.IsBlank) return 1;
+            if (!(item.GetInfo() is WeaponInfo weaponInfo) || weaponInfo.projectiles == null || weaponInfo.projectiles.Length == 0)
+                return 1;
+            var damage = GetDamage(weaponInfo.slotType, weaponInfo.projectiles[0], projectileId, time);
+            if (item.enchantType == ItemEnchantType.Damaging)
+                damage = ApplyDamageEnchantment(item.enchantLevel, damage);
+            return damage;
+        }
+
+        public int GetHeldWeaponVolleyDamage(uint projectileId, uint time)
+        {
+            var item = GetItem(0)?.itemData ?? Item.Blank;
+            if (item.IsBlank) return 1;
+            if (!(item.GetInfo() is WeaponInfo weaponInfo) || weaponInfo.projectiles == null || weaponInfo.projectiles.Length == 0)
+                return 1;
+
+            int shotCount = WeaponFunctions.GetVolleyShotCount(weaponInfo.projectiles);
+            int total = 0;
+            for (int i = 0; i < shotCount; i++)
+            {
+                var shot = weaponInfo.projectiles[i % weaponInfo.projectiles.Length];
+                var damage = GetDamage(weaponInfo.slotType, shot, projectileId + (uint)i, time);
+                if (item.enchantType == ItemEnchantType.Damaging)
+                    damage = ApplyDamageEnchantment(item.enchantLevel, damage);
+                total += damage;
+            }
+            return Math.Max(1, total);
+        }
+
         private ushort GetDamage(SlotType slotType, ProjectileData data, uint id, uint time)
         {
             var rand = world.RandValue(id);

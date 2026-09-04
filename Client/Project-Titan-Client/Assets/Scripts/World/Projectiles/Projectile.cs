@@ -43,6 +43,12 @@ public class Projectile : MonoBehaviour
 
     public ushort damage;
 
+    public bool pierceThrough;
+
+    public bool grantsRage;
+
+    public bool lancerNova;
+
     public void Setup(IEnumerable<WorldObject> hitGroup, Vector2 position, ProjectileData data, float angle, uint projId, uint time, ushort damage, bool reach)
     {
         this.hitGroup = hitGroup;
@@ -51,6 +57,9 @@ public class Projectile : MonoBehaviour
         info = (ProjectileInfo)GameData.GetObjectByName(data.infoName);
         enemyOwned = false;
         players = false;
+        pierceThrough = false;
+        grantsRage = true;
+        lancerNova = false;
 
         startPosition = position;
         lastPosition = position;
@@ -88,6 +97,12 @@ public class Projectile : MonoBehaviour
     {
         radius = size * 0.25f;
         transform.localScale = new Vector3(0.8f, 0.8f, 0.8f) * size;
+    }
+
+    public void AddRangeTiles(float tiles)
+    {
+        if (tiles <= 0 || data == null || data.speed <= 0) return;
+        deathTime += (uint)(tiles / data.speed * 1000f);
     }
 
     public void WorldFixedUpdate(uint time)
@@ -176,7 +191,7 @@ public class Projectile : MonoBehaviour
                     DoEntityHitEffect(swo, angle);
 
                 wo = obj;
-                destroy = (!killed || !data.fallthrough) && !data.ignoreEntity;
+                destroy = (!killed || !data.fallthrough) && !data.ignoreEntity && !pierceThrough;
                 return true;
             }
         }

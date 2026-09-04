@@ -178,6 +178,7 @@ public class World : MonoBehaviour
         packetQueue = new ConcurrentQueue<TnPacket>();
 
         NomadCharm.consumedCharms.Clear();
+        NomadCharm.ActiveCharms.Clear();
 
         gameManager.ui.NewWorld(mapInfo);
         tilemapManager.Initialize(mapInfo.width, mapInfo.height);
@@ -1170,8 +1171,12 @@ public class World : MonoBehaviour
 
     public void PlayRangerAbilityEffect(RangerAbilityWorldEffect rangerEffect)
     {
-        var rangerRadius = AbilityFunctions.Ranger.GetRadius(rangerEffect.rage, rangerEffect.attack);
-        var rangerDamage = AbilityFunctions.Ranger.GetDamage(rangerEffect.rage, rangerEffect.attack);
+        var rangerRadius = rangerEffect.radius > 0
+            ? rangerEffect.radius
+            : AbilityFunctions.Ranger.GetRadius(rangerEffect.rage, rangerEffect.attack);
+        var rangerDamage = rangerEffect.damage > 0
+            ? rangerEffect.damage
+            : AbilityFunctions.Ranger.GetDamage(rangerEffect.rage, rangerEffect.attack);
 
         Vector3 position = rangerEffect.position.ToVector2();
         position.z = -4;

@@ -297,6 +297,10 @@ namespace World.GameState
 
         private readonly Dictionary<int, uint> talismanCooldowns = new Dictionary<int, uint>();
 
+        private readonly Dictionary<long, uint> talismanShotRage = new Dictionary<long, uint>();
+
+        private readonly Dictionary<uint, (uint burst, int count)> lancerNovaHits = new Dictionary<uint, (uint, int)>();
+
         private readonly HashSet<int> triggeredProcKeys = new HashSet<int>();
 
         private readonly List<TimedStatBonus> timedStatBonuses = new List<TimedStatBonus>();
@@ -858,17 +862,17 @@ namespace World.GameState
             }
         }
 
-        public void TriggerProcsFromDamageResult(DamageResult result, uint time)
+        public void TriggerProcsFromDamageResult(DamageResult result, uint time, Vec2? hitTarget = null)
         {
             var procTrigger = ProcFunctions.HitResultToTrigger(result.type);
             if (procTrigger.HasValue)
-                TriggerProcs(procTrigger.Value, time);
+                TriggerProcs(procTrigger.Value, time, hitTarget);
 
             if (result.wasCritical && result.type != HitResultType.Critical)
-                TriggerProcs(ProcTrigger.CriticalStrike, time);
+                TriggerProcs(ProcTrigger.CriticalStrike, time, hitTarget);
         }
 
-        public void TriggerProcs(ProcTrigger trigger, uint time)
+        public void TriggerProcs(ProcTrigger trigger, uint time, Vec2? hitTarget = null)
         {
             triggeredProcKeys.Clear();
 
@@ -897,6 +901,16 @@ namespace World.GameState
                         ApplyProcAlternateStatBonus(proc.alternateStatBonus, time);
                     else if (proc.rageGain != null)
                         AddRage(time, proc.rageGain.amount, applyRageGainBonus: false);
+
+                    if (proc.aoe != null && ability != null)
+                    {
+                        var origin = player.position.Value;
+                        if (proc.aoe.at != TalismanAoeAt.Target || hitTarget.HasValue)
+                        {
+                            var blastTarget = hitTarget ?? origin;
+                            ability.FireAoe(proc.aoe, time, origin, blastTarget);
+                        }
+                    }
 
                     if (proc.cooldownMs > 0)
                         procCooldowns[procKey] = time + proc.cooldownMs;
@@ -1029,6 +1043,28 @@ namespace World.GameState
                 return false;
             if (cooldownMs > 0)
                 talismanCooldowns[effectIndex] = time + cooldownMs;
+            return true;
+        }
+
+        public bool TryConsumeTalismanShotRage(int effectIndex, uint targetId, uint projectileStartTime)
+        {
+            long key = ((long)effectIndex << 32) ^ targetId;
+            if (talismanShotRage.TryGetValue(key, out var lastShot) && lastShot == projectileStartTime)
+                return false;
+            talismanShotRage[key] = projectileStartTime;
+            return true;
+        }
+
+        public bool TryConsumeLancerNovaHit(uint enemyId, uint burstTime)
+        {
+            if (lancerNovaHits.TryGetValue(enemyId, out var rec) && rec.burst == burstTime)
+            {
+                if (rec.count >= AbilityFunctions.Lancer.Nova_Hits_Per_Target)
+                    return false;
+                lancerNovaHits[enemyId] = (burstTime, rec.count + 1);
+                return true;
+            }
+            lancerNovaHits[enemyId] = (burstTime, 1);
             return true;
         }
 

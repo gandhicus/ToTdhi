@@ -31,7 +31,10 @@ namespace World.Abilities
             float shoutRadius = AbilityFunctions.Berserker.GetShoutRange(spent, attack) + mods.abilityRangeBonus;
             float shoutAngle = position.AngleTo(target);
             float slowSec = 5f + mods.slowMs / 1000f;
-            int shoutDamage = (int)((10 + 0.4f * spent) * (1f + mods.abilityDamagePct));
+            int weaponDamage = player.GetHeldWeaponShotDamage(time, time);
+            int shoutDamage = AbilityFunctions.Berserker.ScaleWeaponDamage(weaponDamage);
+            shoutDamage = AbilityFunctions.RageSpend.ApplyRageDamageMul(shoutDamage, spent, AbilityFunctions.Berserker.Rage_Damage_At_100);
+            shoutDamage = Math.Max(1, (int)(shoutDamage * (1f + mods.abilityDamagePct)));
 
             foreach (var enemy in player.world.objects.GetEnemiesWithin(position.x, position.y, shoutRadius))
             {
@@ -42,6 +45,7 @@ namespace World.Abilities
                 {
                     var damageTaken = enemy.GetDamageTaken(shoutDamage);
                     enemy.Hurt(damageTaken, player);
+                    enemy.ServerDamage(damageTaken, player.info);
                     player.OnDamageEnemy(enemy, damageTaken);
                     TriggerTalisman(TalismanTrigger.AbilityHit, time, position, enemy.position.Value, ref damageTaken);
                     if (enemy.GetHealth() <= 0)

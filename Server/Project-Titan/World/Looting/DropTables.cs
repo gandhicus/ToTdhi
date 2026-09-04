@@ -590,7 +590,7 @@ namespace World.Looting
                 { SoulGroup.MannahsFortress, new List<LootContainer>
                 {
                     new PublicLoot( // 0
-                        new Single(Loot.Chance(15), new Item("Healing Spell"))
+                        new Single(Loot.Chance(20), new Item("Healing Spell"))
                         ), 
                     new SoulboundLoot( // 1
                         Tier.Weapon(Loot.Chance(10), ItemTier.Tier7),
@@ -601,8 +601,8 @@ namespace World.Looting
                         Tier.Armor(Loot.Chance(15), ItemTier.Tier7)
                         ),
                     new SoulboundLoot(0.2f, // 3
-                        Tier.Weapon(Loot.Chance(70), ItemTier.Tier7),
-                        Tier.Armor(Loot.Chance(50), ItemTier.Tier7),
+                        Tier.Weapon(Loot.Chance(70), ItemTier.Tier8),
+                        Tier.Armor(Loot.Chance(50), ItemTier.Tier8),
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier4)
                         ),
                     new SoulboundLoot(0.1f, // 4
@@ -681,6 +681,12 @@ namespace World.Looting
                         new Single(Loot.Chance(1), new Item("Sadder Star"))
                         ),
                     new SoulboundLoot(0.1f, // 24
+                        new Single(Loot.Chance(4), new Item("Sword of Unknown"))
+                        ),
+                    new SoulboundLoot(0.1f, // 25
+                        new Single(Loot.Chance(1), new Item("The Malevolant Eye"))
+                        ),
+                    new SoulboundLoot(0.1f, // 26
                         new Single(Loot.Chance(15),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
@@ -693,7 +699,7 @@ namespace World.Looting
                             new Item("Talisman of Piercing"),
                             new Item("Talisman of Celerity"))
                         ),
-                    new SoulboundLoot(0.1f, // 25
+                    new SoulboundLoot(0.1f, // 27
                         new Single(Loot.Chance(15),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),
