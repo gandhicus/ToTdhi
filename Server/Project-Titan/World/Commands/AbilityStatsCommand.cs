@@ -72,13 +72,13 @@ namespace World.Commands
                     WriteLancer(player, playerState, mods, rage, time);
                     break;
                 case ClassType.Alchemist:
-                    WriteAlchemist(player, mods, rage, attack);
+                    WriteAlchemist(player, playerState, mods, rage, time);
                     break;
                 case ClassType.Berserker:
                     WriteBerserker(player, playerState, mods, rage, attack, time);
                     break;
                 case ClassType.Nomad:
-                    WriteNomad(player, mods);
+                    WriteNomad(player, mods, rage);
                     break;
                 case ClassType.Bladeweaver:
                     WriteBladeweaver(player, playerState, mods, rage, time);
@@ -229,12 +229,31 @@ namespace World.Commands
                 Line(player, $"Pierce chance: {mods.pierceChance}%");
         }
 
-        private static void WriteAlchemist(Player player, AbilityModifierSnapshot mods, int rage, int attack)
+        private static void WriteAlchemist(Player player, PlayerState playerState, AbilityModifierSnapshot mods, int rage, uint time)
         {
             WriteDumpRageCost(player, mods, rage);
-            int damage = Math.Max(1, (int)((rage + attack) * (1f + mods.abilityDamagePct)));
-            int damageFull = Math.Max(1, (int)((100 + attack) * (1f + mods.abilityDamagePct)));
-            Pair(player, "Damage/tick", Num(damage), Num(damageFull), rage);
+            GetHeldWeapon(playerState, out var weapon);
+            if (TryGetWeaponOutgoing(playerState, time, out var minDmg, out var maxDmg) && weapon != null)
+            {
+                byte spent = DumpSpent(mods, rage);
+                byte spentFull = DumpSpent(mods, 100);
+                Line(player, $"Elixir shot: {FormatRangeNum((int)Math.Round(minDmg), (int)Math.Round(maxDmg))} (each tick uses 1 shot, not a volley)");
+
+                int tickMin = ScaleAlchemist(minDmg, mods.abilityDamagePct, spent);
+                int tickMax = ScaleAlchemist(maxDmg, mods.abilityDamagePct, spent);
+                int tickMinFull = ScaleAlchemist(minDmg, mods.abilityDamagePct, spentFull);
+                int tickMaxFull = ScaleAlchemist(maxDmg, mods.abilityDamagePct, spentFull);
+                Pair(player, "Damage/tick", FormatRangeNum(tickMin, tickMax), FormatRangeNum(tickMinFull, tickMaxFull), spent);
+
+                float vsNow = AlchemistWeaponShotMul(spent);
+                float vsFull = AlchemistWeaponShotMul(100);
+                if (spent >= 100)
+                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x elixir shot ({FormatNumber(AbilityFunctions.Alchemist.Weapon_Damage_Mul)}x at 100 rage)");
+                else
+                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x shot ({FormatNumber(vsFull)}x at 100 rage)");
+            }
+            else
+                Line(player, "Damage/tick: equip a weapon to see ability damage");
 
             float durationMul = mods.durationMul > 0 ? mods.durationMul : 1f;
             float duration = AbilityFunctions.Alchemist.GetGroundDurationMs((byte)rage) / 1000f * durationMul;
@@ -246,10 +265,8 @@ namespace World.Commands
             if (mods.slowMs > 0)
                 Line(player, $"Applies Slowed for {FormatSec(mods.slowMs)} each tick");
 
-            // Ground ring always grants +4 Attack; Blight adds the rage-scaled amount on top.
-            int blight = SkillTreeFunctions.ScaleOnUseStat(mods.timedAttack, rage);
-            int blightMs = mods.timedAttackMs > 0 ? mods.timedAttackMs : 1050;
-            Line(player, $"Field each tick: +{4 + blight} Attack for {FormatSec(blightMs)}");
+            int puddleAttack = AbilityFunctions.Alchemist.Puddle_Attack + mods.fieldAttack;
+            Line(player, $"Puddle Attack: +{puddleAttack} while standing in the puddle (base +{AbilityFunctions.Alchemist.Puddle_Attack}, Blight +{mods.fieldAttack})");
         }
 
         private static void WriteBerserker(Player player, PlayerState playerState, AbilityModifierSnapshot mods, int rage, int attack, uint time)
@@ -293,7 +310,7 @@ namespace World.Commands
                 Tiles(AbilityFunctions.Berserker.GetRoFArea(100, attack)), rage);
         }
 
-        private static void WriteNomad(Player player, AbilityModifierSnapshot mods)
+        private static void WriteNomad(Player player, AbilityModifierSnapshot mods, int rage)
         {
             Line(player, $"Rage cost: {AbilityFunctions.Nomad.Ability_Cost}");
             float lifetime = 15f + mods.durationBonusMs / 1000f;
@@ -304,7 +321,12 @@ namespace World.Commands
                 Line(player, $"Rage per Marked hit: {FormatNumber(mods.markedRage)}");
             Line(player, $"Interact heal: {120 + mods.interactHealBonus} HP + 8 Vigor for 6s");
             uint rofMs = AbilityFunctions.Nomad.RoF_Duration_Ms + (uint)Math.Max(0, mods.rofDurationBonusMs);
-            Line(player, $"Owner interact: +{AbilityFunctions.Nomad.RoF_Amount}% RoF for {FormatSec((int)rofMs)}");
+            int charmRof = AbilityFunctions.Nomad.RoF_Amount;
+            int talismanRof = AbilityFunctions.Nomad.GetInteractTalismanRof(mods, rage);
+            if (talismanRof > 0)
+                Line(player, $"Owner interact: +{charmRof}% RoF + {talismanRof}% talisman for {FormatSec((int)rofMs)}");
+            else
+                Line(player, $"Owner interact: +{charmRof}% RoF for {FormatSec((int)rofMs)}");
         }
 
         private static void WriteBladeweaver(Player player, PlayerState playerState, AbilityModifierSnapshot mods, int rage, uint time)
@@ -534,6 +556,13 @@ namespace World.Commands
             return Math.Max(1, (int)(scaled * (1f + abilityDamagePct)));
         }
 
+        private static int ScaleAlchemist(float weaponOutgoing, float abilityDamagePct, int rage)
+        {
+            int scaled = AbilityFunctions.Alchemist.ScaleWeaponDamage((int)Math.Round(weaponOutgoing));
+            scaled = AbilityFunctions.RageSpend.ApplyRageDamageMul(scaled, rage, AbilityFunctions.Alchemist.Rage_Damage_At_100);
+            return Math.Max(1, (int)(scaled * (1f + abilityDamagePct)));
+        }
+
         private static int ScaleRanger(float weaponOutgoing, float abilityDamagePct, int rage, int attack, bool damaging)
         {
             int scaled = AbilityFunctions.Ranger.ScaleWeaponDamage((int)Math.Round(weaponOutgoing), attack, damaging);
@@ -558,6 +587,13 @@ namespace World.Commands
         {
             return AbilityFunctions.Berserker.Weapon_Damage_Mul
                 * AbilityFunctions.Berserker.Rage_Damage_At_100
+                * Math.Max(0, rage) / 100f;
+        }
+
+        private static float AlchemistWeaponShotMul(int rage)
+        {
+            return AbilityFunctions.Alchemist.Weapon_Damage_Mul
+                * AbilityFunctions.Alchemist.Rage_Damage_At_100
                 * Math.Max(0, rage) / 100f;
         }
 

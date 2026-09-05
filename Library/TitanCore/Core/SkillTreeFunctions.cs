@@ -67,6 +67,7 @@ namespace TitanCore.Core
         public float selfHealBurstPct;
         public int fieldDefense;
         public int fieldDefenseMs;
+        public int fieldAttack;
         public float shoutSpreadDeg;
         public float chargeDurationMul;
         public TalismanEffect[] talismanEffects;

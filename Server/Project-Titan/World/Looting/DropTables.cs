@@ -129,7 +129,7 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(1, // 10
-                        new Single(Loot.Chance(4), new Item("Corrupted Skull of Mezhier"))
+                        new Single(Loot.Chance(2), new Item("Corrupted Skull of Mezhier"))
                         ),
                     new SoulboundLoot(1, // 11
                         new Single(Loot.Chance(25), new Item("Key to Whispering Woods"))
@@ -282,7 +282,7 @@ namespace World.Looting
                             new Item("Scroll of Power"))
                         ),
                     new SoulboundLoot(0.3f, // 6
-                        new Single(Loot.Chance(5),
+                        new Single(Loot.Chance(2.5),
                             new Item("Band of Oceanic Radiance"))
                         ),
                     new SoulboundLoot(0.3f, // 7
@@ -416,17 +416,17 @@ namespace World.Looting
                         new Single(Loot.Chance(80), new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.1f, // 7
-                        new Single(Loot.Chance(4), new Item("Bothmur's Zweihander"))
+                        new Single(Loot.Chance(1.8), new Item("Bothmur's Zweihander"))
                         ),
                     new SoulboundLoot(0.1f, // 8
-                        new Single(Loot.Chance(4), new Item("Valdok's Impervious Aegis"))
+                        new Single(Loot.Chance(1.3), new Item("Valdok's Impervious Aegis"))
                         ),
                     new SoulboundLoot(0.1f, // 9 mythic accessories
-                        new Single(Loot.Chance(4), new Item("Tehtman's Brutal Band")),
-                        new Single(Loot.Chance(4), new Item("Ring of Stalwart Vitality")),
-                        new Single(Loot.Chance(4), new Item("Aldrite's Gamble")),
-                        new Single(Loot.Chance(4), new Item("Skyjewel")),
-                        new Single(Loot.Chance(4), new Item("Studded Bangle"))
+                        new Single(Loot.Chance(0.9), new Item("Tehtman's Brutal Band")),
+                        new Single(Loot.Chance(0.9), new Item("Ring of Stalwart Vitality")),
+                        new Single(Loot.Chance(0.9), new Item("Aldrite's Gamble")),
+                        new Single(Loot.Chance(0.9), new Item("Skyjewel")),
+                        new Single(Loot.Chance(0.9), new Item("Studded Bangle"))
                         ),
                     new SoulboundLoot(0.1f, // 10 shared mythic
                         new Single(Loot.Chance(0.5), new Item("Shining Armor")),
@@ -508,18 +508,18 @@ namespace World.Looting
                         new Single(Loot.Chance(70), new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.1f, // 7
-                        new Single(Loot.Chance(4), new Item("Oda's Transcendent Longbow"))
+                        new Single(Loot.Chance(1.6), new Item("Oda's Transcendent Longbow"))
                         ),
                     new SoulboundLoot(0.1f, // 8
-                        new Single(Loot.Chance(4), new Item("Archmage's Sibylline Vestment"))
+                        new Single(Loot.Chance(1.6), new Item("Archmage's Sibylline Vestment"))
                         ),
                     new SoulboundLoot(0.1f, // 9 mythic accessories
-                        new Single(Loot.Chance(3.5), new Item("Arcus's Nimble Circlet")),
-                        new Single(Loot.Chance(3.5), new Item("Adorned Band")),
-                        new Single(Loot.Chance(3.5), new Item("Ring of the Lonely Spirit")),
-                        new Single(Loot.Chance(3.5), new Item("Aldrite's Gamble")),
-                        new Single(Loot.Chance(3.5), new Item("Skyjewel")),
-                        new Single(Loot.Chance(3.5), new Item("Studded Bangle"))
+                        new Single(Loot.Chance(0.25), new Item("Arcus's Nimble Circlet")),
+                        new Single(Loot.Chance(0.25), new Item("Adorned Band")),
+                        new Single(Loot.Chance(0.25), new Item("Ring of the Lonely Spirit")),
+                        new Single(Loot.Chance(0.25), new Item("Aldrite's Gamble")),
+                        new Single(Loot.Chance(0.25), new Item("Skyjewel")),
+                        new Single(Loot.Chance(0.25), new Item("Studded Bangle"))
                         ),
                     new SoulboundLoot(0.1f, // 10 shared mythic
                         new Single(Loot.Chance(0.5), new Item("Shining Armor")),
@@ -558,13 +558,13 @@ namespace World.Looting
                             new Item("Talisman of Apocalypse"))
                         ),
                     new SoulboundLoot(0.1f, // 15
-                        new Single(Loot.Chance(4), new Item("Thumbor"))
+                        new Single(Loot.Chance(1.6), new Item("Thumbor"))
                         ),
                     new SoulboundLoot(0.1f, // 16
-                        new Single(Loot.Chance(4), new Item("Raeg's Ethereal Spear"))
+                        new Single(Loot.Chance(1.6), new Item("Raeg's Ethereal Spear"))
                         ),
                     new SoulboundLoot(0.1f, // 17
-                        new Single(Loot.Chance(5), new Item("Ring of Sinful Beauty"))
+                        new Single(Loot.Chance(1.6), new Item("Ring of Sinful Beauty"))
                         ),
                 } },
 
@@ -611,26 +611,26 @@ namespace World.Looting
                             new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.1f, // 7 mythic weapons
-                        new Single(Loot.Chance(4), new Item("Mannah's Soul Crux")),
-                        new Single(Loot.Chance(4), new Item("Mannah's Mop")),
-                        new Single(Loot.Chance(4), new Item("Stormsong (Tehtman's Soulstring)")),
-                        new Single(Loot.Chance(4), new Item("Elixir of Enigma")),
-                        new Single(Loot.Chance(4), new Item("Sword of Unknown"))
+                        new Single(Loot.Chance(1.2), new Item("Mannah's Soul Crux")),
+                        new Single(Loot.Chance(1.2), new Item("Mannah's Mop")),
+                        new Single(Loot.Chance(1.2), new Item("Stormsong (Tehtman's Soulstring)")),
+                        new Single(Loot.Chance(1.2), new Item("Elixir of Enigma")),
+                        new Single(Loot.Chance(1.2), new Item("Sword of Unknown"))
                         ),
                     new SoulboundLoot(0.1f, // 8 mythic armor
-                        new Single(Loot.Chance(4), new Item("Empyrean's Guard"))
+                        new Single(Loot.Chance(0.64), new Item("Empyrean's Guard"))
                         ),
                     new SoulboundLoot(0.1f, // 9 mythic accessories
-                        new Single(Loot.Chance(4), new Item("Mezhier's Ring of Valor")),
-                        new Single(Loot.Chance(4), new Item("Aldrite's Gamble")),
-                        new Single(Loot.Chance(4), new Item("Skyjewel")),
-                        new Single(Loot.Chance(4), new Item("Ring of the Blood Moon"))
+                        new Single(Loot.Chance(0.64), new Item("Mezhier's Ring of Valor")),
+                        new Single(Loot.Chance(0.64), new Item("Aldrite's Gamble")),
+                        new Single(Loot.Chance(0.64), new Item("Skyjewel")),
+                        new Single(Loot.Chance(0.64), new Item("Ring of the Blood Moon"))
                         ),
                     new SoulboundLoot(0.1f, // 10 fabled
-                        new Single(Loot.Chance(1), new Item("Dark Matter")),
-                        new Single(Loot.Chance(1), new Item("The Big Bang")),
-                        new Single(Loot.Chance(1), new Item("Sadder Star")),
-                        new Single(Loot.Chance(1), new Item("The Malevolant Eye"))
+                        new Single(Loot.Chance(0.3), new Item("Dark Matter")),
+                        new Single(Loot.Chance(0.3), new Item("The Big Bang")),
+                        new Single(Loot.Chance(0.3), new Item("Sadder Star")),
+                        new Single(Loot.Chance(0.3), new Item("The Malevolant Eye"))
                         ),
                     new SoulboundLoot(0.1f, // 11
                         new Single(Loot.Chance(30), new Item("Key to Mannah's Fortress"))
@@ -672,7 +672,7 @@ namespace World.Looting
                             new Item("Talisman of Apocalypse"))
                         ),
                     new SoulboundLoot(0.1f, // 17
-                        new Single(Loot.Chance(5), new Item("Mannah's Capstone"))
+                        new Single(Loot.Chance(1.2), new Item("Mannah's Capstone"))
                         ),
                 } },
             };

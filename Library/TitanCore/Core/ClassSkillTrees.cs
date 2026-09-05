@@ -414,7 +414,7 @@ namespace TitanCore.Core
 
         private static class AlchemistTree
         {
-            public const float WrathDamagePct = 0.20f;
+            public const float WrathDamagePct = 0.15f;
             public const float ManifestRadius = 0.5f;
             public const int BasePulseLockoutMs = 1000;
             public const int MinPulseLockoutMs = 200;
@@ -422,8 +422,7 @@ namespace TitanCore.Core
             public const float EverlastingDurationPct = 0.10f;
             public const float HasteCooldownPct = 0.05f;
             public const float FrustrationKeep = 0.08f;
-            public const int BlightAttack = 2;
-            public const int BlightMs = 5000;
+            public const int BlightAttack = 4;
             public const int EnigmaSlowMs = 300;
 
             public static readonly NodeDef[] Nodes =
@@ -434,7 +433,7 @@ namespace TitanCore.Core
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Pct(EverlastingDurationPct, r)} ability duration"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability use"),
-                N("Blight", "Lancer/Blight", EffectStyle.Power, r => OnUseStat(BlightAttack, BlightMs, r, "Attack")),
+                N("Blight", "Lancer/Blight", EffectStyle.Power, r => $"+{Sc(BlightAttack, r)} Attack while standing in the puddle"),
                 N("Enigma", "Ranger/Enigma", EffectStyle.Focus, r => $"Ability applies Slowed {Sec(EnigmaSlowMs, r)}"),
             };
 
@@ -446,7 +445,7 @@ namespace TitanCore.Core
                 snap.durationMul = MulPlus(EverlastingDurationPct, r[3]);
                 snap.cooldownMul = MulMinus(HasteCooldownPct, r[4]);
                 snap.rageKeep = Sc(FrustrationKeep, r[5]);
-                SetOnUse(ref snap.timedAttack, ref snap.timedAttackMs, BlightAttack, BlightMs, r[6]);
+                snap.fieldAttack = Sc(BlightAttack, r[6]);
                 snap.slowMs = Sc(EnigmaSlowMs, r[7]);
             }
 

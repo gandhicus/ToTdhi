@@ -104,7 +104,12 @@ namespace World.Abilities
                     PlayerState.ApplyTalismanTimedStatBonus(effect.statBonus.statType, effect.statBonus.amount, time, effect.statBonus.durationMs, i);
 
                 if (effect.alternateStatBonus != null)
-                    PlayerState.ApplyTimedAlternateStatBonus(effect.alternateStatBonus.statType, effect.alternateStatBonus.amount, time, effect.alternateStatBonus.durationMs);
+                {
+                    bool interactRof = trigger == TalismanTrigger.Interact
+                        && effect.alternateStatBonus.statType == AlternateStatType.RateOfFire;
+                    if (!interactRof)
+                        PlayerState.ApplyTimedAlternateStatBonus(effect.alternateStatBonus.statType, effect.alternateStatBonus.amount, time, effect.alternateStatBonus.durationMs);
+                }
 
                 if (effect.healAmount > 0)
                     player.Heal(effect.healAmount);

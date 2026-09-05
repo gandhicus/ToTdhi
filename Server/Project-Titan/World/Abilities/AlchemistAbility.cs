@@ -29,11 +29,16 @@ namespace World.Abilities
             SpendDumpRage(ref rage, mods, out rageCost);
             SkillTreeFunctions.ApplyRageToOnUseStats(ref mods, spent);
 
+            int weaponDamage = player.GetHeldWeaponShotDamage(time, time);
+            int tickDamage = AbilityFunctions.Alchemist.ScaleWeaponDamage(weaponDamage);
+            tickDamage = AbilityFunctions.RageSpend.ApplyRageDamageMul(tickDamage, spent, AbilityFunctions.Alchemist.Rage_Damage_At_100);
+            tickDamage = Math.Max(1, (int)(tickDamage * (1f + mods.abilityDamagePct)));
+
             var alchemistEffect = new AlchemistAbilityWorldEffect(player.gameId, target, spent, attack);
             ColorWorldEffect(alchemistEffect);
             var worldEffectPacket = new TnPlayEffect(alchemistEffect);
 
-            var groundRing = new AlchemistAbilityObject(player, alchemistEffect, (float)player.world.time.totalTime, mods);
+            var groundRing = new AlchemistAbilityObject(player, alchemistEffect, (float)player.world.time.totalTime, mods, tickDamage);
             groundRing.Initialize(GameData.objects[0xa2e]);
             player.world.objects.SpawnObject(groundRing);
 

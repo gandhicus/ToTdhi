@@ -56,17 +56,7 @@ namespace World.Map.Objects.Abilities
             if (ownerPlayer != null && player.GetOwnerId() == ownerPlayer.GetOwnerId())
             {
                 uint rofMs = AbilityFunctions.Nomad.RoF_Duration_Ms + (uint)System.Math.Max(0, mods.rofDurationBonusMs);
-                int rofAmt = AbilityFunctions.Nomad.RoF_Amount;
-                if (SkillTreeFunctions.IsEnabled && mods.talismanEffects != null)
-                {
-                    for (int i = 0; i < mods.talismanEffects.Length; i++)
-                    {
-                        var effect = mods.talismanEffects[i];
-                        if (effect.trigger == TalismanTrigger.Interact
-                            && TalismanEffect.MeetsRageThreshold(activationRage, effect))
-                            rofAmt += effect.rofAmount;
-                    }
-                }
+                int rofAmt = AbilityFunctions.Nomad.GetInteractRofAmount(mods, activationRage);
                 player.gameState.playerState.ApplyTimedAlternateStatBonus(AlternateStatType.RateOfFire, rofAmt, (uint)(world.time.totalTime * 1000), rofMs);
             }
 

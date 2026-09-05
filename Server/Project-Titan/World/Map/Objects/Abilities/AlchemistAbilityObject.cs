@@ -23,11 +23,11 @@ namespace World.Map.Objects.Abilities
         private float tickSec;
 
         public AlchemistAbilityObject(Player owner, AlchemistAbilityWorldEffect effect, float time)
-            : this(owner, effect, time, AbilityModifierSnapshot.Empty)
+            : this(owner, effect, time, AbilityModifierSnapshot.Empty, 1)
         {
         }
 
-        public AlchemistAbilityObject(Player owner, AlchemistAbilityWorldEffect effect, float time, AbilityModifierSnapshot mods)
+        public AlchemistAbilityObject(Player owner, AlchemistAbilityWorldEffect effect, float time, AbilityModifierSnapshot mods, int tickDamage)
         {
             this.owner = owner;
             this.effect = effect;
@@ -39,7 +39,7 @@ namespace World.Map.Objects.Abilities
             endTime = startTime + AbilityFunctions.Alchemist.GetGroundDurationMs(effect.rage) / 1000f * durationMul;
             tickSec = Math.Max(0.2f, (mods.pulseLockoutMs > 0 ? mods.pulseLockoutMs : 1000) / 1000f);
             nextTick = startTime;
-            damage = (int)((effect.rage + effect.attack) * (1f + mods.abilityDamagePct));
+            damage = Math.Max(1, tickDamage);
         }
 
         public override bool CanShowTo(Player player)
@@ -65,8 +65,8 @@ namespace World.Map.Objects.Abilities
             }
 
             if (time.totalTime < nextTick) return;
-            int attackAmt = 4 + mods.timedAttack;
-            uint attackMs = mods.timedAttackMs > 0 ? (uint)mods.timedAttackMs : 1050;
+            int attackAmt = AbilityFunctions.Alchemist.Puddle_Attack + mods.fieldAttack;
+            uint attackMs = AbilityFunctions.Alchemist.Puddle_Attack_Ms;
 
             foreach (var player in world.objects.GetPlayersWithin(position.Value.x, position.Value.y, radius).ToArray())
             {

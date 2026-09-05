@@ -3077,12 +3077,12 @@
 			<Size>1</Size>
 			<Speed>7</Speed>
 			<Range>8</Range>
-			<DamageMod>0.4</DamageMod>
+			<DamageMod>0.3</DamageMod>
 			<Spin>-1</Spin>
 		</Projectile>
 
 		<Size>1</Size>
-		<HealthMod>1.3</HealthMod>
+		<HealthMod>1</HealthMod>
 		<SoulMod>0.3</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
 		<Defense>30</Defense>
@@ -3103,7 +3103,7 @@
 			<Range>7</Range>
 			<Frequency>0.5</Frequency>
 			<Amplitude>0.6</Amplitude>
-			<DamageMod>0.4</DamageMod>
+			<DamageMod>0.5</DamageMod>
 		</Projectile>
 
 		<Size>1</Size>
@@ -3183,7 +3183,7 @@
 			<Size>1.2</Size>
 			<Speed>9</Speed>
 			<Range>9</Range>
-			<DamageMod>0.5</DamageMod>
+			<DamageMod>0.6</DamageMod>
 		</Projectile>
 
 		<Size>1.2</Size>

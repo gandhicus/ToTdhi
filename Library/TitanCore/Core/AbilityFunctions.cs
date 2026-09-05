@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TitanCore.Data.Components;
 using TitanCore.Data.Entities;
 using Utils.NET.Geometry;
 
@@ -77,6 +78,16 @@ namespace TitanCore.Core
         {
             public const float Air_Time = 1;
 
+            // 0.2x one elixir shot per tick at 100 rage. The puddle ticks about 11 times
+            // at default 1s spacing (more with Will), so this stays well below a Ranger rain.
+            public const float Weapon_Damage_Mul = 0.2f;
+
+            public const float Rage_Damage_At_100 = 1f;
+
+            public const int Puddle_Attack = 4;
+
+            public const uint Puddle_Attack_Ms = 1050;
+
             public static int GetGroundDurationMs(byte rage)
             {
                 return 1000 + (int)((rage / 100.0f) * 10000);
@@ -85,6 +96,11 @@ namespace TitanCore.Core
             public static float GetRadius(byte rage)
             {
                 return 6;
+            }
+
+            public static int ScaleWeaponDamage(int weaponShotDamage)
+            {
+                return Math.Max(1, (int)(weaponShotDamage * Weapon_Damage_Mul));
             }
         }
 
@@ -335,6 +351,30 @@ namespace TitanCore.Core
             public const int RoF_Amount = 5;
 
             public const uint RoF_Duration_Ms = 4000;
+
+            public static int GetInteractTalismanRof(AbilityModifierSnapshot mods, float activationRage)
+            {
+                int extra = 0;
+                if (!SkillTreeFunctions.IsEnabled || mods.talismanEffects == null)
+                    return extra;
+                for (int i = 0; i < mods.talismanEffects.Length; i++)
+                {
+                    var effect = mods.talismanEffects[i];
+                    if (effect == null || effect.trigger != TalismanTrigger.Interact)
+                        continue;
+                    if (!TalismanEffect.MeetsRageThreshold(activationRage, effect))
+                        continue;
+                    extra += effect.rofAmount;
+                    if (effect.alternateStatBonus != null && effect.alternateStatBonus.statType == AlternateStatType.RateOfFire)
+                        extra += effect.alternateStatBonus.amount;
+                }
+                return extra;
+            }
+
+            public static int GetInteractRofAmount(AbilityModifierSnapshot mods, float activationRage)
+            {
+                return RoF_Amount + GetInteractTalismanRof(mods, activationRage);
+            }
 
             public static int ScaleMarkedDamage(int damageTaken, float wrathPct)
             {

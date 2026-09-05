@@ -446,11 +446,11 @@
 		<Type>Weapon</Type>
 		<SlotType>Claymore</SlotType>
 
-		<Description>Bothmur's Zweihander</Description>
+		<Description>A terrifying blade fueled by the wallowing cries of the damned.</Description>
 
 		<Projectile name="Bothmur Zweihander Slash">
 			<Speed>14</Speed>
-			<Range>3.3</Range>
+			<Range>4.4</Range>
 			<MinDamageMod>7</MinDamageMod>
 			<MaxDamageMod>9</MaxDamageMod>
 			<DefinedAmount/>
@@ -460,7 +460,7 @@
 
 		<Projectile name="Bothmur Zweihander Poke">
 			<Speed>17</Speed>
-			<Range>4.3</Range>
+			<Range>5.4</Range>
 			<MinDamageMod>3</MinDamageMod>
 			<MaxDamageMod>5</MaxDamageMod>
 			<DefinedAmount/>
@@ -707,7 +707,7 @@
 		<Type>Weapon</Type>
 		<SlotType>Bow</SlotType>
 
-		<Description>Oda's Bow</Description>
+		<Description>A bow of otherworldly craft, with heroic spirits deeply intertwined with every fiber.</Description>
 
 		<Projectile name="Oda's Arrow">
 			<Speed>16</Speed>
@@ -1022,7 +1022,7 @@
 		<SlotType>Spear</SlotType>
 		<Sprite>Raeg's Ethereal Spear</Sprite>
 
-		<Description>Raeg's Ethereal Spear</Description>
+		<Description>A spear with a radiant, crescent-shaped blade. Said in legends to have slain legendary leviathans and hydras.</Description>
 
 		<Projectile name="Raeg Slash">
 			<Size>1.05</Size>
@@ -1324,7 +1324,7 @@
 		<Projectile type="Aoe">
 			<Color>blue</Color>
 			<Lifetime>1.2</Lifetime>
-			<Radius>6</Radius>
+			<Radius>5</Radius>
 			<Range>5</Range>
 			<MinDamageMod>6</MinDamageMod>
 			<MaxDamageMod>9</MaxDamageMod>
@@ -2572,13 +2572,13 @@
 		<Description>A ring topped with a beautiful, yet rough, hunk of pink quartz.</Description>
 	</Object>
 
-	<Object id="0x510" name="Band of Oceanic Radiance" tier="-2">
+	<Object id="0x510" name="Band of Oceanic Radiance" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Band of Oceanic Radiance</Sprite>
 
-		<StatIncrease type="MaxHealth">30</StatIncrease>
-		<StatIncrease type="Vigor">3</StatIncrease>
+		<StatIncrease type="MaxHealth">40</StatIncrease>
+		<StatIncrease type="Vigor">4</StatIncrease>
 		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
 
 		<Proc trigger="CriticalStrike" cooldown="3000">
@@ -3313,7 +3313,7 @@
 		<Sprite>Talisman of Daybreak</Sprite>
 		<Class>Nomad</Class>
 		<TalismanEffect trigger="Interact">
-			<RateOfFire>7</RateOfFire>
+			<AlternateStatBonus type="RateOfFire" amount="7" duration="4000"/>
 			<Heal>-30</Heal>
 		</TalismanEffect>
 		<Power/>

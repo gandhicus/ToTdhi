@@ -28,7 +28,7 @@ namespace TitanCore.Core
             return tps;
         }
 
-        public const float Attack_Modifier_Base = 0.35f;
+        public const float Attack_Modifier_Base = 0.2f;
         public const float Attack_Modifier_Divisor = 40f;
 
         public static float AttackModifier(int attack, bool damaging)
@@ -40,7 +40,7 @@ namespace TitanCore.Core
         }
 
         /// <summary>
-        /// Attack damage bonus relative to a 1.0x damage multiplier (e.g. +35% at Attack 40).
+        /// Attack damage bonus relative to a 1.0x damage multiplier (e.g. +20% at Attack 40, +70% at Attack 60).
         /// </summary>
         public static float AttackDamageBonusPercent(int attack, bool damaging)
         {

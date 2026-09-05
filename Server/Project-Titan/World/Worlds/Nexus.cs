@@ -58,7 +58,7 @@ namespace World.Worlds
 
         private static MarketItem[] antiqueItems = new MarketItem[]
         {
-            new MarketItem(new Item(0x2a6, true, 3), 45, 0), // health vial
+            new MarketItem(new Item(0x2a6, true, 3), 135, 0), // health vial
             new MarketItem(new Item(0x2a7, true, 1), 30, 0), // healing spell
             //new MarketItem(new Item(0x2aa, false, 1), 12000, 0), // soulless ring
             new MarketItem(new Item(0x2ab, false, 1), 8000, 0), // soulless robe
