@@ -48,7 +48,7 @@ namespace TitanCore.Core
                 case ClassType.Bladeweaver:
                     return 1000;
                 case ClassType.Nomad:
-                    return 2000;
+                    return 4000;
                 default:
                     return int.MaxValue;
             }

@@ -204,7 +204,7 @@ namespace TitanCore.Core
         {
             public const float WrathDamagePct = 0.05f;
             public const float UnfurlRange = 1f;
-            public const int EverlastingMs = 60;
+            public const int EverlastingMs = 40;
             public const float FrustrationKeep = 0.06f;
             public const float HasteChargeDurationPct = 0.20f;
             public const float ManifestSizePct = 0.15f;
@@ -253,8 +253,8 @@ namespace TitanCore.Core
             public const float WrathMarkedDamagePct = 0.06f;
             public const float FrustrationMarkedRage = 0.5f;
             public const int MendingInteractHeal = 10;
-            public const int EverlastingMs = 2000;
-            public const float HasteCooldownPct = 0.08f;
+            public const int EverlastingMs = 1500;
+            public const float HasteCooldownPct = 0.1f;
             public const float ManifestRadius = 0.5f;
             public const int FlickerRofMs = 1000;
             public const int ResonateLingerMs = 1000;
@@ -264,7 +264,7 @@ namespace TitanCore.Core
                 N("Wrath", "Ranger/Wrath", EffectStyle.Power, r => $"+{Pct(WrathMarkedDamagePct, r)} damage to Marked enemies"),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"+{Sc(FrustrationMarkedRage, r):0.#} rage when hitting Marked enemies"),
                 N("Mending", "Warrior/Mending", EffectStyle.Support, r => $"+{Sc(MendingInteractHeal, r)} heal on charm interact"),
-                N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{SecI(EverlastingMs, r)} ability duration"),
+                N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{SecI(EverlastingMs, r)} charm duration"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
                 N("Manifest", "Nomad/ManifestFocus", EffectStyle.Focus, r => $"+{Sc(ManifestRadius, r):0.##} tile ability radius"),
                 N("Flicker", "Nomad/Flicker", EffectStyle.Power, r => $"+{Sec(FlickerRofMs, r)} Rate of Fire duration"),

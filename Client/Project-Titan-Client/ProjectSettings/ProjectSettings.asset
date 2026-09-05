@@ -148,7 +148,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.0.0
+  bundleVersion: 1.1.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -695,7 +695,7 @@ PlayerSettings:
   switchPresenceGroupId: 
   switchLogoHandling: 0
   switchReleaseVersion: 0
-  switchDisplayVersion: 1.0.0
+  switchDisplayVersion: 1.1.0
   switchStartupUserAccount: 0
   switchSupportedLanguagesMask: 0
   switchLogoType: 0
@@ -942,7 +942,7 @@ PlayerSettings:
   XboxOneGameOsOverridePath: 
   XboxOnePackagingOverridePath: 
   XboxOneAppManifestOverridePath: 
-  XboxOneVersion: 1.0.0.0
+  XboxOneVersion: 1.1.0.0
   XboxOnePackageEncryption: 0
   XboxOnePackageUpdateGranularity: 2
   XboxOneDescription: 
