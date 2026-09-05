@@ -414,13 +414,13 @@ namespace TitanCore.Core
 
         private static class AlchemistTree
         {
-            public const float WrathDamagePct = 0.15f;
+            public const float WrathDamagePct = 0.12f;
             public const float ManifestRadius = 0.5f;
             public const int BasePulseLockoutMs = 1000;
             public const int MinPulseLockoutMs = 200;
             public const int WillLockoutMs = 60;
             public const float EverlastingDurationPct = 0.10f;
-            public const float HasteCooldownPct = 0.05f;
+            public const float HasteCooldownPct = 0.10f;
             public const float FrustrationKeep = 0.08f;
             public const int BlightAttack = 4;
             public const int EnigmaSlowMs = 300;

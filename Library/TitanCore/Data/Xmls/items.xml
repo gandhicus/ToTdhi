@@ -434,8 +434,8 @@
 			<Range>4.3</Range>
 			<AngleGap>0</AngleGap>
 			<Amount>2</Amount>
-			<MinDamageMod>4.6</MinDamageMod>
-			<MaxDamageMod>5.4</MaxDamageMod>
+			<MinDamageMod>5.2</MinDamageMod>
+			<MaxDamageMod>6.2</MaxDamageMod>
 			<Fallthrough/>
 		</Projectile>
 
@@ -451,8 +451,8 @@
 		<Projectile name="Bothmur Zweihander Slash">
 			<Speed>14</Speed>
 			<Range>4.4</Range>
-			<MinDamageMod>7</MinDamageMod>
-			<MaxDamageMod>9</MaxDamageMod>
+			<MinDamageMod>5</MinDamageMod>
+			<MaxDamageMod>6.5</MaxDamageMod>
 			<DefinedAmount/>
 			<Amount>2</Amount>
 			<Fallthrough/>
@@ -461,7 +461,7 @@
 		<Projectile name="Bothmur Zweihander Poke">
 			<Speed>17</Speed>
 			<Range>5.4</Range>
-			<MinDamageMod>3</MinDamageMod>
+			<MinDamageMod>2.5</MinDamageMod>
 			<MaxDamageMod>5</MaxDamageMod>
 			<DefinedAmount/>
 			<Amount>2</Amount>
@@ -1508,7 +1508,7 @@
 			<AlternateStatRoll type="BlockChance" min="2" max="5" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="8"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 		</StatRolls>
 
 	</Object>
@@ -1775,7 +1775,7 @@
 			<AlternateStatRoll type="BlockChance" min="2" max="5" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="8"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 		</StatRolls>
 
 	</Object>
@@ -2028,7 +2028,7 @@
 			<AlternateStatRoll type="BlockChance" min="2" max="5" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="8"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 		</StatRolls>
 
 	</Object>
@@ -2695,7 +2695,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="8"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 		</StatRolls>
 
 		<Description>A colossal emerald fixed on top of an enchanted gemmed ring.</Description>
@@ -2718,7 +2718,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="8"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 		</StatRolls>
 
 		<Description>A colossal amethyst fixed on top of an enchanted gemmed ring.</Description>
@@ -2741,7 +2741,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="8"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 		</StatRolls>
 
 		<Description>A colossal obsidian crystal fixed on top of an enchanted gemmed ring.</Description>
@@ -2764,7 +2764,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="8"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 		</StatRolls>
 
 		<Description>A colossal ruby fixed on top of an enchanted gemmed ring.</Description>
