@@ -83,9 +83,9 @@ namespace TitanCore.Core
         public const int Talisman_Slot = 12;
 
         /// Character level required to see and use the tree
-        public const int Unlock_Level = NetConstants.Class_Quest_Level_2;
+        public const int Unlock_Level = NetConstants.Class_Quest_Level_3;
 
-        public static readonly int[] Rank_Essence_Cost = { 0, 200, 350, 500 };
+        public static readonly int[] Rank_Essence_Cost = { 0, 200, 300, 400 };
 
         public static ClassSkillTrees.NodeDef GetNode(ClassType classType, SkillTreeNode node)
         {

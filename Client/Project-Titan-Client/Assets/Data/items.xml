@@ -460,7 +460,7 @@
 
 		<Projectile name="Bothmur Zweihander Poke">
 			<Speed>17</Speed>
-			<Range>5.4</Range>
+			<Range>5</Range>
 			<MinDamageMod>2.5</MinDamageMod>
 			<MaxDamageMod>5</MaxDamageMod>
 			<DefinedAmount/>
@@ -701,6 +701,7 @@
 		<RateOfFire>5</RateOfFire>
 
 		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
+		<AlternateStatIncrease type="RateOfFire">-15</AlternateStatIncrease>
 	</Object>
 
 	<Object id="0x14a" name="Oda's Transcendent Longbow" tier="-3">
