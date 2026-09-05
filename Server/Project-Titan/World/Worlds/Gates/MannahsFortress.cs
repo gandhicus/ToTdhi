@@ -89,6 +89,10 @@ namespace World.Worlds.Gates
         {
             base.OnGateComplete();
 
+            // Titan-death fortress ends the realm. A key-opened run is a private dungeon and must not.
+            if (openedFromKey)
+                return;
+
             manager.module.StartShutdown();
         }
     }

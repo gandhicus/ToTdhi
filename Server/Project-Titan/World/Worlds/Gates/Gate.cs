@@ -22,6 +22,8 @@ namespace World.Worlds.Gates
 
         public int portalDurationOverride = -1;
 
+        public bool openedFromKey;
+
         private QuestTaskSystem questTaskSystem;
 
         public Portal portal;

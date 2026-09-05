@@ -104,7 +104,8 @@ namespace World.Net.Handling
                     connection.player.world,
                     gateKeyInfo.gateType,
                     connection.player.position.Value,
-                    GateSpawner.KeyPortalDurationSeconds);
+                    GateSpawner.KeyPortalDurationSeconds,
+                    openedFromKey: true);
 
                 if (gate == null)
                 {

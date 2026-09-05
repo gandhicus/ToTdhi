@@ -28,9 +28,10 @@ namespace World.Worlds.Gates
         ///
         /// Returns null if the key is not registered, so the caller can tell the player
         /// something useful. Passing -1 for the duration leaves the dungeon's own
-        /// PortalTime in charge.
+        /// PortalTime in charge. openedFromKey is true when a player used a gate key,
+        /// which some dungeons (Mannah's Fortress) treat differently from a titan drop.
         /// </summary>
-        public static Gate SpawnGate(World world, string gateKey, Vec2 position, int portalDurationSeconds = -1)
+        public static Gate SpawnGate(World world, string gateKey, Vec2 position, int portalDurationSeconds = -1, bool openedFromKey = false)
         {
             var gate = GateRegistry.Create(gateKey);
             if (gate == null)
@@ -39,16 +40,18 @@ namespace World.Worlds.Gates
                 return null;
             }
 
-            return SpawnGate(world, gate, position, portalDurationSeconds);
+            return SpawnGate(world, gate, position, portalDurationSeconds, openedFromKey);
         }
 
         /// <summary>
         /// Opens an already-constructed dungeon. Kept separate from the key lookup so
         /// callers that build a gate themselves can still share the portal logic.
         /// </summary>
-        public static Gate SpawnGate(World world, Gate gate, Vec2 position, int portalDurationSeconds = -1)
+        public static Gate SpawnGate(World world, Gate gate, Vec2 position, int portalDurationSeconds = -1, bool openedFromKey = false)
         {
             if (world == null || gate == null) return null;
+
+            gate.openedFromKey = openedFromKey;
 
             if (portalDurationSeconds >= 0)
                 gate.portalDurationOverride = portalDurationSeconds;

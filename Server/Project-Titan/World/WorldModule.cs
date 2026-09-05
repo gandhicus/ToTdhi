@@ -370,12 +370,18 @@ namespace World
 
         public void StartShutdown()
         {
-            closed = true;
-            if (!ModularProgram.manifest.local)
+            bool local = ModularProgram.manifest.local;
+
+            // Production overworld instances refuse new connections once Mannah is done.
+            // Local runs Nexus and Overworld in the same process, so flipping closed would
+            // also block menu reconnects into Nexus (instant disconnect, no error).
+            if (!local)
             {
+                closed = true;
                 Ec2Instance.FlagAsClosed();
                 instanceConnection.SendAsync(new InOverworldClosed());
             }
+
             shutdownTime = DateTime.Now.AddMinutes(6);
             shutdownTimer = new Timer(OnShutdownTimer, null, 1100 * 60, 1000 * 60);
         }
@@ -412,6 +418,12 @@ namespace World
                 if (!ModularProgram.manifest.local)
                 {
                     Ec2Instance.Terminate();
+                }
+                else
+                {
+                    closed = false;
+                    shutdownTimer?.Dispose();
+                    shutdownTimer = null;
                 }
             }
         }
