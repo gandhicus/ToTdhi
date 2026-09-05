@@ -1501,9 +1501,9 @@
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="-2" max="2" always="true"/>
-			<StatRoll type="Attack" min="2" max="5" weight="30"/>
-			<StatRoll type="Speed" min="2" max="5" weight="30"/>
-			<StatRoll type="MaxHealth" min="15" max="30" weight="20"/>
+			<StatRoll type="Attack" min="2" max="4" weight="30"/>
+			<StatRoll type="Speed" min="2" max="4" weight="30"/>
+			<StatRoll type="MaxHealth" min="20" max="35" weight="20"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="9" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="4" max="9" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="2" max="5" weight="12"/>
@@ -1769,8 +1769,8 @@
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
-			<StatRoll type="Vigor" min="2" max="5" weight="30"/>
-			<StatRoll type="MaxHealth" min="15" max="30" weight="20"/>
+			<StatRoll type="Vigor" min="2" max="4" weight="30"/>
+			<StatRoll type="MaxHealth" min="20" max="35" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="9" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="4" max="9" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="2" max="5" weight="12"/>
@@ -2021,9 +2021,9 @@
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
-			<StatRoll type="Vigor" min="2" max="5" weight="30"/>
-			<StatRoll type="Speed" min="2" max="5" weight="30"/>
-			<StatRoll type="MaxHealth" min="15" max="30" weight="20"/>
+			<StatRoll type="Vigor" min="2" max="4" weight="30"/>
+			<StatRoll type="Speed" min="2" max="4" weight="30"/>
+			<StatRoll type="MaxHealth" min="20" max="35" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="9" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="4" max="9" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="2" max="5" weight="12"/>
@@ -2263,12 +2263,12 @@
 		<Sprite>Speed Ring 4</Sprite>
 		<StatIncrease type="Speed">4</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Speed" min="-1" max="1" always="true"/>
 			<StatRoll type="Attack" min="1" max="2" weight="30"/>
 			<StatRoll type="Defense" min="1" max="2" weight="30"/>
 			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
-			<StatRoll type="MaxHealth" min="10" max="15" weight="20"/>
+			<StatRoll type="MaxHealth" min="10" max="15" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="1" max="4" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="1" max="4" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="2" weight="12"/>
@@ -2285,12 +2285,12 @@
 		<Sprite>Attack Ring 4</Sprite>
 		<StatIncrease type="Attack">4</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Attack" min="-1" max="1" always="true"/>
 			<StatRoll type="Defense" min="1" max="2" weight="30"/>
 			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
 			<StatRoll type="Speed" min="1" max="2" weight="30"/>
-			<StatRoll type="MaxHealth" min="10" max="15" weight="20"/>
+			<StatRoll type="MaxHealth" min="10" max="15" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="1" max="4" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="1" max="4" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="2" weight="12"/>
@@ -2307,12 +2307,12 @@
 		<Sprite>Defense Ring 4</Sprite>
 		<StatIncrease type="Defense">4</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-1" max="1" always="true"/>
 			<StatRoll type="Attack" min="1" max="2" weight="30"/>
 			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
 			<StatRoll type="Speed" min="1" max="2" weight="30"/>
-			<StatRoll type="MaxHealth" min="10" max="15" weight="20"/>
+			<StatRoll type="MaxHealth" min="10" max="15" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="1" max="4" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="1" max="4" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="2" weight="12"/>
@@ -2329,12 +2329,12 @@
 		<Sprite>Vigor Ring 4</Sprite>
 		<StatIncrease type="Vigor">4</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Vigor" min="-1" max="1" always="true"/>
 			<StatRoll type="Attack" min="1" max="2" weight="30"/>
 			<StatRoll type="Defense" min="1" max="2" weight="30"/>
 			<StatRoll type="Speed" min="1" max="2" weight="30"/>
-			<StatRoll type="MaxHealth" min="10" max="15" weight="20"/>
+			<StatRoll type="MaxHealth" min="10" max="15" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="1" max="4" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="1" max="4" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="2" weight="12"/>
@@ -2687,16 +2687,16 @@
 
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Speed" min="-1" max="1" always="true"/>
-			<StatRoll type="Attack" min="1" max="3" weight="30"/>
-			<StatRoll type="Defense" min="1" max="3" weight="30"/>
-			<StatRoll type="Vigor" min="1" max="3" weight="30"/>
-			<StatRoll type="MaxHealth" min="15" max="20" weight="20"/>
+			<StatRoll type="Attack" min="1" max="2" weight="30"/>
+			<StatRoll type="Defense" min="1" max="2" weight="30"/>
+			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
+			<StatRoll type="MaxHealth" min="15" max="25" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="7" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="7" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="1" weight="4"/>
 		</StatRolls>
 
 		<Description>A colossal emerald fixed on top of an enchanted gemmed ring.</Description>
@@ -2710,16 +2710,16 @@
 
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Attack" min="-1" max="1" always="true"/>
-			<StatRoll type="Defense" min="1" max="3" weight="30"/>
-			<StatRoll type="Vigor" min="1" max="3" weight="30"/>
-			<StatRoll type="Speed" min="1" max="3" weight="30"/>
-			<StatRoll type="MaxHealth" min="15" max="20" weight="20"/>
+			<StatRoll type="Defense" min="1" max="2" weight="30"/>
+			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
+			<StatRoll type="Speed" min="1" max="2" weight="30"/>
+			<StatRoll type="MaxHealth" min="15" max="25" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="7" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="7" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="1" weight="4"/>
 		</StatRolls>
 
 		<Description>A colossal amethyst fixed on top of an enchanted gemmed ring.</Description>
@@ -2733,16 +2733,16 @@
 
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-1" max="1" always="true"/>
-			<StatRoll type="Attack" min="1" max="3" weight="30"/>
-			<StatRoll type="Vigor" min="1" max="3" weight="30"/>
-			<StatRoll type="Speed" min="1" max="3" weight="30"/>
-			<StatRoll type="MaxHealth" min="15" max="20" weight="20"/>
+			<StatRoll type="Attack" min="1" max="2" weight="30"/>
+			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
+			<StatRoll type="Speed" min="1" max="2" weight="30"/>
+			<StatRoll type="MaxHealth" min="15" max="25" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="7" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="7" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="1" weight="4"/>
 		</StatRolls>
 
 		<Description>A colossal obsidian crystal fixed on top of an enchanted gemmed ring.</Description>
@@ -2756,16 +2756,16 @@
 
 		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Vigor" min="-1" max="1" always="true"/>
-			<StatRoll type="Attack" min="1" max="3" weight="30"/>
-			<StatRoll type="Defense" min="1" max="3" weight="30"/>
-			<StatRoll type="Speed" min="1" max="3" weight="30"/>
-			<StatRoll type="MaxHealth" min="15" max="20" weight="20"/>
+			<StatRoll type="Attack" min="1" max="2" weight="30"/>
+			<StatRoll type="Defense" min="1" max="2" weight="30"/>
+			<StatRoll type="Speed" min="1" max="2" weight="30"/>
+			<StatRoll type="MaxHealth" min="15" max="25" weight="30"/>
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="7" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="7" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
+			<AlternateStatRoll type="AbsorptionChance" min="1" max="1" weight="4"/>
 		</StatRolls>
 
 		<Description>A colossal ruby fixed on top of an enchanted gemmed ring.</Description>
