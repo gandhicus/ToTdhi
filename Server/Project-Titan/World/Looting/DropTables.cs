@@ -419,7 +419,7 @@ namespace World.Looting
                         new Single(Loot.Chance(2), new Item("Bothmur's Zweihander"))
                         ),
                     new SoulboundLoot(0.1f, // 8
-                        new Single(Loot.Chance(2), new Item("Valdok's Impervious Aegis"))
+                        new Single(Loot.Chance(2), new Item("Valdok's Impervious Aegis")),
                         new Single(Loot.Chance(1.5), new Item("Lifesource Chassis"))
                         ),
                     new SoulboundLoot(0.1f, // 9 mythic accessories
@@ -512,7 +512,7 @@ namespace World.Looting
                         new Single(Loot.Chance(2), new Item("Oda's Transcendent Longbow"))
                         ),
                     new SoulboundLoot(0.1f, // 8
-                        new Single(Loot.Chance(2), new Item("Archmage's Sibylline Vestment"))
+                        new Single(Loot.Chance(2), new Item("Archmage's Sibylline Vestment")),
                         new Single(Loot.Chance(1.5), new Item("Lifesource Chassis"))
                         ),
                     new SoulboundLoot(0.1f, // 9 mythic accessories
