@@ -130,9 +130,11 @@ public class Biome
                     objects = new RangeMap<BiomeObject>(new RangePair<BiomeObject>[]
                     {
                         new RangePair<BiomeObject>(new Range(float.MinValue, 0.01f), new BiomeObject(0xb24, 0xa43)), // Log
-                        new RangePair<BiomeObject>(new Range(0.01f, 0.025f), new BiomeObject(0xb24, 0xa42)), // Lillypad
-                        new RangePair<BiomeObject>(new Range(0.03f, 0.04f), new BiomeObject(0xb25, 0xa43)), // Log
-                        new RangePair<BiomeObject>(new Range(0.04f, 0.055f), new BiomeObject(0xb25, 0xa42)), // Lillypad
+                        new RangePair<BiomeObject>(new Range(0.01f, 0.02f), new BiomeObject(0xb24, 0xa42)), // Lillypad
+                        new RangePair<BiomeObject>(new Range(0.02f, 0.025f), new BiomeObject(0xb24, ShallowLilyTypes)), // Lilies
+                        new RangePair<BiomeObject>(new Range(0.04f, 0.05f), new BiomeObject(0xb25, 0xa43)), // Log
+                        new RangePair<BiomeObject>(new Range(0.05f, 0.06f), new BiomeObject(0xb25, 0xa42)), // Lillypad
+                        new RangePair<BiomeObject>(new Range(0.06f, 0.065f), new BiomeObject(0xb25, ShallowLilyTypes)), // Lilies
                         new RangePair<BiomeObject>(new Range(0.96f, float.MaxValue), new BiomeObject(0xb28, 0xa44)), // Lake tree
                     })
                 };
@@ -204,6 +206,22 @@ public class Biome
     public RangeMap<ushort> tiles = new RangeMap<ushort>();
 
     public RangeMap<BiomeObject> objects = new RangeMap<BiomeObject>();
+
+    // 49 white, 49 pink, 2 blue so blue stays 2% of lilies.
+    private static readonly ushort[] ShallowLilyTypes = BuildShallowLilyTypes();
+
+    private static ushort[] BuildShallowLilyTypes()
+    {
+        var types = new ushort[100];
+        for (int i = 0; i < 49; i++)
+        {
+            types[i * 2] = 0xa4a;
+            types[i * 2 + 1] = 0xa4b;
+        }
+        types[98] = 0xa4c;
+        types[99] = 0xa4c;
+        return types;
+    }
 }
 
 public struct BiomeObject

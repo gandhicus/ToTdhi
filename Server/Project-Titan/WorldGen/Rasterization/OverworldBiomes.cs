@@ -58,12 +58,14 @@ namespace WorldGen.Rasterization
     /// </summary>
     public static class OverworldBiomes
     {
-        private static readonly Dictionary<OverworldBiomeType, OverworldBiome> biomes = Create();
-
         public static OverworldBiome Get(OverworldBiomeType type)
         {
             return biomes[type];
         }
+
+        // Built before the biome table so lily stamps are never a null type list.
+        private static readonly ushort[] ShallowLilyTypes = BuildShallowLilyTypes();
+        private static readonly Dictionary<OverworldBiomeType, OverworldBiome> biomes = Create();
 
         private static Dictionary<OverworldBiomeType, OverworldBiome> Create()
         {
@@ -161,9 +163,11 @@ namespace WorldGen.Rasterization
                 objects = new RangeMap<OverworldBiomeObject>(new[]
                 {
                     new RangePair<OverworldBiomeObject>(new Range(float.MinValue, 0.01f), new OverworldBiomeObject(0xb24, 0xa43)),
-                    new RangePair<OverworldBiomeObject>(new Range(0.01f, 0.025f), new OverworldBiomeObject(0xb24, 0xa42)),
-                    new RangePair<OverworldBiomeObject>(new Range(0.03f, 0.04f), new OverworldBiomeObject(0xb25, 0xa43)),
-                    new RangePair<OverworldBiomeObject>(new Range(0.04f, 0.055f), new OverworldBiomeObject(0xb25, 0xa42)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.01f, 0.02f), new OverworldBiomeObject(0xb24, 0xa42)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.02f, 0.025f), new OverworldBiomeObject(0xb24, ShallowLilyTypes)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.04f, 0.05f), new OverworldBiomeObject(0xb25, 0xa43)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.05f, 0.06f), new OverworldBiomeObject(0xb25, 0xa42)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.06f, 0.065f), new OverworldBiomeObject(0xb25, ShallowLilyTypes)),
                     new RangePair<OverworldBiomeObject>(new Range(0.96f, float.MaxValue), new OverworldBiomeObject(0xb28, 0xa44))
                 })
             };
@@ -200,6 +204,20 @@ namespace WorldGen.Rasterization
             };
 
             return map;
+        }
+
+        // 49 white, 49 pink, 2 blue — 2% blue without a tiny dedicated spawn band.
+        private static ushort[] BuildShallowLilyTypes()
+        {
+            var types = new ushort[100];
+            for (int i = 0; i < 49; i++)
+            {
+                types[i * 2] = 0xa4a;
+                types[i * 2 + 1] = 0xa4b;
+            }
+            types[98] = 0xa4c;
+            types[99] = 0xa4c;
+            return types;
         }
     }
 }

@@ -349,6 +349,7 @@ SpriteAtlas:
     - 51549692b26838d4d9f24260f7dbc41f: 21300000
     - 646a1892e1112f348add73a234598bf3: 21300000
     - b8b91992348d5f94788eae2e15bc2bdb: 21300000
+    - 7e4c1a92b8d04f3e9c6a5b4d3e2f1a08: 21300000
     - b5b0db92083a12f47910dc92b175c29b: 21300000
     - 3681cd9251038464baf6c166627a7968: 21300000
     - 405280a25d503684e9fe537875177291: 21300000
@@ -393,6 +394,7 @@ SpriteAtlas:
     - 9e722503d5066cd42bb6a0de75e8a654: 21300000
     - cc990603b21ac3d4c94004d22c5318d9: 21300000
     - aa2977036b66abc4bafd6dadcddee31b: 21300000
+    - 8f5d2b03c9e1504f0d7b6c5e4f3a2b19: 21300000
     - e403d213923c9fe49b311db5f21c3e0b: 21300000
     - a1f753136b7c77e499726284dbef6982: 21300000
     - ef3555134f44d9b4595c4625b01fe0fa: 21300000
@@ -513,6 +515,7 @@ SpriteAtlas:
     - d41e18144a2bcd448b627527bf8b5588: 21300000
     - 24e46a14745bc1643a887e8fc7b3ba8b: 21300000
     - 211beb149aecc3b4bb21b3d9062ef2da: 21300000
+    - 9a6e3c14daf2615f1e8c7d6f5a4b3c2a: 21300000
     - 46231d1400db5b04093c67a6afd8c803: 21300000
     - 98e7f124322bdf5448b9c27b103dc1d3: 21300000
     - f81e74243bb38ae47b5b642ff6dd3d64: 21300000
@@ -1982,6 +1985,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 51549692b26838d4d9f24260f7dbc41f, type: 3}
   - {fileID: 21300000, guid: 646a1892e1112f348add73a234598bf3, type: 3}
   - {fileID: 21300000, guid: b8b91992348d5f94788eae2e15bc2bdb, type: 3}
+  - {fileID: 21300000, guid: 7e4c1a92b8d04f3e9c6a5b4d3e2f1a08, type: 3}
   - {fileID: 21300000, guid: b5b0db92083a12f47910dc92b175c29b, type: 3}
   - {fileID: 21300000, guid: 3681cd9251038464baf6c166627a7968, type: 3}
   - {fileID: 21300000, guid: 405280a25d503684e9fe537875177291, type: 3}
@@ -2026,6 +2030,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9e722503d5066cd42bb6a0de75e8a654, type: 3}
   - {fileID: 21300000, guid: cc990603b21ac3d4c94004d22c5318d9, type: 3}
   - {fileID: 21300000, guid: aa2977036b66abc4bafd6dadcddee31b, type: 3}
+  - {fileID: 21300000, guid: 8f5d2b03c9e1504f0d7b6c5e4f3a2b19, type: 3}
   - {fileID: 21300000, guid: e403d213923c9fe49b311db5f21c3e0b, type: 3}
   - {fileID: 21300000, guid: a1f753136b7c77e499726284dbef6982, type: 3}
   - {fileID: 21300000, guid: ef3555134f44d9b4595c4625b01fe0fa, type: 3}
@@ -2146,6 +2151,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d41e18144a2bcd448b627527bf8b5588, type: 3}
   - {fileID: 21300000, guid: 24e46a14745bc1643a887e8fc7b3ba8b, type: 3}
   - {fileID: 21300000, guid: 211beb149aecc3b4bb21b3d9062ef2da, type: 3}
+  - {fileID: 21300000, guid: 9a6e3c14daf2615f1e8c7d6f5a4b3c2a, type: 3}
   - {fileID: 21300000, guid: 46231d1400db5b04093c67a6afd8c803, type: 3}
   - {fileID: 21300000, guid: 98e7f124322bdf5448b9c27b103dc1d3, type: 3}
   - {fileID: 21300000, guid: f81e74243bb38ae47b5b642ff6dd3d64, type: 3}
@@ -3614,6 +3620,7 @@ SpriteAtlas:
   - Loot Chest 5
   - MinisterPillarT2-1
   - BlackKnightSkin-10
+  - WhiteLily
   - MistDancer-4
   - Valdok-Trans-11
   - MysteriousButterfly-2
@@ -3658,6 +3665,7 @@ SpriteAtlas:
   - BaldBandit-1
   - MythicBrotherhood-10
   - Dumirian Chief Spiral
+  - PinkLily
   - Alchemist-11
   - SnowRock-1
   - Miner-2
@@ -3778,6 +3786,7 @@ SpriteAtlas:
   - ForgeFoundry-2
   - Rictorn-Transform-3
   - BlackKnightSkin-7
+  - BlueLily
   - MarketMule-Rest-4
   - Ring of the Blood Moon
   - WisperingEnt-2
