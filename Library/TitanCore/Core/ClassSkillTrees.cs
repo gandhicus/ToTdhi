@@ -433,7 +433,7 @@ namespace TitanCore.Core
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Pct(EverlastingDurationPct, r)} ability duration"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability use"),
-                N("Blight", "Lancer/Blight", EffectStyle.Power, r => $"+{Sc(BlightAttack, r)} Attack while standing in the puddle"),
+                N("Blight", "Lancer/Blight", EffectStyle.Power, r => $"+{Sc(BlightAttack, r)} Attack while standing in puddle"),
                 N("Enigma", "Ranger/Enigma", EffectStyle.Focus, r => $"Ability applies Slowed {Sec(EnigmaSlowMs, r)}"),
             };
 
