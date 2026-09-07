@@ -946,7 +946,7 @@ public class Player : Character
                 var brewerMods = BuildClientAbilityModifiers();
                 if (abilityValue == 0)
                     rateOfFireBonus = Mathf.Max(rateOfFireBonus, AbilityFunctions.Brewer.RoF_Amount + brewerMods.rofAmount);
-                var brewerFx = new BrewerAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack), abilityValue);
+                var brewerFx = new BrewerAbilityWorldEffect(gameId, position, (byte)Mathf.Floor(rage), GetStatFunctional(StatType.Attack), abilityValue, AbilityFunctions.Brewer.GetAbilityArea(brewerMods));
                 ColorFromTalisman(brewerFx);
                 world.PlayBrewerAbilityEffect(brewerFx);
                 SpendDumpAbilityRage();

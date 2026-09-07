@@ -1555,7 +1555,7 @@
 
 	</Object>
 
-	<Object id="0x513" name="Lifesource Chassis" tier="-2">
+	<Object id="0x513" name="Lifesource Chassis" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>Lifesource Chassis</Sprite>

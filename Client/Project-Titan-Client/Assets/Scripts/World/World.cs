@@ -1202,22 +1202,13 @@ public class World : MonoBehaviour
 
     public void PlayBrewerAbilityEffect(BrewerAbilityWorldEffect brewerEffect)
     {
-        var effects = AbilityFunctions.GetAbilityEffects(brewerEffect.rage, brewerEffect.attack, brewerEffect.value, ClassType.Brewer);
-
-        foreach (var abilityEffect in effects)
-        {
-            if (abilityEffect.area == 0) continue;
-            var blast = (AreaBlast)PlayEffect(EffectType.AreaBlast, brewerEffect.position.ToVector2());
-            blast.SetInfo(abilityEffect.area, GetWorldEffectColor(brewerEffect, GetBlastColorForEffect(abilityEffect.type)));
-        }
-
-        if (!TryGetObject(brewerEffect.ownerGameId, out var worldObject)) return;
-        if (!(worldObject is Character ownerCharacter)) return;
-
-        foreach (var effect in effects)
-        {
-            ownerCharacter.AddClientEffect(effect.type, effect.duration);
-        }
+        // GetAbilityEffects is empty, so spawn the square nova here. Purple is RoF brew, red is Vigor.
+        float area = brewerEffect.area > 0 ? brewerEffect.area : AbilityFunctions.Brewer.Ability_Area;
+        Color brewColor = brewerEffect.value == 0
+            ? new Color(0.62f, 0.22f, 0.95f)
+            : new Color(1f, 0.18f, 0.14f);
+        var blast = (AreaBlast)PlayEffect(EffectType.AreaBlast, brewerEffect.position.ToVector2());
+        blast.SetInfo(area, GetWorldEffectColor(brewerEffect, brewColor));
     }
 
     public void PlayBladeweaverAbilityEffect(BladeweaverAbilityWorldEffect bladeweaverEffect)

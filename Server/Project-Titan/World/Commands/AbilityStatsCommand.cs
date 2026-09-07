@@ -411,7 +411,7 @@ namespace World.Commands
                 $"+{AbilityFunctions.Brewer.RoF_Amount + SkillTreeFunctions.ScaleOnUseStat(mods.rofAmount, 100)}% RoF for {FormatSec((int)purpleFull)}", rage);
             Pair(player, "Red brew", $"+{vigor} Vigor for {FormatSec((int)redMs)}",
                 $"+{8 + SkillTreeFunctions.ScaleOnUseStat(mods.vigorBonus, 100)} Vigor for {FormatSec((int)redFull)}", rage);
-            Line(player, $"Radius: {Tiles(6f + mods.abilityRadiusBonus)}");
+            Line(player, $"Radius: {Tiles(AbilityFunctions.Brewer.GetAbilityArea(mods))}");
             if (mods.slowMs > 0)
                 Line(player, $"Applies Slowed for {FormatSec(mods.slowMs)}");
         }

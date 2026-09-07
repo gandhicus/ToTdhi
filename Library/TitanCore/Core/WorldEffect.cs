@@ -599,18 +599,21 @@ namespace TitanCore.Core
 
         public byte value;
 
+        public float area;
+
         public BrewerAbilityWorldEffect()
         {
 
         }
 
-        public BrewerAbilityWorldEffect(uint ownerGameId, Vec2 position, byte rage, int attack, byte value)
+        public BrewerAbilityWorldEffect(uint ownerGameId, Vec2 position, byte rage, int attack, byte value, float area)
         {
             this.ownerGameId = ownerGameId;
             this.position = position;
             this.rage = rage;
             this.attack = attack;
             this.value = value;
+            this.area = area;
         }
 
         protected override void DoRead(BitReader r)
@@ -620,6 +623,7 @@ namespace TitanCore.Core
             rage = r.ReadUInt8();
             attack = r.ReadInt32();
             value = r.ReadUInt8();
+            area = r.ReadFloat();
         }
 
         protected override void DoWrite(BitWriter w)
@@ -629,6 +633,7 @@ namespace TitanCore.Core
             w.Write(rage);
             w.Write(attack);
             w.Write(value);
+            w.Write(area);
         }
     }
 

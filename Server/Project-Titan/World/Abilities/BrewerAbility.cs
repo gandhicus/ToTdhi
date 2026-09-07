@@ -28,13 +28,14 @@ namespace World.Abilities
             sendToSelf = false;
 
             float rageScalar = spent / 100f;
-            float area = 6f + mods.abilityRadiusBonus;
+            float area = AbilityFunctions.Brewer.GetAbilityArea(mods);
             uint durationMs;
             if (value == 0)
                 durationMs = 1000 + (uint)(10000 * rageScalar) + (uint)Math.Max(0, mods.durationBonusMs);
             else
                 durationMs = 1000 + (uint)(8000 * rageScalar) + (uint)Math.Max(0, mods.durationBonusMs);
 
+            // GetPlayersWithin includes the caster and any allies standing in the brew nova.
             foreach (var other in player.world.objects.GetPlayersWithin(position.x, position.y, area))
             {
                 var state = other.gameState.playerState;
@@ -53,7 +54,7 @@ namespace World.Abilities
             if (mods.hymnDefense > 0 && mods.timedDefenseMs > 0)
                 PlayerState.ApplyTimedStatBonus(StatType.Defense, mods.hymnDefense, time, (uint)mods.timedDefenseMs);
 
-            return PlayColored(new BrewerAbilityWorldEffect(player.gameId, position, spent, attack, value));
+            return PlayColored(new BrewerAbilityWorldEffect(player.gameId, position, spent, attack, value, area));
         }
     }
 }

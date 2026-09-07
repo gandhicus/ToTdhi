@@ -336,6 +336,13 @@ namespace TitanCore.Core
         public static class Brewer
         {
             public const int RoF_Amount = 10;
+
+            public const float Ability_Area = 4f;
+
+            public static float GetAbilityArea(AbilityModifierSnapshot mods)
+            {
+                return Ability_Area + mods.abilityRadiusBonus;
+            }
         }
 
         public static class Nomad

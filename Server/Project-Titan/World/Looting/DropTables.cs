@@ -282,7 +282,7 @@ namespace World.Looting
                             new Item("Scroll of Power"))
                         ),
                     new SoulboundLoot(0.3f, // 6
-                        new Single(Loot.Chance(2.5),
+                        new Single(Loot.Chance(3),
                             new Item("Band of Oceanic Radiance"))
                         ),
                     new SoulboundLoot(0.3f, // 7
