@@ -80,6 +80,9 @@ namespace World.Commands
             if (player.gameState?.playerState == null)
                 return ChatData.Error("Unable to read your stats right now.");
 
+            if (weaponInfo.projectiles == null || weaponInfo.projectiles.Length == 0)
+                return ChatData.Error("That weapon has no projectiles.");
+
             var playerState = player.gameState.playerState;
             var snapshot = playerState.currentSnapshot;
             var lookupByName = args.args.Length > 0;
@@ -87,7 +90,6 @@ namespace World.Commands
             var equips = BuildEquips(snapshot, weaponInfo, lookupByName);
             var attack = GetAttack(snapshot, equips);
             var attackMod = StatFunctions.AttackModifier(attack, false);
-            GetDamagePerShot(weaponInfo, attackMod, enchantMod, out var minDamagePerShot, out var maxDamagePerShot);
 
             var trueDamageChance = ItemFunctions.GetEquippedAlternateStat(equips, AlternateStatType.TrueDamageChance)
                 + playerState.GetTimedAlternateStatBonus(AlternateStatType.TrueDamageChance);
@@ -95,36 +97,27 @@ namespace World.Commands
                 + playerState.GetTimedAlternateStatBonus(AlternateStatType.CriticalStrikeChance);
             var critDamageBonus = ItemFunctions.GetEquippedAlternateStat(equips, AlternateStatType.CriticalStrikeDamage)
                 + playerState.GetTimedAlternateStatBonus(AlternateStatType.CriticalStrikeDamage);
+            var rofBonus = ItemFunctions.GetEquippedAlternateStat(equips, AlternateStatType.RateOfFire)
+                + playerState.GetTimedAlternateStatBonus(AlternateStatType.RateOfFire);
 
-            var primaryProjectile = weaponInfo.projectiles[0];
+            // Use the same cooldown rounding as live shooting so RoF gear matches what you actually fire.
+            int cooldownMs = StatFunctions.GetShootCooldownMs(weaponInfo.rateOfFire, rofBonus);
+            float shotsPerSecond = 1000f / cooldownMs;
+
+            var cycle = WeaponFunctions.GetFireCycle(weaponInfo.projectiles);
+            if (cycle.Count == 0)
+                return ChatData.Error("That weapon has no projectiles.");
 
             player.AddChat(ChatData.Info(weaponInfo.name));
             player.AddChat(ChatData.Info($"Attack {attack}: {FormatNumber(attackMod)}x ({StatFunctions.Attack_Modifier_Base:0.##} + Attack/{StatFunctions.Attack_Modifier_Divisor:0})"));
-            player.AddChat(ChatData.Info($"DPS at 0 Defense: {FormatDps(minDamagePerShot, maxDamagePerShot, 0, weaponInfo.rateOfFire, trueDamageChance, critChance, critDamageBonus)}"));
-            player.AddChat(ChatData.Info($"DPS at 20 Defense: {FormatDps(minDamagePerShot, maxDamagePerShot, 20, weaponInfo.rateOfFire, trueDamageChance, critChance, critDamageBonus)}"));
-            player.AddChat(ChatData.Info($"DPS at 40 Defense: {FormatDps(minDamagePerShot, maxDamagePerShot, 40, weaponInfo.rateOfFire, trueDamageChance, critChance, critDamageBonus)}"));
-            player.AddChat(ChatData.Info($"Range: {FormatRange(primaryProjectile)}"));
-            player.AddChat(ChatData.Info($"Projectile count: {primaryProjectile.amount}"));
-            player.AddChat(ChatData.Info($"Rate of fire: {weaponInfo.rateOfFire}"));
+            player.AddChat(ChatData.Info($"DPS at 0 Defense: {FormatDps(weaponInfo, cycle, attackMod, enchantMod, 0, shotsPerSecond, trueDamageChance, critChance, critDamageBonus)}"));
+            player.AddChat(ChatData.Info($"DPS at 20 Defense: {FormatDps(weaponInfo, cycle, attackMod, enchantMod, 20, shotsPerSecond, trueDamageChance, critChance, critDamageBonus)}"));
+            player.AddChat(ChatData.Info($"DPS at 40 Defense: {FormatDps(weaponInfo, cycle, attackMod, enchantMod, 40, shotsPerSecond, trueDamageChance, critChance, critDamageBonus)}"));
+            player.AddChat(ChatData.Info($"Range: {FormatCycleRange(cycle)}"));
+            player.AddChat(ChatData.Info($"Projectile count: {FormatProjectileCount(cycle)}"));
+            player.AddChat(ChatData.Info(FormatRateOfFire(shotsPerSecond, weaponInfo.rateOfFire)));
 
             return null;
-        }
-
-        private static void GetDamagePerShot(WeaponInfo weapon, float attackMod, float enchantMod, out float minDamagePerShot, out float maxDamagePerShot)
-        {
-            minDamagePerShot = 0;
-            maxDamagePerShot = 0;
-
-            foreach (var proj in weapon.projectiles)
-            {
-                WeaponFunctions.GetProjectileDamage(weapon.slotType, proj, out var min, out var max);
-                minDamagePerShot += min * proj.amount;
-                maxDamagePerShot += max * proj.amount;
-            }
-
-            var patternCount = weapon.projectiles.Length;
-            minDamagePerShot = minDamagePerShot / patternCount * attackMod * enchantMod;
-            maxDamagePerShot = maxDamagePerShot / patternCount * attackMod * enchantMod;
         }
 
         private static Item[] BuildEquips(PlayerSnapshot snapshot, WeaponInfo weaponInfo, bool swapWeapon)
@@ -142,6 +135,40 @@ namespace World.Commands
             EquipmentStatFunctions.RecalculateEquipmentStats(equips, extraStats, new Dictionary<AlternateStatType, int>());
             extraStats.TryGetValue(StatType.Attack, out var equipAttack);
             return snapshot.GetBaseStat(StatType.Attack) + snapshot.attackBonus + equipAttack;
+        }
+
+        // Defense is subtracted per hit, so a 2-projectile volley into 40 Defense is
+        // 2x (damage-40), not (2x damage)-40. Average min/max after that expected value.
+        private static string FormatDps(
+            WeaponInfo weapon,
+            List<ProjectileData[]> cycle,
+            float attackMod,
+            float enchantMod,
+            int defense,
+            float shotsPerSecond,
+            int trueDamageChance,
+            int critChance,
+            int critDamageBonus)
+        {
+            float minExpected = 0;
+            float maxExpected = 0;
+            foreach (var shot in cycle)
+            {
+                foreach (var proj in shot)
+                {
+                    WeaponFunctions.GetProjectileDamage(weapon.slotType, proj, out var min, out var max);
+                    minExpected += ExpectedDamage(ScaleDamage(min, attackMod, enchantMod), trueDamageChance, critChance, critDamageBonus, defense);
+                    maxExpected += ExpectedDamage(ScaleDamage(max, attackMod, enchantMod), trueDamageChance, critChance, critDamageBonus, defense);
+                }
+            }
+
+            var dps = ((minExpected + maxExpected) / 2f / cycle.Count) * shotsPerSecond;
+            return FormatNumber(dps);
+        }
+
+        private static int ScaleDamage(ushort baseDamage, float attackMod, float enchantMod)
+        {
+            return (int)Math.Round(baseDamage * attackMod * enchantMod);
         }
 
         private static float ExpectedDamage(int rawDamage, int trueDamageChance, int critChance, int critDamageBonus, int defense)
@@ -173,19 +200,42 @@ namespace World.Commands
             return value;
         }
 
-        private static string FormatDps(
-            float minDamagePerShot,
-            float maxDamagePerShot,
-            int defense,
-            float rateOfFire,
-            int trueDamageChance,
-            int critChance,
-            int critDamageBonus)
+        private static string FormatCycleRange(List<ProjectileData[]> cycle)
         {
-            var minExpected = ExpectedDamage((int)Math.Round(minDamagePerShot), trueDamageChance, critChance, critDamageBonus, defense);
-            var maxExpected = ExpectedDamage((int)Math.Round(maxDamagePerShot), trueDamageChance, critChance, critDamageBonus, defense);
-            var dps = ((minExpected + maxExpected) / 2f) * rateOfFire;
-            return FormatNumber(dps);
+            var ranges = new List<string>();
+            foreach (var shot in cycle)
+            {
+                foreach (var proj in shot)
+                {
+                    var range = FormatRange(proj);
+                    if (!ranges.Contains(range))
+                        ranges.Add(range);
+                }
+            }
+
+            if (ranges.Count == 0)
+                return "0";
+            return string.Join(" / ", ranges);
+        }
+
+        private static string FormatProjectileCount(List<ProjectileData[]> cycle)
+        {
+            var counts = new int[cycle.Count];
+            for (int i = 0; i < cycle.Count; i++)
+                counts[i] = cycle[i].Length;
+
+            if (counts.Length == 0)
+                return "0";
+            if (counts.All(count => count == counts[0]))
+                return counts[0].ToString();
+            return string.Join(" / ", counts);
+        }
+
+        private static string FormatRateOfFire(float shotsPerSecond, float baseRateOfFire)
+        {
+            if (Math.Abs(shotsPerSecond - baseRateOfFire) < 0.05f)
+                return $"Rate of fire: {FormatNumber(shotsPerSecond)}";
+            return $"Rate of fire: {FormatNumber(shotsPerSecond)} (base {FormatNumber(baseRateOfFire)})";
         }
 
         private static string FormatRange(ProjectileData shot)

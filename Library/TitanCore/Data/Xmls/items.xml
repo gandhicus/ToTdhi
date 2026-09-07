@@ -701,7 +701,7 @@
 		<RateOfFire>5</RateOfFire>
 
 		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
-		<AlternateStatIncrease type="RateOfFire">-15</AlternateStatIncrease>
+		<AlternateStatIncrease type="RageGain">-15</AlternateStatIncrease>
 	</Object>
 
 	<Object id="0x14a" name="Oda's Transcendent Longbow" tier="-3">

@@ -9,6 +9,7 @@ public class SequenceAnimationData : AnimationData
 
     public SequenceAnimationData(SpriteWorldObject worldObject, Animation animation) : base(worldObject, animation)
     {
+        noFlip = ((SequenceAnimation)animation).noFlip;
         UpdateFrames();
     }
 

@@ -53,10 +53,23 @@ public class MouseInfo : MonoBehaviour
 
         label.alignment = GetAlignment(quadrant);
 
-        var labelPos = mainCamera.ScreenToWorldPoint(mousePos);
-        label.text = $"({(int)labelPos.x}, {(int)labelPos.y})";
+        bool overWorld = editor.TryScreenToWorld(mousePos, out var labelPos);
+        if (overWorld)
+        {
+            int tileX = Mathf.FloorToInt(labelPos.x);
+            int tileY = Mathf.FloorToInt(labelPos.y);
+            label.text = $"({tileX}, {tileY})";
+            selection.gameObject.SetActive(true);
+            selection.transform.localPosition = new Vector3(tileX, tileY, -8);
+        }
+        else
+        {
+            label.text = string.Empty;
+            selection.gameObject.SetActive(false);
+        }
 
-        if (editor.objLayout.selectedType == MapEditorObjectType.Tile || editor.objLayout.selectedType == MapEditorObjectType.Object)
+        if (editor.objLayout.selectedObject != null &&
+            (editor.objLayout.selectedType == MapEditorObjectType.Tile || editor.objLayout.selectedType == MapEditorObjectType.Object))
         {
             label.text += '\n';
             label.text += editor.objLayout.selectedObject.info.name;
@@ -67,9 +80,8 @@ public class MouseInfo : MonoBehaviour
             label.text += '\n';
             label.text += editor.tileRotation;
         }
-        else if (editor.objLayout.selectedType == MapEditorObjectType.Region)
+        else if (editor.objLayout.selectedObject is MapEditorRegion selected)
         {
-            var selected = (MapEditorRegion)editor.objLayout.selectedObject;
             label.text += '\n';
             label.text += selected.region;
         }
@@ -95,7 +107,7 @@ public class MouseInfo : MonoBehaviour
             label.text += $"Mode: {(fillTool.clearMode ? "Clear" : "Draw")}";
         }
 
-        selection.transform.localPosition = new Vector3((int)labelPos.x, (int)labelPos.y, -8);
+        label.text += "\nI: Pick   Ctrl+Z: Undo";
     }
 
     private void CheckInputs()
@@ -103,7 +115,7 @@ public class MouseInfo : MonoBehaviour
         var mousePos = Input.mousePosition;
 
         var scroll = Input.mouseScrollDelta;
-        if (scroll.y != 0)
+        if (scroll.y != 0 && editor.IsPointerOverWorldView())
         {
             var delta = scroll.y > 0 ? 1 : -1;
             mainCamera.orthographicSize = Math.Max(Math.Min(mainCamera.orthographicSize - delta, 30), 10);
@@ -111,7 +123,13 @@ public class MouseInfo : MonoBehaviour
 
         if (dragging)
         {
-            mainCamera.transform.localPosition -= (mousePos - lastDragPoint) / (Screen.height / (mainCamera.orthographicSize * 2));
+            // Convert both mouse samples through the same stretched world view so pan
+            // speed matches the tiles on screen instead of the raw window size.
+            if (editor.TryScreenToWorld(lastDragPoint, out var from, false) &&
+                editor.TryScreenToWorld(mousePos, out var to, false))
+            {
+                mainCamera.transform.position -= new Vector3(to.x - from.x, to.y - from.y, 0f);
+            }
             lastDragPoint = mousePos;
         }
 

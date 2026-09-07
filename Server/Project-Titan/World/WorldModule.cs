@@ -229,19 +229,23 @@ namespace World
             char sep = '=';
             foreach (var info in GameData.objects.Values.Where(_ => _ is WeaponInfo))
             {
-                int count = 0;
                 var damage = new Range(0, 0);
                 var weapon = (WeaponInfo)info;
+                var cycle = WeaponFunctions.GetFireCycle(weapon.projectiles);
+                if (cycle.Count == 0)
+                    continue;
 
-                foreach (var proj in weapon.projectiles)
+                foreach (var shot in cycle)
                 {
-                    count++;
-                    WeaponFunctions.GetProjectileDamage(weapon.slotType, proj, out var min, out var max);
-                    damage.min += min * proj.amount;
-                    damage.max += max * proj.amount;
+                    foreach (var proj in shot)
+                    {
+                        WeaponFunctions.GetProjectileDamage(weapon.slotType, proj, out var min, out var max);
+                        damage.min += min;
+                        damage.max += max;
+                    }
                 }
 
-                var damagePerShot = new Range(damage.min / count, damage.max / count);
+                var damagePerShot = new Range(damage.min / cycle.Count, damage.max / cycle.Count);
                 var damagePerSecond = new Range(damagePerShot.min * weapon.rateOfFire, damagePerShot.max * weapon.rateOfFire);
 
                 str.AppendLine($"{weapon.name.PadRight(34, sep)} Per Shot: {damagePerShot.Average().ToString().PadRight(10, sep)} Per Second: {damagePerSecond.Average().ToString().PadRight(10, sep)}");

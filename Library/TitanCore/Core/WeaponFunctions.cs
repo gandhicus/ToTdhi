@@ -56,5 +56,37 @@ namespace TitanCore.Core
                 max += shotMax;
             }
         }
+
+        // Walk trigger-pulls the same way shooting advances projectile ids, so mixed
+        // weapons (Stormsong, Bothmur, Thumbor) do not need special cases.
+        // Each shot fires the starting pattern's Amount; linear shots then re-index
+        // each spawned projectile with id % length. Stop when ids wrap back to 0.
+        public static List<ProjectileData[]> GetFireCycle(ProjectileData[] projectiles)
+        {
+            var cycle = new List<ProjectileData[]>();
+            if (projectiles == null || projectiles.Length == 0)
+                return cycle;
+
+            int length = projectiles.Length;
+            uint id = 0;
+            int guard = 0;
+            const int maxShots = 64;
+            do
+            {
+                var start = projectiles[id % length];
+                int amount = Math.Max(1, start.amount);
+                var shot = new ProjectileData[amount];
+                bool aoe = start.Type == ProjectileType.Aoe;
+                for (int i = 0; i < amount; i++)
+                {
+                    // Server AOE keeps the starting pattern's data; linear shots re-lookup per id.
+                    shot[i] = aoe ? start : projectiles[id % length];
+                    id++;
+                }
+                cycle.Add(shot);
+            } while (id % length != 0 && ++guard < maxShots);
+
+            return cycle;
+        }
     }
 }
