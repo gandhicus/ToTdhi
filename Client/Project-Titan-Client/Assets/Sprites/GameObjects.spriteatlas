@@ -149,6 +149,7 @@ SpriteAtlas:
     - de1ae0c00ec6d104690a5585bbde7922: 21300000
     - bf65d2c005fef44458b70507c10a9da3: 21300000
     - 519909c062129b84381bb64c14ad3ad1: 21300000
+    - 01adc9c0e3071b54ab7b174bfe9b0ee1: 21300000
     - e6743bc0f96636d449ac7277fd45f7ea: 21300000
     - b2e1efc01b006c446b003ebfd696f67f: 21300000
     - 0e2d41d034dacbe47a6460359d5b6f02: 21300000
@@ -762,6 +763,7 @@ SpriteAtlas:
     - b8456aa60983d7340a65f8a452294d96: 21300000
     - f6689aa6715ffc649bbbf3bc57647769: 21300000
     - 3789faa65457d5f4b82c1270a4f95f95: 21300000
+    - e3098ca60d3351943945f51d3b0beaab: 21300000
     - 4870d0b6cce0e4c46bf20fc8f7c2dd6e: 21300000
     - 415114b6d8c6b1b4f858b4fcd4e466e5: 21300000
     - 963546b62b4c87b459ade90cb307314e: 21300000
@@ -1198,6 +1200,7 @@ SpriteAtlas:
     - 11d9e01b6198eef41bf17cee119e310e: 21300000
     - fa1a431b09c404048bc7d4cceb0a7fff: 21300000
     - 5098891bbb63c934285dc7c4ec6e353d: 21300000
+    - 503d8c1bc0739404e97c88153d6fc8df: 21300000
     - bf281d1b0d8cdd74dac2ef07ce27072b: 21300000
     - cba48f1bc8c94294bbc4c5852138e69a: 21300000
     - 4a95a12ba342361439e8b81d6f9f842a: 21300000
@@ -1455,6 +1458,7 @@ SpriteAtlas:
     - 4219a95d2cf5d7e43b5e54932f23af06: 21300000
     - 61f8f95d96778db479ddbe84bd495013: 21300000
     - 3445cd5d7bebba04db9e98c0baed1508: 21300000
+    - 625ad36d768280d488e3bb95b12c2bae: 21300000
     - 738bc56dab680f240afabbf651b2a4f2: 21300000
     - 4124986d13471fe42a6e153d91ff9ad6: 21300000
     - 0f56cc6dc6d16c94da3ddeb92a5f9722: 21300000
@@ -1517,10 +1521,12 @@ SpriteAtlas:
     - de616e0e9fabcc2489cc88ef0a0a0872: 21300000
     - 212ad21e3efc57c41864795abdb01158: 21300000
     - 935eb41e713cd484ab54fa8f698d48ff: 21300000
+    - 635b251e9161cca48907751a253c8ee5: 21300000
     - 6e84b02e635b15549a741801e922e0ea: 21300000
     - 22e9e02e474fd2342a9577ec28bef831: 21300000
     - 6322222e61c8d4649ad4ceda97a95ece: 21300000
     - 1bbf992e78d35f74b96b8796649c9484: 21300000
+    - ee320a2e9761a9b4685d698758cd5802: 21300000
     - b835db2ec535eb046a0a163909b0a6d6: 21300000
     - fe818c2e00954e84285f7c510da6aa0a: 21300000
     - 0cc2c33e39e86c24e9511ebf6c312511: 21300000
@@ -1807,6 +1813,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: de1ae0c00ec6d104690a5585bbde7922, type: 3}
   - {fileID: 21300000, guid: bf65d2c005fef44458b70507c10a9da3, type: 3}
   - {fileID: 21300000, guid: 519909c062129b84381bb64c14ad3ad1, type: 3}
+  - {fileID: 21300000, guid: 01adc9c0e3071b54ab7b174bfe9b0ee1, type: 3}
   - {fileID: 21300000, guid: e6743bc0f96636d449ac7277fd45f7ea, type: 3}
   - {fileID: 21300000, guid: b2e1efc01b006c446b003ebfd696f67f, type: 3}
   - {fileID: 21300000, guid: 0e2d41d034dacbe47a6460359d5b6f02, type: 3}
@@ -2420,6 +2427,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b8456aa60983d7340a65f8a452294d96, type: 3}
   - {fileID: 21300000, guid: f6689aa6715ffc649bbbf3bc57647769, type: 3}
   - {fileID: 21300000, guid: 3789faa65457d5f4b82c1270a4f95f95, type: 3}
+  - {fileID: 21300000, guid: e3098ca60d3351943945f51d3b0beaab, type: 3}
   - {fileID: 21300000, guid: 4870d0b6cce0e4c46bf20fc8f7c2dd6e, type: 3}
   - {fileID: 21300000, guid: 415114b6d8c6b1b4f858b4fcd4e466e5, type: 3}
   - {fileID: 21300000, guid: 963546b62b4c87b459ade90cb307314e, type: 3}
@@ -2856,6 +2864,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 11d9e01b6198eef41bf17cee119e310e, type: 3}
   - {fileID: 21300000, guid: fa1a431b09c404048bc7d4cceb0a7fff, type: 3}
   - {fileID: 21300000, guid: 5098891bbb63c934285dc7c4ec6e353d, type: 3}
+  - {fileID: 21300000, guid: 503d8c1bc0739404e97c88153d6fc8df, type: 3}
   - {fileID: 21300000, guid: bf281d1b0d8cdd74dac2ef07ce27072b, type: 3}
   - {fileID: 21300000, guid: cba48f1bc8c94294bbc4c5852138e69a, type: 3}
   - {fileID: 21300000, guid: 4a95a12ba342361439e8b81d6f9f842a, type: 3}
@@ -3113,6 +3122,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 4219a95d2cf5d7e43b5e54932f23af06, type: 3}
   - {fileID: 21300000, guid: 61f8f95d96778db479ddbe84bd495013, type: 3}
   - {fileID: 21300000, guid: 3445cd5d7bebba04db9e98c0baed1508, type: 3}
+  - {fileID: 21300000, guid: 625ad36d768280d488e3bb95b12c2bae, type: 3}
   - {fileID: 21300000, guid: 738bc56dab680f240afabbf651b2a4f2, type: 3}
   - {fileID: 21300000, guid: 4124986d13471fe42a6e153d91ff9ad6, type: 3}
   - {fileID: 21300000, guid: 0f56cc6dc6d16c94da3ddeb92a5f9722, type: 3}
@@ -3175,10 +3185,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: de616e0e9fabcc2489cc88ef0a0a0872, type: 3}
   - {fileID: 21300000, guid: 212ad21e3efc57c41864795abdb01158, type: 3}
   - {fileID: 21300000, guid: 935eb41e713cd484ab54fa8f698d48ff, type: 3}
+  - {fileID: 21300000, guid: 635b251e9161cca48907751a253c8ee5, type: 3}
   - {fileID: 21300000, guid: 6e84b02e635b15549a741801e922e0ea, type: 3}
   - {fileID: 21300000, guid: 22e9e02e474fd2342a9577ec28bef831, type: 3}
   - {fileID: 21300000, guid: 6322222e61c8d4649ad4ceda97a95ece, type: 3}
   - {fileID: 21300000, guid: 1bbf992e78d35f74b96b8796649c9484, type: 3}
+  - {fileID: 21300000, guid: ee320a2e9761a9b4685d698758cd5802, type: 3}
   - {fileID: 21300000, guid: b835db2ec535eb046a0a163909b0a6d6, type: 3}
   - {fileID: 21300000, guid: fe818c2e00954e84285f7c510da6aa0a, type: 3}
   - {fileID: 21300000, guid: 0cc2c33e39e86c24e9511ebf6c312511, type: 3}
@@ -3464,6 +3476,7 @@ SpriteAtlas:
   - Mannah Mundane Effect
   - Yolma-4
   - BrewerPotion-2
+  - GrayRose
   - The Big Bang
   - RoyalKeeper-Empty-2
   - Mannah-Meditate-1
@@ -4077,6 +4090,7 @@ SpriteAtlas:
   - Sanguine Shallows Waypoint
   - Mannah-PowerUp-8
   - Elixir 7
+  - OrangeRose
   - BarrenTortoise-Shoot-3
   - MannahsGuard-8
   - BhogninChain-2
@@ -4513,6 +4527,7 @@ SpriteAtlas:
   - MasterOfTheOrder-11
   - MasterOfTheOrder-1
   - PirateShip-1
+  - WetlandRedTulip
   - Elixir 3
   - Talisman of Tragedy
   - DuneSnake-Burrow-5
@@ -4770,6 +4785,7 @@ SpriteAtlas:
   - Robe 2
   - Raeg-1
   - PrinceOfSands-1
+  - GreenRose
   - Demon Brute Fire
   - EntSapling-1
   - Royal Keeper Pound 2
@@ -4832,10 +4848,12 @@ SpriteAtlas:
   - Spear_09
   - DarkMushroom-1
   - Gravestone T3
+  - PurpleTulip
   - BeachSnake-1
   - BlackKnight-Lunge
   - Commander-10
   - RoyalScout-3
+  - WetlandBlueTulip
   - EvilBat-1
   - Brittlebone-Rise-2
   - RoyalKeeper-4

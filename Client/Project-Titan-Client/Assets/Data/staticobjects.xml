@@ -575,19 +575,19 @@
   <Object id="0xa4a" name="WhiteLily">
     <Type>StaticObject</Type>
     <Sprite>WhiteLily</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xa4b" name="PinkLily">
     <Type>StaticObject</Type>
     <Sprite>PinkLily</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xa4c" name="BlueLily">
     <Type>StaticObject</Type>
     <Sprite>BlueLily</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xa50" name="Market Display">
@@ -1404,61 +1404,61 @@
   <Object id="0xab5" name="BlackTulip">
     <Type>StaticObject</Type>
     <Sprite>BlackTulip</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xab6" name="BlueTulip">
     <Type>StaticObject</Type>
     <Sprite>BlueTulip</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xab7" name="OrangeTulip">
     <Type>StaticObject</Type>
     <Sprite>OrangeTulip</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xab8" name="RedTulip">
     <Type>StaticObject</Type>
     <Sprite>RedTulip</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xab9" name="PinkDaisy">
     <Type>StaticObject</Type>
     <Sprite>PinkDaisy</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xaba" name="WhiteDaisy">
     <Type>StaticObject</Type>
     <Sprite>WhiteDaisy</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xabb" name="PurpleHyacinth">
     <Type>StaticObject</Type>
     <Sprite>PurpleHyacinth</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xabc" name="RedHyacinth">
     <Type>StaticObject</Type>
     <Sprite>RedHyacinth</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xabd" name="WhiteHyacinth">
     <Type>StaticObject</Type>
     <Sprite>WhiteHyacinth</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xabe" name="YellowHyacinth">
     <Type>StaticObject</Type>
     <Sprite>YellowHyacinth</Sprite>
-    <Size>0.85</Size>
+    <Size>0.65</Size>
   </Object>
 
   <Object id="0xabf" name="OrangeMarigold">
@@ -1489,6 +1489,42 @@
     <Type>StaticObject</Type>
     <Sprite>YellowSunflower</Sprite>
     <Size>0.85</Size>
+  </Object>
+
+  <Object id="0xac4" name="GrayRose">
+    <Type>StaticObject</Type>
+    <Sprite>GrayRose</Sprite>
+    <Size>0.65</Size>
+  </Object>
+
+  <Object id="0xac5" name="GreenRose">
+    <Type>StaticObject</Type>
+    <Sprite>GreenRose</Sprite>
+    <Size>0.65</Size>
+  </Object>
+
+  <Object id="0xac6" name="OrangeRose">
+    <Type>StaticObject</Type>
+    <Sprite>OrangeRose</Sprite>
+    <Size>0.65</Size>
+  </Object>
+
+  <Object id="0xac7" name="PurpleTulip">
+    <Type>StaticObject</Type>
+    <Sprite>PurpleTulip</Sprite>
+    <Size>0.65</Size>
+  </Object>
+
+  <Object id="0xac8" name="WetlandBlueTulip">
+    <Type>StaticObject</Type>
+    <Sprite>WetlandBlueTulip</Sprite>
+    <Size>0.65</Size>
+  </Object>
+
+  <Object id="0xac9" name="WetlandRedTulip">
+    <Type>StaticObject</Type>
+    <Sprite>WetlandRedTulip</Sprite>
+    <Size>0.65</Size>
   </Object>
   
 </Objects>

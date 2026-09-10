@@ -108,9 +108,10 @@ public class Biome
                     objects = new RangeMap<BiomeObject>(new RangePair<BiomeObject>[]
                     {
                         new RangePair<BiomeObject>(new Range(0.78f, 0.82f), new BiomeObject(0xb05, 0xa09)),
-                        new RangePair<BiomeObject>(new Range(0.82f, 0.9f), new BiomeObject(0xb05, 0xa02)),
-                        new RangePair<BiomeObject>(new Range(0.9f, 0.92f), new BiomeObject(0xb05, 0xa03)),
-                        new RangePair<BiomeObject>(new Range(0.95f, float.MaxValue), new BiomeObject(0, 0xa04))
+                        new RangePair<BiomeObject>(new Range(0.87f, 0.91f), new BiomeObject(0xb05, 0xa02)),
+                        new RangePair<BiomeObject>(new Range(0.91f, 0.918f), new BiomeObject(0xb05, 0xa03)),
+                        new RangePair<BiomeObject>(new Range(0.918f, 0.9495f), new BiomeObject(0xb05, WildernessFlowerTypes)),
+                        new RangePair<BiomeObject>(new Range(0.982f, float.MaxValue), new BiomeObject(0, 0xa04))
                     })
                 };
             case BiomeType.Lake:
@@ -149,9 +150,10 @@ public class Biome
                     }),
                     objects = new RangeMap<BiomeObject>(new RangePair<BiomeObject>[]
                     {
-                        new RangePair<BiomeObject>(new Range(0.9f, 0.92f), new BiomeObject(0xb02, 0xa0b)),
-                        new RangePair<BiomeObject>(new Range(0.92f, 0.96f), new BiomeObject(0xb02, 0xa0a)),
-                        new RangePair<BiomeObject>(new Range(0.96f, float.MaxValue), new BiomeObject(0xb02, 0xa07))
+                        new RangePair<BiomeObject>(new Range(0.90f, 0.91f), new BiomeObject(0xb02, 0xa0b)),
+                        new RangePair<BiomeObject>(new Range(0.91f, 0.95f), new BiomeObject(0xb02, 0xa0a)),
+                        new RangePair<BiomeObject>(new Range(0.97f, 0.982f), new BiomeObject(0xb02, 0xa07)),
+                        new RangePair<BiomeObject>(new Range(0.982f, 1.0f), new BiomeObject(0xb02, MeadowFlowerTypes))
                     })
                 };
             case BiomeType.BeachSpawn:
@@ -206,6 +208,20 @@ public class Biome
     public RangeMap<ushort> tiles = new RangeMap<ushort>();
 
     public RangeMap<BiomeObject> objects = new RangeMap<BiomeObject>();
+
+    // Meadow wildflowers (no marigolds/sunflowers — those stay Nexus-only).
+    private static readonly ushort[] MeadowFlowerTypes =
+    {
+        0xab5, 0xab6, 0xab7, 0xab8,
+        0xab9, 0xaba,
+        0xabb, 0xabc, 0xabd, 0xabe
+    };
+
+    private static readonly ushort[] WildernessFlowerTypes =
+    {
+        0xac4, 0xac5, 0xac6,
+        0xac7, 0xac8, 0xac9
+    };
 
     // 49 white, 49 pink, 2 blue so blue stays 2% of lilies.
     private static readonly ushort[] ShallowLilyTypes = BuildShallowLilyTypes();

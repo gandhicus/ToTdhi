@@ -34,13 +34,13 @@ namespace World.Looting
                     new PublicLoot( // 1
                         Tier.Weapon(Loot.Chance(10), ItemTier.Tier2),
                         Tier.Armor(Loot.Chance(8), ItemTier.Tier2),
-                        Tier.Accessory(Loot.Chance(3), ItemTier.Tier1),
+                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier1),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new PublicLoot( // 2
                         Tier.Weapon(Loot.Chance(35), ItemTier.Tier2),
                         Tier.Armor(Loot.Chance(20), ItemTier.Tier2),
-                        Tier.Accessory(Loot.Chance(3), ItemTier.Tier1),
+                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier1),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new PublicLoot( // 3
@@ -48,7 +48,7 @@ namespace World.Looting
                         Tier.Armor(Loot.Chance(50), ItemTier.Tier2),
                         Tier.Weapon(Loot.Chance(50), ItemTier.Tier3),
                         Tier.Armor(Loot.Chance(35), ItemTier.Tier3),
-                        Tier.Accessory(Loot.Chance(15), ItemTier.Tier1),
+                        Tier.Accessory(Loot.Chance(25), ItemTier.Tier1),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new SoulboundLoot(1, // 4
@@ -70,7 +70,7 @@ namespace World.Looting
                     new PublicLoot(
                         Tier.Weapon(Loot.Chance(25), ItemTier.Tier3),
                         Tier.Armor(Loot.Chance(15), ItemTier.Tier3),
-                        Tier.Accessory(Loot.Chance(3), ItemTier.Tier2),
+                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier2),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new PublicLoot(
@@ -78,7 +78,7 @@ namespace World.Looting
                         Tier.Armor(Loot.Chance(50), ItemTier.Tier3),
                         Tier.Weapon(Loot.Chance(50), ItemTier.Tier4),
                         Tier.Armor(Loot.Chance(35), ItemTier.Tier4),
-                        Tier.Accessory(Loot.Chance(15), ItemTier.Tier2),
+                        Tier.Accessory(Loot.Chance(20), ItemTier.Tier2),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new SoulboundLoot(0.2f, // 4
@@ -94,12 +94,12 @@ namespace World.Looting
                     new PublicLoot(
                         Tier.Weapon(Loot.Chance(20), ItemTier.Tier3),
                         Tier.Armor(Loot.Chance(10), ItemTier.Tier3),
-                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier2)
+                        Tier.Accessory(Loot.Chance(7), ItemTier.Tier2)
                         ),
                     new PublicLoot(
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier4),
                         Tier.Armor(Loot.Chance(50), ItemTier.Tier4),
-                        Tier.Accessory(Loot.Chance(15), ItemTier.Tier2)
+                        Tier.Accessory(Loot.Chance(20), ItemTier.Tier2)
                         ),
                     new SoulboundLoot(0.2f, // 3
                         new Single(Loot.Chance(10), new Item("Ceremonial Bow"))
@@ -144,26 +144,26 @@ namespace World.Looting
                     new PublicLoot( // 1
                         Tier.Weapon(Loot.Chance(6), ItemTier.Tier4),
                         Tier.Armor(Loot.Chance(5), ItemTier.Tier4),
-                        Tier.Accessory(Loot.Chance(3), ItemTier.Tier2),
+                        Tier.Accessory(Loot.Chance(6), ItemTier.Tier2),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new PublicLoot( // 2
                         Tier.Weapon(Loot.Chance(20), ItemTier.Tier4),
                         Tier.Armor(Loot.Chance(10), ItemTier.Tier4),
-                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier2),
+                        Tier.Accessory(Loot.Chance(7), ItemTier.Tier2),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new PublicLoot( // 3
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier5),
                         Tier.Armor(Loot.Chance(50), ItemTier.Tier5),
-                        Tier.Accessory(Loot.Chance(10), ItemTier.Tier2)
+                        Tier.Accessory(Loot.Chance(20), ItemTier.Tier2)
                         ),
                     new SoulboundLoot(0.2f, // 4
                         new Single(Loot.Chance(2),
                             new Item("Scroll of Agility"))
                         ),
                     new SoulboundLoot(0.2f, // 5
-                        new Single(Loot.Chance(5),
+                        new Single(Loot.Chance(4),
                             new Item("Windward Cloak"))
                         ),
                     new SoulboundLoot(0.2f, // 6
@@ -171,7 +171,7 @@ namespace World.Looting
                             new Item("Scroll of Agility"))
                         ),
                     new SoulboundLoot(0.3f, // 7
-                        new Single(Loot.Chance(10),
+                        new Single(Loot.Chance(8),
                             new Item("Quartz Ring"))
                         ),
                 } },
@@ -184,26 +184,26 @@ namespace World.Looting
                     new PublicLoot( // 1
                         Tier.Weapon(Loot.Chance(6), ItemTier.Tier4),
                         Tier.Armor(Loot.Chance(5), ItemTier.Tier4),
-                        Tier.Accessory(Loot.Chance(3), ItemTier.Tier2),
+                        Tier.Accessory(Loot.Chance(6), ItemTier.Tier2),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new PublicLoot( // 2
                         Tier.Weapon(Loot.Chance(20), ItemTier.Tier4),
                         Tier.Armor(Loot.Chance(10), ItemTier.Tier4),
-                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier2),
+                        Tier.Accessory(Loot.Chance(7), ItemTier.Tier2),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new PublicLoot( // 3
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier5),
                         Tier.Armor(Loot.Chance(50), ItemTier.Tier5),
-                        Tier.Accessory(Loot.Chance(10), ItemTier.Tier2)
+                        Tier.Accessory(Loot.Chance(15), ItemTier.Tier2)
                         ),
                     new SoulboundLoot(0.2f, // 4
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier6),
                         Tier.Armor(Loot.Chance(50), ItemTier.Tier6),
                         Tier.Weapon(Loot.Chance(55), ItemTier.Tier5),
                         Tier.Armor(Loot.Chance(40), ItemTier.Tier5),
-                        Tier.Accessory(Loot.Chance(20), ItemTier.Tier3)
+                        Tier.Accessory(Loot.Chance(25), ItemTier.Tier3)
                         ),
                     new SoulboundLoot(0.2f, // 5
                         new Single(Loot.Chance(100),
@@ -257,16 +257,19 @@ namespace World.Looting
                     new PublicLoot( // 1
                         Tier.Weapon(Loot.Chance(6), ItemTier.Tier5),
                         Tier.Armor(Loot.Chance(5), ItemTier.Tier5),
+                        Tier.Accessory(Loot.Chance(6), ItemTier.Tier2),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new PublicLoot( // 2
                         Tier.Weapon(Loot.Chance(20), ItemTier.Tier5),
                         Tier.Armor(Loot.Chance(10), ItemTier.Tier5),
+                        Tier.Accessory(Loot.Chance(8), ItemTier.Tier2),
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new PublicLoot( // 3
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier5),
-                        Tier.Armor(Loot.Chance(50), ItemTier.Tier5)
+                        Tier.Armor(Loot.Chance(50), ItemTier.Tier5),
+                        Tier.Accessory(Loot.Chance(15), ItemTier.Tier2)
                         ),
                     new SoulboundLoot(0.2f, // 4
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier6),
@@ -307,12 +310,12 @@ namespace World.Looting
                     new SoulboundLoot( // 1
                         Tier.Weapon(Loot.Chance(10), ItemTier.Tier6),
                         Tier.Armor(Loot.Chance(8), ItemTier.Tier6),
-                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier3)
+                        Tier.Accessory(Loot.Chance(6), ItemTier.Tier3)
                         ),
                     new SoulboundLoot( // 2
                         Tier.Weapon(Loot.Chance(35), ItemTier.Tier6),
                         Tier.Armor(Loot.Chance(20), ItemTier.Tier6),
-                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier3)
+                        Tier.Accessory(Loot.Chance(6), ItemTier.Tier3)
                         ),
                     new SoulboundLoot(0.2f, // 3
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier7),
@@ -344,12 +347,12 @@ namespace World.Looting
                     new SoulboundLoot( // 1
                         Tier.Weapon(Loot.Chance(10), ItemTier.Tier6),
                         Tier.Armor(Loot.Chance(8), ItemTier.Tier6),
-                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier3)
+                        Tier.Accessory(Loot.Chance(6), ItemTier.Tier3)
                         ),
                     new SoulboundLoot( // 2
                         Tier.Weapon(Loot.Chance(35), ItemTier.Tier6),
                         Tier.Armor(Loot.Chance(20), ItemTier.Tier6),
-                        Tier.Accessory(Loot.Chance(5), ItemTier.Tier3)
+                        Tier.Accessory(Loot.Chance(6), ItemTier.Tier3)
                         ),
                     new SoulboundLoot(0.2f, // 3
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier7),
@@ -620,13 +623,12 @@ namespace World.Looting
                         new Single(Loot.Chance(1.4), new Item("Sword of Unknown"))
                         ),
                     new SoulboundLoot(0.1f, // 8 mythic armor
-                        new Single(Loot.Chance(0.7), new Item("Empyrean's Guard"))
+                        new Single(Loot.Chance(1), new Item("Empyrean's Guard"))
                         ),
                     new SoulboundLoot(0.1f, // 9 mythic accessories
-                        new Single(Loot.Chance(0.8), new Item("Mezhier's Ring of Valor")),
-                        new Single(Loot.Chance(0.8), new Item("Aldrite's Gamble")),
-                        new Single(Loot.Chance(0.8), new Item("Skyjewel")),
-                        new Single(Loot.Chance(0.8), new Item("Ring of the Blood Moon"))
+                        new Single(Loot.Chance(1), new Item("Mezhier's Ring of Valor")),
+                        new Single(Loot.Chance(1), new Item("Aldrite's Gamble")),
+                        new Single(Loot.Chance(1), new Item("Ring of the Blood Moon"))
                         ),
                     new SoulboundLoot(0.1f, // 10 fabled
                         new Single(Loot.Chance(0.4), new Item("Dark Matter")),

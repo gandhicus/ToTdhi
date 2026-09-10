@@ -141,6 +141,9 @@ namespace WorldGen
                 }
             }
 
+            ThinAdjacentTrees(tiles, width, height, 0xa0b);
+            ThinAdjacentTrees(tiles, width, height, 0xa02);
+
             world.spawnTile = SnapSpawnToBeach(tiles, world.spawnTile, waterDistance, width, height);
             ClearSpawn(tiles, world.spawnTile, width, height);
 
@@ -160,6 +163,43 @@ namespace WorldGen
                     }
                 }
             };
+        }
+
+        // Drop a tree if an earlier neighbor is already a tree so groves do not sit on adjacent tiles.
+        private static void ThinAdjacentTrees(MapTileElement[,] tiles, int width, int height, ushort treeType)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (tiles[x, y].objectType != treeType) continue;
+
+                    bool keep = true;
+                    for (int oy = -1; oy <= 1 && keep; oy++)
+                    {
+                        for (int ox = -1; ox <= 1; ox++)
+                        {
+                            if (ox == 0 && oy == 0) continue;
+                            int nx = x + ox;
+                            int ny = y + oy;
+                            if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
+                            if (ny > y || (ny == y && nx > x)) continue;
+                            if (tiles[nx, ny].objectType == treeType)
+                            {
+                                keep = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!keep)
+                    {
+                        var tile = tiles[x, y];
+                        tile.objectType = 0;
+                        tiles[x, y] = tile;
+                    }
+                }
+            }
         }
 
         private static OverworldBiomeType BiomeAt(World world, bool[,] land, int[,] waterDistance, int x, int y)

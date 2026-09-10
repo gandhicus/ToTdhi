@@ -63,6 +63,20 @@ namespace WorldGen.Rasterization
             return biomes[type];
         }
 
+        // Meadow wildflowers (no marigolds/sunflowers — those stay Nexus-only).
+        private static readonly ushort[] MeadowFlowerTypes =
+        {
+            0xab5, 0xab6, 0xab7, 0xab8,
+            0xab9, 0xaba,
+            0xabb, 0xabc, 0xabd, 0xabe
+        };
+
+        private static readonly ushort[] WildernessFlowerTypes =
+        {
+            0xac4, 0xac5, 0xac6,
+            0xac7, 0xac8, 0xac9
+        };
+
         // Built before the biome table so lily stamps are never a null type list.
         private static readonly ushort[] ShallowLilyTypes = BuildShallowLilyTypes();
         private static readonly Dictionary<OverworldBiomeType, OverworldBiome> biomes = Create();
@@ -108,9 +122,10 @@ namespace WorldGen.Rasterization
                 }),
                 objects = new RangeMap<OverworldBiomeObject>(new[]
                 {
-                    new RangePair<OverworldBiomeObject>(new Range(0.9f, 0.92f), new OverworldBiomeObject(0xb02, 0xa0b)),
-                    new RangePair<OverworldBiomeObject>(new Range(0.92f, 0.96f), new OverworldBiomeObject(0xb02, 0xa0a)),
-                    new RangePair<OverworldBiomeObject>(new Range(0.96f, float.MaxValue), new OverworldBiomeObject(0xb02, 0xa07))
+                    new RangePair<OverworldBiomeObject>(new Range(0.90f, 0.91f), new OverworldBiomeObject(0xb02, 0xa0b)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.91f, 0.95f), new OverworldBiomeObject(0xb02, 0xa0a)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.97f, 0.982f), new OverworldBiomeObject(0xb02, 0xa07)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.982f, 1.0f), new OverworldBiomeObject(0xb02, MeadowFlowerTypes))
                 })
             };
 
@@ -125,9 +140,10 @@ namespace WorldGen.Rasterization
                 objects = new RangeMap<OverworldBiomeObject>(new[]
                 {
                     new RangePair<OverworldBiomeObject>(new Range(0.78f, 0.82f), new OverworldBiomeObject(0xb05, 0xa09)),
-                    new RangePair<OverworldBiomeObject>(new Range(0.82f, 0.9f), new OverworldBiomeObject(0xb05, 0xa02)),
-                    new RangePair<OverworldBiomeObject>(new Range(0.9f, 0.92f), new OverworldBiomeObject(0xb05, 0xa03)),
-                    new RangePair<OverworldBiomeObject>(new Range(0.95f, float.MaxValue), new OverworldBiomeObject(0, 0xa04))
+                    new RangePair<OverworldBiomeObject>(new Range(0.87f, 0.91f), new OverworldBiomeObject(0xb05, 0xa02)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.91f, 0.918f), new OverworldBiomeObject(0xb05, 0xa03)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.918f, 0.9495f), new OverworldBiomeObject(0xb05, WildernessFlowerTypes)),
+                    new RangePair<OverworldBiomeObject>(new Range(0.982f, float.MaxValue), new OverworldBiomeObject(0, 0xa04))
                 })
             };
 
