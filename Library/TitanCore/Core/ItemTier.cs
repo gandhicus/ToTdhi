@@ -6,6 +6,7 @@ namespace TitanCore.Core
 {
     public enum ItemTier
     {
+        Relic = -5,
         Fabled = -4,
         Mythic = -3,
         Rare = -2,

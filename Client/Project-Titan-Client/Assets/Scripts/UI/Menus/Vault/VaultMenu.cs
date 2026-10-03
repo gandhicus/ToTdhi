@@ -272,6 +272,8 @@ public class VaultMenu : MonoBehaviour
     {
         switch (tier)
         {
+            case ItemTier.Relic:
+                return 104;
             case ItemTier.Fabled:
                 return 103;
             case ItemTier.Mythic:

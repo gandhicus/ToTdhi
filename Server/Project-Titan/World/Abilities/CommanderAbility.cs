@@ -10,34 +10,12 @@ namespace World.Abilities
     {
         public override ClassType ClassType => ClassType.Commander;
 
-        private uint defenseEndTime;
-        private uint nextPulse;
-        private uint pulseLockout;
-        private int pulseStacks;
-
         public override void OnHit(EntityState entity, uint time, ref int damageTaken)
         {
-            if (time > defenseEndTime) return;
-            if (time < nextPulse) return;
-            if (pulseStacks >= AbilityFunctions.Commander.MaxPulseStacks) return;
-
-            nextPulse = time + pulseLockout;
-            pulseStacks++;
-            ApplyPulseDefense(time);
-            TriggerTalisman(TalismanTrigger.AbilityPulse, time, player.position.Value, entity.GetPosition(time));
-            if (pulseStacks >= AbilityFunctions.Commander.MaxPulseStacks || time + pulseLockout > defenseEndTime)
-                TriggerTalisman(TalismanTrigger.AbilityEnd, time, player.position.Value, player.position.Value);
         }
 
         public override void OnMove(Vec2 position, uint time)
         {
-        }
-
-        private void ApplyPulseDefense(uint time)
-        {
-            if (time >= defenseEndTime) return;
-            var remaining = defenseEndTime - time;
-            PlayerState.ApplyCommanderPulseStatBonus(StatType.Defense, AbilityFunctions.Commander.PulseDefense, time, remaining);
         }
 
         public override TnPlayEffect UseAbility(uint time, Vec2 position, Vec2 target, byte value, int attack, ref byte rage, out byte rageCost, out bool sendToSelf, out bool failedToUse)
@@ -51,10 +29,11 @@ namespace World.Abilities
             float rageScalar = spent / 100f;
             float attackScalar = 0.5f + attack / 50f;
             uint defDuration = (uint)(AbilityFunctions.Commander.GetDefenseDurationMs(spent, attack) * (mods.durationMul > 0 ? mods.durationMul : 1f));
-            uint rangeBase = (uint)(2500 + 11000 * rageScalar * attackScalar);
-            float unfurlMul = 1f + Math.Max(0f, mods.abilityRangeBonus);
-            uint rangeDuration = (uint)(rangeBase * unfurlMul) + (uint)Math.Max(0, mods.durationBonusMs);
-            float rangeArea = 2.5f + 6f * rageScalar;
+            uint rangeDuration = (uint)(2500 + 11000 * rageScalar * attackScalar) + (uint)Math.Max(0, mods.durationBonusMs);
+            float rangeArea = 2.5f + 6f * rageScalar + Math.Max(0f, mods.abilityRangeBonus);
+            int defenseBonus = AbilityFunctions.Commander.GetDefenseBonus(attack, spent);
+
+            PlayerState.ApplyCommanderFieldStatBonus(StatType.Defense, defenseBonus, time, defDuration);
 
             SkillTreeFunctions.ApplyRageToOnUseStats(ref mods, spent);
             if (mods.hymnDefense > 0)
@@ -73,12 +52,6 @@ namespace World.Abilities
                 other.gameState.playerState.AddClientStatusEffect(StatusEffect.Reach, time, rangeDuration);
                 other.AddEffect(StatusEffect.Reach, reachSec);
             }
-
-            defenseEndTime = time + defDuration;
-            pulseLockout = (uint)Math.Max(AbilityFunctions.Commander.MinPulseLockoutMs, mods.pulseLockoutMs > 0 ? mods.pulseLockoutMs : AbilityFunctions.Commander.BasePulseLockoutMs);
-            nextPulse = 0;
-            pulseStacks = 0;
-            PlayerState.ClearCommanderPulseBonuses();
 
             return PlayColored(new CommanderAbilityWorldEffect(player.gameId, position, spent, attack));
         }

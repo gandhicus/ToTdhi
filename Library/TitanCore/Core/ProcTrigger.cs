@@ -6,5 +6,7 @@ namespace TitanCore.Core
         Block,
         CriticalStrike,
         TrueDamage,
+        HealthThreshold,
+        RageThreshold,
     }
 }

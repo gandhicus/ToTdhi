@@ -93,6 +93,8 @@ namespace TitanCore.Data.Items
         {
             switch (tier)
             {
+                case ItemTier.Relic:
+                    return "RL";
                 case ItemTier.Fabled:
                     return "FB";
                 case ItemTier.Mythic:
@@ -112,6 +114,8 @@ namespace TitanCore.Data.Items
         {
             switch (tier)
             {
+                case ItemTier.Relic:
+                    return "Relic";
                 case ItemTier.Fabled:
                     return "Fabled";
                 case ItemTier.Mythic:
@@ -129,6 +133,8 @@ namespace TitanCore.Data.Items
         {
             switch (itemTier)
             {
+                case ItemTier.Relic:
+                    return "#f88c75";
                 case ItemTier.Fabled:
                     return "#6755ff";
                 case ItemTier.Mythic:

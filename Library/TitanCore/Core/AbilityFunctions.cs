@@ -61,16 +61,17 @@ namespace TitanCore.Core
 
         public static class Commander
         {
-            public const int BasePulseLockoutMs = 2500;
-            public const int MinPulseLockoutMs = 1200;
-            public const int PulseDefense = 3;
-            public const int MaxPulseStacks = 5;
-
             public static int GetDefenseDurationMs(int rage, int attack)
             {
                 float rageScalar = rage / 100f;
                 float attackScalar = 0.5f + attack / 50f;
                 return (int)(1000 + 7000 * rageScalar * attackScalar);
+            }
+
+            public static int GetDefenseBonus(int attack, int rage)
+            {
+                float rageScalar = Math.Max(0, Math.Min(100, rage)) / 100f;
+                return Math.Max(1, (int)(attack * 0.5f * rageScalar));
             }
         }
 

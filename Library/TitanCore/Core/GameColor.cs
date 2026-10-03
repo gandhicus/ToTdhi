@@ -62,7 +62,8 @@ namespace TitanCore.Core
 
         private static sbyte ConvertColorValue(uint colorValue)
         {
-            return (sbyte)Math.Max(sbyte.MinValue, Math.Min(sbyte.MaxValue, colorValue - 128));
+            int signedValue = (int)colorValue - 128;
+            return (sbyte)Math.Max(sbyte.MinValue, Math.Min(sbyte.MaxValue, signedValue));
         }
 
         public static GameColor ReadColor(BitReader r)

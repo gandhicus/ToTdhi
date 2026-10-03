@@ -20,6 +20,12 @@ namespace TitanCore.Data.Components
 
         public bool always;
 
+        /// <summary>
+        /// Optional normalized average for this entry's amount (0 = min, 1 = max).
+        /// A negative value inherits the owning StatRolls amountAverage.
+        /// </summary>
+        public float amountAverage;
+
         public StatRollEntry(XmlParser xml, bool isAlternate)
         {
             this.isAlternate = isAlternate;
@@ -32,6 +38,7 @@ namespace TitanCore.Data.Components
             max = xml.AtrInt("max", min);
             weight = xml.AtrInt("weight", 1);
             always = string.Equals(xml.AtrString("always", "false"), "true", StringComparison.OrdinalIgnoreCase);
+            amountAverage = xml.AtrFloat("amountAverage", -1f);
         }
 
         public string GetKey()

@@ -27,6 +27,7 @@ namespace TitanCore.Data.Components
 
             var neutralColor = describer.GetNeutralColor();
             var enchantColor = describer.GetEnchantColor(item.enchantLevel);
+            var rolledStatColor = GameColor.Parse("#6D97FF");
 
             describer.AddContent(info.description != null ? info.description.Trim() : "");
 
@@ -55,21 +56,72 @@ namespace TitanCore.Data.Components
                 {
                     describer.AddTitle("On Equip");
                     bool showRollRanges = EquipmentStatFunctions.HasRolledStats(item) && equip.statRollPool != null;
-                    foreach (var increase in statIncreases)
+                    var rolledStats = item.rolledStatIncreases;
+                    var rolledAlternateStats = item.rolledAlternateStatIncreases;
+                    var primaryStatTypes = new HashSet<StatType>(statIncreases.Keys);
+                    var alternateStatTypes = new HashSet<AlternateStatType>(alternateStatIncreases.Keys);
+                    if (rolledStats != null)
+                        primaryStatTypes.UnionWith(rolledStats.Keys);
+                    if (rolledAlternateStats != null)
+                        alternateStatTypes.UnionWith(rolledAlternateStats.Keys);
+
+                    foreach (var statType in primaryStatTypes)
                     {
-                        if (increase.Value == 0) continue;
+                        statIncreases.TryGetValue(statType, out var totalAmount);
+                        int rolledAmount = 0;
+                        if (rolledStats != null)
+                            rolledStats.TryGetValue(statType, out rolledAmount);
+                        int fixedAmount = totalAmount - rolledAmount;
+                        bool rolledBaseStat = rolledStats != null
+                            && rolledStats.ContainsKey(statType)
+                            && equip.statIncreases.ContainsKey(statType);
+                        if (fixedAmount == 0 && rolledAmount == 0) continue;
+
                         describer.NewLine();
-                        describer.AddElement($"{(increase.Value > 0 ? "+" : "")}{increase.Value} {GetStatName(increase.Key)}", neutralColor);
-                        if (showRollRanges && equip.statRollPool.TryGetPrimaryDisplayRange(increase.Key, equip.statIncreases, out var rangeMin, out var rangeMax))
-                            describer.AddElement(FormatRollRange(rangeMin, rangeMax, false), GameColor.white);
+                        if (rolledBaseStat)
+                        {
+                            AddPrimaryStatElement(describer, statType, totalAmount, neutralColor);
+                            if (showRollRanges && equip.statRollPool.TryGetPrimaryDisplayRange(statType, equip.statIncreases, out var rangeMin, out var rangeMax))
+                                describer.AddElement(FormatRollRange(rangeMin, rangeMax, false), GameColor.white);
+                        }
+                        else
+                        {
+                            if (fixedAmount != 0)
+                                AddPrimaryStatElement(describer, statType, fixedAmount, neutralColor);
+                            if (rolledAmount != 0)
+                                AddPrimaryStatElement(describer, statType, rolledAmount, rolledStatColor);
+                            if (showRollRanges && rolledAmount != 0 && equip.statRollPool.TryGetPrimaryRollRange(statType, out var rollMin, out var rollMax))
+                                describer.AddElement(FormatRollRange(rollMin, rollMax, false), GameColor.white);
+                        }
                     }
-                    foreach (var increase in alternateStatIncreases)
+                    foreach (var statType in alternateStatTypes)
                     {
-                        if (increase.Value == 0) continue;
+                        alternateStatIncreases.TryGetValue(statType, out var totalAmount);
+                        int rolledAmount = 0;
+                        if (rolledAlternateStats != null)
+                            rolledAlternateStats.TryGetValue(statType, out rolledAmount);
+                        int fixedAmount = totalAmount - rolledAmount;
+                        bool rolledBaseStat = rolledAlternateStats != null
+                            && rolledAlternateStats.ContainsKey(statType)
+                            && equip.alternateStatIncreases.ContainsKey(statType);
+                        if (fixedAmount == 0 && rolledAmount == 0) continue;
+
                         describer.NewLine();
-                        AddAlternateStatElement(describer, increase.Key, increase.Value, neutralColor);
-                        if (showRollRanges && equip.statRollPool.TryGetAlternateDisplayRange(increase.Key, equip.alternateStatIncreases, out var altMin, out var altMax))
-                            describer.AddElement(FormatRollRange(altMin, altMax, true), GameColor.white);
+                        if (rolledBaseStat)
+                        {
+                            AddAlternateStatElement(describer, statType, totalAmount, neutralColor);
+                            if (showRollRanges && equip.statRollPool.TryGetAlternateDisplayRange(statType, equip.alternateStatIncreases, out var rangeMin, out var rangeMax))
+                                describer.AddElement(FormatRollRange(rangeMin, rangeMax, true), GameColor.white);
+                        }
+                        else
+                        {
+                            if (fixedAmount != 0)
+                                AddAlternateStatElement(describer, statType, fixedAmount, neutralColor);
+                            if (rolledAmount != 0)
+                                AddAlternateStatElement(describer, statType, rolledAmount, rolledStatColor);
+                            if (showRollRanges && rolledAmount != 0 && equip.statRollPool.TryGetAlternateRollRange(statType, out var rollMin, out var rollMax))
+                                describer.AddElement(FormatRollRange(rollMin, rollMax, true), GameColor.white);
+                        }
                     }
                     describer.NewLine();
                 }
@@ -400,6 +452,11 @@ namespace TitanCore.Data.Components
         {
             if (string.IsNullOrEmpty(text)) return;
             describer.AddContent($"<indent=0.3em>{text}</indent>", color);
+        }
+
+        private static void AddPrimaryStatElement(IDescriber describer, StatType type, int value, GameColor color)
+        {
+            describer.AddElement($"{(value > 0 ? "+" : "")}{value} {GetStatName(type)}", color);
         }
 
         private static void AddAlternateStatElement(IDescriber describer, AlternateStatType type, int value, GameColor color)

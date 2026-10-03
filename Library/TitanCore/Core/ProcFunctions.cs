@@ -135,6 +135,10 @@ namespace TitanCore.Core
                     return "Critical Strike";
                 case ProcTrigger.TrueDamage:
                     return "True Damage";
+                case ProcTrigger.HealthThreshold:
+                    return "Health";
+                case ProcTrigger.RageThreshold:
+                    return "Rage";
                 default:
                     return trigger.ToString();
             }
@@ -165,6 +169,9 @@ namespace TitanCore.Core
 
         public static string GetProcTooltipText(ItemProc proc)
         {
+            if (proc.trigger == ProcTrigger.HealthThreshold || proc.trigger == ProcTrigger.RageThreshold)
+                return GetThresholdProcTooltipText(proc);
+
             var trigger = GetTriggerDisplayName(proc.trigger);
             var cooldownText = proc.cooldownMs > 0
                 ? $" ({Highlight($"{FormatCooldownSeconds(proc.cooldownMs)} second cooldown")})"
@@ -226,6 +233,32 @@ namespace TitanCore.Core
             }
 
             return "";
+        }
+
+        private static string GetThresholdProcTooltipText(ItemProc proc)
+        {
+            var comparison = proc.thresholdAbove ? "above" : "below";
+            var threshold = proc.trigger == ProcTrigger.HealthThreshold
+                ? $"{proc.threshold:0.#}% Health"
+                : $"{proc.threshold:0.#} Rage";
+            var condition = $"{comparison} {Highlight(threshold)}";
+            var cooldownText = proc.cooldownMs > 0
+                ? $" ({Highlight($"{FormatCooldownSeconds(proc.cooldownMs)} second cooldown")})"
+                : "";
+
+            string bonusText;
+            if (proc.statBonus != null)
+                bonusText = Highlight($"{(proc.statBonus.amount >= 0 ? "+" : "")}{proc.statBonus.amount} {GetStatDisplayName(proc.statBonus.statType)}");
+            else if (proc.alternateStatBonus != null)
+                bonusText = Highlight($"{FormatAlternateStatAmount(proc.alternateStatBonus.statType, proc.alternateStatBonus.amount)} {GetAlternateStatDisplayName(proc.alternateStatBonus.statType)}");
+            else
+                return "";
+
+            if (proc.thresholdContinuous)
+                return $"While {condition}, gain {bonusText}.";
+
+            var duration = proc.statBonus?.durationMs ?? proc.alternateStatBonus.durationMs;
+            return $"Once {condition}, gain {bonusText} for {Highlight($"{FormatDurationSeconds(duration)} seconds")}{cooldownText}.";
         }
 
         public static string DescribeStatusEffect(StatusEffectData hit)

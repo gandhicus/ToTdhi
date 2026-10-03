@@ -1345,7 +1345,7 @@
 
 		<StatIncrease type="Defense">6</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 		</StatRolls>
 	</Object>
@@ -1359,7 +1359,7 @@
 
 		<StatIncrease type="Defense">8</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 		</StatRolls>
 	</Object>
@@ -1373,7 +1373,7 @@
 
 		<StatIncrease type="Defense">10</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 		</StatRolls>
 	</Object>
@@ -1387,7 +1387,7 @@
 
 		<StatIncrease type="Defense">12</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 		</StatRolls>
 	</Object>
@@ -1402,7 +1402,7 @@
 		<StatIncrease type="Defense">15</StatIncrease>
 		<StatIncrease type="Vigor">1</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="-1" max="2" always="true"/>
 			<StatRoll type="Attack" min="1" max="3" weight="30"/>
@@ -1426,7 +1426,7 @@
 		<StatIncrease type="Defense">18</StatIncrease>
 		<StatIncrease type="Vigor">2</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="1" max="3" weight="30"/>
@@ -1450,7 +1450,7 @@
 		<StatIncrease type="Defense">20</StatIncrease>
 		<StatIncrease type="Vigor">4</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="2" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="1" max="3" weight="30"/>
@@ -1474,7 +1474,7 @@
 		<StatIncrease type="Defense">21</StatIncrease>
 		<StatIncrease type="Vigor">5</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="2" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="1" max="3" weight="30"/>
@@ -1498,7 +1498,7 @@
 		<StatIncrease type="Defense">23</StatIncrease>
 		<StatIncrease type="Vigor">7</StatIncrease>
 
-		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="2" max="4" weight="30"/>
@@ -1586,6 +1586,18 @@
 
 	</Object>
 
+	<Object id="0x533" name="Mania Plate" tier="-5">
+		<Type>Equipment</Type>
+		<SlotType>HeavyArmor</SlotType>
+		<Sprite>Mania Plate</Sprite>
+
+		<Description>An armor that was created to amplify the inner fury of those whom wear it.</Description>
+
+		<StatIncrease type="Defense">15</StatIncrease>
+		<AlternateStatIncrease type="RageGain">10</AlternateStatIncrease>
+
+	</Object>
+
 	<!-- Light Armors -->
 
 	<Object id="0x220" name="Worn Leather Armor" tier="1">
@@ -1598,7 +1610,7 @@
 		<StatIncrease type="Defense">5</StatIncrease>
 		<StatIncrease type="Speed">1</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Speed" min="-1" max="2" always="true"/>
 		</StatRolls>
@@ -1614,7 +1626,7 @@
 		<StatIncrease type="Defense">6</StatIncrease>
 		<StatIncrease type="Speed">2</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
 		</StatRolls>
@@ -1630,7 +1642,7 @@
 		<StatIncrease type="Defense">7</StatIncrease>
 		<StatIncrease type="Speed">2</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
 		</StatRolls>
@@ -1647,7 +1659,7 @@
 		<StatIncrease type="Speed">2</StatIncrease>
 		<StatIncrease type="Attack">1</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-1" max="2" always="true"/>
@@ -1665,7 +1677,7 @@
 		<StatIncrease type="Speed">3</StatIncrease>
 		<StatIncrease type="Attack">2</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
@@ -1690,7 +1702,7 @@
 		<StatIncrease type="Attack">3</StatIncrease>
 		<StatIncrease type="Defense">12</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
@@ -1715,7 +1727,7 @@
 		<StatIncrease type="Attack">3</StatIncrease>
 		<StatIncrease type="Defense">14</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="2" maxPerStat="1" skipChance="50">
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
@@ -1740,7 +1752,7 @@
 		<StatIncrease type="Attack">4</StatIncrease>
 		<StatIncrease type="Defense">16</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="2" maxPerStat="1" skipChance="50">
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
@@ -1765,7 +1777,7 @@
 		<StatIncrease type="Attack">6</StatIncrease>
 		<StatIncrease type="Defense">18</StatIncrease>
 
-		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
@@ -1839,10 +1851,27 @@
 
 		<Description>A captivating leather armor, infused with the venom of deadly plagues.</Description>
 
-		<AlternateStatIncrease type="CriticalStrikeChance">5</AlternateStatIncrease>
 		<StatIncrease type="Defense">13</StatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">5</AlternateStatIncrease>
 
 		<ScaledStatIncrease per="20" amount="5" from="MaxHealth" to="CriticalStrikeChance"/>
+
+	</Object>
+
+	<Object id="0x531" name="Mortal Coil" tier="-5">
+		<Type>Equipment</Type>
+		<Sprite>Mortal Coil</Sprite>
+		<SlotType>LightArmor</SlotType>
+
+		<Description>A leather armor that allows its wearer to harness their deeply held emotions.</Description>
+
+		<StatIncrease type="Defense">10</StatIncrease>
+
+		<ScaledStatIncrease per="20" amount="1" from="MaxHealth" to="RageGain"/>
+
+		<Proc trigger="RageThreshold" threshold="50" above="true" cooldown="10000">
+			<AlternateStatBonus type="Attack" amount="8" duration="5000"/>
+		</Proc>
 
 	</Object>
 
@@ -1858,7 +1887,7 @@
 		<StatIncrease type="Defense">3</StatIncrease>
 		<StatIncrease type="Attack">2</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 		</StatRolls>
@@ -1874,7 +1903,7 @@
 		<StatIncrease type="Defense">4</StatIncrease>
 		<StatIncrease type="Attack">2</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 		</StatRolls>
@@ -1890,7 +1919,7 @@
 		<StatIncrease type="Defense">5</StatIncrease>
 		<StatIncrease type="Attack">3</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 		</StatRolls>
@@ -1906,7 +1935,7 @@
 		<StatIncrease type="Defense">6</StatIncrease>
 		<StatIncrease type="Attack">3</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 		</StatRolls>
@@ -1922,7 +1951,7 @@
 		<StatIncrease type="Defense">7</StatIncrease>
 		<StatIncrease type="Attack">4</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="1" max="3" weight="30"/>
@@ -1946,7 +1975,7 @@
 		<StatIncrease type="Defense">8</StatIncrease>
 		<StatIncrease type="Attack">5</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="1" max="3" weight="30"/>
@@ -1970,7 +1999,7 @@
 		<StatIncrease type="Defense">9</StatIncrease>
 		<StatIncrease type="Attack">5</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="2" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="1" max="3" weight="30"/>
@@ -1994,7 +2023,7 @@
 		<StatIncrease type="Defense">11</StatIncrease>
 		<StatIncrease type="Attack">6</StatIncrease>
 
-		<StatRolls rollCount="2" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="2" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="1" max="3" weight="30"/>
@@ -2018,7 +2047,7 @@
 		<StatIncrease type="Defense">13</StatIncrease>
 		<StatIncrease type="Attack">8</StatIncrease>
 
-		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
 			<StatRoll type="Attack" min="-2" max="2" always="true"/>
 			<StatRoll type="Vigor" min="2" max="4" weight="30"/>
@@ -2091,6 +2120,40 @@
 
 	</Object>
 
+	<Object id="0x529" name="Nymph's Cloak" tier="-5">
+		<Type>Equipment</Type>
+		<Sprite>Nymph's Cloak</Sprite>
+		<SlotType>Robe</SlotType>
+
+		<Description>An immaculately made cloak used by a clan of nymph-warriors.</Description>
+
+		<StatIncrease type="Defense">8</StatIncrease>
+
+		<Proc trigger="RageThreshold" threshold="50" above="true" cooldown="5000">
+			<AlternateStatBonus type="TrueDamageChance" amount="15" duration="5000"/>
+		</Proc>
+
+		<Proc trigger="RageThreshold" threshold="50" above="true" cooldown="5000">
+			<StatBonus type="Attack" amount="5" duration="5000"/>
+		</Proc>
+
+	</Object>
+
+	<Object id="0x532" name="Sage Cloak" tier="-5">
+		<Type>Equipment</Type>
+		<Sprite>Sage Cloak</Sprite>
+		<SlotType>Robe</SlotType>
+
+		<Description>A delicate cloak inspired by the beauty of spring.</Description>
+
+		<StatIncrease type="MaxHealth">120</StatIncrease>
+
+		<Proc trigger="HealthThreshold" threshold="60" above="true" continuous="true">
+			<StatBonus type="Vigor" amount="10"/>
+		</Proc>
+
+	</Object>
+
 	<!-- NewWeapons -->
 
 	<Object id="0x260" name="Crossbow" tier="0">
@@ -2107,7 +2170,7 @@
 		<Sprite>Speed Ring 1</Sprite>
 		<StatIncrease type="Speed">1</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Speed" min="0" max="1" always="true"/>
 		</StatRolls>
 
@@ -2120,7 +2183,7 @@
 		<Sprite>Attack Ring 1</Sprite>
 		<StatIncrease type="Attack">1</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Attack" min="0" max="1" always="true"/>
 		</StatRolls>
 
@@ -2133,7 +2196,7 @@
 		<Sprite>Defense Ring 1</Sprite>
 		<StatIncrease type="Defense">1</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="0" max="1" always="true"/>
 		</StatRolls>
 
@@ -2146,7 +2209,7 @@
 		<Sprite>Vigor Ring 1</Sprite>
 		<StatIncrease type="Vigor">1</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Vigor" min="0" max="1" always="true"/>
 		</StatRolls>
 
@@ -2159,7 +2222,7 @@
 		<Sprite>Speed Ring 2</Sprite>
 		<StatIncrease type="Speed">2</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Speed" min="-1" max="1" always="true"/>
 		</StatRolls>
 
@@ -2172,7 +2235,7 @@
 		<Sprite>Attack Ring 2</Sprite>
 		<StatIncrease type="Attack">2</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Attack" min="-1" max="1" always="true"/>
 		</StatRolls>
 
@@ -2185,7 +2248,7 @@
 		<Sprite>Defense Ring 2</Sprite>
 		<StatIncrease type="Defense">2</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-1" max="1" always="true"/>
 		</StatRolls>
 
@@ -2198,7 +2261,7 @@
 		<Sprite>Vigor Ring 2</Sprite>
 		<StatIncrease type="Vigor">2</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Vigor" min="-1" max="1" always="true"/>
 		</StatRolls>
 
@@ -2211,7 +2274,7 @@
 		<Sprite>Speed Ring 3</Sprite>
 		<StatIncrease type="Speed">3</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Speed" min="-1" max="1" always="true"/>
 		</StatRolls>
 
@@ -2224,7 +2287,7 @@
 		<Sprite>Attack Ring 3</Sprite>
 		<StatIncrease type="Attack">3</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Attack" min="-1" max="1" always="true"/>
 		</StatRolls>
 
@@ -2237,7 +2300,7 @@
 		<Sprite>Defense Ring 3</Sprite>
 		<StatIncrease type="Defense">3</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Defense" min="-1" max="1" always="true"/>
 		</StatRolls>
 
@@ -2250,7 +2313,7 @@
 		<Sprite>Vigor Ring 3</Sprite>
 		<StatIncrease type="Vigor">3</StatIncrease>
 
-		<StatRolls rollCount="0">
+		<StatRolls amountAverage="0.35" rollCount="0">
 			<StatRoll type="Vigor" min="-1" max="1" always="true"/>
 		</StatRolls>
 
@@ -2263,7 +2326,7 @@
 		<Sprite>Speed Ring 4</Sprite>
 		<StatIncrease type="Speed">4</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Speed" min="-1" max="1" always="true"/>
 			<StatRoll type="Attack" min="1" max="2" weight="30"/>
 			<StatRoll type="Defense" min="1" max="2" weight="30"/>
@@ -2285,7 +2348,7 @@
 		<Sprite>Attack Ring 4</Sprite>
 		<StatIncrease type="Attack">4</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Attack" min="-1" max="1" always="true"/>
 			<StatRoll type="Defense" min="1" max="2" weight="30"/>
 			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
@@ -2307,7 +2370,7 @@
 		<Sprite>Defense Ring 4</Sprite>
 		<StatIncrease type="Defense">4</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-1" max="1" always="true"/>
 			<StatRoll type="Attack" min="1" max="2" weight="30"/>
 			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
@@ -2329,7 +2392,7 @@
 		<Sprite>Vigor Ring 4</Sprite>
 		<StatIncrease type="Vigor">4</StatIncrease>
 
-		<StatRolls rollCount="1" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="50">
 			<StatRoll type="Vigor" min="-1" max="1" always="true"/>
 			<StatRoll type="Attack" min="1" max="2" weight="30"/>
 			<StatRoll type="Defense" min="1" max="2" weight="30"/>
@@ -2582,7 +2645,7 @@
 		<StatIncrease type="Vigor">4</StatIncrease>
 		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
 
-		<Proc trigger="CriticalStrike" cooldown="3000">
+		<Proc trigger="CriticalStrike" cooldown="6000">
 			<AlternateStatBonus type="TrueDamageChance" amount="20" duration="8000"/>
 		</Proc>
 
@@ -2637,6 +2700,62 @@
 		<Description>A glistening, crystalline eye that holds horrifying secrets, corrupting those without strong spirits.</Description>
 	</Object>
 
+	<Object id="0x526" name="Dragonfly" tier="-5">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Dragonfly</Sprite>
+
+		<StatIncrease type="Vigor">4</StatIncrease>
+		<AlternateStatIncrease type="RateOfFire">4</AlternateStatIncrease>
+
+		<Description>A ring that was miraculously found as a fusion of two Firefly rings, combining the two rings into one stronger piece.</Description>
+	</Object>
+
+	<Object id="0x527" name="Map of the Stars" tier="-5">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Map of the Stars</Sprite>
+
+		<StatIncrease type="Speed">4</StatIncrease>
+		<StatIncrease type="Defense">4</StatIncrease>
+
+		<Proc trigger="HealthThreshold" threshold="70" above="true" continuous="true">
+			<AlternateStatBonus type="RageGain" amount="10"/>
+		</Proc>
+
+		<Description>A curious device of reportedly extraterrestrial origin used to gain insight into the power of the constellations. Although now treated by younger generations as a fake relic, many people still highly respect and believe in its capabilities.</Description>
+	</Object>
+
+	<Object id="0x528" name="Decadence" tier="-5">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Decadence</Sprite>
+
+		<StatIncrease type="Vigor">-8</StatIncrease>
+		<StatIncrease type="Attack">4</StatIncrease>
+		<StatIncrease type="MaxHealth">40</StatIncrease>
+
+		<Proc trigger="HealthThreshold" threshold="50" above="false" continuous="true">
+			<AlternateStatBonus type="CriticalStrikeChance" amount="30"/>
+		</Proc>
+
+		<Description>A rosary once used by a cult that promised to help bring the second coming of a dark messiah. Still holds energy from various rituals and curses.</Description>
+	</Object>
+
+	<Object id="0x530" name="The Promise Ring" tier="-5">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>The Promise Ring</Sprite>
+
+		<StatIncrease type="MaxHealth">60</StatIncrease>
+
+		<Proc trigger="HealthThreshold" threshold="80" above="true" continuous="true">
+			<StatBonus type="Attack" amount="8"/>
+		</Proc>
+
+		<Description>A famed ring that was once the promise ring for a now-corrupt monarch and his wife.</Description>
+	</Object>
+
 	<Object id="0x50b" name="TEST Rage Crit Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
@@ -2685,7 +2804,7 @@
 		<Sprite>Speed Ring 5</Sprite>
 		<StatIncrease type="Speed">6</StatIncrease>
 
-		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Speed" min="-1" max="1" always="true"/>
 			<StatRoll type="Attack" min="1" max="2" weight="30"/>
 			<StatRoll type="Defense" min="1" max="2" weight="30"/>
@@ -2708,7 +2827,7 @@
 		<Sprite>Attack Ring 5</Sprite>
 		<StatIncrease type="Attack">6</StatIncrease>
 
-		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Attack" min="-1" max="1" always="true"/>
 			<StatRoll type="Defense" min="1" max="2" weight="30"/>
 			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
@@ -2731,7 +2850,7 @@
 		<Sprite>Defense Ring 5</Sprite>
 		<StatIncrease type="Defense">6</StatIncrease>
 
-		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Defense" min="-1" max="1" always="true"/>
 			<StatRoll type="Attack" min="1" max="2" weight="30"/>
 			<StatRoll type="Vigor" min="1" max="2" weight="30"/>
@@ -2754,7 +2873,7 @@
 		<Sprite>Vigor Ring 5</Sprite>
 		<StatIncrease type="Vigor">6</StatIncrease>
 
-		<StatRolls rollCount="3" maxPerStat="1" skipChance="50">
+		<StatRolls amountAverage="0.35" rollCount="3" maxPerStat="1" skipChance="50">
 			<StatRoll type="Vigor" min="-1" max="1" always="true"/>
 			<StatRoll type="Attack" min="1" max="2" weight="30"/>
 			<StatRoll type="Defense" min="1" max="2" weight="30"/>
@@ -2915,7 +3034,7 @@
 
 	</Object>
 
-	<Object id="0x2ab" name="Robe of Soulless Rejuvenation" tier="-2">
+	<Object id="0x2ab" name="Robe of Soulless Rejuvenation" tier="-5">
 		<Type>Equipment</Type>
 		<SlotType>Robe</SlotType>
 		<Sprite>Soulless Robe</Sprite>
@@ -2935,7 +3054,7 @@
 
 	</Object>
 
-	<Object id="0x2ac" name="Breastplate of Soulless Vigor" tier="-2">
+	<Object id="0x2ac" name="Breastplate of Soulless Vigor" tier="-5">
 		<Type>Equipment</Type>
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>Soulless Heavy Armor</Sprite>
@@ -2955,7 +3074,7 @@
 
 	</Object>
 
-	<Object id="0x2ad" name="Tunic of Soulless Wraith" tier="-2">
+	<Object id="0x2ad" name="Tunic of Soulless Wraith" tier="-5">
 		<Type>Equipment</Type>
 		<SlotType>LightArmor</SlotType>
 		<Sprite>Soulless Light Armor</Sprite>
@@ -3229,12 +3348,12 @@
 		<Class>Bladeweaver</Class>
 		<TalismanEffect trigger="AbilityUse">
 			<AoeColor>orange</AoeColor>
-			<Aoe radius="4" damage="0" at="Self" lifetime="0.25" color="orange">
-				<StatusEffect type="Slowed">2000</StatusEffect>
+			<Aoe radius="3" damage="0" at="Self" lifetime="0.25" color="orange">
+				<StatusEffect type="DefenseMinus" amount="20" duration="8000"/>
 			</Aoe>
 		</TalismanEffect>
 		<Focus/>
-		<Description>A talisman that is affixed to its users' essence.</Description>
+		<Description>A talisman that is affixed to its users essence.</Description>
 	</Object>
 	<Object id="0x2117" name="Rogue's Talisman" tier="-2">
 		<Type>Equipment</Type>
@@ -3243,8 +3362,8 @@
 		<Class>Bladeweaver</Class>
 		<TalismanEffect trigger="AbilityHit" cooldown="300">
 			<AoeColor>orange</AoeColor>
-			<Aoe radius="1" damage="0" at="Target" lifetime="0.15" color="orange">
-				<StatusEffect type="Grounded">3000</StatusEffect>
+			<Aoe radius="2" damage="0" at="Target" lifetime="0.15" color="orange">
+				<StatusEffect type="Grounded">4000</StatusEffect>
 			</Aoe>
 		</TalismanEffect>
 		<Focus/>
@@ -3255,7 +3374,7 @@
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman</Sprite>
 		<Class>Bladeweaver</Class>
-		<TalismanEffect trigger="AbilityEnd">
+		<TalismanEffect trigger="AbilityUse">
 			<StatBonus type="Speed" amount="4" duration="200"/>
 		</TalismanEffect>
 		<Defense/>
@@ -3372,8 +3491,8 @@
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Holy Water</Sprite>
 		<Class>Commander</Class>
-		<TalismanEffect trigger="AbilityTick">
-			<Heal>10</Heal>
+		<TalismanEffect trigger="AbilityUse" rageThreshold="50">
+			<Heal>150</Heal>
 		</TalismanEffect>
 		<Support/>
 		<Description>A talisman that is able to purify its user.</Description>
@@ -3390,7 +3509,7 @@
 			</Aoe>
 		</TalismanEffect>
 		<Focus/>
-		<Description>When the Defense buff ends, Slowed nova for 1 second.</Description>
+		<Description>On ability use, release a Slowed nova for 1 second.</Description>
 	</Object>
 	<Object id="0x2123" name="Minister Talisman 1" tier="-2">
 		<Type>Equipment</Type>

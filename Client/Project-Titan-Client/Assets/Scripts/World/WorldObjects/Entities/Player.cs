@@ -672,6 +672,9 @@ public class Player : Character
             return StatFunctions.ResolveOutgoingDamage(
                 rawDamage,
                 GetEquipItems(),
+                GetThresholdAlternateStatBonus(AlternateStatType.TrueDamageChance),
+                GetThresholdAlternateStatBonus(AlternateStatType.CriticalStrikeChance),
+                GetThresholdAlternateStatBonus(AlternateStatType.CriticalStrikeDamage),
                 0,
                 0,
                 targetDefense,
@@ -681,6 +684,48 @@ public class Player : Character
                 targetId,
                 gameId,
                 targetDefenseMinusAmount);
+        }
+
+        /// <summary>
+        /// Mirrors active threshold-proc alternate bonuses for local combat prediction.
+        /// The server remains authoritative; this keeps local hit feedback in agreement.
+        /// </summary>
+        private int GetThresholdAlternateStatBonus(AlternateStatType type)
+        {
+            int total = 0;
+            var equips = GetEquipItems();
+
+            for (int i = 0; i < equips.Length; i++)
+            {
+                if (equips[i].IsBlank || !(equips[i].GetInfo() is EquipmentInfo equip))
+                    continue;
+
+                for (int procIndex = 0; procIndex < equip.procs.Count; procIndex++)
+                {
+                    var proc = equip.procs[procIndex];
+                    var bonus = proc.alternateStatBonus;
+                    if (bonus == null || bonus.statType != type)
+                        continue;
+                    if (proc.trigger != ProcTrigger.HealthThreshold && proc.trigger != ProcTrigger.RageThreshold)
+                        continue;
+
+                    if (proc.thresholdContinuous)
+                    {
+                        float value = proc.trigger == ProcTrigger.HealthThreshold
+                            ? health / Mathf.Max(1, GetStatFunctional(StatType.MaxHealth)) * 100f
+                            : rage;
+                        if (proc.thresholdAbove ? value > proc.threshold : value < proc.threshold)
+                            total += bonus.amount;
+                        continue;
+                    }
+
+                    var effect = ProcFunctions.GetAlternateStatBonusEffect(type);
+                    if (effect.HasValue && HasStatusEffect(effect.Value))
+                        total += bonus.amount;
+                }
+            }
+
+            return total;
         }
 
     public override bool IsHitBy(Vec2 position, Projectile projectile, out bool killed)

@@ -180,17 +180,15 @@ namespace World.Commands
             float attackScalar = 0.5f + attack / 50f;
             uint defDuration = (uint)(AbilityFunctions.Commander.GetDefenseDurationMs(rage, attack) * (mods.durationMul > 0 ? mods.durationMul : 1f));
             uint defFull = (uint)(AbilityFunctions.Commander.GetDefenseDurationMs(100, attack) * (mods.durationMul > 0 ? mods.durationMul : 1f));
-            Pair(player, "Defense field", FormatSec((int)defDuration), FormatSec((int)defFull), rage);
+            int defenseBonus = AbilityFunctions.Commander.GetDefenseBonus(attack, rage);
+            int defenseBonusFull = AbilityFunctions.Commander.GetDefenseBonus(attack, 100);
+            Pair(player, "Defense bonus", $"+{defenseBonus}", $"+{defenseBonusFull}", rage);
+            Pair(player, "Defense duration", FormatSec((int)defDuration), FormatSec((int)defFull), rage);
 
-            float unfurlMul = 1f + Math.Max(0f, mods.abilityRangeBonus);
-            uint rangeDuration = (uint)((2500 + 11000 * rageScalar * attackScalar) * unfurlMul) + (uint)Math.Max(0, mods.durationBonusMs);
-            uint rangeFull = (uint)((2500 + 11000 * attackScalar) * unfurlMul) + (uint)Math.Max(0, mods.durationBonusMs);
+            uint rangeDuration = (uint)(2500 + 11000 * rageScalar * attackScalar) + (uint)Math.Max(0, mods.durationBonusMs);
+            uint rangeFull = (uint)(2500 + 11000 * attackScalar) + (uint)Math.Max(0, mods.durationBonusMs);
             Pair(player, "Reach duration", FormatSec((int)rangeDuration), FormatSec((int)rangeFull), rage);
-            Pair(player, "Reach radius", Tiles(2.5f + 6f * rageScalar), Tiles(2.5f + 6f), rage);
-
-            int lockout = Math.Max(AbilityFunctions.Commander.MinPulseLockoutMs,
-                mods.pulseLockoutMs > 0 ? mods.pulseLockoutMs : AbilityFunctions.Commander.BasePulseLockoutMs);
-            Line(player, $"Pulse: +{AbilityFunctions.Commander.PulseDefense} Defense per hit, max {AbilityFunctions.Commander.MaxPulseStacks} stacks, {FormatSec(lockout)} lockout");
+            Pair(player, "Reach radius", Tiles(2.5f + 6f * rageScalar + mods.abilityRangeBonus), Tiles(2.5f + 6f + mods.abilityRangeBonus), rage);
         }
 
         private static void WriteLancer(Player player, PlayerState playerState, AbilityModifierSnapshot mods, int rage, uint time)

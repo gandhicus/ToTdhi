@@ -307,6 +307,8 @@ namespace World.GameState
 
         private readonly List<TimedAlternateStatBonus> timedAlternateStatBonuses = new List<TimedAlternateStatBonus>();
 
+        private readonly Dictionary<int, bool> thresholdProcStates = new Dictionary<int, bool>();
+
         private struct TimedStatSource : IEquatable<TimedStatSource>
         {
             public byte kind;
@@ -320,7 +322,7 @@ namespace World.GameState
 
             public static TimedStatSource CommanderField => new TimedStatSource { kind = 3 };
 
-            public static TimedStatSource CommanderPulse => new TimedStatSource { kind = 4 };
+            public static TimedStatSource ThresholdProc(int procKey) => new TimedStatSource { kind = 5, id = procKey };
 
             public bool Equals(TimedStatSource other) => kind == other.kind && id == other.id;
 
@@ -341,6 +343,7 @@ namespace World.GameState
 
         private struct TimedAlternateStatBonus
         {
+            public TimedStatSource source;
             public AlternateStatType statType;
             public StatusEffect effect;
             public int amount;
@@ -489,6 +492,7 @@ namespace World.GameState
             player.hitDamage.Value += damageTaken;
 
             TriggerProcsFromDamageResult(result, time);
+            RefreshThresholdProcs(time);
 
             if (health <= 0 && previousHp > 0)
             {
@@ -527,6 +531,7 @@ namespace World.GameState
                 if (time != uint.MaxValue && time >= bonus.endTime) continue;
                 total += bonus.amount;
             }
+
             return total;
         }
 
@@ -545,6 +550,7 @@ namespace World.GameState
                 else
                     bonuses[bonus.statType] = amount + bonus.amount;
             }
+
             return bonuses;
         }
 
@@ -591,6 +597,7 @@ namespace World.GameState
                 //Log.Write(lastHealthTime / NetConstants.Client_Delta);
                 //Log.Write(health, ConsoleColor.Green);
             }
+            RefreshThresholdProcs(time);
         }
 
         public void UseAbility(uint time, Vec2 position, Vec2 target, byte value)
@@ -626,8 +633,7 @@ namespace World.GameState
                 return;
             }
 
-            rage = StatFunctions.ApplyAbilityRageSpend(rageBefore, rageIntegral, rageByte);
-            SyncRageToClient();
+            SetRage(StatFunctions.ApplyAbilityRageSpend(rageBefore, rageIntegral, rageByte), time);
 
             //Log.Write($"Rage: {rage}");
 
@@ -822,13 +828,19 @@ namespace World.GameState
                 amount = StatFunctions.ApplyRageGainBonus(
                     amount,
                     currentSnapshot.GetAlternateStat(AlternateStatType.RageGain) + GetTimedAlternateStatBonus(AlternateStatType.RageGain));
-            SetRage(rage + amount);
+            SetRage(rage + amount, time);
         }
 
         public void SetRage(float value)
         {
+            SetRage(value, LastClientTime);
+        }
+
+        private void SetRage(float value, uint time)
+        {
             rage = Math.Max(0f, Math.Min(value, 100f));
             SyncRageToClient();
+            RefreshThresholdProcs(time);
         }
 
         public void ClearRage()
@@ -918,6 +930,144 @@ namespace World.GameState
             }
         }
 
+        /// <summary>
+        /// Evaluates health and rage threshold item procs. Continuous procs contribute their
+        /// bonus only while their condition is met; timed procs fire on the rising edge.
+        /// </summary>
+        public void RefreshThresholdProcs(uint time)
+        {
+            var seenProcKeys = new HashSet<int>();
+
+            for (int slot = 0; slot < 4; slot++)
+            {
+                var serverItem = player.GetItem(slot);
+                var equipItem = serverItem?.itemData ?? Item.Blank;
+                if (equipItem.IsBlank || !(equipItem.GetInfo() is EquipmentInfo equip)) continue;
+
+                for (int i = 0; i < equip.procs.Count; i++)
+                {
+                    var proc = equip.procs[i];
+                    if (proc.trigger != ProcTrigger.HealthThreshold && proc.trigger != ProcTrigger.RageThreshold)
+                        continue;
+
+                    int procKey = ProcFunctions.GetProcKey(equipItem.id, i);
+                    seenProcKeys.Add(procKey);
+                    bool meetsThreshold = MeetsThreshold(proc);
+
+                    if (proc.thresholdContinuous)
+                    {
+                        if (meetsThreshold)
+                            ApplyContinuousThresholdProc(procKey, proc, time);
+                        else
+                            ClearContinuousThresholdProc(procKey);
+                    }
+                    else
+                    {
+                        bool wasMet = thresholdProcStates.TryGetValue(procKey, out var previous) && previous;
+                        if (meetsThreshold && !wasMet
+                            && (!procCooldowns.TryGetValue(procKey, out var nextTime) || time >= nextTime))
+                        {
+                            if (proc.statBonus != null)
+                                ApplyProcStatBonus(proc.statBonus, time);
+                            else if (proc.alternateStatBonus != null)
+                                ApplyProcAlternateStatBonus(proc.alternateStatBonus, time);
+
+                            if (proc.cooldownMs > 0)
+                                procCooldowns[procKey] = time + proc.cooldownMs;
+                        }
+                        thresholdProcStates[procKey] = meetsThreshold;
+                    }
+                }
+            }
+
+            var staleStates = thresholdProcStates.Keys.Where(key => !seenProcKeys.Contains(key)).ToArray();
+            foreach (var procKey in staleStates)
+                thresholdProcStates.Remove(procKey);
+
+            var staleContinuous = timedStatBonuses
+                .Where(bonus => bonus.source.kind == 5)
+                .Select(bonus => bonus.source.id)
+                .Concat(timedAlternateStatBonuses
+                    .Where(bonus => bonus.source.kind == 5)
+                    .Select(bonus => bonus.source.id))
+                .Where(key => !seenProcKeys.Contains(key))
+                .Distinct()
+                .ToArray();
+            foreach (var procKey in staleContinuous)
+                ClearContinuousThresholdProc(procKey);
+        }
+
+        private bool MeetsThreshold(ItemProc proc)
+        {
+            float value;
+            if (proc.trigger == ProcTrigger.HealthThreshold)
+            {
+                var maxHealth = currentSnapshot.GetFunctionalStat(StatType.MaxHealth);
+                if (maxHealth <= 0) return false;
+                value = health / maxHealth * 100f;
+            }
+            else
+            {
+                value = rage;
+            }
+
+            return proc.thresholdAbove ? value > proc.threshold : value < proc.threshold;
+        }
+
+        private void ApplyContinuousThresholdProc(int procKey, ItemProc proc, uint time)
+        {
+            if (proc.statBonus != null)
+            {
+                ApplyProcStatBonus(
+                    proc.statBonus.statType,
+                    proc.statBonus.amount,
+                    uint.MaxValue,
+                    time: time,
+                    source: TimedStatSource.ThresholdProc(procKey));
+            }
+            else if (proc.alternateStatBonus != null)
+            {
+                ApplyProcAlternateStatBonus(
+                    new ProcAlternateStatBonus(proc.alternateStatBonus.statType, proc.alternateStatBonus.amount, uint.MaxValue),
+                    time,
+                    TimedStatSource.ThresholdProc(procKey));
+            }
+        }
+
+        private void ClearContinuousThresholdProc(int procKey)
+        {
+            var source = TimedStatSource.ThresholdProc(procKey);
+            for (int i = timedStatBonuses.Count - 1; i >= 0; i--)
+            {
+                var bonus = timedStatBonuses[i];
+                if (!bonus.source.Equals(source)) continue;
+
+                player.RemoveStatBonus(bonus.statType, bonus.amount);
+                if (bonus.hasEffect && !HasActiveTimedBonusEffect(bonus.effect, i))
+                    player.RemoveEffect(bonus.effect);
+                timedStatBonuses.RemoveAt(i);
+            }
+
+            bool removedAlternate = false;
+            bool removedRateOfFire = false;
+            for (int i = timedAlternateStatBonuses.Count - 1; i >= 0; i--)
+            {
+                var bonus = timedAlternateStatBonuses[i];
+                if (!bonus.source.Equals(source)) continue;
+
+                if (bonus.hasEffect && !HasActiveTimedAlternateBonusEffect(bonus.effect, i))
+                    player.RemoveEffect(bonus.effect);
+                timedAlternateStatBonuses.RemoveAt(i);
+                removedAlternate = true;
+                removedRateOfFire |= bonus.statType == AlternateStatType.RateOfFire;
+            }
+
+            if (removedRateOfFire)
+                player.SetRateOfFireBonus(GetTimedAlternateStatBonus(AlternateStatType.RateOfFire));
+            else if (removedAlternate)
+                player.SyncCombatSnapshotEquipment();
+        }
+
         public int GetAbilityCooldownMs(byte rageCost)
         {
             int cd = AbilityFunctions.GetAbilityCooldownMs(rageCost, classInfo.id);
@@ -943,49 +1093,6 @@ namespace World.GameState
         public void ApplyCommanderFieldStatBonus(StatType type, int amount, uint time, uint durationMs)
         {
             ApplyTimedStatBonus(type, amount, time, durationMs, TimedStatSource.CommanderField);
-        }
-
-        public void ApplyCommanderPulseStatBonus(StatType type, int amount, uint time, uint durationMs)
-        {
-            if (amount == 0 || durationMs == 0) return;
-
-            var effect = ProcFunctions.GetStatBonusEffect(type);
-            var hasEffect = effect.HasValue;
-            uint newEnd = time + durationMs;
-
-            for (int i = 0; i < timedStatBonuses.Count; i++)
-            {
-                var existing = timedStatBonuses[i];
-                if (!existing.source.Equals(TimedStatSource.CommanderPulse) || existing.statType != type)
-                    continue;
-
-                player.AddStatBonus(type, amount);
-                existing.amount += amount;
-                existing.endTime = Math.Max(existing.endTime, newEnd);
-                timedStatBonuses[i] = existing;
-
-                if (hasEffect)
-                    player.AddEffect(effect.Value, durationMs / 1000f);
-                return;
-            }
-
-            ApplyTimedStatBonus(type, amount, time, durationMs, TimedStatSource.CommanderPulse);
-        }
-
-        public void ClearCommanderPulseBonuses()
-        {
-            for (int i = timedStatBonuses.Count - 1; i >= 0; i--)
-            {
-                if (timedStatBonuses[i].source.kind != 4) continue;
-
-                var bonus = timedStatBonuses[i];
-                player.RemoveStatBonus(bonus.statType, bonus.amount);
-
-                if (bonus.hasEffect && !HasActiveTimedBonusEffect(bonus.effect, i))
-                    player.RemoveEffect(bonus.effect);
-
-                timedStatBonuses.RemoveAt(i);
-            }
         }
 
         public void ApplyTimedStatBonus(StatType type, int amount, uint time, uint durationMs)
@@ -1080,7 +1187,7 @@ namespace World.GameState
 
             var effect = ProcFunctions.GetStatBonusEffect(statType);
             var hasEffect = effect.HasValue;
-            uint newEnd = time + durationMs;
+            uint newEnd = durationMs == uint.MaxValue ? uint.MaxValue : time + durationMs;
 
             for (int i = 0; i < timedStatBonuses.Count; i++)
             {
@@ -1117,20 +1224,46 @@ namespace World.GameState
 
         private void ApplyProcAlternateStatBonus(ProcAlternateStatBonus bonus, uint time)
         {
+            ApplyProcAlternateStatBonus(bonus, time, TimedStatSource.ByStatType);
+        }
+
+        private void ApplyProcAlternateStatBonus(ProcAlternateStatBonus bonus, uint time, TimedStatSource source)
+        {
             if (bonus.amount == 0 || bonus.durationMs == 0) return;
 
             var effect = ProcFunctions.GetAlternateStatBonusEffect(bonus.statType);
             var hasEffect = effect.HasValue;
+            uint endTime = bonus.durationMs == uint.MaxValue ? uint.MaxValue : time + bonus.durationMs;
+
+            if (source.kind == 5)
+            {
+                for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
+                {
+                    var existing = timedAlternateStatBonuses[i];
+                    if (!existing.source.Equals(source) || existing.statType != bonus.statType) continue;
+
+                    existing.amount = bonus.amount;
+                    existing.endTime = endTime;
+                    timedAlternateStatBonuses[i] = existing;
+                    if (hasEffect)
+                        player.AddEffect(effect.Value, bonus.durationMs / 1000f);
+                    if (bonus.statType == AlternateStatType.RateOfFire)
+                        player.SetRateOfFireBonus(GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time));
+                    else
+                        player.SyncCombatSnapshotEquipment();
+                    return;
+                }
+            }
 
             if (bonus.statType == AlternateStatType.RateOfFire)
             {
                 for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
                 {
                     var existing = timedAlternateStatBonuses[i];
-                    if (existing.statType != AlternateStatType.RateOfFire) continue;
+                    if (!existing.source.Equals(source) || existing.statType != AlternateStatType.RateOfFire) continue;
 
                     existing.amount = Math.Max(existing.amount, bonus.amount);
-                    existing.endTime = Math.Max(existing.endTime, time + bonus.durationMs);
+                    existing.endTime = Math.Max(existing.endTime, endTime);
                     timedAlternateStatBonuses[i] = existing;
                     if (hasEffect)
                         player.AddEffect(effect.Value, bonus.durationMs / 1000f);
@@ -1144,10 +1277,10 @@ namespace World.GameState
                 for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
                 {
                     var existing = timedAlternateStatBonuses[i];
-                    if (existing.statType != AlternateStatType.BlockChance) continue;
+                    if (!existing.source.Equals(source) || existing.statType != AlternateStatType.BlockChance) continue;
 
                     existing.amount = bonus.amount;
-                    existing.endTime = Math.Max(existing.endTime, time + bonus.durationMs);
+                    existing.endTime = Math.Max(existing.endTime, endTime);
                     timedAlternateStatBonuses[i] = existing;
                     if (hasEffect)
                         player.AddEffect(effect.Value, bonus.durationMs / 1000f);
@@ -1160,10 +1293,10 @@ namespace World.GameState
                 for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
                 {
                     var existing = timedAlternateStatBonuses[i];
-                    if (existing.statType != AlternateStatType.AbsorptionChance) continue;
+                    if (!existing.source.Equals(source) || existing.statType != AlternateStatType.AbsorptionChance) continue;
 
                     existing.amount = bonus.amount;
-                    existing.endTime = Math.Max(existing.endTime, time + bonus.durationMs);
+                    existing.endTime = Math.Max(existing.endTime, endTime);
                     timedAlternateStatBonuses[i] = existing;
                     if (hasEffect)
                         player.AddEffect(effect.Value, bonus.durationMs / 1000f);
@@ -1176,10 +1309,11 @@ namespace World.GameState
 
             timedAlternateStatBonuses.Add(new TimedAlternateStatBonus
             {
+                source = source,
                 statType = bonus.statType,
                 effect = effect ?? StatusEffect.TrueBonus,
                 amount = bonus.amount,
-                endTime = time + bonus.durationMs,
+                endTime = endTime,
                 hasEffect = hasEffect
             });
 

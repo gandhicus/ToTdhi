@@ -55,6 +55,21 @@ entity_state(name: "Antique Vendor", actions: {
 	})
 	taunt(text: "#player, I'm sure I have something you need.", text: "Jewels and gems, riches to behold.", periodMin: 60, periodMax: 90)
 })
+entity_state(name: "Aldrite the Explorer", actions: {
+	state(name: "wait", actions: {
+		if_elapsed(secMin: 5, secMax: 10, true: {
+			set_state(name: "walk", parent: 1)
+		})
+	})
+	state(name: "walk", actions: {
+		wander_nexus(speed: 0.5, period: 1000)
+		stay_on_tag(tag: "Market", speed: 1.5, distance: 0, period: 0.01, enforce: 2)
+		if_elapsed(secMin: 1.5, secMax: 3, true: {
+			set_state(name: "wait", parent: 1)
+		})
+	})
+	taunt(text: "Amazing, powerful relics from around the world!", text: "#player, what would you like to know about the realms? I've seen it all.", periodMin: 60, periodMax: 90)
+})
 entity_state(name: "Emote Vendor", actions: {
 	state(name: "wait", actions: {
 		if_elapsed(secMin: 5, secMax: 10, true: {

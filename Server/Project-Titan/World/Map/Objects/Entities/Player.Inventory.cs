@@ -123,6 +123,7 @@ namespace World.Map.Objects.Entities
             {
                 RecalculateEquipmentStats();
                 SyncCombatSnapshotEquipment();
+                gameState?.playerState?.RefreshThresholdProcs(gameState.playerState.LastClientTime);
             }
         }
 

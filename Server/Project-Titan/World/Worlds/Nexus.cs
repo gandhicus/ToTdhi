@@ -61,9 +61,17 @@ namespace World.Worlds
             new MarketItem(new Item(0x2a6, true, 3), 135, 0), // health vial
             new MarketItem(new Item(0x2a7, true, 1), 30, 0), // healing spell
             //new MarketItem(new Item(0x2aa, false, 1), 12000, 0), // soulless ring
-            new MarketItem(new Item(0x2ab, false, 1), 8000, 0), // soulless robe
-            new MarketItem(new Item(0x2ac, false, 1), 8000, 0), // soulless heavy armor
-            new MarketItem(new Item(0x2ad, false, 1), 8000, 0), // soulless light armor
+            new MarketItem(new Item(0x2ab, false, 1), 2000, 0), // soulless robe
+            new MarketItem(new Item(0x2ac, false, 1), 2000, 0), // soulless heavy armor
+            new MarketItem(new Item(0x2ad, false, 1), 2000, 0), // soulless light armor
+            new MarketItem(new Item(0x526, false, 1), 2000, 0), // Dragonfly
+            new MarketItem(new Item(0x527, false, 1), 2000, 0), // Map of the Stars
+            new MarketItem(new Item(0x528, false, 1), 2000, 0), // Decadence
+            new MarketItem(new Item(0x529, false, 1), 2000, 0), // Nymph's Cloak
+            new MarketItem(new Item(0x530, false, 1), 2000, 0), // The Promise Ring
+            new MarketItem(new Item(0x531, false, 1), 2000, 0), // Mortal Coil
+            new MarketItem(new Item(0x532, false, 1), 2000, 0), // Sage Cloak
+            new MarketItem(new Item(0x533, false, 1), 2000, 0), // Mania Plate
             /*
             new MarketItem(new Item("Scroll of Agility", true, 1), 0, 0),
             new MarketItem(new Item("Scroll of Power", true, 1), 0, 0),

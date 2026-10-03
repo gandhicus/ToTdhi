@@ -70,6 +70,22 @@ namespace TitanCore.Data.Components
 
         public uint cooldownMs;
 
+        /// <summary>
+        /// Threshold value for HealthThreshold (percentage) and RageThreshold (0-100).
+        /// </summary>
+        public float threshold;
+
+        /// <summary>
+        /// True when the proc is active above its threshold; false when it is active below it.
+        /// </summary>
+        public bool thresholdAbove;
+
+        /// <summary>
+        /// Continuous threshold procs remain active while their condition is met. Timed procs
+        /// fire only when the condition changes from unmet to met.
+        /// </summary>
+        public bool thresholdContinuous;
+
         public ProcStatBonus statBonus;
 
         public ProcAlternateStatBonus alternateStatBonus;
@@ -82,6 +98,9 @@ namespace TitanCore.Data.Components
         {
             trigger = xml.AtrEnum("trigger", ProcTrigger.CriticalStrike);
             cooldownMs = (uint)xml.AtrInt("cooldown", 0);
+            threshold = xml.AtrFloat("threshold", 0);
+            thresholdAbove = !bool.TryParse(xml.AtrString("above", "true"), out var above) || above;
+            thresholdContinuous = bool.TryParse(xml.AtrString("continuous", "false"), out var continuous) && continuous;
 
             foreach (var child in xml.Elements("StatBonus"))
                 statBonus = new ProcStatBonus(child);

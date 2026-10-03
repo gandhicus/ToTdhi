@@ -325,7 +325,7 @@ namespace TitanCore.Core
         private static class CommanderTree
         {
             public const float EverlastingDurationPct = 0.08f;
-            public const float UnfurlDurationPct = 0.15f;
+            public const float UnfurlRange = 0.5f;
             public const int BrandishMs = 500;
             public const int BlightAttack = 2;
             public const int BlightMs = 5000;
@@ -339,8 +339,8 @@ namespace TitanCore.Core
             public static readonly NodeDef[] Nodes =
             {
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Pct(EverlastingDurationPct, r)} ability duration"),
-                N("Unfurl", "Bladeweaver/Unfurl", EffectStyle.Agility, r => $"+{Pct(UnfurlDurationPct, r)} Reach duration"),
-                N("Brandish", "Commander/Brandish", EffectStyle.Agility, r => $"+{Sec(BrandishMs, r)} range duration"),
+                N("Unfurl", "Bladeweaver/Unfurl", EffectStyle.Agility, r => $"+{UnfurlRange:0.#} tiles Reach range per rank"),
+                N("Brandish", "Commander/Brandish", EffectStyle.Agility, r => $"+{BrandishMs / 1000f:0.#}s Reach duration per rank"),
                 N("Blight", "Lancer/Blight", EffectStyle.Power, r => OnUseStat(BlightAttack, BlightMs, r, "Attack")),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{SecI(HasteCooldownMs, r)} ability cooldown"),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability use"),
@@ -351,7 +351,7 @@ namespace TitanCore.Core
             public static void Apply(int[] r, ref AbilityModifierSnapshot snap)
             {
                 snap.durationMul = MulPlus(EverlastingDurationPct, r[0]);
-                snap.abilityRangeBonus = Sc(UnfurlDurationPct, r[1]);
+                snap.abilityRangeBonus = Sc(UnfurlRange, r[1]);
                 snap.durationBonusMs = Sc(BrandishMs, r[2]);
                 SetOnUse(ref snap.timedAttack, ref snap.timedAttackMs, BlightAttack, BlightMs, r[3]);
                 snap.cooldownFlatMs = Sc(HasteCooldownMs, r[4]);

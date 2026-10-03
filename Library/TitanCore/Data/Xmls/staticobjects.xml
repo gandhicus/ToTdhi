@@ -359,6 +359,18 @@
     <Size>0.8</Size>
   </Object>
 
+  <Object id="0xaca" name="Aldrite the Explorer">
+    <Type>Npc</Type>
+
+    <Texture>
+      <Type>Entity</Type>
+      <Set>Aldrite</Set>
+      <NoAttack/>
+    </Texture>
+
+    <Size>0.8</Size>
+  </Object>
+
   <Object id="0xa31" name="Sleeping Goblin">
     <Type>StaticObject</Type>
 
