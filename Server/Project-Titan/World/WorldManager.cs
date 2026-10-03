@@ -117,6 +117,9 @@ namespace World
                 {
                     var client = player.client;
                     if (client == null) continue;
+                    // The tick thread has already stopped, so detach synchronously
+                    // before the asynchronous persistence work below begins.
+                    player.RemoveFromWorld();
                     await client.Logout();
                 }
             }

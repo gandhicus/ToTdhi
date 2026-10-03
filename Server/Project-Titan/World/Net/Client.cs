@@ -430,7 +430,6 @@ namespace World.Net
 
             if (player != null)
             {
-                player.RemoveFromWorld();
                 player.SaveCharacter();
 
                 await Database.SaveItems(GetSkillTreeSaveItems(player));

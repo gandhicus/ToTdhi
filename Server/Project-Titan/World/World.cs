@@ -425,6 +425,11 @@ namespace World
                 return;
             }
 
+            // ObjectManager is owned by the world tick thread.  Logout continues
+            // asynchronously while persisting account data, so removing the player
+            // from that continuation can otherwise mutate ObjectManager while it is
+            // enumerating its player collections later in this tick.
+            logout.player.RemoveFromWorld();
             logout.player.client.Logout(logout.callback);
         }
 
