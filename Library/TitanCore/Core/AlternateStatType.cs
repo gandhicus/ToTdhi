@@ -15,5 +15,6 @@ namespace TitanCore.Core
         RageGain,
         GroundedResistance,
         KnockbackResistance,
+        Fortune,
     }
 }

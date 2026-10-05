@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using TitanCore.Core;
 using TitanCore.Data;
 using TitanCore.Files;
@@ -9,8 +6,6 @@ using TitanCore.Net;
 using Utils.NET.Geometry;
 using Utils.NET.Logging;
 using Utils.NET.Modules;
-using Utils.NET.Partitioning;
-using Utils.NET.Utils;
 using World.GameState;
 using World.Map;
 using World.Map.Objects.Entities;
@@ -20,9 +15,8 @@ using World.Map.Waypoints;
 
 namespace World.Worlds
 {
-    public class Overworld : World
+    public partial class Overworld : World
     {
-
         public override bool LimitSight => false;
 
         public override bool AllowPlayerTeleport => true;
@@ -81,6 +75,9 @@ namespace World.Worlds
 
             waypointSystem = new WaypointSystem(this);
             waypointSystem.Spawn();
+
+            // Keep each biome's set-piece rules in its own Overworld.<Biome>.cs file.
+            PlaceMeadowSetPieces();
 
             overworldCycle = new OverworldCycle(this);
             //titanSpawnSystem = new TitanSpawnSystem(this);

@@ -144,6 +144,7 @@ namespace World
 
             GameData.LoadDirectory("Data/Xmls/", false);
             DungeonSettings.Load("Data/Xmls/dungeons.xml");
+            BiomeSettings.Load("Data/Xmls/biomes.xml");
 
             // Must run after dungeons.xml is read, since that is where the definitions
             // come from. Kept ahead of the logic scripts so that by the time any

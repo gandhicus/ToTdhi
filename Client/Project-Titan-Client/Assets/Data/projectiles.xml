@@ -40,7 +40,17 @@
     <Sprite>Sword 10 Slash</Sprite>
     <Rotation>-45</Rotation>
   </Object>
-
+	<Object id="0x307a" name="Blue Mirage Slash 1">
+		<Type>Projectile</Type>
+		<Sprite>Blue Mirage Slash 1</Sprite>
+		<Rotation>-45</Rotation>
+	</Object>
+	<Object id="0x307a" name="Blue Mirage Slash 2">
+		<Type>Projectile</Type>
+		<Sprite>Blue Mirage Slash 2</Sprite>
+		<Rotation>-45</Rotation>
+	</Object>
+	
   <!-- Claymore Projectiles -->
   
   <Object id="0x308" name="Claymore 1 Slash">

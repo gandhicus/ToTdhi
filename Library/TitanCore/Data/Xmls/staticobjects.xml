@@ -1396,19 +1396,6 @@
     <Type>StaticObject</Type>
   </Object>
 
-  <Object id="0xab3" name="Remembering Warden">
-    <Type>Npc</Type>
-
-    <Texture>
-      <Type>Sequence</Type>
-      <Set>RememberingWarden</Set>
-      <Fps>0.5</Fps>
-      <NoFlip/>
-    </Texture>
-
-    <Size>0.8</Size>
-  </Object>
-
   <Object id="0xab4" name="WardenWeapon">
     <Type>StaticObject</Type>
   </Object>
@@ -1537,6 +1524,13 @@
     <Type>StaticObject</Type>
     <Sprite>WetlandRedTulip</Sprite>
     <Size>0.65</Size>
+  </Object>
+
+  <Object id="0xacb" name="Giant Tree">
+    <Type>StaticObject</Type>
+    <Sprite>GreatTree</Sprite>
+    <Size>1</Size>
+    <Collidable/>
   </Object>
   
 </Objects>

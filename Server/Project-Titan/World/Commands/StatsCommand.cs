@@ -1,6 +1,7 @@
 using System;
 using TitanCore.Core;
 using TitanCore.Net.Packets.Models;
+using World.Looting;
 using World.Map.Objects.Entities;
 
 namespace World.Commands
@@ -54,6 +55,7 @@ namespace World.Commands
                 + playerState.GetTimedAlternateStatBonus(AlternateStatType.AbsorptionChance, time);
             var rofBonus = snapshot.GetAlternateStat(AlternateStatType.RateOfFire)
                 + playerState.GetTimedAlternateStatBonus(AlternateStatType.RateOfFire, time);
+            var fortune = PlayerLootVariables.GetFortune(player);
 
             player.AddChat(ChatData.Info($"Attack {attack}: {FormatNumber(attackMod)}x weapon damage ({FormatAttackFormula(damaging)})"));
             player.AddChat(ChatData.Info($"Attack damage bonus: {FormatPercent(attackBonus)}"));
@@ -64,6 +66,7 @@ namespace World.Commands
             player.AddChat(ChatData.Info($"Defense negation from a 150 damage shot: {FormatPercent(StatFunctions.DefenseNegationPercent(defense, 150, fortified, defenseMinus))}"));
             player.AddChat(ChatData.Info($"Crit chance: {FormatPercent(critChance)} | Crit damage bonus: {FormatPercent(critDamage)} | True damage: {FormatPercent(trueDamage)}"));
             player.AddChat(ChatData.Info($"Block: {FormatPercent(blockChance)} | Absorption: {FormatPercent(absorptionChance)} | RoF bonus: {FormatPercent(rofBonus)}"));
+            player.AddChat(ChatData.Info($"Fortune: {FormatPercent(fortune)} bonus to drop chances"));
 
             return null;
         }

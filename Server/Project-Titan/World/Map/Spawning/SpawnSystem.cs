@@ -88,6 +88,10 @@ namespace World.Map.Spawning
 
             public readonly TileSpawnDefinition definition;
 
+            private readonly float density;
+
+            private readonly float respawnRate;
+
             private readonly Dictionary<long, int> spawnedEnemies = new Dictionary<long, int>();
 
             private readonly Dictionary<long, Queue<DateTime>> tokens = new Dictionary<long, Queue<DateTime>>();
@@ -102,6 +106,9 @@ namespace World.Map.Spawning
             {
                 this.system = system;
                 this.definition = definition;
+
+                density = BiomeSettings.GetDensity(definition.biomeName);
+                respawnRate = BiomeSettings.GetRespawnRate(definition.biomeName);
 
                 FindTiles(world);
             }
@@ -123,7 +130,15 @@ namespace World.Map.Spawning
             {
                 if (!spawnedEnemies.TryGetValue(key, out var count))
                     count = 0;
-                return count < definition.enemiesPerLanding;
+
+                // Give each landing a stable fractional slot so density below 1
+                // actually reduces the population instead of merely delaying it.
+                var target = Math.Min((double)definition.enemiesPerLanding * density, int.MaxValue);
+                var capacity = (int)Math.Floor(target);
+                var fraction = target - capacity;
+                var hash = unchecked((uint)(key ^ (key >> 32)) * 2654435761u);
+                if (hash / 4294967296d < fraction) capacity++;
+                return count < capacity;
             }
 
             public bool TryAllowSpawn(long key)
@@ -222,7 +237,11 @@ namespace World.Map.Spawning
                     tokens.Add(key, tokenList);
                 }
 
-                tokenList.Enqueue(DateTime.Now.AddSeconds(definition.respawnRate));
+                // Rate scales frequency, so a 0.8 rate makes the delay 1.25x.
+                // Zero leaves the slot disabled until the world is recreated.
+                var delay = respawnRate == 0f ? DateTime.MaxValue :
+                    DateTime.Now.AddSeconds(Math.Min(definition.respawnRate / respawnRate, 315360000d));
+                tokenList.Enqueue(delay);
 
                 if (!spawnedEnemies.TryGetValue(key, out var count)) return;
                 count--;

@@ -22,7 +22,7 @@ namespace World.Looting
 
         public void AddItems(List<Item> items, PlayerLootVariables variables)
         {
-            if (!DoChance(variables.damagePercent)) return;
+            if (!DoChance(variables)) return;
             items.Add(lootItems.Random());
         }
     }

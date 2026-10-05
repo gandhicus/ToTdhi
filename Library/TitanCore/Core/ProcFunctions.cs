@@ -62,6 +62,7 @@ namespace TitanCore.Core
                 case AlternateStatType.RageGain:
                 case AlternateStatType.GroundedResistance:
                 case AlternateStatType.KnockbackResistance:
+                case AlternateStatType.Fortune:
                     return (amount > 0 ? "+" : "") + amount + "%";
                 default:
                     return (amount > 0 ? "+" : "") + amount;

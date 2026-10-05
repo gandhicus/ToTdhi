@@ -214,6 +214,7 @@ SpriteAtlas:
     - 3fea55519e910cc4fb34e0458ae3aada: 21300000
     - 6a41a6511431ff64e8fddfa5788f0615: 21300000
     - 46aff651879b32c4f8c4e9a483efaf00: 21300000
+    - 1feac851ed9bb3d4383e824b49d00cd3: 21300000
     - bc52ab513bc37e843bc4b816e2e58e24: 21300000
     - 310c9c5135b416b40bc0602978e88f20: 21300000
     - b8e83e5195e6f614fb9c0454b45927e0: 21300000
@@ -1263,6 +1264,7 @@ SpriteAtlas:
     - bdb4729bf11e27440b4360ac19733bbe: 21300000
     - 1157449b9725a394180edb2a563413e5: 21300000
     - 86d3959b0bd098a4d954bc48c205f4c1: 21300000
+    - 4ad9299b75815a1429e2813e62b8c5da: 21300000
     - 86c41c9b734caf049b1feae1e502bc8f: 21300000
     - bd83cd9bed614e84fb445d40cfad2be5: 21300000
     - ccdbd7abaa210462a865ee9d355c03e1: 21300000
@@ -1303,6 +1305,7 @@ SpriteAtlas:
     - 37b1580c13bb81049a847edbb54302c1: 21300000
     - e167190cbc4ac894aa3587e5663df13c: 21300000
     - 6cbc7f0c910771b4a84e700178885c46: 21300000
+    - 4209201c0142dae479acf3d013d35226: 21300000
     - 249a441c417c45749ab2292b192d24b5: 21300000
     - 0363c41c716c1774e951ec7a012bed38: 21300000
     - 51d4271c9a6a6444c951716ab0fc9586: 21300000
@@ -1418,6 +1421,7 @@ SpriteAtlas:
     - dfd4000dd471d9b42a444b9f8ce9493b: 21300000
     - f755a00d06bf7d541aeb69f7e102e9d9: 21300000
     - 6cf1d00d5568ce34183c5f1d61a68be1: 21300000
+    - d68be10d29fe477b9f5044f40b331fdb: 21300000
     - 3d6e120db72193d40acd154110e0bd72: 21300000
     - f8fb560d2f203c1459e89b6c2236b82f: 21300000
     - 4e37f60d455d514449e52169a4086542: 21300000
@@ -1883,6 +1887,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3fea55519e910cc4fb34e0458ae3aada, type: 3}
   - {fileID: 21300000, guid: 6a41a6511431ff64e8fddfa5788f0615, type: 3}
   - {fileID: 21300000, guid: 46aff651879b32c4f8c4e9a483efaf00, type: 3}
+  - {fileID: 21300000, guid: 1feac851ed9bb3d4383e824b49d00cd3, type: 3}
   - {fileID: 21300000, guid: bc52ab513bc37e843bc4b816e2e58e24, type: 3}
   - {fileID: 21300000, guid: 310c9c5135b416b40bc0602978e88f20, type: 3}
   - {fileID: 21300000, guid: b8e83e5195e6f614fb9c0454b45927e0, type: 3}
@@ -2932,6 +2937,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bdb4729bf11e27440b4360ac19733bbe, type: 3}
   - {fileID: 21300000, guid: 1157449b9725a394180edb2a563413e5, type: 3}
   - {fileID: 21300000, guid: 86d3959b0bd098a4d954bc48c205f4c1, type: 3}
+  - {fileID: 21300000, guid: 4ad9299b75815a1429e2813e62b8c5da, type: 3}
   - {fileID: 21300000, guid: 86c41c9b734caf049b1feae1e502bc8f, type: 3}
   - {fileID: 21300000, guid: bd83cd9bed614e84fb445d40cfad2be5, type: 3}
   - {fileID: 21300000, guid: ccdbd7abaa210462a865ee9d355c03e1, type: 3}
@@ -2972,6 +2978,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 37b1580c13bb81049a847edbb54302c1, type: 3}
   - {fileID: 21300000, guid: e167190cbc4ac894aa3587e5663df13c, type: 3}
   - {fileID: 21300000, guid: 6cbc7f0c910771b4a84e700178885c46, type: 3}
+  - {fileID: 21300000, guid: 4209201c0142dae479acf3d013d35226, type: 3}
   - {fileID: 21300000, guid: 249a441c417c45749ab2292b192d24b5, type: 3}
   - {fileID: 21300000, guid: 0363c41c716c1774e951ec7a012bed38, type: 3}
   - {fileID: 21300000, guid: 51d4271c9a6a6444c951716ab0fc9586, type: 3}
@@ -3087,6 +3094,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: dfd4000dd471d9b42a444b9f8ce9493b, type: 3}
   - {fileID: 21300000, guid: f755a00d06bf7d541aeb69f7e102e9d9, type: 3}
   - {fileID: 21300000, guid: 6cf1d00d5568ce34183c5f1d61a68be1, type: 3}
+  - {fileID: 21300000, guid: d68be10d29fe477b9f5044f40b331fdb, type: 3}
   - {fileID: 21300000, guid: 3d6e120db72193d40acd154110e0bd72, type: 3}
   - {fileID: 21300000, guid: f8fb560d2f203c1459e89b6c2236b82f, type: 3}
   - {fileID: 21300000, guid: 4e37f60d455d514449e52169a4086542, type: 3}
@@ -3551,6 +3559,7 @@ SpriteAtlas:
   - Bubra Barricade
   - RavineRaidingArcher-2
   - BubraMountedWarrior-4
+  - Blue Mirage Slash 2
   - FrostLeech-2
   - Soulless Ring
   - OrcBeastmaster-1
@@ -4600,6 +4609,7 @@ SpriteAtlas:
   - Mannah-PowerUp-6
   - Fire-1
   - SkeletalWarrior-4
+  - Blue Mirage
   - Garfield-1
   - Green Arrow
   - Warrior-2
@@ -4640,6 +4650,7 @@ SpriteAtlas:
   - MagicalWeeds-3
   - Zebtling Bite
   - Claymore Tier 10 Slash
+  - Blue Mirage Slash 1
   - Attack Ring 1
   - RareChest-emote
   - Blacksmith Weapon Rack
@@ -4755,6 +4766,7 @@ SpriteAtlas:
   - Seaweed-2
   - MistDancer-3
   - GoblinBrute-3
+  - GreatTree
   - Talisman of Celerity
   - Valdok-Trans-2
   - BarrensIronGolem-1

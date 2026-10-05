@@ -47,6 +47,7 @@
     <None Remove="Map\Files\SetPieces\fireside.mef" />
     <None Remove="Map\Files\SetPieces\gorge\bone-bhognin-room.mef" />
     <None Remove="Map\Files\SetPieces\gorge\bone-worm-room.mef" />
+    <None Remove="Map\Files\SetPieces\meadow\gianttree.mef" />
     <None Remove="Map\Files\SetPieces\mannahsfortress.mef" />
     <None Remove="Map\Files\SetPieces\valdoksroom.mef" />
     <None Remove="Map\Files\SetPieces\valdoksspawn.mef" />
@@ -139,6 +140,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Map\Files\SetPieces\gorge\bubra-camp.mef">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Map\Files\SetPieces\meadow\gianttree.mef">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Map\Files\nexus.mef">

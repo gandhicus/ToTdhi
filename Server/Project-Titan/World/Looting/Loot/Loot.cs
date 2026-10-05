@@ -23,9 +23,11 @@ namespace World.Looting
             this.chance = chance;
         }
 
-        protected bool DoChance(float percent)
+        protected bool DoChance(PlayerLootVariables variables)
         {
-            var boostedChance = chance * percent * global::World.ServerSettings.LootBoost;
+            // Apply Fortune after damage contribution so every loot entry gets the same multiplier.
+            var fortuneMultiplier = Math.Max(0d, 1d + variables.fortune / 100d);
+            var boostedChance = chance * variables.damagePercent * global::World.ServerSettings.LootBoost * fortuneMultiplier;
             if (boostedChance <= 0)
                 return false;
             if (boostedChance >= 1_000_000)

@@ -28,7 +28,8 @@ namespace World.Looting
 
         public override void OnDeath(Enemy enemy, Player killer, List<Damager> damagers, Dictionary<ulong, List<Item>> itemBags)
         {
-            RunLoot(enemy, new PlayerLootVariables(0, enemy.maxHealth.Value, 1), itemBags);
+            // Public loot has one roll for the kill, so use the killer's Fortune.
+            RunLoot(enemy, new PlayerLootVariables(0, enemy.maxHealth.Value, 1, PlayerLootVariables.GetFortune(killer)), itemBags);
         }
     }
 }

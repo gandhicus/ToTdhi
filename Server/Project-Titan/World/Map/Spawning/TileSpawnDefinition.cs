@@ -28,6 +28,9 @@ namespace World.Map.Spawning
 
         public SoulGroup soulGroup;
 
+        // XML keys use player-facing biome names rather than the older soul group names.
+        public string biomeName;
+
         public static Dictionary<ushort, TileSpawnDefinition> definitions = new Dictionary<ushort, TileSpawnDefinition>();
 
         private static Dictionary<SoulGroup, TileSpawnDefinition> soulDefinitions = new Dictionary<SoulGroup, TileSpawnDefinition>();
@@ -56,7 +59,8 @@ namespace World.Map.Spawning
                     encounterSpawnRate = 30,
                     encounterRadius = 60,
                     maxConcurrentEncounters = 0,
-                    soulGroup = SoulGroup.OceanBeach
+                    soulGroup = SoulGroup.OceanBeach,
+                    biomeName = "Ocean"
                 },
                 new TileSpawnDefinition() // Beach
                 {
@@ -80,7 +84,8 @@ namespace World.Map.Spawning
                     encounterSpawnRate = 30,
                     encounterRadius = 60,
                     maxConcurrentEncounters = 0,
-                    soulGroup = SoulGroup.OceanBeach
+                    soulGroup = SoulGroup.OceanBeach,
+                    biomeName = "Beach"
                 },
                 new TileSpawnDefinition() // Grasslands
                 {
@@ -104,7 +109,8 @@ namespace World.Map.Spawning
                     encounterSpawnRate = 30,
                     encounterRadius = 60,
                     maxConcurrentEncounters = 5,
-                    soulGroup = SoulGroup.Grasslands
+                    soulGroup = SoulGroup.Grasslands,
+                    biomeName = "Meadows"
                 },
                 new TileSpawnDefinition() // Dark Forest
                 {
@@ -130,7 +136,8 @@ namespace World.Map.Spawning
                     encounterSpawnRate = 30,
                     encounterRadius = 60,
                     maxConcurrentEncounters = 5,
-                    soulGroup = SoulGroup.DarkForest
+                    soulGroup = SoulGroup.DarkForest,
+                    biomeName = "Wetlands"
                 },
                 new TileSpawnDefinition() // Desert
                 {
@@ -155,7 +162,8 @@ namespace World.Map.Spawning
                     encounterSpawnRate = 40,
                     encounterRadius = 100,
                     maxConcurrentEncounters = 4,
-                    soulGroup = SoulGroup.Desert
+                    soulGroup = SoulGroup.Desert,
+                    biomeName = "Desert"
                 },
                 new TileSpawnDefinition() // Shallows
                 {
@@ -179,7 +187,8 @@ namespace World.Map.Spawning
                     encounterRadius = 100,
                     maxConcurrentEncounters = 2,
                     enemiesPerLanding = 2,
-                    soulGroup = SoulGroup.Lake
+                    soulGroup = SoulGroup.Lake,
+                    biomeName = "Shallows"
                 },
                 new TileSpawnDefinition() // Tundra
                 {
@@ -208,7 +217,8 @@ namespace World.Map.Spawning
                     encounterRadius = 180,
                     maxConcurrentEncounters = 1,
                     enemiesPerLanding = 3,
-                    soulGroup = SoulGroup.Tundra
+                    soulGroup = SoulGroup.Tundra,
+                    biomeName = "Tundra"
                 },
                 new TileSpawnDefinition() // Mountains
                 {
@@ -232,7 +242,8 @@ namespace World.Map.Spawning
                     encounterRadius = 180,
                     maxConcurrentEncounters = 1,
                     enemiesPerLanding = 3,
-                    soulGroup = SoulGroup.Mountains
+                    soulGroup = SoulGroup.Mountains,
+                    biomeName = "Peaks"
                 },
             };
             foreach (var d in array)

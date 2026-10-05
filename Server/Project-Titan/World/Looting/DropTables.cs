@@ -102,13 +102,14 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier2)
                         ),
                     new SoulboundLoot(0.2f, // 3
-                        new Single(Loot.Chance(10), new Item("Ceremonial Bow"))
+                        new Single(Loot.Chance(10), new Item("Ceremonial Bow")),
+                        new Single(Loot.Chance(10), new Item("Firefly"))
                         ),
                     new SoulboundLoot(1, // 4
                         new Single(Loot.Chance(2), new Item("Ceremonial Bow"))
                         ),
                     new SoulboundLoot(0.2f, // 5
-                        new Single(Loot.Chance(15), new Item("Chestplate of the Forest"))
+                        new Single(Loot.Chance(10), new Item("Chestplate of the Forest"))
                         ),
                     new SoulboundLoot(1, // 6
                         new Single(Loot.Chance(2), new Item("Chestplate of the Forest"))
@@ -231,7 +232,7 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(0.2f, // 10
-                        new Single(Loot.Chance(1),
+                        new Single(Loot.Chance(1.5),
                             new Item("Scroll of Power")
                         )
                         ),
@@ -240,8 +241,10 @@ namespace World.Looting
                             new Item("Desert Rose"))
                         ),
                     new SoulboundLoot(0.3f, // 12
-                        new Single(Loot.Chance(10),
-                            new Item("Desert Rose"))
+                        new Single(Loot.Chance(5),
+                            new Item("Desert Rose"),
+                            new Item("Blue Mirage"),
+                            new Item("Windward Cloak"))
                         ),
                     new SoulboundLoot(0.3f, // 13
                         new Single(Loot.Chance(25),

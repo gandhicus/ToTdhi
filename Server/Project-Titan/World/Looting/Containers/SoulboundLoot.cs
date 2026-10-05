@@ -32,7 +32,7 @@ namespace World.Looting
         {
             foreach (var damager in damagers)
             {
-                RunLoot(enemy, new PlayerLootVariables(damager.player.GetOwnerId(), damager.damage, Math.Min((damager.damage / (float)enemy.maxHealth.Value) / maxPercent, 1)), itemBags);
+                RunLoot(enemy, new PlayerLootVariables(damager.player.GetOwnerId(), damager.damage, Math.Min((damager.damage / (float)enemy.maxHealth.Value) / maxPercent, 1), PlayerLootVariables.GetFortune(damager.player)), itemBags);
             }
         }
     }

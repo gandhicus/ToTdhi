@@ -15,6 +15,7 @@
     <None Remove="Data\Xmls\StaticObjects.xml" />
     <None Remove="Data\Xmls\Tiles.xml" />
     <None Remove="Data\Xmls\Dungeons.xml" />
+    <None Remove="Data\Xmls\Biomes.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +47,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Xmls\dungeons.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Xmls\biomes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

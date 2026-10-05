@@ -1,0 +1,34 @@
+<Biomes>
+  <Biome name="Ocean">
+    <Density>1</Density>
+    <RespawnRate>1</RespawnRate>
+  </Biome>
+  <Biome name="Beach">
+    <Density>1</Density>
+    <RespawnRate>1</RespawnRate>
+  </Biome>
+  <Biome name="Meadows">
+    <Density>0.9</Density>
+    <RespawnRate>0.9</RespawnRate>
+  </Biome>
+  <Biome name="Wetlands">
+    <Density>0.9</Density>
+    <RespawnRate>0.9</RespawnRate>
+  </Biome>
+  <Biome name="Desert">
+    <Density>0.7</Density>
+    <RespawnRate>0.8</RespawnRate>
+  </Biome>
+  <Biome name="Shallows">
+    <Density>1</Density>
+    <RespawnRate>0.8</RespawnRate>
+  </Biome>
+  <Biome name="Peaks">
+    <Density>0.7</Density>
+    <RespawnRate>0.8</RespawnRate>
+  </Biome>
+  <Biome name="Tundra">
+    <Density>0.9</Density>
+    <RespawnRate>0.9</RespawnRate>
+  </Biome>
+</Biomes>
