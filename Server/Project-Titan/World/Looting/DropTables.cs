@@ -130,7 +130,8 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(1, // 10
-                        new Single(Loot.Chance(2), new Item("Corrupted Skull of Mezhier"))
+                        new Single(Loot.Chance(2), new Item("Corrupted Skull of Mezhier")),
+                        new Single(Loot.Chance(6), new Item("Firefly"))
                         ),
                     new SoulboundLoot(1, // 11
                         new Single(Loot.Chance(25), new Item("Key to Whispering Woods"))
@@ -241,10 +242,9 @@ namespace World.Looting
                             new Item("Desert Rose"))
                         ),
                     new SoulboundLoot(0.3f, // 12
-                        new Single(Loot.Chance(5),
-                            new Item("Desert Rose"),
-                            new Item("Blue Mirage"),
-                            new Item("Windward Cloak"))
+                        new Single(Loot.Chance(3), new Item("Desert Rose")),
+                        new Single(Loot.Chance(3), new Item("Blue Mirage")),
+                        new Single(Loot.Chance(3.5), new Item("Windward Cloak"))
                         ),
                     new SoulboundLoot(0.3f, // 13
                         new Single(Loot.Chance(25),
@@ -449,7 +449,7 @@ namespace World.Looting
                         new Single(Loot.Chance(15), new Item("Key to Dumir"))
                         ),
                     new SoulboundLoot(0.1f, // 14
-                        new Single(Loot.Chance(15),
+                        new Single(Loot.Chance(20),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
                             new Item("Talisman of Millennia"),
@@ -462,7 +462,7 @@ namespace World.Looting
                             new Item("Talisman of Celerity"))
                         ),
                     new SoulboundLoot(0.1f, // 15
-                        new Single(Loot.Chance(15),
+                        new Single(Loot.Chance(20),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),
                             new Item("Blessed Talisman"),
@@ -653,7 +653,7 @@ namespace World.Looting
                             new Item("Scroll of Life"))
                         ),
                     new SoulboundLoot(0.1f, // 15
-                        new Single(Loot.Chance(15),
+                        new Single(Loot.Chance(35),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
                             new Item("Talisman of Millennia"),
@@ -666,7 +666,7 @@ namespace World.Looting
                             new Item("Talisman of Celerity"))
                         ),
                     new SoulboundLoot(0.1f, // 16
-                        new Single(Loot.Chance(15),
+                        new Single(Loot.Chance(35),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),
                             new Item("Blessed Talisman"),

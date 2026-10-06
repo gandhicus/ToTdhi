@@ -192,7 +192,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private bool CanSwapItemInto(Slot otherSlot)
     {
         if (item.IsBlank) return true;
-        if (SkillTreeFunctions.IsEnabled && otherSlot.slotIndex == SkillTreeFunctions.Talisman_Slot)
+        // Vault slot 12 is ordinary storage; only the player's slot 12 holds a talisman.
+        if (SkillTreeFunctions.IsEnabled && otherSlot.owner is Player && otherSlot.slotIndex == SkillTreeFunctions.Talisman_Slot)
         {
             var info = item.GetInfo();
             return info != null && info.slotType == SlotType.Talisman;

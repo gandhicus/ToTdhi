@@ -608,6 +608,7 @@ namespace World.Net
         {
             account.CompleteClassQuest(classType, index);
             var completedCount = account.GetClassQuestCompletedCount();
+            bool vaultSlotsAdded = false;
             if (account.givenRewards < 1 && completedCount >= NetConstants.Account_Reward_Goal_1)
             {
                 account.givenRewards = 1;
@@ -618,20 +619,20 @@ namespace World.Net
             {
                 account.givenRewards = 2;
                 account.AccountReward2();
+                vaultSlotsAdded = true;
                 player.AddChat(ChatData.Info("You've completed an account goal. An extra 8 vaults slots have been unlocked!"));
-
-                var vault = player.GetVault();
-                if (vault != null)
-                {
-                    vault.ReloadItems();
-                }
             }
             if (account.givenRewards < 3 && completedCount >= NetConstants.Account_Reward_Goal_3)
             {
                 account.givenRewards = 3;
                 account.AccountReward3();
+                vaultSlotsAdded = true;
                 player.AddChat(ChatData.Info("You've completed an account goal. An extra character slots and 8 vaults slots have been unlocked!"));
             }
+
+            // Both vault rewards must update the open chest after all slots have been granted.
+            if (vaultSlotsAdded)
+                player.GetVault()?.ReloadItems();
         }
 
         public void UnlockEmote(EmoteUnlockerInfo info)
