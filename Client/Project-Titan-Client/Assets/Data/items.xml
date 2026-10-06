@@ -2804,6 +2804,18 @@
 		<Description>A famed ring that was once the promise ring for a now-corrupt monarch and his wife.</Description>
 	</Object>
 
+	<Object id="0x535" name="Fortis Fortuna" tier="-5">
+		<Type>Equipment</Type>
+		<SlotType>Accessory</SlotType>
+		<Sprite>Fortis Fortuna</Sprite>
+
+		<StatIncrease type="MaxHealth">15</StatIncrease>
+
+		<AlternateStatIncrease type="Fortune">15</AlternateStatIncrease>
+
+		<Description>A legendary ring praised throughout time for its ability to bring good fortunes; those who possessed the ring found great success in life, causing it to be incredibly fought over amongst those who believed in it.</Description>
+	</Object>
+
 	<Object id="0x50b" name="TEST Rage Crit Ring" tier="-2">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>

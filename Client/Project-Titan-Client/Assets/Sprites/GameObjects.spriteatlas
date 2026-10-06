@@ -548,6 +548,7 @@ SpriteAtlas:
     - 13528e44ae6c4a845918d77702b2ecef: 21300000
     - 2d3cbe4459f8b8947a680e516d8568d5: 21300000
     - d5d69f447ab3e2f49a945a499fd1825e: 21300000
+    - 02fa56541d83c644e9bb0def683fab0e: 21300000
     - 76506c54b977c4cdf965f5c7b6f25fe0: 21300000
     - f0185164a08898e47bd2258280893f23: 21300000
     - 58f3856401db124479b5a04a0bcd8c0c: 21300000
@@ -2221,6 +2222,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 13528e44ae6c4a845918d77702b2ecef, type: 3}
   - {fileID: 21300000, guid: 2d3cbe4459f8b8947a680e516d8568d5, type: 3}
   - {fileID: 21300000, guid: d5d69f447ab3e2f49a945a499fd1825e, type: 3}
+  - {fileID: 21300000, guid: 02fa56541d83c644e9bb0def683fab0e, type: 3}
   - {fileID: 21300000, guid: 76506c54b977c4cdf965f5c7b6f25fe0, type: 3}
   - {fileID: 21300000, guid: f0185164a08898e47bd2258280893f23, type: 3}
   - {fileID: 21300000, guid: 58f3856401db124479b5a04a0bcd8c0c, type: 3}
@@ -3893,6 +3895,7 @@ SpriteAtlas:
   - RavineRaidingArcher-1
   - Minister-8
   - F-emote
+  - Fortis Fortuna
   - Warrior-9
   - Dragonfly
   - MannahsSoulCrux-Ascended-3

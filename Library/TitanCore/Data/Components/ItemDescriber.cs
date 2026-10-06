@@ -490,6 +490,9 @@ namespace TitanCore.Data.Components
                 case AlternateStatType.KnockbackResistance:
                     describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Knockback Resistance", color);
                     break;
+                case AlternateStatType.Fortune:
+                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Fortune", color);
+                    break;
             }
         }
 
