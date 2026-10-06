@@ -1099,25 +1099,25 @@
 			<Size>1.3</Size>
 			<Speed>7</Speed>
 			<Range>14</Range>
-			<DamageMod>1</DamageMod>
+			<DamageMod>1.5</DamageMod>
 			<Spin>1.5</Spin>
 		</Projectile>
 
 		<Projectile name="Falling Rock Projectile">
-			<Size>1.1</Size>
+			<Size>1.4</Size>
 			<Speed>4</Speed>
 			<Range>16</Range>
-			<DamageMod>1</DamageMod>
+			<DamageMod>1.5</DamageMod>
 			<Spin>1.7</Spin>
 		</Projectile>
 
 		<Titan/>
 
 		<Size>1.2</Size>
-		<HealthMod>10</HealthMod>
+		<HealthMod>15</HealthMod>
 		<SoulMod>10</SoulMod>
 		<SoulGroup>Gorge</SoulGroup>
-		<Defense>12</Defense>
+		<Defense>16</Defense>
 		<LootTier>3</LootTier>
 		<LootTier>4</LootTier>
 		<LootTier>5</LootTier>
@@ -2212,12 +2212,12 @@
 		</Projectile>
 
 		<Size>1</Size>
-		<HealthMod>10</HealthMod>
+		<HealthMod>7</HealthMod>
 		<SoulMod>4</SoulMod>
 		<SoulGroup>Tundra</SoulGroup>
 		<LootTier>3</LootTier>
 		<LootTier>5</LootTier>
-		<Defense>34</Defense>
+		<Defense>26</Defense>
 
 	</Object>
 
@@ -3361,11 +3361,11 @@
 		</Projectile>
 
 		<Size>1</Size>
-		<HealthMod>3.5</HealthMod>
+		<HealthMod>3</HealthMod>
 		<SoulMod>1.5</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
 		<LootTier>2</LootTier>
-		<Defense>20</Defense>
+		<Defense>15</Defense>
 
 	</Object>
 
@@ -3794,7 +3794,7 @@
 		<Titan/>
 
 		<Size>1.2</Size>
-		<HealthMod>14</HealthMod>
+		<HealthMod>13</HealthMod>
 		<SoulMod>8</SoulMod>
 		<SoulGroup>Desert</SoulGroup>
 		<Defense>20</Defense>
@@ -3911,7 +3911,7 @@
 		<Titan/>
 
 		<Size>1.2</Size>
-		<HealthMod>30</HealthMod>
+		<HealthMod>20</HealthMod>
 		<SoulMod>6</SoulMod>
 		<SoulGroup>ValdoksForge</SoulGroup>
 		<Defense>32</Defense>
@@ -3942,43 +3942,43 @@
 		<Projectile name="Frost Giant Shock 1">
 			<Speed>5</Speed>
 			<Range>6</Range>
-			<DamageMod>0.9</DamageMod>
+			<DamageMod>0.8</DamageMod>
 			<Passive/>
 		</Projectile>
 
 		<Projectile name="Frost Giant Shock 2">
 			<Speed>8</Speed>
 			<Range>14</Range>
-			<DamageMod>1</DamageMod>
+			<DamageMod>0.9</DamageMod>
 			<Passive/>
 		</Projectile>
 
 		<Projectile name="Frost Giant Shock 3">
 			<Speed>12</Speed>
 			<Range>12</Range>
-			<DamageMod>1.1</DamageMod>
+			<DamageMod>1</DamageMod>
 			<Passive/>
 		</Projectile>
 
 		<Projectile name="Frost Giant Thunder 1">
 			<Speed>8</Speed>
 			<Range>12</Range>
-			<DamageMod>2</DamageMod>
+			<DamageMod>1.8</DamageMod>
 		</Projectile>
 
 		<Projectile name="Frost Giant Thunder 2">
 			<Speed>12</Speed>
 			<Range>12</Range>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>0.7</DamageMod>
 		</Projectile>
 
 		<Titan/>
 
 		<Size>1.3</Size>
-		<HealthMod>30</HealthMod>
+		<HealthMod>20</HealthMod>
 		<SoulMod>6</SoulMod>
 		<SoulGroup>Dumir</SoulGroup>
-		<Defense>38</Defense>
+		<Defense>30</Defense>
 
 	</Object>
 
@@ -4110,10 +4110,10 @@
 		<Titan/>
 
 		<Size>1.2</Size>
-		<HealthMod>38</HealthMod>
+		<HealthMod>22</HealthMod>
 		<SoulMod>8</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
-		<Defense>42</Defense>
+		<Defense>36</Defense>
 
 	</Object>
 
@@ -4177,13 +4177,13 @@
 		</Projectile>
 
 		<Size>1.3</Size>
-		<HealthMod>20</HealthMod>
-		<SoulMod>6</SoulMod>
+		<HealthMod>16</HealthMod>
+		<SoulMod>7</SoulMod>
 		<SoulGroup>Mountains</SoulGroup>
 		<LootTier>3</LootTier>
 		<LootTier>4</LootTier>
 		<LootTier>6</LootTier>
-		<Defense>38</Defense>
+		<Defense>30</Defense>
 
 	</Object>
 
@@ -4205,11 +4205,11 @@
 		</Projectile>
 
 		<Size>0.9</Size>
-		<HealthMod>1</HealthMod>
-		<SoulMod>0.2</SoulMod>
+		<HealthMod>0.6</HealthMod>
+		<SoulMod>0.4</SoulMod>
 		<SoulGroup>Mountains</SoulGroup>
 		<LootTier>0</LootTier>
-		<Defense>30</Defense>
+		<Defense>20</Defense>
 
 	</Object>
 
@@ -4232,11 +4232,11 @@
 		</Projectile>
 
 		<Size>1.3</Size>
-		<HealthMod>2</HealthMod>
-		<SoulMod>0.2</SoulMod>
+		<HealthMod>1.5</HealthMod>
+		<SoulMod>0.4</SoulMod>
 		<SoulGroup>Mountains</SoulGroup>
 		<LootTier>0</LootTier>
-		<Defense>30</Defense>
+		<Defense>20</Defense>
 
 	</Object>
 
@@ -4407,7 +4407,7 @@
 		</Projectile>
 
 		<Size>1.2</Size>
-		<HealthMod>20</HealthMod>
+		<HealthMod>12</HealthMod>
 		<SoulMod>5</SoulMod>
 		<SoulGroup>Gorge</SoulGroup>
 		<Defense>20</Defense>
