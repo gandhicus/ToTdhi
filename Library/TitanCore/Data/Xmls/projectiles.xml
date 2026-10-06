@@ -45,7 +45,7 @@
 		<Sprite>Blue Mirage Slash 1</Sprite>
 		<Rotation>-45</Rotation>
 	</Object>
-	<Object id="0x307a" name="Blue Mirage Slash 2">
+	<Object id="0x307b" name="Blue Mirage Slash 2">
 		<Type>Projectile</Type>
 		<Sprite>Blue Mirage Slash 2</Sprite>
 		<Rotation>-45</Rotation>
