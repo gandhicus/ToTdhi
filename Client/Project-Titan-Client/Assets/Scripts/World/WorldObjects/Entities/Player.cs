@@ -215,6 +215,11 @@ public class Player : Character
                 {
                     health = (int)stat.value;
                 }
+                else if (health > serverHealth + 10f)
+                {
+                    // Correct accumulated prediction error without undoing a hit still awaiting server acknowledgement.
+                    health = Mathf.Max(0, serverHealth);
+                }
                 break;
             case ObjectStatType.Souls:
                 world.gameManager.ui.OnSoulsUpdated(fullSouls, soulGoal);
@@ -778,6 +783,17 @@ public class Player : Character
         CombatDisplay.ShowHitResult(this, result);
         PlayHurt();
         health -= result.damage;
+        world.gameManager.ui.SetHealthValue((int)health);
+        world.gameManager.ui.PlayerDamageTaken();
+    }
+
+    public override void TakeDamage(int damageTaken)
+    {
+        if (damageTaken <= 0) return;
+
+        // Environmental damage is resolved by the server, so apply its damage event to predicted HP too.
+        base.TakeDamage(damageTaken);
+        health = Mathf.Max(0, health - damageTaken);
         world.gameManager.ui.SetHealthValue((int)health);
         world.gameManager.ui.PlayerDamageTaken();
     }
