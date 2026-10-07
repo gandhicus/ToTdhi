@@ -431,7 +431,12 @@ namespace World.GameState
                     currentMoveCheckPosition = effectPosition;
                     if (currentMoveCheckTime == time)
                     {
-                        return position.DistanceTo(effectPosition) < 2;
+                        if (position.DistanceTo(effectPosition) >= 2)
+                            return false;
+
+                        // Keep the accepted client position for the first normal movement check after the effect.
+                        currentMoveCheckPosition = position;
+                        return true;
                     }
                 }
 
@@ -709,7 +714,8 @@ namespace World.GameState
 
         private Vec2 GetPositionalEffectPosition(uint fromTime, uint toTime, StatusEffect effect, out uint time)
         {
-            for (time = Math.Max(fromTime, positionalEffectStartTime); time < toTime; time += NetConstants.Client_Delta)
+            // The client moves on the destination tick, so project those same ticks on the server.
+            for (time = Math.Max(fromTime + NetConstants.Client_Delta, positionalEffectStartTime); time <= toTime; time += NetConstants.Client_Delta)
             {
                 if (!HasClientEffect(effect, time)) return positionalEffectPosition;
 

@@ -30,6 +30,9 @@ public class Player : Character
 
     public float health;
 
+    private const float Health_Reconcile_Delay = 1f;
+    private float lastPredictedHealthChangeTime;
+
     public int cooldown = 1;
 
     public int cooldownDuration = 1;
@@ -124,6 +127,7 @@ public class Player : Character
         projIds = 0;
         fullSouls = 0;
         health = 0;
+        lastPredictedHealthChangeTime = float.NegativeInfinity;
         currentTile = null;
         rage = 0;
         abilityValue = 0;
@@ -455,6 +459,13 @@ public class Player : Character
     {
         base.WorldFixedUpdate(time, delta);
 
+        // Once an incoming hit has had time to reach the server, restore HP lost to a false prediction.
+        if (Time.time - lastPredictedHealthChangeTime >= Health_Reconcile_Delay && serverHealth > health + 10f)
+        {
+            health = Mathf.Min(serverHealth, GetStatFunctional(StatType.MaxHealth));
+            world.gameManager.ui.SetHealthValue((int)health);
+        }
+
         if (health < GetStatFunctional(StatType.MaxHealth))
         {
             var regen = StatFunctions.HealthRegen(GetStatFunctional(StatType.Vigor), (int)delta, HasStatusEffect(StatusEffect.Healing), HasStatusEffect(StatusEffect.Sick));
@@ -774,6 +785,7 @@ public class Player : Character
             ShowAlert("ABSORBED", CombatDisplay.AbsorbedColor, true);
             AudioManager.PlaySound("heal");
             health = Mathf.Min(health - result.damage, GetStatFunctional(StatType.MaxHealth));
+            lastPredictedHealthChangeTime = Time.time;
             world.gameManager.ui.SetHealthValue((int)health);
             return;
         }
@@ -783,6 +795,7 @@ public class Player : Character
         CombatDisplay.ShowHitResult(this, result);
         PlayHurt();
         health -= result.damage;
+        lastPredictedHealthChangeTime = Time.time;
         world.gameManager.ui.SetHealthValue((int)health);
         world.gameManager.ui.PlayerDamageTaken();
     }
@@ -794,6 +807,7 @@ public class Player : Character
         // Environmental damage is resolved by the server, so apply its damage event to predicted HP too.
         base.TakeDamage(damageTaken);
         health = Mathf.Max(0, health - damageTaken);
+        lastPredictedHealthChangeTime = Time.time;
         world.gameManager.ui.SetHealthValue((int)health);
         world.gameManager.ui.PlayerDamageTaken();
     }
