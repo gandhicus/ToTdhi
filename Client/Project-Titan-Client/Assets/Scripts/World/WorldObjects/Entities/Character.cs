@@ -61,6 +61,8 @@ public class Character : Entity
 
     public byte classQuests = 0;
 
+    public int skillTreePoints = 0;
+
     public Rank rank = Rank.Player;
 
     private Dictionary<StatType, int> statIncreases = new Dictionary<StatType, int>();
@@ -110,6 +112,7 @@ public class Character : Entity
         rateOfFireBonus = 0;
         fullSouls = 0;
         classQuests = 0;
+        skillTreePoints = 0;
         rank = Rank.Player;
         statIncreases.Clear();
         alternateStatIncreases.Clear();
@@ -322,6 +325,9 @@ public class Character : Entity
             case ObjectStatType.ClassQuest:
                 classQuests = (byte)stat.value;
                 UpdateNameLabel();
+                break;
+            case ObjectStatType.SkillTreePoints:
+                skillTreePoints = (byte)stat.value;
                 break;
             case ObjectStatType.Rank:
                 rank = (Rank)((byte)stat.value);
@@ -599,13 +605,19 @@ public class Character : Entity
         attackAngle = allyProj.angle * Mathf.Rad2Deg;
     }
 
-    public int GetLevel()
+    // Keep stat progression separate from skill levels for the level-up menus.
+    public int GetStatLevel()
     {
         return GetStatBase(StatType.Speed) + 
             GetStatBase(StatType.Attack) +
             GetStatBase(StatType.Defense) +
             GetStatBase(StatType.Vigor) +
             GetStatBase(StatType.MaxHealth) / 10;
+    }
+
+    public int GetLevel()
+    {
+        return GetStatLevel() + skillTreePoints;
     }
 
     public override bool HasStatusEffect(StatusEffect effect)

@@ -121,6 +121,9 @@ namespace TitanCore.Net.Packets.Models
                 case ObjectStatType.Rank:
                     value = (EmoteType)r.ReadUInt8();
                     break;
+                case ObjectStatType.SkillTreePoints:
+                    value = r.ReadUInt8();
+                    break;
                 case ObjectStatType.Skin:
                 case ObjectStatType.GroundObject:
                     value = r.ReadUInt16();
@@ -225,6 +228,9 @@ namespace TitanCore.Net.Packets.Models
                 case ObjectStatType.Emote:
                 case ObjectStatType.ClassQuest:
                 case ObjectStatType.Rank:
+                    w.Write((byte)value);
+                    break;
+                case ObjectStatType.SkillTreePoints:
                     w.Write((byte)value);
                     break;
                 case ObjectStatType.Skin:

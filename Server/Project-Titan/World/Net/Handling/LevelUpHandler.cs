@@ -62,7 +62,7 @@ namespace World.Net.Handling
             }
 
             var levelIncrease = packet.speedIncrease + packet.attackIncrease + packet.defenseIncrease + packet.vigorIncrease + packet.maxHealthIncrease;
-            if (connection.player.GetLevel() + levelIncrease > NetConstants.Max_Level)
+            if (connection.player.GetStatLevel() + levelIncrease > NetConstants.Max_Level)
             {
                 connection.player.AddChat(ChatData.Error($"Cannot level past {NetConstants.Max_Level}!"));
                 return;

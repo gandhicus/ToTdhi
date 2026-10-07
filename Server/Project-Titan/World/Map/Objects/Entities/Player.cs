@@ -87,6 +87,8 @@ namespace World.Map.Objects.Entities
         /// </summary>
         public ObjectStat<byte> classQuests = new ObjectStat<byte>(ObjectStatType.ClassQuest, ObjectStatScope.Public, (byte)0, (byte)0);
 
+        public ObjectStat<byte> skillTreePoints = new ObjectStat<byte>(ObjectStatType.SkillTreePoints, ObjectStatScope.Public, (byte)0, (byte)0);
+
         /// <summary>
         /// The rank of this player
         /// </summary>
@@ -160,6 +162,7 @@ namespace World.Map.Objects.Entities
             LoadInventory();
 
             LoadStats();
+            skillTreePoints.Value = (byte)SkillTreeFunctions.GetSpentTotal(character.talentRanks);
         }
 
         public void SaveCharacter()
@@ -239,6 +242,7 @@ namespace World.Map.Objects.Entities
 
             list.Add(hitDamage);
             list.Add(classQuests);
+            list.Add(skillTreePoints);
             list.Add(rank);
             list.Add(skin);
             list.Add(target);
@@ -412,13 +416,19 @@ namespace World.Map.Objects.Entities
             return new CommandArgs(command, arguments);
         }
 
-        public int GetLevel()
+        // Stat purchases alone determine the level-140 cap and skill-tree unlock.
+        public int GetStatLevel()
         {
             return GetStatBase(StatType.Speed) +
                 GetStatBase(StatType.Attack) +
                 GetStatBase(StatType.Defense) +
                 GetStatBase(StatType.Vigor) +
                 GetStatBase(StatType.MaxHealth) / 10;
+        }
+
+        public int GetLevel()
+        {
+            return GetStatLevel() + SkillTreeFunctions.GetSpentTotal(character?.talentRanks ?? 0);
         }
 
         public override void OnRemoveFromWorld()

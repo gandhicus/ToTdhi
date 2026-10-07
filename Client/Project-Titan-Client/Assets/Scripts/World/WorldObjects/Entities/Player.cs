@@ -1056,7 +1056,7 @@ public class Player : Character
     public bool CanLevelUp()
     {
         if (!NetConstants.Use_Manual_Stat_Leveling) return false;
-        if (GetLevel() >= NetConstants.Max_Level) return false;
+        if (GetStatLevel() >= NetConstants.Max_Level) return false;
 
         foreach (var type in statTypes)
             if (CanLevelUp(type))
@@ -1076,7 +1076,7 @@ public class Player : Character
 
     public bool CanSpendSkillTreePoint()
     {
-        if (!SkillTreeFunctions.IsUnlocked(GetLevel())) return false;
+        if (!SkillTreeFunctions.IsUnlocked(GetStatLevel())) return false;
         if (SkillTreeFunctions.GetSpentTotal(skillTreeRanks) >= SkillTreeFunctions.Point_Cap) return false;
 
         int cheapest = int.MaxValue;
@@ -1231,13 +1231,14 @@ public class Player : Character
     public void ApplySkillTreeState(uint packedRanks, Item talisman)
     {
         skillTreeRanks = packedRanks;
+        skillTreePoints = SkillTreeFunctions.GetSpentTotal(packedRanks);
         socketedTalisman = talisman;
         RaiseInventoryUpdated();
     }
 
     public AbilityModifierSnapshot BuildClientAbilityModifiers()
     {
-        if (!SkillTreeFunctions.IsUnlocked(GetLevel()))
+        if (!SkillTreeFunctions.IsUnlocked(GetStatLevel()))
             return AbilityModifierSnapshot.Empty;
         var equips = new Item[4];
         for (int i = 0; i < 4; i++)

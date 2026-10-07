@@ -95,7 +95,7 @@ public class AscensionMenu : GameMenu
     {
         var info = (TitanCore.Data.Entities.CharacterInfo)player.info;
 
-        var level = player.GetLevel();
+        var level = player.GetStatLevel();
 
         if (level < NetConstants.Max_Level)
         {
@@ -144,7 +144,7 @@ public class AscensionMenu : GameMenu
         var statType = (StatType)stat;
         var info = (TitanCore.Data.Entities.CharacterInfo)player.info;
 
-        var level = player.GetLevel();
+        var level = player.GetStatLevel();
         var baseStat = player.GetStatBase(statType);
         var statLock = player.GetStatLock(statType);
 

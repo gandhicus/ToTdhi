@@ -92,7 +92,7 @@ public class GameMenuManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        bool unlocked = world?.player != null && SkillTreeFunctions.IsUnlocked(world.player.GetLevel());
+        bool unlocked = world?.player != null && SkillTreeFunctions.IsUnlocked(world.player.GetStatLevel());
         if (skillTreeHudButton != null && skillTreeHudButton.activeSelf != unlocked)
             skillTreeHudButton.SetActive(unlocked);
         if (!unlocked && openMenus.TryGetValue(MenuType.SkillTree, out var open))
@@ -159,7 +159,7 @@ public class GameMenuManager : MonoBehaviour
     public void ToggleSkillTree()
     {
         if (!SkillTreeFunctions.IsEnabled) return;
-        if (world?.player == null || !SkillTreeFunctions.IsUnlocked(world.player.GetLevel()))
+        if (world?.player == null || !SkillTreeFunctions.IsUnlocked(world.player.GetStatLevel()))
             return;
         if (prefabs != null && prefabs.ContainsKey(MenuType.SkillTree))
         {

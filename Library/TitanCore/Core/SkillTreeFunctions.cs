@@ -81,7 +81,7 @@ namespace TitanCore.Core
         public const int Node_Count = 8;
         public const int Max_Spent_Rank = 3;
         public const int Max_Effective_Rank = 6;
-        public const int Point_Cap = 9;
+        public const int Point_Cap = 10;
         public const int Talisman_Slot = 12;
 
         /// Character level required to see and use the tree

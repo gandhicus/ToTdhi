@@ -193,7 +193,7 @@ public class LevelUpMenu : GameMenu
 
     private int GetRemainingLevelPoints()
     {
-        return NetConstants.Max_Level - player.GetLevel()
+        return NetConstants.Max_Level - player.GetStatLevel()
             - speedChange - attackChange - defenseChange - vigorChange - maxHealthChange;
     }
 

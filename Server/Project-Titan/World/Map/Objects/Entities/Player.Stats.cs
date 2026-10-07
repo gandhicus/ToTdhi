@@ -432,7 +432,7 @@ namespace World.Map.Objects.Entities
                 CompleteClassQuest(3);
             }
 
-            if (level >= NetConstants.Max_Level && maxHealthLock.Value == 0)
+            if (GetStatLevel() >= NetConstants.Max_Level && maxHealthLock.Value == 0)
                 LockStats();
 
             RebuildAbilityModifiers();
@@ -441,7 +441,7 @@ namespace World.Map.Objects.Entities
 
         public bool IncreaseStat(StatType type, int amount, bool rawMaxHealthAmount = false)
         {
-            var level = GetLevel();
+            var level = GetStatLevel();
             var allowedLevels = NetConstants.Max_Level - level;
 
             var charInfo = (CharacterInfo)info;
@@ -474,7 +474,7 @@ namespace World.Map.Objects.Entities
                 baseStat += amount;
             SetStatBase(type, baseStat);
 
-            level = GetLevel();
+            level = GetStatLevel();
             if (level == NetConstants.Max_Level)
             {
                 LockStats();

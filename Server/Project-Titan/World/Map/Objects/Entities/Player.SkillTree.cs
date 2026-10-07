@@ -19,7 +19,7 @@ namespace World.Map.Objects.Entities
 
         public AbilityModifierSnapshot BuildAbilityModifiers()
         {
-            if (!SkillTreeFunctions.IsUnlocked(GetLevel()))
+            if (!SkillTreeFunctions.IsUnlocked(GetStatLevel()))
                 return AbilityModifierSnapshot.Empty;
 
             var equips = new Item[4];
@@ -40,7 +40,7 @@ namespace World.Map.Objects.Entities
         public bool TryUnlockTalent(SkillTreeNode node, out string error)
         {
             error = null;
-            if (!SkillTreeFunctions.IsUnlocked(GetLevel()))
+            if (!SkillTreeFunctions.IsUnlocked(GetStatLevel()))
             {
                 error = $"Skill tree unlocks at level {SkillTreeFunctions.Unlock_Level}.";
                 return false;
@@ -68,7 +68,10 @@ namespace World.Map.Objects.Entities
 
             TakeEssence(cost);
             character.talentRanks = SkillTreeFunctions.SetSpentRank(packed, node, spent + 1);
-            RebuildAbilityModifiers();
+            skillTreePoints.Value = (byte)SkillTreeFunctions.GetSpentTotal(character.talentRanks);
+            // A purchased rank is a character level, with the same quest and visual feedback as stat leveling.
+            LeveledUp();
+            PlayLevelUpEffect();
             SendSkillTreeState();
             return true;
         }
@@ -83,6 +86,7 @@ namespace World.Map.Objects.Entities
                 return ChatData.Error("Your skills are already at their base values.");
 
             character.talentRanks = 0;
+            skillTreePoints.Value = 0;
             RebuildAbilityModifiers();
             SendSkillTreeState();
             return ChatData.Info("Your skills have been reset. Essence spent on the skill tree was not refunded.");

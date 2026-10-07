@@ -437,7 +437,7 @@ public class SkillTreeMenu : GameMenu
             EventSystem.current.SetSelectedGameObject(null);
         var player = world?.player;
         if (player == null) return;
-        if (!SkillTreeFunctions.IsUnlocked(player.GetLevel())) return;
+        if (!SkillTreeFunctions.IsUnlocked(player.GetStatLevel())) return;
 
         var node = (SkillTreeNode)index;
         int spent = SkillTreeFunctions.GetSpentRank(player.skillTreeRanks, node);
@@ -455,7 +455,7 @@ public class SkillTreeMenu : GameMenu
     {
         var player = world?.player;
         if (player == null) return;
-        if (!SkillTreeFunctions.IsUnlocked(player.GetLevel())) return;
+        if (!SkillTreeFunctions.IsUnlocked(player.GetStatLevel())) return;
         int total = GetPendingCost();
         if (total <= 0)
         {
