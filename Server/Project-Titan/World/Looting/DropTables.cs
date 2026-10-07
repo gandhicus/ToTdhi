@@ -376,7 +376,8 @@ namespace World.Looting
                             new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.1f, // 6
-                        new Single(Loot.Chance(10), new Item("Cloak of Doom"))
+                        new Single(Loot.Chance(10), new Item("Cloak of Doom")),
+                        new Single(Loot.Chance(3), new Item("Vestment of the Lich Queen"))
                         ),
                     new SoulboundLoot(0.1f, // 7
                         new Single(Loot.Chance(0.5), new Item("Cloak of Doom"))

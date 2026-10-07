@@ -1438,7 +1438,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -1463,7 +1463,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -1488,7 +1488,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="6" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="6" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="4" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="4" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="9" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
 		</StatRolls>
@@ -1513,7 +1513,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="8" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="8" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="5" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="4" max="12" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
 		</StatRolls>
@@ -1538,7 +1538,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="12" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="4" max="12" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="2" max="7" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="7" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="6" max="16" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="3" weight="4"/>
 			<AlternateStatRoll type="Fortune" min="8" max="12" weight="12"/>
@@ -1718,7 +1718,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -1744,7 +1744,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -1770,7 +1770,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="6" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="6" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="4" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="4" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="9" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
 		</StatRolls>
@@ -1796,7 +1796,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="8" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="8" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="5" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="4" max="12" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
 		</StatRolls>
@@ -1822,7 +1822,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="12" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="4" max="12" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="2" max="7" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="7" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="6" max="16" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="3" weight="4"/>
 			<AlternateStatRoll type="Fortune" min="8" max="12" weight="12"/>
@@ -1997,7 +1997,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -2022,7 +2022,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="5" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -2047,7 +2047,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="6" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="6" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="4" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="4" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="9" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
 		</StatRolls>
@@ -2072,7 +2072,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="2" max="8" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="2" max="8" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="5" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="4" max="12" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
 		</StatRolls>
@@ -2097,7 +2097,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="4" max="12" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="4" max="12" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="2" max="7" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="7" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="6" max="16" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="3" weight="4"/>
 			<AlternateStatRoll type="Fortune" min="8" max="12" weight="12"/>
@@ -2392,7 +2392,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="1" max="6" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="1" max="6" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -2415,7 +2415,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="1" max="6" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="1" max="6" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -2438,7 +2438,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="1" max="6" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="1" max="6" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -2461,7 +2461,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="1" max="6" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="1" max="6" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="3" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
 			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
 		</StatRolls>
@@ -2887,7 +2887,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="10" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="10" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="5" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="8" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 			<AlternateStatRoll type="Fortune" min="5" max="8" weight="12"/>
@@ -2911,7 +2911,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="10" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="10" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="5" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="8" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 			<AlternateStatRoll type="Fortune" min="5" max="8" weight="12"/>
@@ -2935,7 +2935,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="10" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="10" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="5" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="8" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 			<AlternateStatRoll type="Fortune" min="5" max="8" weight="12"/>
@@ -2959,7 +2959,7 @@
 			<AlternateStatRoll type="CriticalStrikeChance" min="3" max="10" weight="15"/>
 			<AlternateStatRoll type="TrueDamageChance" min="3" max="10" weight="15"/>
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
-			<AlternateStatRoll type="CriticalStrikeDamage" min="1" max="5" weight="10"/>
+			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="8" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
 			<AlternateStatRoll type="Fortune" min="5" max="8" weight="12"/>

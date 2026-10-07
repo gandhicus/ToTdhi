@@ -465,7 +465,7 @@
 
 		<Titan/>
 
-		<HealthMod>41</HealthMod>
+		<HealthMod>32</HealthMod>
 		<SoulMod>11</SoulMod>
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>4</LootTier>
@@ -702,7 +702,7 @@
 			<Speed>7</Speed>
 			<Range>16</Range>
 			<DamageMod>0.7</DamageMod>
-			<StatusEffect type="Slowed">800</StatusEffect>
+			<StatusEffect type="Slowed">500</StatusEffect>
 			<Spin>1.5</Spin>
 		</Projectile>
 
@@ -711,7 +711,7 @@
 			<Speed>7</Speed>
 			<Range>16</Range>
 			<DamageMod>0.7</DamageMod>
-			<StatusEffect type="Grounded">500</StatusEffect>
+			<StatusEffect type="Grounded">300</StatusEffect>
 			<Spin>1.5</Spin>
 		</Projectile>
 
@@ -720,14 +720,14 @@
 			<Speed>6</Speed>
 			<Range>14</Range>
 			<DamageMod>0.9</DamageMod>
-			<StatusEffect type="KnockedBack">500</StatusEffect>
+			<StatusEffect type="KnockedBack">200</StatusEffect>
 		</Projectile>
 
 		<Projectile name="Valdok Sharp Rock" type="Circular">
 			<Speed>5</Speed>
 			<Radius>5</Radius>
 			<Arc>360</Arc>
-			<DamageMod>1</DamageMod>
+			<DamageMod>0.8</DamageMod>
 			<IgnoreCollision/>
 		</Projectile>
 
@@ -736,7 +736,7 @@
 			<Radius>7</Radius>
 			<Arc>360</Arc>
 			<Clockwise/>
-			<DamageMod>1</DamageMod>
+			<DamageMod>0.8</DamageMod>
 			<IgnoreCollision/>
 		</Projectile>
 
@@ -751,7 +751,7 @@
 			<Size>1.6</Size>
 			<Speed>3</Speed>
 			<Range>14</Range>
-			<DamageMod>1.5</DamageMod>
+			<DamageMod>1.2</DamageMod>
 			<Spin>1</Spin>
 		</Projectile>
 
@@ -765,7 +765,7 @@
 		<Titan/>
 
 		<Size>1.2</Size>
-		<HealthMod>24</HealthMod>
+		<HealthMod>34</HealthMod>
 		<SoulMod>10</SoulMod>
 		<SoulGroup>ValdoksForge</SoulGroup>
 		<LootTier>4</LootTier>
