@@ -52,7 +52,7 @@ public class World : MonoBehaviour
     [HideInInspector]
     public TnMapInfo mapInfo;
 
-    private TnSkillTreeState lastSkillTreeState;
+    private volatile TnSkillTreeState lastSkillTreeState;
 
     private ConcurrentQueue<TnPacket> packetQueue = new ConcurrentQueue<TnPacket>();
 
@@ -149,7 +149,7 @@ public class World : MonoBehaviour
         gameManager.client.AddHandler<TnChangeMusic>(HandlePacketQueue);
         gameManager.client.AddHandler<TnWorldChange>(HandlePacketQueue);
         gameManager.client.AddHandler<TnSkinUnlocked>(HandlePacketQueue);
-        gameManager.client.AddHandler<TnSkillTreeState>(HandlePacketQueue);
+        gameManager.client.AddHandler<TnSkillTreeState>(HandleSkillTreeState);
     }
 
     public void NewMap(TnMapInfo mapInfo)
@@ -162,8 +162,6 @@ public class World : MonoBehaviour
             RemoveObject(obj);
         }
         player = null;
-        lastSkillTreeState = TakeQueuedSkillTreeState() ?? lastSkillTreeState;
-
         serverTickId = 0;
 
         this.mapInfo = mapInfo;
@@ -192,17 +190,6 @@ public class World : MonoBehaviour
         gameManager.client.SendAsync(new TnStartTick());
 
         SetWorldMusic(mapInfo.music);
-    }
-
-    private TnSkillTreeState TakeQueuedSkillTreeState()
-    {
-        var kept = lastSkillTreeState;
-        while (packetQueue.TryDequeue(out var packet))
-        {
-            if (packet is TnSkillTreeState state)
-                kept = state;
-        }
-        return kept;
     }
 
     private void SetWorldMusic(string musicKey)
@@ -428,10 +415,12 @@ public class World : MonoBehaviour
 
     private void ProcessSkillTreeState(TnSkillTreeState state)
     {
-        lastSkillTreeState = state;
+        // The network handler keeps the state for the next player spawn during loading.
         if (player == null || stopTick)
             return;
-        player.ApplySkillTreeState(state.packedRanks, state.talisman);
+        // A newer state may have arrived while this queued packet waited for the main thread.
+        var latest = lastSkillTreeState ?? state;
+        player.ApplySkillTreeState(latest.packedRanks, latest.talisman);
     }
 
     private void PositionCameraOnPlayer()
@@ -480,8 +469,9 @@ public class World : MonoBehaviour
 
         allowControls = true;
 
-        if (lastSkillTreeState != null)
-            player.ApplySkillTreeState(lastSkillTreeState.packedRanks, lastSkillTreeState.talisman);
+        var skillState = lastSkillTreeState;
+        if (skillState != null)
+            player.ApplySkillTreeState(skillState.packedRanks, skillState.talisman);
 
         return player;
     }
@@ -517,6 +507,14 @@ public class World : MonoBehaviour
     private void HandlePacketQueue(TnPacket tick)
     {
         packetQueue.Enqueue(tick);
+    }
+
+    private void HandleSkillTreeState(TnSkillTreeState state)
+    {
+        if (state == null) return;
+        // Keep the latest ranks even if map loading replaces the packet queue.
+        lastSkillTreeState = state;
+        packetQueue.Enqueue(state);
     }
 
     #endregion
@@ -734,7 +732,6 @@ public class World : MonoBehaviour
     public void ProcessWorldChange(TnWorldChange worldChange)
     {
         stopTick = true;
-        lastSkillTreeState = TakeQueuedSkillTreeState() ?? lastSkillTreeState;
         packetQueue = new ConcurrentQueue<TnPacket>();
         gameManager.AwaitMapInfo();
         gameManager.ui.WorldLoading();

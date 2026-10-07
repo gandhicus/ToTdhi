@@ -2138,8 +2138,8 @@
 
 		<Description>A glistening, ethereal robe inspired by the mystic qualities of the constellations.</Description>
 
-		<StatIncrease type="Defense">7</StatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeChance">5</AlternateStatIncrease>
+		<StatIncrease type="Defense">10</StatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">10</AlternateStatIncrease>
 		<AlternateStatIncrease type="BlockChance">5</AlternateStatIncrease>
 
 		<ScaledStatIncrease per="20" amount="1" from="MaxHealth" to="Attack"/>
@@ -2193,6 +2193,21 @@
 		<Proc trigger="HealthThreshold" threshold="50" above="true" continuous="true">
 			<StatBonus type="Vigor" amount="10"/>
 		</Proc>
+
+	</Object>
+
+	<Object id="0x536" name="Vestment of the Lich Queen" tier="-3">
+		<Type>Equipment</Type>
+		<Sprite>Vestment of the Lich Queen</Sprite>
+		<SlotType>Robe</SlotType>
+
+		<Description>A highly ornate ritual robe, decorated with skulls and cryptic symbols.</Description>
+
+		<StatIncrease type="Defense">11</StatIncrease>
+		<StatIncrease type="Attack">4</StatIncrease>
+
+		<ScaledStatIncrease per="2" amount="4" from="Speed" to="CriticalStrikeChance"/>
+		<ScaledStatIncrease per="2" amount="2" from="RateOfFire" to="CriticalStrikeChance"/>
 
 	</Object>
 
@@ -2500,7 +2515,7 @@
 
 		<StatIncrease type="Defense">4</StatIncrease>
 		<StatIncrease type="Vigor">4</StatIncrease>
-		<AlternateStatIncrease type="BlockChance">5</AlternateStatIncrease>
+		<AlternateStatIncrease type="BlockChance">4</AlternateStatIncrease>
 
 		<Description>A hefty and brawny stone affixed on a platinum band.</Description>
 	</Object>
@@ -3103,15 +3118,13 @@
 		<Sprite>Soulless Robe</Sprite>
 
 		<StatIncrease type="MaxHealth">20</StatIncrease>
-		<StatIncrease type="Speed">2</StatIncrease>
-		<StatIncrease type="Attack">2</StatIncrease>
+		<StatIncrease type="Speed">6</StatIncrease>
+		<StatIncrease type="Attack">6</StatIncrease>
 		<StatIncrease type="Defense">6</StatIncrease>
-		<StatIncrease type="Vigor">2</StatIncrease>
+		<StatIncrease type="Vigor">6</StatIncrease>
 
 		<Description>
-			A robe woven from soul strands that emit an ambient glow.
-
-			This item heals its user for 10% missing health every 5 seconds.
+			A robe woven from soul strands that emit an ambient glow. This item heals its user for 10% missing health every 5 seconds.
 		</Description>
 		<Soulless/>
 
@@ -3122,16 +3135,14 @@
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>Soulless Heavy Armor</Sprite>
 
-		<StatIncrease type="MaxHealth">20</StatIncrease>
+		<StatIncrease type="MaxHealth">40</StatIncrease>
 		<StatIncrease type="Speed">2</StatIncrease>
 		<StatIncrease type="Attack">2</StatIncrease>
 		<StatIncrease type="Defense">18</StatIncrease>
 		<StatIncrease type="Vigor">2</StatIncrease>
 
 		<Description>
-			Armor worn by the mighty and powerful, imbued with an ancient power fueled with the souls of the dead.
-
-			This item heals its user for 10% missing health every 5 seconds.
+			Armor worn by the mighty and powerful, imbued with an ancient power fueled with the souls of the dead. This item heals its user for 10% missing health every 5 seconds.
 		</Description>
 		<Soulless/>
 
@@ -3142,16 +3153,14 @@
 		<SlotType>LightArmor</SlotType>
 		<Sprite>Soulless Light Armor</Sprite>
 
-		<StatIncrease type="MaxHealth">20</StatIncrease>
-		<StatIncrease type="Speed">2</StatIncrease>
-		<StatIncrease type="Attack">2</StatIncrease>
+		<StatIncrease type="MaxHealth">30</StatIncrease>
+		<StatIncrease type="Speed">4</StatIncrease>
+		<StatIncrease type="Attack">4</StatIncrease>
 		<StatIncrease type="Defense">13</StatIncrease>
-		<StatIncrease type="Vigor">2</StatIncrease>
+		<StatIncrease type="Vigor">4</StatIncrease>
 
 		<Description>
-			Written in its name, tunics torn from the cloaks of the ever dead pulses the wearer with ghastly, ancient power.
-
-			This item heals its user for 10% missing health every 5 seconds.
+			Written in its name, tunics torn from the cloaks of the ever dead pulses the wearer with ghastly, ancient power. This item heals its user for 10% missing health every 5 seconds.
 		</Description>
 		<Soulless/>
 

@@ -1,4 +1,4 @@
-﻿using Mobile;
+using Mobile;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -92,6 +92,9 @@ public class VaultMenu : MonoBehaviour
         sizeTo.ForceUpdateRectTransforms();
         rectTransform.offsetMax = new Vector2(-sizeTo.rect.width, 0);
 #else
+        // GameViewScaler applies the viewport size after this fixed-anchor menu opens.
+        rectTransform.anchorMin = Vector2.zero;
+        rectTransform.anchorMax = Vector2.zero;
         rectTransform.offsetMin = Vector2.zero;
         rectTransform.offsetMax = Vector2.zero;
 #endif

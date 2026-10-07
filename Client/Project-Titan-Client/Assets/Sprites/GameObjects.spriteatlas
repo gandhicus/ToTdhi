@@ -968,6 +968,7 @@ SpriteAtlas:
     - 0bd7d4d8af3fd7445af094b779283285: 21300000
     - feb1a8d85fb0ac24a90fa33a2f691ce1: 21300000
     - d5c02ad8b1659424fa734d9c669de1e8: 21300000
+    - ec460bd8535f0d8458754507d9218229: 21300000
     - a5fb0bd87a6ee6c45a88647b705c6128: 21300000
     - ce07fbd84c2832b4bbea786a536da0af: 21300000
     - eca87dd8a19037046b023ecdda53d2fd: 21300000
@@ -2642,6 +2643,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0bd7d4d8af3fd7445af094b779283285, type: 3}
   - {fileID: 21300000, guid: feb1a8d85fb0ac24a90fa33a2f691ce1, type: 3}
   - {fileID: 21300000, guid: d5c02ad8b1659424fa734d9c669de1e8, type: 3}
+  - {fileID: 21300000, guid: ec460bd8535f0d8458754507d9218229, type: 3}
   - {fileID: 21300000, guid: a5fb0bd87a6ee6c45a88647b705c6128, type: 3}
   - {fileID: 21300000, guid: ce07fbd84c2832b4bbea786a536da0af, type: 3}
   - {fileID: 21300000, guid: eca87dd8a19037046b023ecdda53d2fd, type: 3}
@@ -4315,6 +4317,7 @@ SpriteAtlas:
   - Rictorn-3
   - Gravestone T1
   - Pixie-1
+  - Vestment of the Lich Queen
   - Hydra Bubble
   - SoulRanger-2
   - FortressTree-2

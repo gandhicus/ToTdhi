@@ -185,8 +185,10 @@ namespace World.Commands
             Pair(player, "Defense bonus", $"+{defenseBonus}", $"+{defenseBonusFull}", rage);
             Pair(player, "Defense duration", FormatSec((int)defDuration), FormatSec((int)defFull), rage);
 
-            uint rangeDuration = (uint)(2500 + 11000 * rageScalar * attackScalar) + (uint)Math.Max(0, mods.durationBonusMs);
-            uint rangeFull = (uint)(2500 + 11000 * attackScalar) + (uint)Math.Max(0, mods.durationBonusMs);
+            // Match Brandish's multiplier on the full Reach duration used by the ability.
+            float reachDurationMul = 1f + Math.Max(0f, mods.reachDurationPct);
+            uint rangeDuration = (uint)((2500 + 11000 * rageScalar * attackScalar) * reachDurationMul);
+            uint rangeFull = (uint)((2500 + 11000 * attackScalar) * reachDurationMul);
             Pair(player, "Reach duration", FormatSec((int)rangeDuration), FormatSec((int)rangeFull), rage);
             Pair(player, "Reach radius", Tiles(2.5f + 6f * rageScalar + mods.abilityRangeBonus), Tiles(2.5f + 6f + mods.abilityRangeBonus), rage);
         }
@@ -296,8 +298,8 @@ namespace World.Commands
 
             float coneDeg = AbilityFunctions.Berserker.GetShoutSpread(rage, attack) * 180f / (float)Math.PI + mods.shoutSpreadDeg;
             Line(player, $"Shout range: {Tiles(AbilityFunctions.Berserker.GetShoutRange(rage, attack) + mods.abilityRangeBonus)} | Cone: {FormatNumber(coneDeg)}°");
-            float slowSec = 5f + mods.slowMs / 1000f;
-            Line(player, $"Applies Slowed for {FormatNumber(slowSec)}s");
+            float slowSec = 5f * (1f + mods.slowDurationPct);
+            Line(player, $"Applies Slowed for {FormatNumber(slowSec)}s (Enigma +{Pct(mods.slowDurationPct)})");
 
             uint rofMs = AbilityFunctions.Berserker.GetRoFDurationMs(rage, attack) + (uint)Math.Max(0, mods.durationBonusMs);
             uint rofFull = AbilityFunctions.Berserker.GetRoFDurationMs(100, attack) + (uint)Math.Max(0, mods.durationBonusMs);

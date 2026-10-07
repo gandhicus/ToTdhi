@@ -1974,10 +1974,10 @@
 
 		<Projectile name="Hydra Effect">
 			<Size>1</Size>
-			<Speed>8</Speed>
+			<Speed>6</Speed>
 			<Range>14</Range>
 			<DamageMod>0.5</DamageMod>
-			<StatusEffect type="Grounded">1000</StatusEffect>
+			<StatusEffect type="Grounded">800</StatusEffect>
 			<Spin>2</Spin>
 		</Projectile>
 

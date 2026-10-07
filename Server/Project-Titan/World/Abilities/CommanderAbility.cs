@@ -29,7 +29,8 @@ namespace World.Abilities
             float rageScalar = spent / 100f;
             float attackScalar = 0.5f + attack / 50f;
             uint defDuration = (uint)(AbilityFunctions.Commander.GetDefenseDurationMs(spent, attack) * (mods.durationMul > 0 ? mods.durationMul : 1f));
-            uint rangeDuration = (uint)(2500 + 11000 * rageScalar * attackScalar) + (uint)Math.Max(0, mods.durationBonusMs);
+            // Brandish scales the full rage- and Attack-based Reach duration.
+            uint rangeDuration = (uint)((2500 + 11000 * rageScalar * attackScalar) * (1f + Math.Max(0f, mods.reachDurationPct)));
             float rangeArea = 2.5f + 6f * rageScalar + Math.Max(0f, mods.abilityRangeBonus);
             int defenseBonus = AbilityFunctions.Commander.GetDefenseBonus(attack, spent);
 

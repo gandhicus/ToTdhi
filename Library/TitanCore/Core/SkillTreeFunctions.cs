@@ -28,6 +28,7 @@ namespace TitanCore.Core
         public int cooldownFlatMs;
         public int durationBonusMs;
         public float durationMul;
+        public float reachDurationPct;
         public int pulseLockoutMs;
         public float rageKeep;
         public float rageCostFlat;
@@ -42,6 +43,7 @@ namespace TitanCore.Core
         public float abilityRadiusBonus;
         public float abilityRangeBonus;
         public int slowMs;
+        public float slowDurationPct;
         public int rageOnKill;
         public float projectileSizePct;
         public float wobbleMul;
@@ -85,7 +87,7 @@ namespace TitanCore.Core
         /// Character level required to see and use the tree
         public const int Unlock_Level = NetConstants.Class_Quest_Level_3;
 
-        public static readonly int[] Rank_Essence_Cost = { 0, 200, 300, 400 };
+        public static readonly int[] Rank_Essence_Cost = { 0, 500, 750, 1000 };
 
         public static ClassSkillTrees.NodeDef GetNode(ClassType classType, SkillTreeNode node)
         {

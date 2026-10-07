@@ -255,7 +255,7 @@ namespace World.Looting
                 { SoulGroup.Lake, new List<LootContainer>
                 {
                     new PublicLoot( // 0
-                        new Single(Loot.Chance(10), new Item("Healing Spell"))
+                        new Single(Loot.Chance(5), new Item("Healing Spell"))
                         ),
                     new PublicLoot( // 1
                         Tier.Weapon(Loot.Chance(6), ItemTier.Tier5),

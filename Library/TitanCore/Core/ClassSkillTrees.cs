@@ -70,7 +70,7 @@ namespace TitanCore.Core
 
         private static class WarriorTree
         {
-            public const float CleaveWeaponPct = 0.04f;
+            public const float CleaveWeaponPct = 0.06f;
             public const int HasteCooldownMs = 1000;
             public const int WillLockoutMs = 60;
             public const float FrustrationKeep = 0.04f;
@@ -78,7 +78,7 @@ namespace TitanCore.Core
             public const float MendingHeal = 0.03f;
             public const int AegisDefense = 2;
             public const int AegisDefenseMs = 5000;
-            public const int CastleMaxHealth = 10;
+            public const int CastleMaxHealth = 15;
             public const int CastleMaxHealthHigh = 5;
             public const int CastleMaxHealthMs = 5000;
             public const int CastleRageChunk = 50;
@@ -166,7 +166,7 @@ namespace TitanCore.Core
         private static class LancerTree
         {
             public const float WrathDamagePct = 0.08f;
-            public const float FrustrationRageCost = 2.5f;
+            public const float FrustrationRageCost = 4f;
             public const float ManifestSizePct = 0.10f;
             public const int GriefRageOnKill = 3;
             public const float HasteCooldownPct = 0.10f;
@@ -252,7 +252,7 @@ namespace TitanCore.Core
         {
             public const float WrathMarkedDamagePct = 0.06f;
             public const float FrustrationMarkedRage = 0.5f;
-            public const int MendingInteractHeal = 10;
+            public const int MendingInteractHeal = 15;
             public const int EverlastingMs = 1500;
             public const float HasteCooldownPct = 0.1f;
             public const float ManifestRadius = 0.5f;
@@ -292,7 +292,7 @@ namespace TitanCore.Core
             public const int MendingVigor = 2;
             public const float HasteCooldownPct = 0.05f;
             public const float FrustrationKeep = 0.08f;
-            public const int EnigmaSlowMs = 800;
+            public const int EnigmaSlowMs = 1600;
             public const int AegisDefense = 2;
             public const int AegisDefenseMs = 5000;
 
@@ -326,7 +326,7 @@ namespace TitanCore.Core
         {
             public const float EverlastingDurationPct = 0.08f;
             public const float UnfurlRange = 0.5f;
-            public const int BrandishMs = 500;
+            public const float BrandishReachDurationPct = 0.15f;
             public const int BlightAttack = 2;
             public const int BlightMs = 5000;
             public const int HasteCooldownMs = 1000;
@@ -340,7 +340,7 @@ namespace TitanCore.Core
             {
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Pct(EverlastingDurationPct, r)} ability duration"),
                 N("Unfurl", "Bladeweaver/Unfurl", EffectStyle.Agility, r => $"+{UnfurlRange:0.#} tiles Reach range per rank"),
-                N("Brandish", "Commander/Brandish", EffectStyle.Agility, r => $"+{BrandishMs / 1000f:0.#}s Reach duration per rank"),
+                N("Brandish", "Commander/Brandish", EffectStyle.Agility, r => $"+{Pct(BrandishReachDurationPct, r)} Reach duration"),
                 N("Blight", "Lancer/Blight", EffectStyle.Power, r => OnUseStat(BlightAttack, BlightMs, r, "Attack")),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{SecI(HasteCooldownMs, r)} ability cooldown"),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability use"),
@@ -352,7 +352,7 @@ namespace TitanCore.Core
             {
                 snap.durationMul = MulPlus(EverlastingDurationPct, r[0]);
                 snap.abilityRangeBonus = Sc(UnfurlRange, r[1]);
-                snap.durationBonusMs = Sc(BrandishMs, r[2]);
+                snap.reachDurationPct = Sc(BrandishReachDurationPct, r[2]);
                 SetOnUse(ref snap.timedAttack, ref snap.timedAttackMs, BlightAttack, BlightMs, r[3]);
                 snap.cooldownFlatMs = Sc(HasteCooldownMs, r[4]);
                 snap.rageKeep = Sc(FrustrationKeep, r[5]);
@@ -423,7 +423,7 @@ namespace TitanCore.Core
             public const float HasteCooldownPct = 0.10f;
             public const float FrustrationKeep = 0.08f;
             public const int BlightAttack = 4;
-            public const int EnigmaSlowMs = 300;
+            public const int EnigmaSlowMs = 1000;
 
             public static readonly NodeDef[] Nodes =
             {
@@ -463,7 +463,7 @@ namespace TitanCore.Core
             public const float WrathDamagePct = 0.08f;
             public const float UnfurlRange = 0.6f;
             public const float ManifestSpreadDeg = 8f;
-            public const int EnigmaSlowMs = 600;
+            public const float EnigmaSlowDurationPct = 0.25f;
             public const float HasteCooldownPct = 0.05f;
             public const int EverlastingRofMs = 500;
             public const int FlickerRof = 2;
@@ -475,7 +475,7 @@ namespace TitanCore.Core
                 N("Wrath", "Ranger/Wrath", EffectStyle.Power, r => $"+{Pct(WrathDamagePct, r)} ability damage"),
                 N("Unfurl", "Ranger/Unfurl", EffectStyle.Power, r => $"+{Sc(UnfurlRange, r):0.#} tile ability range"),
                 N("Manifest", "Ranger/ManifestPower", EffectStyle.Power, r => $"+{Sc(ManifestSpreadDeg, r)}\u00b0 ability spread"),
-                N("Enigma", "Ranger/Enigma", EffectStyle.Focus, r => $"+{Sec(EnigmaSlowMs, r)} Slowed"),
+                N("Enigma", "Ranger/Enigma", EffectStyle.Focus, r => $"+{Pct(EnigmaSlowDurationPct, r)} Slowed duration"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Sec(EverlastingRofMs, r)} Rate of Fire duration"),
                 N("Flicker", "Nomad/Flicker", EffectStyle.Power, r => OnUseStatRagePct(FlickerRof, r, "Rate of Fire")),
@@ -487,7 +487,7 @@ namespace TitanCore.Core
                 snap.abilityDamagePct = Sc(WrathDamagePct, r[0]);
                 snap.abilityRangeBonus = Sc(UnfurlRange, r[1]);
                 snap.shoutSpreadDeg = Sc(ManifestSpreadDeg, r[2]);
-                snap.slowMs = Sc(EnigmaSlowMs, r[3]);
+                snap.slowDurationPct = Sc(EnigmaSlowDurationPct, r[3]);
                 snap.cooldownMul = MulMinus(HasteCooldownPct, r[4]);
                 snap.durationBonusMs = Sc(EverlastingRofMs, r[5]);
                 snap.rofAmount = OnUse(FlickerRof, r[6]);
