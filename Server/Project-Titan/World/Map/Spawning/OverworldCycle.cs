@@ -23,10 +23,10 @@ namespace World.Map.Spawning
         public Dictionary<SoulGroup, Dictionary<ushort, int>> titanSpawnCount = new Dictionary<SoulGroup, Dictionary<ushort, int>>()
         {
             { SoulGroup.Mountains, new Dictionary<ushort, int>{
-                { Valdok, 2 }
+                { Valdok, 1 }
             } },
             { SoulGroup.Tundra, new Dictionary<ushort, int>{
-                { Balun, 2 }
+                { Balun, 1 }
             } },
             { SoulGroup.Desert, new Dictionary<ushort, int>{
                 { Bhognin, -1 }
@@ -64,9 +64,9 @@ namespace World.Map.Spawning
 
         private TemplateString[] genericDeathCallouts = new TemplateString[]
         {
-            new TemplateString("#enemyShort will return to destroy you #player!", '#'),
-            new TemplateString("#player how dare you challenge the might of #enemyShort", '#'),
-            new TemplateString("#player your strength is a fluke, #enemyShort will return to defeat you!", '#'),
+            new TemplateString("#enemyShort will return to destroy you, #player!", '#'),
+            new TemplateString("#player, how dare you challenge the might of #enemyShort!", '#'),
+            new TemplateString("#player, your strength is a fluke. #enemyShort will return to defeat you!", '#'),
         };
 
         private TemplateString[] genericEntranceCallouts = new TemplateString[]
@@ -74,7 +74,7 @@ namespace World.Map.Spawning
             new TemplateString("#enemyShort will crush you!", '#'),
             new TemplateString("#enemyShort will see that you are dealt with!", '#'),
             new TemplateString("I entrust #enemyShort with your destruction.", '#'),
-            new TemplateString("Let's see how you handle the might of #enemyShort", '#'),
+            new TemplateString("Let's see how you handle the might of #enemyShort.", '#'),
         };
 
         private Overworld overworld;
