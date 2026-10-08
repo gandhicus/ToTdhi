@@ -3528,7 +3528,7 @@
 		<Sprite>Soothing Talisman</Sprite>
 		<Class>Brewer</Class>
 		<TalismanEffect trigger="AbilityUse">
-			<Heal>30</Heal>
+			<Heal>50</Heal>
 		</TalismanEffect>
 		<Support/>
 		<Description>A talisman that helps soothe its bearer's wounds.</Description>

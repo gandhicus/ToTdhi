@@ -372,7 +372,7 @@ namespace World.Looting
                             new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.3f, // 5
-                        new Single(Loot.Chance(8),
+                        new Single(Loot.Chance(5),
                             new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.1f, // 6
@@ -417,13 +417,13 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier4)
                         ),
                     new SoulboundLoot(0.4f, // 5
-                        new Single(Loot.Chance(80), new Item("Scroll of Fortitude"))
+                        new Single(Loot.Chance(70), new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.8f, // 6
-                        new Single(Loot.Chance(80), new Item("Scroll of Fortitude"))
+                        new Single(Loot.Chance(70), new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.1f, // 7
-                        new Single(Loot.Chance(2), new Item("Bothmur's Zweihander"))
+                        new Single(Loot.Chance(2.5), new Item("Bothmur's Zweihander"))
                         ),
                     new SoulboundLoot(0.1f, // 8
                         new Single(Loot.Chance(2), new Item("Valdok's Impervious Aegis")),
@@ -437,8 +437,8 @@ namespace World.Looting
                         new Single(Loot.Chance(0.9), new Item("Studded Bangle"))
                         ),
                     new SoulboundLoot(0.1f, // 10 shared mythic
-                        new Single(Loot.Chance(0.5), new Item("Shining Armor")),
-                        new Single(Loot.Chance(0.5), new Item("Plague Hide"))
+                        new Single(Loot.Chance(0.25), new Item("Shining Armor")),
+                        new Single(Loot.Chance(0.25), new Item("Plague Hide"))
                         ),
                     new SoulboundLoot(0.6f, // 11
                         new Single(Loot.Chance(80), new Item("Scroll of Fortitude"))
@@ -447,7 +447,8 @@ namespace World.Looting
                         new Single(Loot.Chance(25), new Item("Key to Valdok's Forge"))
                         ),
                     new SoulboundLoot(0.6f, // 13
-                        new Single(Loot.Chance(15), new Item("Key to Dumir"))
+                        new Single(Loot.Chance(15), new Item("Key to Dumir")),
+                        new Single(Loot.Chance(15), new Item("Key to Mannah's Fortress"))
                         ),
                     new SoulboundLoot(0.1f, // 14
                         new Single(Loot.Chance(20),
@@ -510,10 +511,10 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier4)
                         ),
                     new SoulboundLoot(0.3f, // 5
-                        new Single(Loot.Chance(70), new Item("Scroll of Stamina", false, 1))
+                        new Single(Loot.Chance(50), new Item("Scroll of Stamina", false, 1))
                         ),
                     new SoulboundLoot(0.3f, // 6
-                        new Single(Loot.Chance(70), new Item("Scroll of Stamina"))
+                        new Single(Loot.Chance(50), new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.1f, // 7
                         new Single(Loot.Chance(2), new Item("Oda's Transcendent Longbow"))
@@ -531,17 +532,18 @@ namespace World.Looting
                         new Single(Loot.Chance(0.25), new Item("Studded Bangle"))
                         ),
                     new SoulboundLoot(0.1f, // 10 shared mythic
-                        new Single(Loot.Chance(0.5), new Item("Shining Armor")),
-                        new Single(Loot.Chance(0.5), new Item("Plague Hide"))
+                        new Single(Loot.Chance(0.2), new Item("Shining Armor")),
+                        new Single(Loot.Chance(0.2), new Item("Plague Hide"))
                         ),
                     new SoulboundLoot(0.1f, // 11
                         new Single(Loot.Chance(25), new Item("Key to Dumir"))
                         ),
                     new SoulboundLoot(0.1f, // 12
-                        new Single(Loot.Chance(15), new Item("Key to Valdok's Forge"))
+                        new Single(Loot.Chance(15), new Item("Key to Valdok's Forge")),
+                        new Single(Loot.Chance(15), new Item("Key to Mannah's Fortress"))
                         ),
                     new SoulboundLoot(0.1f, // 13
-                        new Single(Loot.Chance(15),
+                        new Single(Loot.Chance(20),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
                             new Item("Talisman of Millennia"),
@@ -554,7 +556,7 @@ namespace World.Looting
                             new Item("Talisman of Celerity"))
                         ),
                     new SoulboundLoot(0.1f, // 14
-                        new Single(Loot.Chance(15),
+                        new Single(Loot.Chance(20),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),
                             new Item("Blessed Talisman"),

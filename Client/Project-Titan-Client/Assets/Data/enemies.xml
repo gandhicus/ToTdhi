@@ -465,7 +465,7 @@
 
 		<Titan/>
 
-		<HealthMod>32</HealthMod>
+		<HealthMod>33</HealthMod>
 		<SoulMod>11</SoulMod>
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>4</LootTier>
@@ -2721,7 +2721,7 @@
 		</Projectile>
 
 		<Size>1.1</Size>
-		<HealthMod>24</HealthMod>
+		<HealthMod>20</HealthMod>
 		<SoulMod>6</SoulMod>
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>3</LootTier>
@@ -2816,7 +2816,7 @@
 			<Size>1</Size>
 			<Speed>10</Speed>
 			<Range>14</Range>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>1</DamageMod>
 		</Projectile>
 
 		<Size>1.0</Size>
@@ -2838,10 +2838,10 @@
 		</Texture>
 
 		<Projectile name="Bhaling Slash" type="Sin">
-			<Size>1</Size>
+			<Size>1.2</Size>
 			<Speed>8</Speed>
 			<Range>10</Range>
-			<DamageMod>0.7</DamageMod>
+			<DamageMod>1</DamageMod>
 			<Frequency>0.7</Frequency>
 			<Amplitude>2</Amplitude>
 		</Projectile>
