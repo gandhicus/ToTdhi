@@ -210,12 +210,20 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         owner.GetWorld().gameManager.client.SendAsync(new TnSwap(owner.GetGameId(), (uint)slotIndex, otherSlot.owner.GetGameId(), (uint)otherSlot.slotIndex));
 
+        // The server checks talisman level and class; wait for its inventory update before moving either item.
+        if (IsTalismanSocket() || otherSlot.IsTalismanSocket()) return;
+
         var itemTemp = item;
         SetItem(otherSlot.item);
         otherSlot.SetItem(itemTemp);
 
         otherSlot.owner.SetItem(otherSlot.slotIndex, otherSlot.item);
         owner.SetItem(slotIndex, item);
+    }
+
+    private bool IsTalismanSocket()
+    {
+        return SkillTreeFunctions.IsEnabled && owner is Player && slotIndex == SkillTreeFunctions.Talisman_Slot;
     }
 
     private void OnDisable()
@@ -300,11 +308,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             if (SkillTreeFunctions.IsEnabled && equip.slotType == SlotType.Talisman)
             {
-                var destItem = world.player.GetItem(SkillTreeFunctions.Talisman_Slot);
+                // Let the server validate the equip and send the resulting inventory state.
                 world.gameManager.client.SendAsync(new TnSwap(owner.GetGameId(), (uint)slotIndex, world.player.GetGameId(), (uint)SkillTreeFunctions.Talisman_Slot));
-                owner.SetItem(slotIndex, destItem);
-                world.player.SetItem(SkillTreeFunctions.Talisman_Slot, item);
-                SetItem(destItem);
                 return;
             }
             if (equip.slotType == SlotType.Accessory)

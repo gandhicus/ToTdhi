@@ -231,19 +231,12 @@ namespace World.Map.Objects.Entities
                     }
 
                     RemoveFullSouls(NetConstants.Soulless_Cost_Drain);
-
-                    switch (data.id)
-                    {
-                        case 0x2ab: // soulless robe
-                        case 0x2ac: // soulless heavy
-                        case 0x2ad: // soulless light
-                            if (gameState.playerState == null) break;
-                            var maxHp = gameState.playerState.currentSnapshot.GetFunctionalStat(StatType.MaxHealth);
-                            Heal((int)((maxHp - gameState.playerState.Health(0)) * 0.1f));
-                            break;
-                    }
                 }
             }
+
+            // Fire timed item effects only after essence checks have unequipped depleted items.
+            if (((time.tickId + tickGroup) % (WorldManager.Ticks_Per_Second * 10)) == 0)
+                gameState?.playerState?.TriggerProcs(ProcTrigger.Periodic, (uint)(time.totalTime * 1000));
         }
 
         private void UnequipItem(int slot)

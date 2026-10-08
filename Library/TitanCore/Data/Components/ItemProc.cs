@@ -92,6 +92,8 @@ namespace TitanCore.Data.Components
 
         public ProcRageGain rageGain;
 
+        public int healMissingHealthPercent;
+
         public TalismanAoe aoe;
 
         public ItemProc(XmlParser xml)
@@ -110,6 +112,9 @@ namespace TitanCore.Data.Components
 
             foreach (var child in xml.Elements("Rage"))
                 rageGain = new ProcRageGain(child);
+
+            foreach (var child in xml.Elements("HealMissingHealth"))
+                healMissingHealthPercent = child.AtrInt("percent", 0);
 
             foreach (var child in xml.Elements("Aoe"))
                 aoe = new TalismanAoe(child);

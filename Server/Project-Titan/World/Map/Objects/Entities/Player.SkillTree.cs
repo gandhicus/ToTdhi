@@ -102,6 +102,11 @@ namespace World.Map.Objects.Entities
                 error = "That is not a talisman.";
                 return false;
             }
+            if (GetStatLevel() < SkillTreeFunctions.Unlock_Level)
+            {
+                error = $"You must reach level {SkillTreeFunctions.Unlock_Level} to equip this item!";
+                return false;
+            }
             if (equip.requiredClass != 0 && (ushort)equip.requiredClass != info.id)
             {
                 error = $"That talisman is for {equip.requiredClass}.";

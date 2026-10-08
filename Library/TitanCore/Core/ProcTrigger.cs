@@ -8,5 +8,6 @@ namespace TitanCore.Core
         TrueDamage,
         HealthThreshold,
         RageThreshold,
+        Periodic,
     }
 }

@@ -3109,6 +3109,9 @@
 
 		<Description>Soulless Ring</Description>
 		<Soulless/>
+		<Proc trigger="Periodic" cooldown="10000">
+			<HealMissingHealth percent="10"/>
+		</Proc>
 
 	</Object>
 
@@ -3124,9 +3127,12 @@
 		<StatIncrease type="Vigor">6</StatIncrease>
 
 		<Description>
-			A robe woven from soul strands that emit an ambient glow. This item heals its user for 10% missing health every 5 seconds.
+			A robe woven from soul strands that emit an ambient glow.
 		</Description>
 		<Soulless/>
+		<Proc trigger="Periodic" cooldown="10000">
+			<HealMissingHealth percent="10"/>
+		</Proc>
 
 	</Object>
 
@@ -3142,9 +3148,12 @@
 		<StatIncrease type="Vigor">2</StatIncrease>
 
 		<Description>
-			Armor worn by the mighty and powerful, imbued with an ancient power fueled with the souls of the dead. This item heals its user for 10% missing health every 5 seconds.
+			Armor worn by the mighty and powerful, imbued with an ancient power fueled with the souls of the dead.
 		</Description>
 		<Soulless/>
+		<Proc trigger="Periodic" cooldown="10000">
+			<HealMissingHealth percent="10"/>
+		</Proc>
 
 	</Object>
 
@@ -3160,9 +3169,12 @@
 		<StatIncrease type="Vigor">4</StatIncrease>
 
 		<Description>
-			Written in its name, tunics torn from the cloaks of the ever dead pulses the wearer with ghastly, ancient power. This item heals its user for 10% missing health every 5 seconds.
+			Written in its name, tunics torn from the cloaks of the ever dead pulses the wearer with ghastly, ancient power.
 		</Description>
 		<Soulless/>
+		<Proc trigger="Periodic" cooldown="10000">
+			<HealMissingHealth percent="10"/>
+		</Proc>
 
 	</Object>
 

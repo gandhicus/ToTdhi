@@ -920,6 +920,13 @@ namespace World.GameState
                     else if (proc.rageGain != null)
                         AddRage(time, proc.rageGain.amount, applyRageGainBonus: false);
 
+                    else if (proc.healMissingHealthPercent > 0 && proc.trigger == ProcTrigger.Periodic)
+                    {
+                        // Periodic procs use world time for cooldowns, but health follows client time.
+                        var maxHealth = currentSnapshot.GetFunctionalStat(StatType.MaxHealth);
+                        player.Heal((int)((maxHealth - Health(LastClientTime)) * proc.healMissingHealthPercent / 100f));
+                    }
+
                     if (proc.aoe != null && ability != null)
                     {
                         var origin = player.position.Value;

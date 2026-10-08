@@ -170,6 +170,9 @@ namespace TitanCore.Core
 
         public static string GetProcTooltipText(ItemProc proc)
         {
+            if (proc.trigger == ProcTrigger.Periodic && proc.healMissingHealthPercent > 0)
+                return $"Every {Highlight($"{FormatCooldownSeconds(proc.cooldownMs)} seconds")}, heal {Highlight($"{proc.healMissingHealthPercent}%")} of missing health";
+
             if (proc.trigger == ProcTrigger.HealthThreshold || proc.trigger == ProcTrigger.RageThreshold)
                 return GetThresholdProcTooltipText(proc);
 
