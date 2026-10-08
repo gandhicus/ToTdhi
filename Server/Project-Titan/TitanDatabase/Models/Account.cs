@@ -224,6 +224,9 @@ namespace TitanDatabase.Models
 
         public bool CanCreateCharacter(CharacterInfo info)
         {
+            if (!CharacterInfo.EnforceClassRequirements)
+                return true;
+
             foreach (var requirement in info.requirements)
             {
                 bool found = false;

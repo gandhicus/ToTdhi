@@ -16,9 +16,9 @@ namespace TitanCore.Net
 
         public const int Game_Connection_Port = 12000;
 
-        public const int Vault_Slot_Cost = 50;
+        public const int Vault_Slot_Cost = 30;
 
-        public const int Character_Slot_Cost = 200;
+        public const int Character_Slot_Cost = 100;
 
         public const int Max_Vault_Slots = 600;
 

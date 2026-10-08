@@ -80,6 +80,9 @@ public class CreateCharacterMenu : MonoBehaviour
 
     private bool HasUnlocked(TitanCore.Data.Entities.CharacterInfo info)
     {
+        if (!TitanCore.Data.Entities.CharacterInfo.EnforceClassRequirements)
+            return true;
+
         foreach (var requirement in info.requirements)
         {
             bool found = false;

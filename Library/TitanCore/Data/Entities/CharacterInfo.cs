@@ -12,6 +12,9 @@ namespace TitanCore.Data.Entities
 {
     public class CharacterInfo : EntityInfo
     {
+        // Keep class requirements in the data while allowing every playable class by default.
+        public static readonly bool EnforceClassRequirements = false;
+
         private static readonly Dictionary<string, SlotType[]> AdditionalArmorTypes = new Dictionary<string, SlotType[]>
         {
             { "Ranger", new[] { SlotType.Robe } },
