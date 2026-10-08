@@ -32,6 +32,8 @@ public class Player : Character
 
     private const float Health_Reconcile_Delay = 1f;
     private float lastPredictedHealthChangeTime;
+    private int pendingServerHeal;
+    private float pendingServerHealUntil;
 
     public int cooldown = 1;
 
@@ -128,6 +130,8 @@ public class Player : Character
         fullSouls = 0;
         health = 0;
         lastPredictedHealthChangeTime = float.NegativeInfinity;
+        pendingServerHeal = 0;
+        pendingServerHealUntil = 0;
         currentTile = null;
         rage = 0;
         abilityValue = 0;
@@ -219,10 +223,12 @@ public class Player : Character
                 {
                     health = (int)stat.value;
                 }
-                else if (health > serverHealth + 10f)
+                else
                 {
-                    // Correct accumulated prediction error without undoing a hit still awaiting server acknowledgement.
-                    health = Mathf.Max(0, serverHealth);
+                    // A heal event arrives before the server's HP snapshot includes it.
+                    int healInFlight = Time.time < pendingServerHealUntil ? pendingServerHeal : 0;
+                    if (health > serverHealth + healInFlight + 10f)
+                        health = Mathf.Clamp(serverHealth + healInFlight, 0, GetStatFunctional(StatType.MaxHealth));
                 }
                 break;
             case ObjectStatType.Souls:
@@ -243,8 +249,13 @@ public class Player : Character
                 break;
             case ObjectStatType.Heal:
                 var healAmount = (int)stat.value;
+                if (healAmount <= 0) break;
                 var realizedHeal = (int)Mathf.Min(healAmount, GetStatFunctional(StatType.MaxHealth) - health);
-                health += healAmount;
+                if (Time.time >= pendingServerHealUntil)
+                    pendingServerHeal = 0;
+                pendingServerHeal += healAmount;
+                pendingServerHealUntil = Time.time + Health_Reconcile_Delay;
+                health = Mathf.Min(health + healAmount, GetStatFunctional(StatType.MaxHealth));
                 if (realizedHeal <= 0) break;
                 ShowAlert("+" + realizedHeal, Color.green);
                 break;
