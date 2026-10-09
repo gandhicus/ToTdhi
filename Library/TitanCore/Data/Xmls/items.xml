@@ -727,7 +727,7 @@
 
 		<RateOfFire>5</RateOfFire>
 
-		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
+		<AlternateStatIncrease type="TrueDamageChance">5</AlternateStatIncrease>
 		<AlternateStatIncrease type="RageGain">-15</AlternateStatIncrease>
 	</Object>
 
@@ -1301,6 +1301,8 @@
 			<MaxDamageMod>37</MaxDamageMod>
 		</Projectile>
 
+		<AlternateStatIncrease type="RageGain">10</AlternateStatIncrease>
+
 		<RateOfFire>0.8</RateOfFire>
 	</Object>
 
@@ -1625,7 +1627,7 @@
 
 		<Description>An armor that was created to amplify the inner fury of those whom wear it.</Description>
 
-		<StatIncrease type="Defense">15</StatIncrease>
+		<StatIncrease type="Defense">10</StatIncrease>
 		<AlternateStatIncrease type="RageGain">10</AlternateStatIncrease>
 
 	</Object>
@@ -1862,7 +1864,7 @@
 
 		<Description>...</Description>
 
-		<StatIncrease type="MaxHealth">-100</StatIncrease>
+		<StatIncrease type="MaxHealth">-50</StatIncrease>
 		<AlternateStatIncrease type="BlockChance">15</AlternateStatIncrease>
 		<AlternateStatIncrease type="CriticalStrikeChance">20</AlternateStatIncrease>
 		<AlternateStatIncrease type="TrueDamageChance">20</AlternateStatIncrease>
@@ -2143,7 +2145,7 @@
 		<AlternateStatIncrease type="BlockChance">5</AlternateStatIncrease>
 
 		<ScaledStatIncrease per="20" amount="1" from="MaxHealth" to="Attack"/>
-		<ScaledStatIncrease per="20" amount="1" from="MaxHealth" to="CriticalStrikeChance"/>
+		<ScaledStatIncrease per="20" amount="3" from="MaxHealth" to="CriticalStrikeChance"/>
 
 	</Object>
 
@@ -2477,7 +2479,7 @@
 		<StatIncrease type="Speed">4</StatIncrease>
 		<StatIncrease type="Defense">4</StatIncrease>
 		<StatIncrease type="Vigor">4</StatIncrease>
-		<ScaledStatIncrease per="5" amount="2" from="Attack" to="Vigor"/>
+		<ScaledStatIncrease per="4" amount="2" from="Attack" to="Vigor"/>
 
 		<Description>A ring affixed with a jewel trinity. Rumored to benefit all aspects of life.</Description>
 	</Object>
@@ -2581,7 +2583,7 @@
 		<StatIncrease type="Attack">5</StatIncrease>
 		<AlternateStatIncrease type="CriticalStrikeDamage">15</AlternateStatIncrease>
 
-		<Proc trigger="TrueDamage" cooldown="5000">
+		<Proc trigger="TrueDamage" cooldown="10000">
 			<AlternateStatBonus type="CriticalStrikeChance" amount="20" duration="5000"/>
 		</Proc>
 
@@ -2605,7 +2607,7 @@
 		<Description>A wonderfully beautiful bangle studded with sparkling diamonds, said to bring good fortune to those with clear minds.</Description>
 	</Object>
 
-	<Object id="0x501" name="Desert Rose" tier="-2">
+	<Object id="0x501" name="Desert Rose" tier="-3">
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Desert Rose</Sprite>
@@ -2633,7 +2635,8 @@
 		<Sprite>Corrupted Skull of Mezhier</Sprite>
 
 		<AlternateStatIncrease type="RageGain">15</AlternateStatIncrease>
-		<StatIncrease type="Attack">2</StatIncrease>
+		<StatIncrease type="MaxHealth">-30</StatIncrease>
+		<StatIncrease type="Attack">-3</StatIncrease>
 
 		<Description>After his death, Mezhier's corpse resided in the Whispering Woods as his eternal resting place. When Rictorn's reign begun, his skull was corrupted due to Rictorn's evil presence.</Description>
 	</Object>
@@ -2719,7 +2722,7 @@
 		<SlotType>Accessory</SlotType>
 		<Sprite>Skyjewel</Sprite>
 
-		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
+		<AlternateStatIncrease type="TrueDamageChance">15</AlternateStatIncrease>
 		<AlternateStatIncrease type="RateOfFire">5</AlternateStatIncrease>
 		<AlternateStatIncrease type="BlockChance">-5</AlternateStatIncrease>
 

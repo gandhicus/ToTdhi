@@ -238,11 +238,11 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(0.3f, // 11
-                        new Single(Loot.Chance(0.8),
-                            new Item("Desert Rose"))
+                        new Single(Loot.Chance(0.5),
+                            new Item("Blue Mirage"))
                         ),
                     new SoulboundLoot(0.3f, // 12
-                        new Single(Loot.Chance(3), new Item("Desert Rose")),
+                        new Single(Loot.Chance(1), new Item("Desert Rose")),
                         new Single(Loot.Chance(3), new Item("Blue Mirage")),
                         new Single(Loot.Chance(3.5), new Item("Windward Cloak"))
                         ),
@@ -408,13 +408,13 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier3)
                         ),
                     new SoulboundLoot(0.1f, // 4
-                        Tier.Weapon(Loot.Chance(70), ItemTier.Tier8),
-                        Tier.Armor(Loot.Chance(50), ItemTier.Tier8),
-                        Tier.Weapon(Loot.Chance(55), ItemTier.Tier7),
-                        Tier.Armor(Loot.Chance(40), ItemTier.Tier7),
-                        //Tier.Weapon(Loot.Chance(6), ItemTier.Tier9),
-                        //Tier.Armor(Loot.Chance(4), ItemTier.Tier9),
-                        Tier.Accessory(Loot.Chance(20), ItemTier.Tier4)
+                        Tier.Weapon(Loot.Chance(80), ItemTier.Tier8),
+                        Tier.Armor(Loot.Chance(60), ItemTier.Tier8),
+                        Tier.Weapon(Loot.Chance(40), ItemTier.Tier7),
+                        Tier.Armor(Loot.Chance(30), ItemTier.Tier7),
+                        Tier.Weapon(Loot.Chance(20), ItemTier.Tier9),
+                        // Tier.Armor(Loot.Chance(4), ItemTier.Tier9),
+                        Tier.Accessory(Loot.Chance(30), ItemTier.Tier4)
                         ),
                     new SoulboundLoot(0.4f, // 5
                         new Single(Loot.Chance(70), new Item("Scroll of Fortitude"))
@@ -436,7 +436,7 @@ namespace World.Looting
                         new Single(Loot.Chance(0.9), new Item("Skyjewel")),
                         new Single(Loot.Chance(0.9), new Item("Studded Bangle"))
                         ),
-                    new SoulboundLoot(0.1f, // 10 shared mythic
+                    new SoulboundLoot(0.1f, // 10
                         new Single(Loot.Chance(0.25), new Item("Shining Armor")),
                         new Single(Loot.Chance(0.25), new Item("Plague Hide"))
                         ),
@@ -451,7 +451,7 @@ namespace World.Looting
                         new Single(Loot.Chance(15), new Item("Key to Mannah's Fortress"))
                         ),
                     new SoulboundLoot(0.1f, // 14
-                        new Single(Loot.Chance(20),
+                        new Single(Loot.Chance(35),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
                             new Item("Talisman of Millennia"),
@@ -464,7 +464,7 @@ namespace World.Looting
                             new Item("Talisman of Celerity"))
                         ),
                     new SoulboundLoot(0.1f, // 15
-                        new Single(Loot.Chance(20),
+                        new Single(Loot.Chance(35),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),
                             new Item("Blessed Talisman"),
@@ -531,7 +531,7 @@ namespace World.Looting
                         new Single(Loot.Chance(0.25), new Item("Skyjewel")),
                         new Single(Loot.Chance(0.25), new Item("Studded Bangle"))
                         ),
-                    new SoulboundLoot(0.1f, // 10 shared mythic
+                    new SoulboundLoot(0.1f, // 10
                         new Single(Loot.Chance(0.2), new Item("Shining Armor")),
                         new Single(Loot.Chance(0.2), new Item("Plague Hide"))
                         ),
@@ -543,7 +543,7 @@ namespace World.Looting
                         new Single(Loot.Chance(15), new Item("Key to Mannah's Fortress"))
                         ),
                     new SoulboundLoot(0.1f, // 13
-                        new Single(Loot.Chance(20),
+                        new Single(Loot.Chance(25),
                             new Item("Talisman of Blood"),
                             new Item("Talisman of Nova"),
                             new Item("Talisman of Millennia"),
@@ -556,7 +556,7 @@ namespace World.Looting
                             new Item("Talisman of Celerity"))
                         ),
                     new SoulboundLoot(0.1f, // 14
-                        new Single(Loot.Chance(20),
+                        new Single(Loot.Chance(25),
                             new Item("Talisman of Ages"),
                             new Item("Talisman of Wrath"),
                             new Item("Blessed Talisman"),
@@ -596,16 +596,16 @@ namespace World.Looting
                     new SoulboundLoot(0.2f, // 3
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier8),
                         Tier.Armor(Loot.Chance(50), ItemTier.Tier8),
-                        Tier.Accessory(Loot.Chance(20), ItemTier.Tier4)
+                        Tier.Accessory(Loot.Chance(30), ItemTier.Tier4)
                         ),
                     new SoulboundLoot(0.1f, // 4
                         Tier.Weapon(Loot.Chance(70), ItemTier.Tier8),
                         Tier.Armor(Loot.Chance(50), ItemTier.Tier8),
                         Tier.Weapon(Loot.Chance(40), ItemTier.Tier9),
                         Tier.Armor(Loot.Chance(30), ItemTier.Tier9),
-                        Tier.Weapon(Loot.Chance(12), ItemTier.Tier10),
+                        Tier.Weapon(Loot.Chance(6), ItemTier.Tier10),
                         //Tier.Armor(Loot.Chance(3), ItemTier.Tier10),
-                        Tier.Accessory(Loot.Chance(8), ItemTier.Tier5)
+                        Tier.Accessory(Loot.Chance(12), ItemTier.Tier5)
                         ),
                     new SoulboundLoot(0.1f, // 5
                         new Single(Loot.Chance(100),
@@ -632,15 +632,15 @@ namespace World.Looting
                         new Single(Loot.Chance(1), new Item("Empyrean's Guard"))
                         ),
                     new SoulboundLoot(0.1f, // 9 mythic accessories
-                        new Single(Loot.Chance(1), new Item("Mezhier's Ring of Valor")),
-                        new Single(Loot.Chance(1), new Item("Aldrite's Gamble")),
-                        new Single(Loot.Chance(1), new Item("Ring of the Blood Moon"))
+                        new Single(Loot.Chance(1.2), new Item("Mezhier's Ring of Valor")),
+                        new Single(Loot.Chance(1.2), new Item("Aldrite's Gamble")),
+                        new Single(Loot.Chance(1.2), new Item("Ring of the Blood Moon"))
                         ),
                     new SoulboundLoot(0.1f, // 10 fabled
-                        new Single(Loot.Chance(0.4), new Item("Dark Matter")),
-                        new Single(Loot.Chance(0.4), new Item("The Big Bang")),
-                        new Single(Loot.Chance(0.4), new Item("Sadder Star")),
-                        new Single(Loot.Chance(0.4), new Item("The Malevolant Eye"))
+                        new Single(Loot.Chance(0.3), new Item("Dark Matter")),
+                        new Single(Loot.Chance(0.3), new Item("The Big Bang")),
+                        new Single(Loot.Chance(0.3), new Item("Sadder Star")),
+                        new Single(Loot.Chance(0.3), new Item("The Malevolant Eye"))
                         ),
                     new SoulboundLoot(0.1f, // 11
                         new Single(Loot.Chance(30), new Item("Key to Mannah's Fortress"))

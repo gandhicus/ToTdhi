@@ -2868,7 +2868,7 @@
 		<Projectile name="Bhaling Axe Slash" type="Circular">
 			<Size>1.05</Size>
 			<Speed>7</Speed>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>1.1</DamageMod>
 			<Arc>180</Arc>
 			<Radius>3.5</Radius>
 		</Projectile>
@@ -2876,7 +2876,7 @@
 		<Projectile name="Bhaling Axe Slash" type="Circular">
 			<Size>1.05</Size>
 			<Speed>10</Speed>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>1.1</DamageMod>
 			<Arc>180</Arc>
 			<Radius>5</Radius>
 		</Projectile>
@@ -2884,7 +2884,7 @@
 		<Projectile name="Bhaling Axe Slash" type="Circular">
 			<Size>1.05</Size>
 			<Speed>13</Speed>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>1.1</DamageMod>
 			<Arc>180</Arc>
 			<Radius>6.5</Radius>
 		</Projectile>
@@ -2892,7 +2892,7 @@
 		<Projectile name="Bhaling Axe Slash" type="Circular">
 			<Size>1.05</Size>
 			<Speed>16</Speed>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>1.1</DamageMod>
 			<Arc>180</Arc>
 			<Radius>8</Radius>
 		</Projectile>
@@ -2900,7 +2900,7 @@
 		<Projectile name="Bhaling Axe Slash" type="Circular">
 			<Size>1.05</Size>
 			<Speed>7</Speed>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>1.1</DamageMod>
 			<Arc>180</Arc>
 			<Radius>3.5</Radius>
 			<Clockwise/>
@@ -2909,7 +2909,7 @@
 		<Projectile name="Bhaling Axe Slash" type="Circular">
 			<Size>1.05</Size>
 			<Speed>10</Speed>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>1.1</DamageMod>
 			<Arc>180</Arc>
 			<Radius>5</Radius>
 			<Clockwise/>
@@ -2918,7 +2918,7 @@
 		<Projectile name="Bhaling Axe Slash" type="Circular">
 			<Size>1.05</Size>
 			<Speed>13</Speed>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>1.1</DamageMod>
 			<Arc>180</Arc>
 			<Radius>6.5</Radius>
 			<Clockwise/>
@@ -2927,14 +2927,14 @@
 		<Projectile name="Bhaling Axe Slash" type="Circular">
 			<Size>1.05</Size>
 			<Speed>16</Speed>
-			<DamageMod>0.8</DamageMod>
+			<DamageMod>1.1</DamageMod>
 			<Arc>180</Arc>
 			<Radius>8</Radius>
 			<Clockwise/>
 		</Projectile>
 
 		<Size>1.1</Size>
-		<HealthMod>1</HealthMod>
+		<HealthMod>1.2</HealthMod>
 		<SoulMod>1</SoulMod>
 		<SoulGroup>Dumir</SoulGroup>
 		<LootTier>0</LootTier>
@@ -3055,7 +3055,7 @@
 		</Projectile>
 
 		<Size>1</Size>
-		<HealthMod>1.5</HealthMod>
+		<HealthMod>1</HealthMod>
 		<SoulMod>1</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
 		<LootTier>0</LootTier>
@@ -3350,7 +3350,7 @@
 			<Size>1.1</Size>
 			<Speed>6</Speed>
 			<Range>16</Range>
-			<DamageMod>1.1</DamageMod>
+			<DamageMod>1</DamageMod>
 		</Projectile>
 
 		<Projectile name="Royal Idol Blast">
@@ -3361,9 +3361,10 @@
 		</Projectile>
 
 		<Size>1</Size>
-		<HealthMod>3</HealthMod>
+		<HealthMod>2.2</HealthMod>
 		<SoulMod>1.5</SoulMod>
 		<SoulGroup>MannahsFortress</SoulGroup>
+		<LootTier>0</LootTier>
 		<LootTier>2</LootTier>
 		<Defense>15</Defense>
 
