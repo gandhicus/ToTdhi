@@ -324,6 +324,10 @@ namespace World.GameState
 
             public static TimedStatSource ThresholdProc(int procKey) => new TimedStatSource { kind = 5, id = procKey };
 
+            public static TimedStatSource NomadAegis => new TimedStatSource { kind = 6 };
+
+            public static TimedStatSource NomadFlicker => new TimedStatSource { kind = 7 };
+
             public bool Equals(TimedStatSource other) => kind == other.kind && id == other.id;
 
             public override bool Equals(object obj) => obj is TimedStatSource other && Equals(other);
@@ -1113,6 +1117,24 @@ namespace World.GameState
             ApplyTimedStatBonus(type, amount, time, durationMs, TimedStatSource.ByStatType);
         }
 
+        public void ApplyNomadAegisHit(int maxDefense, uint time)
+        {
+            if (maxDefense <= 0) return;
+
+            // Only a live Aegis stack counts; its source stays separate from other Defense buffs.
+            int current = 0;
+            for (int i = 0; i < timedStatBonuses.Count; i++)
+            {
+                var bonus = timedStatBonuses[i];
+                if (!bonus.source.Equals(TimedStatSource.NomadAegis) || bonus.statType != StatType.Defense)
+                    continue;
+                if (time < bonus.endTime)
+                    current = bonus.amount;
+                break;
+            }
+            ApplyProcStatBonus(StatType.Defense, Math.Min(maxDefense, current + 1), 1000, time, TimedStatSource.NomadAegis);
+        }
+
         private void ApplyTimedStatBonus(StatType type, int amount, uint time, uint durationMs, TimedStatSource source)
         {
             if (amount == 0 || durationMs == 0) return;
@@ -1155,6 +1177,25 @@ namespace World.GameState
         {
             if (amount == 0 || durationMs == 0) return;
             ApplyProcAlternateStatBonus(new ProcAlternateStatBonus(type, amount, durationMs), time);
+        }
+
+        public void ApplyNomadFlickerHit(int maxRof, uint time)
+        {
+            if (maxRof <= 0) return;
+
+            // Expired stacks restart at one; this source does not replace item RoF bonuses.
+            int current = 0;
+            for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
+            {
+                var bonus = timedAlternateStatBonuses[i];
+                if (!bonus.source.Equals(TimedStatSource.NomadFlicker) || bonus.statType != AlternateStatType.RateOfFire)
+                    continue;
+                if (time < bonus.endTime)
+                    current = bonus.amount;
+                break;
+            }
+            ApplyProcAlternateStatBonus(new ProcAlternateStatBonus(AlternateStatType.RateOfFire,
+                Math.Min(maxRof, current + 1), AbilityFunctions.Nomad.Flicker_Duration_Ms), time, TimedStatSource.NomadFlicker);
         }
 
         public bool TryConsumeTalismanCooldown(int effectIndex, uint cooldownMs, uint time)
@@ -1248,8 +1289,9 @@ namespace World.GameState
             var hasEffect = effect.HasValue;
             uint endTime = bonus.durationMs == uint.MaxValue ? uint.MaxValue : time + bonus.durationMs;
 
-            if (source.kind == 5)
+            if (source.kind == 5 || source.kind == 7)
             {
+                // Threshold effects and Flicker overwrite stale amounts when they refresh.
                 for (int i = 0; i < timedAlternateStatBonuses.Count; i++)
                 {
                     var existing = timedAlternateStatBonuses[i];

@@ -315,18 +315,17 @@ namespace World.Commands
             Line(player, $"Rage cost: {AbilityFunctions.Nomad.Ability_Cost}");
             float lifetime = 15f + mods.durationBonusMs / 1000f;
             Line(player, $"Charm lifetime: {FormatNumber(lifetime)}s | Mark radius: {Tiles(1f + mods.markRadiusBonus)}");
+            Line(player, "One charm per Nomad; interacting removes its Marks");
             int linger = AbilityFunctions.Nomad.Marked_Linger_Ms + Math.Max(0, mods.markedLingerMs);
             Line(player, $"Marked linger: {FormatSec(linger)} | Marked hits: +{Pct(AbilityFunctions.Nomad.Marked_Hit_Mul - 1f + mods.markedDamagePct)} damage");
-            if (mods.markedRage > 0)
-                Line(player, $"Rage per Marked hit: {FormatNumber(mods.markedRage)}");
-            Line(player, $"Interact heal: {120 + mods.interactHealBonus} HP + 8 Vigor for 6s");
-            uint rofMs = AbilityFunctions.Nomad.RoF_Duration_Ms + (uint)Math.Max(0, mods.rofDurationBonusMs);
-            int charmRof = AbilityFunctions.Nomad.RoF_Amount;
+            if (mods.markedDefenseCap > 0)
+                Line(player, $"Aegis: +1 Defense per Marked hit for 1s, up to +{mods.markedDefenseCap}");
+            if (mods.markedRofCap > 0)
+                Line(player, $"Flicker: +1% RoF per Marked hit for 1s, up to +{mods.markedRofCap}%");
+            Line(player, $"Interact heal: {100 + mods.interactHealBonus} HP + 8 Vigor for 6s");
             int talismanRof = AbilityFunctions.Nomad.GetInteractTalismanRof(mods, rage);
             if (talismanRof > 0)
-                Line(player, $"Owner interact: +{charmRof}% RoF + {talismanRof}% talisman for {FormatSec((int)rofMs)}");
-            else
-                Line(player, $"Owner interact: +{charmRof}% RoF for {FormatSec((int)rofMs)}");
+                Line(player, $"Owner interact talisman: +{talismanRof}% RoF for {FormatSec((int)AbilityFunctions.Nomad.Interact_Talisman_RoF_Duration_Ms)}");
         }
 
         private static void WriteBladeweaver(Player player, PlayerState playerState, AbilityModifierSnapshot mods, int rage, uint time)

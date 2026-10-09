@@ -48,7 +48,7 @@ namespace TitanCore.Core
                 case ClassType.Bladeweaver:
                     return 1000;
                 case ClassType.Nomad:
-                    return 4000;
+                    return 8000;
                 default:
                     return int.MaxValue;
             }
@@ -354,11 +354,11 @@ namespace TitanCore.Core
 
             public const int Marked_Linger_Ms = 4000;
 
-            public const float Marked_Hit_Mul = 1.15f;
+            public const float Marked_Hit_Mul = 1.08f;
 
-            public const int RoF_Amount = 5;
+            public const uint Interact_Talisman_RoF_Duration_Ms = 4000;
 
-            public const uint RoF_Duration_Ms = 4000;
+            public const uint Flicker_Duration_Ms = 1000;
 
             public static int GetInteractTalismanRof(AbilityModifierSnapshot mods, float activationRage)
             {
@@ -377,11 +377,6 @@ namespace TitanCore.Core
                         extra += effect.alternateStatBonus.amount;
                 }
                 return extra;
-            }
-
-            public static int GetInteractRofAmount(AbilityModifierSnapshot mods, float activationRage)
-            {
-                return RoF_Amount + GetInteractTalismanRof(mods, activationRage);
             }
 
             public static int ScaleMarkedDamage(int damageTaken, float wrathPct)

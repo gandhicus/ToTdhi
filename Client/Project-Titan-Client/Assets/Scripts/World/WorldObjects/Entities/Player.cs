@@ -1199,9 +1199,6 @@ public class Player : Character
         if (!IsNomadMarked(enemy)) return;
 
         var mods = SkillTreeFunctions.IsEnabled ? BuildClientAbilityModifiers() : AbilityModifierSnapshot.Empty;
-        if (mods.markedRage > 0)
-            AddRage(mods.markedRage, false);
-
         if (!SkillTreeFunctions.IsEnabled || mods.talismanEffects == null) return;
         for (int i = 0; i < mods.talismanEffects.Length; i++)
         {
@@ -1222,19 +1219,8 @@ public class Player : Character
 
     private bool IsNomadMarked(Entity enemy)
     {
-        if (enemy.HasStatusEffect(StatusEffect.Marked)) return true;
-
-        float radius = 1f;
-        if (SkillTreeFunctions.IsEnabled)
-            radius += BuildClientAbilityModifiers().markRadiusBonus;
-        for (int i = 0; i < NomadCharm.ActiveCharms.Count; i++)
-        {
-            var charm = NomadCharm.ActiveCharms[i];
-            if (charm == null || charm.world == null) continue;
-            if (Vector2.Distance(charm.Position, enemy.Position) <= radius + enemy.radius * enemy.size)
-                return true;
-        }
-        return false;
+        // The server stops marking on interaction while the charm remains visible.
+        return enemy.HasStatusEffect(StatusEffect.Marked);
     }
 
     private const float Emote_Cooldown = 0;

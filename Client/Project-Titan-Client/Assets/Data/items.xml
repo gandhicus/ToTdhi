@@ -263,6 +263,7 @@
 			<MinDamageMod>1</MinDamageMod>
 			<MaxDamageMod>4</MaxDamageMod>
 			<Amount>1</Amount>
+			<IgnoreEntity/>
 		</Projectile>
 
 		<RateOfFire>4</RateOfFire>
@@ -547,12 +548,12 @@
 
 		<Projectile name="Bow 1 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<MinDamageMod>1</MinDamageMod>
 			<MaxDamageMod>2</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>3</RateOfFire>
+		<RateOfFire>2.8</RateOfFire>
 	</Object>
 
 	<Object id="0x141" name="Yew Longbow" tier="1">
@@ -564,13 +565,13 @@
 
 		<Projectile name="Bow 2 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x140">0</ProjectileRef>
 			<MinDamageMod>1.6</MinDamageMod>
 			<MaxDamageMod>1.5</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>3.4</RateOfFire>
+		<RateOfFire>3.2</RateOfFire>
 	</Object>
 
 	<Object id="0x142" name="Osage Longbow" tier="2">
@@ -582,13 +583,13 @@
 
 		<Projectile name="Bow 3 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x141">0</ProjectileRef>
 			<MinDamageMod>1.3</MinDamageMod>
 			<MaxDamageMod>1.3</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>3.8</RateOfFire>
+		<RateOfFire>3.6</RateOfFire>
 	</Object>
 
 	<Object id="0x143" name="Fortified Longbow" tier="3">
@@ -600,13 +601,13 @@
 
 		<Projectile name="Bow 4 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x142">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.2</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>4.2</RateOfFire>
+		<RateOfFire>4.0</RateOfFire>
 	</Object>
 
 	<Object id="0x144" name="Vulture's Ferocity" tier="4">
@@ -620,13 +621,13 @@
 
 		<Projectile name="Bow 5 Arrow">
 			<Speed>17</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x143">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.2</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>4.6</RateOfFire>
+		<RateOfFire>4.4</RateOfFire>
 	</Object>
 
 	<Object id="0x145" name="Arcus's Featherdraw Bow" tier="5">
@@ -640,13 +641,13 @@
 
 		<Projectile name="Bow 6 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x144">0</ProjectileRef>
 			<MinDamageMod>0.9</MinDamageMod>
 			<MaxDamageMod>0.9</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>5.4</RateOfFire>
+		<RateOfFire>5.2</RateOfFire>
 	</Object>
 
 	<Object id="0x146" name="Bow of Cruel Consequence" tier="6">
@@ -658,13 +659,13 @@
 
 		<Projectile name="Bow 7 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x145">0</ProjectileRef>
 			<MinDamageMod>1.25</MinDamageMod>
 			<MaxDamageMod>1.25</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>4.8</RateOfFire>
+		<RateOfFire>4.6</RateOfFire>
 	</Object>
 
 	<Object id="0x147" name="Bow of Pitless Pestilence" tier="7">
@@ -676,13 +677,13 @@
 
 		<Projectile name="Bow 8 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x146">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.2</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>5.0</RateOfFire>
+		<RateOfFire>4.8</RateOfFire>
 	</Object>
 
 	<Object id="0x148" name="Bow of Renown Immortality" tier="8">
@@ -694,13 +695,13 @@
 
 		<Projectile name="Bow 9 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x147">0</ProjectileRef>
 			<MinDamageMod>1.15</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>5.2</RateOfFire>
+		<RateOfFire>5.0</RateOfFire>
 	</Object>
 
 	<Object id="0x149" name="Stormsong (Tehtman's Soulstring)" tier="-3">
@@ -712,7 +713,7 @@
 
 		<Projectile name="Bow 10 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<Amount>2</Amount>
 			<AngleGap>20</AngleGap>
 			<MinDamageMod>4.5</MinDamageMod>
@@ -725,7 +726,7 @@
 			<MaxDamageMod>7.4</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>5</RateOfFire>
+		<RateOfFire>4.8</RateOfFire>
 
 		<AlternateStatIncrease type="TrueDamageChance">5</AlternateStatIncrease>
 		<AlternateStatIncrease type="RageGain">-15</AlternateStatIncrease>
@@ -739,7 +740,7 @@
 
 		<Projectile name="Oda's Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<MinDamageMod>4.8</MinDamageMod>
 			<MaxDamageMod>5.8</MaxDamageMod>
 			<DefinedAmount/>
@@ -748,7 +749,7 @@
 
 		<Projectile name="Oda's Arrow" type="Sin">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<Frequency>0.5</Frequency>
 			<Amplitude>1.2</Amplitude>
 			<MinDamageMod>4.8</MinDamageMod>
@@ -759,7 +760,7 @@
 
 		<Projectile name="Oda's Arrow" type="Sin">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<Frequency>0.5</Frequency>
 			<Amplitude>1.2</Amplitude>
 			<MinDamageMod>4.8</MinDamageMod>
@@ -768,7 +769,7 @@
 			<Amount>3</Amount>
 		</Projectile>
 
-		<RateOfFire>3</RateOfFire>
+		<RateOfFire>2.8</RateOfFire>
 
 		<AlternateStatIncrease type="RageGain">-30</AlternateStatIncrease>
 
@@ -781,17 +782,18 @@
 		<Description>A ceremonial bow used by followers and acolytes of Rictorn.</Description>
 
 		<Projectile name="Acolyte Arrow">
-			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Speed>15</Speed>
+			<Range>5.5</Range>
 			<Amount>2</Amount>
 			<AngleGap>15</AngleGap>
 			<ProjectileRef id="0x144">0</ProjectileRef>
 			<MinDamageMod>0.5</MinDamageMod>
 			<MaxDamageMod>0.65</MaxDamageMod>
-			<IgnoreEntity/>
 		</Projectile>
 
-		<RateOfFire>4.8</RateOfFire>
+		<AlternateStatIncrease type="RageGain">-20</AlternateStatIncrease>
+
+		<RateOfFire>4.6</RateOfFire>
 	</Object>
 
 	<Object id="0x14c" name="Bow of Swift Precision" tier="9">
@@ -803,13 +805,13 @@
 
 		<Projectile name="Bow Tier 9 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x148">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>5.2</RateOfFire>
+		<RateOfFire>5.0</RateOfFire>
 	</Object>
 
 	<Object id="0x14d" name="Bow of Eternal Growth" tier="10">
@@ -821,13 +823,13 @@
 
 		<Projectile name="Bow Tier 10 Arrow">
 			<Speed>16</Speed>
-			<Range>6.5</Range>
+			<Range>5.5</Range>
 			<ProjectileRef id="0x14c">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
 		</Projectile>
 
-		<RateOfFire>5.2</RateOfFire>
+		<RateOfFire>5.0</RateOfFire>
 	</Object>
 
 	<!-- Spears -->
@@ -3484,7 +3486,7 @@
 		<Sprite>Talisman of Tragedy</Sprite>
 		<Class>Nomad</Class>
 		<TalismanEffect trigger="HitMarked">
-			<Rage>2</Rage>
+			<Rage>0.2</Rage>
 		</TalismanEffect>
 		<Power/>
 		<Description>A talisman that was once cursed for bringing bad luck.</Description>
@@ -3512,7 +3514,7 @@
 			<Heal>20</Heal>
 		</TalismanEffect>
 		<Support/>
-		<Description>On charm interact, heal 20 HP.</Description>
+		<Description>On charm interact, heal an extra 20 HP.</Description>
 	</Object>
 	<Object id="0x212e" name="Talisman of Daybreak" tier="-2">
 		<Type>Equipment</Type>
@@ -3520,7 +3522,7 @@
 		<Sprite>Talisman of Daybreak</Sprite>
 		<Class>Nomad</Class>
 		<TalismanEffect trigger="Interact">
-			<AlternateStatBonus type="RateOfFire" amount="7" duration="4000"/>
+			<AlternateStatBonus type="RateOfFire" amount="6" duration="4000"/>
 			<Heal>-30</Heal>
 		</TalismanEffect>
 		<Power/>

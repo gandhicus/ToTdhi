@@ -245,6 +245,20 @@ namespace World.Map
             removedObjects.Add(obj);
         }
 
+        // A replacement ability can cancel a charm before its delayed spawn reaches the world.
+        public void RemoveObjectOrPending(GameObject obj)
+        {
+            if (spawnedObjects.Remove(obj)) return;
+            for (int i = delayedSpawnedObjects.Count - 1; i >= 0; i--)
+            {
+                if (delayedSpawnedObjects[i].obj != obj) continue;
+                delayedSpawnedObjects.RemoveAt(i);
+                return;
+            }
+            if (obj.world == world)
+                RemoveObjectPostLogic(obj);
+        }
+
         /// <summary>
         /// Updates an enemy's assigned partition
         /// </summary>

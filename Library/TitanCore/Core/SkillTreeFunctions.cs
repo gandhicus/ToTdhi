@@ -55,10 +55,10 @@ namespace TitanCore.Core
         public int speedOnHitMs;
         public int postDashInvulnMs;
         public float markedDamagePct;
-        public float markedRage;
+        public int markedDefenseCap;
         public int interactHealBonus;
         public float markRadiusBonus;
-        public int rofDurationBonusMs;
+        public int markedRofCap;
         public int markedLingerMs;
         public int rofAmount;
         public int vigorBonus;

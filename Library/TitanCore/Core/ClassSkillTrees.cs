@@ -250,36 +250,36 @@ namespace TitanCore.Core
 
         private static class NomadTree
         {
-            public const float WrathMarkedDamagePct = 0.06f;
-            public const float FrustrationMarkedRage = 0.5f;
+            public const float WrathMarkedDamagePct = 0.04f;
+            public const int AegisDefenseCapPerRank = 4;
             public const int MendingInteractHeal = 15;
             public const int EverlastingMs = 1500;
             public const float HasteCooldownPct = 0.1f;
             public const float ManifestRadius = 0.5f;
-            public const int FlickerRofMs = 1000;
+            public const int FlickerRofCapPerRank = 3;
             public const int ResonateLingerMs = 1000;
 
             public static readonly NodeDef[] Nodes =
             {
                 N("Wrath", "Ranger/Wrath", EffectStyle.Power, r => $"+{Pct(WrathMarkedDamagePct, r)} damage to Marked enemies"),
-                N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"+{Sc(FrustrationMarkedRage, r):0.#} rage when hitting Marked enemies"),
+                N("Aegis", "Warrior/Aegis", EffectStyle.Defense, r => $"Gain +1 Defense for 1s on hitting a Marked enemy, up to +{Sc(AegisDefenseCapPerRank, r)} Defense"),
                 N("Mending", "Warrior/Mending", EffectStyle.Support, r => $"+{Sc(MendingInteractHeal, r)} heal on charm interact"),
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{SecI(EverlastingMs, r)} charm duration"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
                 N("Manifest", "Nomad/ManifestFocus", EffectStyle.Focus, r => $"+{Sc(ManifestRadius, r):0.##} tile ability radius"),
-                N("Flicker", "Nomad/Flicker", EffectStyle.Power, r => $"+{Sec(FlickerRofMs, r)} Rate of Fire duration"),
+                N("Flicker", "Nomad/Flicker", EffectStyle.Power, r => $"Gain +1% Rate of Fire for 1s on hitting a Marked enemy, up to +{Sc(FlickerRofCapPerRank, r)}%"),
                 N("Resonate", "Nomad/Resonate", EffectStyle.Focus, r => $"+{Sec(ResonateLingerMs, r)} Marked duration"),
             };
 
             public static void Apply(int[] r, ref AbilityModifierSnapshot snap)
             {
                 snap.markedDamagePct = Sc(WrathMarkedDamagePct, r[0]);
-                snap.markedRage = Sc(FrustrationMarkedRage, r[1]);
+                snap.markedDefenseCap = Sc(AegisDefenseCapPerRank, r[1]);
                 snap.interactHealBonus = Sc(MendingInteractHeal, r[2]);
                 snap.durationBonusMs = Sc(EverlastingMs, r[3]);
                 snap.cooldownMul = MulMinus(HasteCooldownPct, r[4]);
                 snap.markRadiusBonus = Sc(ManifestRadius, r[5]);
-                snap.rofDurationBonusMs = Sc(FlickerRofMs, r[6]);
+                snap.markedRofCap = Sc(FlickerRofCapPerRank, r[6]);
                 snap.markedLingerMs = Sc(ResonateLingerMs, r[7]);
             }
         }

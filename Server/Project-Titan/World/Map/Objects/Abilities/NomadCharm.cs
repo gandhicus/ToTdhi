@@ -19,6 +19,14 @@ namespace World.Map.Objects.Abilities
 
         private HashSet<ulong> healed = new HashSet<ulong>();
 
+        private readonly HashSet<Enemy> markedEnemies = new HashSet<Enemy>();
+
+        private readonly global::World.World spawnWorld;
+
+        private bool markingActive = true;
+
+        private bool despawned;
+
         private Player ownerPlayer;
 
         private AbilityModifierSnapshot mods;
@@ -27,6 +35,7 @@ namespace World.Map.Objects.Abilities
         {
             expireTime = worldTime + lifetime;
             ownerPlayer = owner;
+            spawnWorld = owner?.world;
             this.mods = mods;
         }
 
@@ -36,8 +45,18 @@ namespace World.Map.Objects.Abilities
 
         public void Interact(Player player, TnInteract interact)
         {
+            if (despawned) return;
             if (!healed.Add(player.GetOwnerId())) return;
-            int heal = 120 + mods.interactHealBonus;
+            if (markingActive)
+            {
+                // Consume the mark on every enemy this charm reached, even after it left the radius.
+                markingActive = false;
+                foreach (var enemy in markedEnemies)
+                    if (enemy.world == world)
+                        enemy.RemoveEffect(StatusEffect.Marked);
+                markedEnemies.Clear();
+            }
+            int heal = 100 + mods.interactHealBonus;
             var activationRage = ownerPlayer?.gameState.playerState.abilityActivationRage ?? 0;
             if (SkillTreeFunctions.IsEnabled && mods.talismanEffects != null)
             {
@@ -55,9 +74,10 @@ namespace World.Map.Objects.Abilities
 
             if (ownerPlayer != null && player.GetOwnerId() == ownerPlayer.GetOwnerId())
             {
-                uint rofMs = AbilityFunctions.Nomad.RoF_Duration_Ms + (uint)System.Math.Max(0, mods.rofDurationBonusMs);
-                int rofAmt = AbilityFunctions.Nomad.GetInteractRofAmount(mods, activationRage);
-                player.gameState.playerState.ApplyTimedAlternateStatBonus(AlternateStatType.RateOfFire, rofAmt, (uint)(world.time.totalTime * 1000), rofMs);
+                int talismanRof = AbilityFunctions.Nomad.GetInteractTalismanRof(mods, activationRage);
+                if (talismanRof > 0)
+                    player.gameState.playerState.ApplyTimedAlternateStatBonus(AlternateStatType.RateOfFire, talismanRof,
+                        (uint)(world.time.totalTime * 1000), AbilityFunctions.Nomad.Interact_Talisman_RoF_Duration_Ms);
             }
 
             if (ownerPlayer != null)
@@ -68,6 +88,8 @@ namespace World.Map.Objects.Abilities
         {
             base.DoTick(ref time);
 
+            if (despawned) return;
+
             if (time.totalTime >= expireTime)
             {
                 if (ownerPlayer != null && ownerPlayer.world != null)
@@ -76,10 +98,25 @@ namespace World.Map.Objects.Abilities
                 return;
             }
 
+            if (!markingActive) return;
+
             float radius = 1f + mods.markRadiusBonus;
             float linger = (AbilityFunctions.Nomad.Marked_Linger_Ms + System.Math.Max(0, mods.markedLingerMs)) / 1000f;
             foreach (var enemy in world.objects.GetEnemiesWithin(position.Value.x, position.Value.y, radius).ToArray())
+            {
                 enemy.AddEffect(StatusEffect.Marked, linger);
+                markedEnemies.Add(enemy);
+            }
+        }
+
+        public void Despawn()
+        {
+            if (despawned) return;
+            despawned = true;
+            markingActive = false;
+            markedEnemies.Clear();
+            // The manager also handles charms waiting for their throw delay to end.
+            spawnWorld?.objects.RemoveObjectOrPending(this);
         }
     }
 }
