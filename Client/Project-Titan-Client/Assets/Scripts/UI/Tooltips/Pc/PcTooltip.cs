@@ -144,6 +144,8 @@ namespace Pc
 
         protected void SetBackgroundColor(Color color)
         {
+            // Preserve the prefab's opacity when item state changes the background tint.
+            color.a = background.color.a;
             background.color = color;
         }
 

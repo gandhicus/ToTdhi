@@ -51,19 +51,20 @@ namespace TitanCore.Data.Components
                 var alternateStatIncreases = owned && equippedFixedStats != null
                     ? EquipmentStatFunctions.GetDisplayAlternateStatIncreases(item, equip, equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, includeItemForScaling, scalingBonusStats, scalingBonusAlternateStats, equips)
                     : EquipmentStatFunctions.GetAlternateStatIncreases(item, equip);
+                var rolledStats = item.rolledStatIncreases;
+                var rolledAlternateStats = item.rolledAlternateStatIncreases;
+                bool hasRolledBaseStats = (rolledStats != null && rolledStats.Keys.Any(equip.statIncreases.ContainsKey))
+                    || (rolledAlternateStats != null && rolledAlternateStats.Keys.Any(equip.alternateStatIncreases.ContainsKey));
 
-                if (statIncreases.Count > 0 || alternateStatIncreases.Count > 0)
+                if (statIncreases.Count > 0 || alternateStatIncreases.Count > 0 || hasRolledBaseStats)
                 {
                     describer.AddTitle("On Equip");
                     bool showRollRanges = EquipmentStatFunctions.HasRolledStats(item) && equip.statRollPool != null;
-                    var rolledStats = item.rolledStatIncreases;
-                    var rolledAlternateStats = item.rolledAlternateStatIncreases;
-                    var primaryStatTypes = new HashSet<StatType>(statIncreases.Keys);
-                    var alternateStatTypes = new HashSet<AlternateStatType>(alternateStatIncreases.Keys);
-                    if (rolledStats != null)
-                        primaryStatTypes.UnionWith(rolledStats.Keys);
-                    if (rolledAlternateStats != null)
-                        alternateStatTypes.UnionWith(rolledAlternateStats.Keys);
+                    // Keep base stats in their equipment order even when a zero roll is absent from the totals.
+                    var primaryStatTypes = equip.statIncreases.Keys.Concat(statIncreases.Keys)
+                        .Concat(rolledStats != null ? rolledStats.Keys : Enumerable.Empty<StatType>()).Distinct();
+                    var alternateStatTypes = equip.alternateStatIncreases.Keys.Concat(alternateStatIncreases.Keys)
+                        .Concat(rolledAlternateStats != null ? rolledAlternateStats.Keys : Enumerable.Empty<AlternateStatType>()).Distinct();
 
                     foreach (var statType in primaryStatTypes)
                     {
@@ -75,7 +76,7 @@ namespace TitanCore.Data.Components
                         bool rolledBaseStat = rolledStats != null
                             && rolledStats.ContainsKey(statType)
                             && equip.statIncreases.ContainsKey(statType);
-                        if (fixedAmount == 0 && rolledAmount == 0) continue;
+                        if (fixedAmount == 0 && rolledAmount == 0 && !rolledBaseStat) continue;
 
                         describer.NewLine();
                         if (rolledBaseStat)
@@ -104,7 +105,7 @@ namespace TitanCore.Data.Components
                         bool rolledBaseStat = rolledAlternateStats != null
                             && rolledAlternateStats.ContainsKey(statType)
                             && equip.alternateStatIncreases.ContainsKey(statType);
-                        if (fixedAmount == 0 && rolledAmount == 0) continue;
+                        if (fixedAmount == 0 && rolledAmount == 0 && !rolledBaseStat) continue;
 
                         describer.NewLine();
                         if (rolledBaseStat)
@@ -456,7 +457,7 @@ namespace TitanCore.Data.Components
 
         private static void AddPrimaryStatElement(IDescriber describer, StatType type, int value, GameColor color)
         {
-            describer.AddElement($"{(value > 0 ? "+" : "")}{value} {GetStatName(type)}", color);
+            describer.AddElement($"{(value >= 0 ? "+" : "")}{value} {GetStatName(type)}", color);
         }
 
         private static void AddAlternateStatElement(IDescriber describer, AlternateStatType type, int value, GameColor color)
@@ -464,34 +465,34 @@ namespace TitanCore.Data.Components
             switch (type)
             {
                 case AlternateStatType.RateOfFire:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Rate of Fire", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% Rate of Fire", color);
                     break;
                 case AlternateStatType.TrueDamageChance:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% True Damage Chance", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% True Damage Chance", color);
                     break;
                 case AlternateStatType.BlockChance:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Block Chance", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% Block Chance", color);
                     break;
                 case AlternateStatType.AbsorptionChance:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Absorption Chance", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% Absorption Chance", color);
                     break;
                 case AlternateStatType.CriticalStrikeChance:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Critical Strike Chance", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% Critical Strike Chance", color);
                     break;
                 case AlternateStatType.CriticalStrikeDamage:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Critical Strike Damage", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% Critical Strike Damage", color);
                     break;
                 case AlternateStatType.RageGain:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Rage Gain", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% Rage Gain", color);
                     break;
                 case AlternateStatType.GroundedResistance:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Grounded Resistance", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% Grounded Resistance", color);
                     break;
                 case AlternateStatType.KnockbackResistance:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Knockback Resistance", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% Knockback Resistance", color);
                     break;
                 case AlternateStatType.Fortune:
-                    describer.AddElement($"{(value > 0 ? "+" : "")}{value}% Fortune", color);
+                    describer.AddElement($"{(value >= 0 ? "+" : "")}{value}% Fortune", color);
                     break;
             }
         }
