@@ -587,19 +587,19 @@
   <Object id="0xa4a" name="WhiteLily">
     <Type>StaticObject</Type>
     <Sprite>WhiteLily</Sprite>
-    <Size>0.65</Size>
+    <Size>0.8</Size>
   </Object>
 
   <Object id="0xa4b" name="PinkLily">
     <Type>StaticObject</Type>
     <Sprite>PinkLily</Sprite>
-    <Size>0.65</Size>
+    <Size>0.8</Size>
   </Object>
 
   <Object id="0xa4c" name="BlueLily">
     <Type>StaticObject</Type>
     <Sprite>BlueLily</Sprite>
-    <Size>0.65</Size>
+    <Size>0.8</Size>
   </Object>
 
   <Object id="0xa50" name="Market Display">
