@@ -1444,7 +1444,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="5" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -1469,7 +1469,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="5" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -1494,7 +1494,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="4" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="9" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="7" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -1519,7 +1519,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="4" max="12" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="3" max="8" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -1545,7 +1545,7 @@
 			<AlternateStatRoll type="CriticalStrikeDamage" min="6" max="16" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="3" weight="4"/>
-			<AlternateStatRoll type="Fortune" min="8" max="12" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="4" max="9" weight="12"/>
 		</StatRolls>
 
 	</Object>
@@ -1724,7 +1724,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="5" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -1750,7 +1750,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="5" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -1776,7 +1776,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="4" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="9" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="7" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -1802,7 +1802,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="4" max="12" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="3" max="8" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -1829,7 +1829,7 @@
 			<AlternateStatRoll type="CriticalStrikeDamage" min="6" max="16" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="3" weight="4"/>
-			<AlternateStatRoll type="Fortune" min="8" max="12" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="4" max="9" weight="12"/>
 		</StatRolls>
 
 	</Object>
@@ -2003,7 +2003,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="5" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -2028,7 +2028,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="7" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="5" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -2053,7 +2053,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="4" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="9" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="7" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -2078,7 +2078,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="5" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="4" max="12" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="5" max="9" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="3" max="8" weight="12"/>
 		</StatRolls>
 	</Object>
 
@@ -2104,7 +2104,7 @@
 			<AlternateStatRoll type="CriticalStrikeDamage" min="6" max="16" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="3" weight="4"/>
-			<AlternateStatRoll type="Fortune" min="8" max="12" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="4" max="9" weight="12"/>
 		</StatRolls>
 
 	</Object>
@@ -2398,7 +2398,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="1" max="5" weight="12"/>
 		</StatRolls>
 
 		<Description>A tremendous emerald fixed on top of a gleaming gold ring.</Description>
@@ -2421,7 +2421,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="1" max="5" weight="12"/>
 		</StatRolls>
 
 		<Description>A tremendous amethyst fixed on top of a gleaming gold ring.</Description>
@@ -2444,7 +2444,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="1" max="5" weight="12"/>
 		</StatRolls>
 
 		<Description>A tremendous obsidian crystal fixed on top of a gleaming gold ring.</Description>
@@ -2467,7 +2467,7 @@
 			<AlternateStatRoll type="BlockChance" min="1" max="3" weight="12"/>
 			<AlternateStatRoll type="CriticalStrikeDamage" min="2" max="5" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="2" weight="10"/>
-			<AlternateStatRoll type="Fortune" min="3" max="6" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="1" max="5" weight="12"/>
 		</StatRolls>
 
 		<Description>A tremendous ruby fixed on top of a gleaming gold ring.</Description>
@@ -2697,8 +2697,8 @@
 		<SlotType>Accessory</SlotType>
 		<Sprite>Quartz Ring</Sprite>
 
-		<StatIncrease type="Attack">4</StatIncrease>
-		<AlternateStatIncrease type="CriticalStrikeChance">10</AlternateStatIncrease>
+		<StatIncrease type="Attack">3</StatIncrease>
+		<AlternateStatIncrease type="CriticalStrikeChance">6</AlternateStatIncrease>
 
 		<Description>A ring topped with a beautiful, yet rough, hunk of pink quartz.</Description>
 	</Object>
@@ -2814,7 +2814,7 @@
 		<SlotType>Accessory</SlotType>
 		<Sprite>The Promise Ring</Sprite>
 
-		<StatIncrease type="MaxHealth">60</StatIncrease>
+		<StatIncrease type="MaxHealth">30</StatIncrease>
 
 		<Proc trigger="HealthThreshold" threshold="80" above="true" continuous="true">
 			<StatBonus type="Attack" amount="8"/>
@@ -2827,8 +2827,6 @@
 		<Type>Equipment</Type>
 		<SlotType>Accessory</SlotType>
 		<Sprite>Fortis Fortuna</Sprite>
-
-		<StatIncrease type="MaxHealth">15</StatIncrease>
 
 		<AlternateStatIncrease type="Fortune">15</AlternateStatIncrease>
 
@@ -2895,7 +2893,7 @@
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="8" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
-			<AlternateStatRoll type="Fortune" min="5" max="8" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="7" weight="12"/>
 		</StatRolls>
 
 		<Description>A colossal emerald fixed on top of an enchanted gemmed ring.</Description>
@@ -2919,7 +2917,7 @@
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="8" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
-			<AlternateStatRoll type="Fortune" min="5" max="8" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="7" weight="12"/>
 		</StatRolls>
 
 		<Description>A colossal amethyst fixed on top of an enchanted gemmed ring.</Description>
@@ -2943,7 +2941,7 @@
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="8" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
-			<AlternateStatRoll type="Fortune" min="5" max="8" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="7" weight="12"/>
 		</StatRolls>
 
 		<Description>A colossal obsidian crystal fixed on top of an enchanted gemmed ring.</Description>
@@ -2967,7 +2965,7 @@
 			<AlternateStatRoll type="CriticalStrikeDamage" min="3" max="8" weight="10"/>
 			<AlternateStatRoll type="RateOfFire" min="1" max="3" weight="10"/>
 			<AlternateStatRoll type="AbsorptionChance" min="1" max="2" weight="4"/>
-			<AlternateStatRoll type="Fortune" min="5" max="8" weight="12"/>
+			<AlternateStatRoll type="Fortune" min="2" max="7" weight="12"/>
 		</StatRolls>
 
 		<Description>A colossal ruby fixed on top of an enchanted gemmed ring.</Description>
