@@ -1735,9 +1735,9 @@
 
 		<Description>Leather armor studden with gold metal. What is gained in strength is also gained in weight.</Description>
 
+		<StatIncrease type="Defense">12</StatIncrease>
 		<StatIncrease type="Speed">3</StatIncrease>
 		<StatIncrease type="Attack">3</StatIncrease>
-		<StatIncrease type="Defense">12</StatIncrease>
 
 		<StatRolls amountAverage="0.35" rollCount="1" maxPerStat="1" skipChance="35">
 			<StatRoll type="Defense" min="-2" max="2" always="true"/>
@@ -1761,9 +1761,9 @@
 
 		<Description>Extremely durable and resilient to damage. Crafted from the hide of a greenscale dragon.</Description>
 
+		<StatIncrease type="Defense">14</StatIncrease>
 		<StatIncrease type="Speed">4</StatIncrease>
 		<StatIncrease type="Attack">3</StatIncrease>
-		<StatIncrease type="Defense">14</StatIncrease>
 
 		<StatRolls amountAverage="0.35" rollCount="2" maxPerStat="1" skipChance="35">
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
@@ -1787,9 +1787,9 @@
 
 		<Description>Fashioned from the hide of a tarrasque. The impenetrable hide makes this armor only vulterable at weak points.</Description>
 
+		<StatIncrease type="Defense">16</StatIncrease>
 		<StatIncrease type="Speed">4</StatIncrease>
 		<StatIncrease type="Attack">4</StatIncrease>
-		<StatIncrease type="Defense">16</StatIncrease>
 
 		<StatRolls amountAverage="0.35" rollCount="2" maxPerStat="1" skipChance="35">
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
@@ -1813,9 +1813,9 @@
 
 		<Description>Hide armor created from the flesh of the kraken. Ancient sailors managed to cleverly remove a single tentacle.</Description>
 
+		<StatIncrease type="Defense">18</StatIncrease>
 		<StatIncrease type="Speed">6</StatIncrease>
 		<StatIncrease type="Attack">6</StatIncrease>
-		<StatIncrease type="Defense">18</StatIncrease>
 
 		<StatRolls amountAverage="0.35" rollCount="3" maxPerStat="1" skipChance="35">
 			<StatRoll type="Speed" min="-2" max="2" always="true"/>
@@ -1843,7 +1843,7 @@
 
 		<StatIncrease type="Defense">10</StatIncrease>
 		<StatIncrease type="Attack">6</StatIncrease>
-		<StatIncrease type="Speed">6</StatIncrease>
+		<StatIncrease type="Speed">8</StatIncrease>
 		<AlternateStatIncrease type="RateOfFire">5</AlternateStatIncrease>
 	</Object>
 
