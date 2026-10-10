@@ -27,7 +27,6 @@ namespace World.Abilities
             var mods = SkillTreeFunctions.IsEnabled ? PlayerState.abilityMods : AbilityModifierSnapshot.Empty;
             var rageSpent = rage;
             SpendDumpRage(ref rage, mods, out rageCost);
-            SkillTreeFunctions.ApplyRageToOnUseStats(ref mods, rageSpent);
             failedToUse = false;
             sendToSelf = false;
 
@@ -37,15 +36,16 @@ namespace World.Abilities
             if (curLength > maxRange)
                 target = position + targetVec.ChangeLength(maxRange, curLength);
 
-            float rangerRadius = AbilityFunctions.Ranger.GetRadius(rageSpent, attack) + mods.abilityRadiusBonus;
+            float rangerRadius = AbilityFunctions.Ranger.GetRadiusWithBonus(rageSpent, attack, mods.abilityRadiusBonus);
             bool damaging = PlayerState.HasEffect(StatusEffect.Damaging, time);
-            int weaponDamage = player.GetHeldWeaponShotDamage(time, time);
+            int weaponDamage = player.GetHeldWeaponVolleyDamage(time, time);
             int damage = AbilityFunctions.Ranger.ScaleWeaponDamage(weaponDamage, attack, damaging);
             damage = AbilityFunctions.RageSpend.ApplyRageDamageMul(damage, rageSpent, AbilityFunctions.Ranger.Rage_Damage_At_100);
             damage = Math.Max(1, (int)(damage * (1f + mods.abilityDamagePct)));
 
             Fire(time, target, rangerRadius, damage, mods, rageSpent, attack);
 
+            // Ranger Blight grants its listed Attack once per cast, regardless of rage spent.
             if (mods.timedAttack > 0 && mods.timedAttackMs > 0)
                 PlayerState.ApplyTimedStatBonus(StatType.Attack, mods.timedAttack, time, (uint)mods.timedAttackMs);
 

@@ -87,7 +87,7 @@ namespace TitanCore.Core
         /// Character level required to see and use the tree
         public const int Unlock_Level = NetConstants.Class_Quest_Level_3;
 
-        public static readonly int[] Rank_Essence_Cost = { 0, 500, 750, 1000 };
+        public static readonly int[] Rank_Essence_Cost = { 0, 750, 1000, 1250 };
 
         public static ClassSkillTrees.NodeDef GetNode(ClassType classType, SkillTreeNode node)
         {
@@ -234,14 +234,21 @@ namespace TitanCore.Core
             snap.chargeDurationMul = 1f;
             ClassSkillTrees.ApplyRanks(classType, ranks, ref snap);
 
-            if (!talisman.IsBlank && talisman.GetInfo() is EquipmentInfo equip && equip.talismanEffects != null && equip.talismanEffects.Count > 0)
+            if (!talisman.IsBlank && talisman.GetInfo() is EquipmentInfo equip && equip.slotType == SlotType.Talisman)
             {
-                snap.talismanEffects = equip.talismanEffects.ToArray();
-                for (int i = 0; i < snap.talismanEffects.Length; i++)
+                // Passives apply whenever the talisman is equipped; triggered effects remain optional.
+                snap.abilityRadiusBonus += equip.abilityRadiusBonus;
+                // Multiply after skill bonuses so +20% always raises the final ability damage by 20%.
+                snap.abilityDamagePct = (1f + snap.abilityDamagePct) * (1f + equip.abilityDamagePct) - 1f;
+                if (equip.talismanEffects != null && equip.talismanEffects.Count > 0)
                 {
-                    float healMul = snap.talismanEffects[i].healMul;
-                    if (healMul > 0f && Math.Abs(healMul - 1f) > 0.001f)
-                        snap.healPower = (snap.healPower + 1f) * healMul - 1f;
+                    snap.talismanEffects = equip.talismanEffects.ToArray();
+                    for (int i = 0; i < snap.talismanEffects.Length; i++)
+                    {
+                        float healMul = snap.talismanEffects[i].healMul;
+                        if (healMul > 0f && Math.Abs(healMul - 1f) > 0.001f)
+                            snap.healPower = (snap.healPower + 1f) * healMul - 1f;
+                    }
                 }
             }
 

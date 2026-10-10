@@ -728,7 +728,7 @@
 
 		<RateOfFire>4.8</RateOfFire>
 
-		<AlternateStatIncrease type="TrueDamageChance">5</AlternateStatIncrease>
+		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
 		<AlternateStatIncrease type="RageGain">-15</AlternateStatIncrease>
 	</Object>
 
@@ -3383,9 +3383,8 @@
 		<SlotType>Talisman</SlotType>
 		<Sprite>Talisman of Wrath</Sprite>
 		<Class>Ranger</Class>
-		<TalismanEffect trigger="AbilityTick">
-			<StatBonus type="Attack" amount="4" duration="1000"/>
-		</TalismanEffect>
+		<AbilityRadiusBonus>-3</AbilityRadiusBonus>
+		<AbilityDamagePct>0.20</AbilityDamagePct>
 		<Power/>
 		<Description>A talisman that holds a great anger underneath.</Description>
 	</Object>

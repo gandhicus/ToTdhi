@@ -133,7 +133,7 @@ namespace TitanCore.Core
             public const int BlightAttack = 2;
             public const int BlightMs = 5000;
             public const float FrustrationKeep = 0.08f;
-            public const float HasteCooldownPct = 0.05f;
+            public const float HasteCooldownPct = 0.10f;
             public const float UnfurlRange = 1f;
             public const int EnigmaSlowMs = 1000;
             public const int GriefRageOnKill = 4;
@@ -142,7 +142,7 @@ namespace TitanCore.Core
             {
                 N("Wrath", "Ranger/Wrath", EffectStyle.Power, r => $"+{Pct(WrathDamagePct, r)} ability damage"),
                 N("Manifest", "Ranger/ManifestPower", EffectStyle.Power, r => $"+{Sc(ManifestRadius, r):0.#} tile ability radius"),
-                N("Blight", "Lancer/Blight", EffectStyle.Power, r => OnUseStat(BlightAttack, BlightMs, r, "Attack")),
+                N("Blight", "Lancer/Blight", EffectStyle.Power, r => $"+{OnUse(BlightAttack, r)} Attack on ability use for {BlightMs / 1000f:0.#}s"),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability use"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
                 N("Unfurl", "Ranger/Unfurl", EffectStyle.Power, r => $"+{Sc(UnfurlRange, r)} tile ability range"),
@@ -463,8 +463,8 @@ namespace TitanCore.Core
             public const float WrathDamagePct = 0.08f;
             public const float UnfurlRange = 0.6f;
             public const float ManifestSpreadDeg = 8f;
-            public const float EnigmaSlowDurationPct = 0.25f;
-            public const float HasteCooldownPct = 0.05f;
+            public const float EnigmaSlowDurationPct = 0.15f;
+            public const float HasteCooldownPct = 0.10f;
             public const int EverlastingRofMs = 500;
             public const int FlickerRof = 2;
             public const int BlightAttack = 2;

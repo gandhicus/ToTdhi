@@ -181,13 +181,29 @@ namespace TitanCore.Data.Components
                     describer.NewLine();
                 }
 
-                if (equip.talismanEffects != null && equip.talismanEffects.Count > 0)
+                bool hasPassiveTalismanBonus = equip.slotType == SlotType.Talisman
+                    && (equip.abilityRadiusBonus != 0f || equip.abilityDamagePct != 0f);
+                bool hasTalismanEffects = equip.talismanEffects != null && equip.talismanEffects.Count > 0;
+                if (hasPassiveTalismanBonus || hasTalismanEffects)
                 {
                     describer.AddTitle("Talisman");
-                    foreach (var effect in equip.talismanEffects)
+                    if (hasPassiveTalismanBonus && equip.abilityRadiusBonus != 0f)
                     {
                         describer.NewLine();
-                        AddIndentedBody(describer, effect.Describe(), neutralColor);
+                        AddIndentedBody(describer, $"{equip.abilityRadiusBonus:+0.#;-0.#;0} tile ability radius", neutralColor);
+                    }
+                    if (hasPassiveTalismanBonus && equip.abilityDamagePct != 0f)
+                    {
+                        describer.NewLine();
+                        AddIndentedBody(describer, $"{equip.abilityDamagePct * 100f:+0.#;-0.#;0}% ability damage", neutralColor);
+                    }
+                    if (hasTalismanEffects)
+                    {
+                        foreach (var effect in equip.talismanEffects)
+                        {
+                            describer.NewLine();
+                            AddIndentedBody(describer, effect.Describe(), neutralColor);
+                        }
                     }
                     describer.NewLine();
                 }

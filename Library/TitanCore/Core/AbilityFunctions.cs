@@ -196,9 +196,18 @@ namespace TitanCore.Core
                 return 8;
             }
 
+            public static float GetShoutSlowDuration(int rage, float slowDurationPct)
+            {
+                if (rage <= 0) return 0f;
+                // Base Slowed lasts 4 seconds at 50 rage and 8 seconds at 100 rage.
+                float baseSeconds = 0.08f * Math.Min(rage, 100);
+                return baseSeconds * Math.Max(0f, 1f + slowDurationPct);
+            }
+
             public static AbilityEffect GetShoutEffect(int rage, int attack)
             {
-                return new AbilityEffect(StatusEffect.Slowed, 5, 0);
+                // Legacy effect metadata stores whole seconds; the server uses the fractional duration.
+                return new AbilityEffect(StatusEffect.Slowed, (uint)Math.Ceiling(GetShoutSlowDuration(rage, 0f)), 0);
             }
 
             public static float GetRoFArea(int rage, int attack)
@@ -218,8 +227,7 @@ namespace TitanCore.Core
 
         public static class Ranger
         {
-            // 10x one arrow at 100 rage (30% Attack). T8 is ~1.3k–2.4k at Attack 40.
-            // Uses a single shot so multi-arrow bows do not also inflate rain.
+            // Scale the whole bow volley at 100 rage with 30% of Attack's normal effect.
             public const float Weapon_Damage_Mul = 1f;
 
             public const float Rage_Damage_At_100 = 10f;
@@ -231,19 +239,25 @@ namespace TitanCore.Core
                 return 2 + (rage / 100f) * 4;
             }
 
+            public static float GetRadiusWithBonus(int rage, int attack, float radiusBonus)
+            {
+                // Keep low-rage rains usable and prevent a non-positive radius in the client effect.
+                return Math.Max(0.5f, GetRadius(rage, attack) + radiusBonus);
+            }
+
             public static float PartialAttackModifier(int attack, bool damaging)
             {
                 float full = StatFunctions.AttackModifier(attack, damaging);
                 return 1f + (full - 1f) * Attack_Scale;
             }
 
-            // weaponShotDamage already includes full AttackModifier from the shot roll.
-            public static int ScaleWeaponDamage(int weaponShotDamage, int attack, bool damaging)
+            // weaponVolleyDamage already includes full AttackModifier from each shot roll.
+            public static int ScaleWeaponDamage(int weaponVolleyDamage, int attack, bool damaging)
             {
                 float full = StatFunctions.AttackModifier(attack, damaging);
                 if (full < 0.01f)
                     full = 0.01f;
-                float raw = weaponShotDamage / full;
+                float raw = weaponVolleyDamage / full;
                 float partial = PartialAttackModifier(attack, damaging);
                 return Math.Max(1, (int)(raw * partial * Weapon_Damage_Mul));
             }

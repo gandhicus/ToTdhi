@@ -108,11 +108,11 @@ namespace World.Commands
             WriteDumpRageCost(player, mods, rage);
             GetHeldWeapon(playerState, out var weapon);
             bool damaging = playerState.HasEffect(StatusEffect.Damaging, time);
-            if (TryGetWeaponOutgoing(playerState, time, out var minDmg, out var maxDmg) && weapon != null)
+            if (TryGetWeaponVolleyOutgoing(playerState, time, out var minDmg, out var maxDmg) && weapon != null)
             {
                 byte spent = DumpSpent(mods, rage);
                 byte spentFull = DumpSpent(mods, 100);
-                Line(player, $"Bow shot: {FormatRangeNum((int)Math.Round(minDmg), (int)Math.Round(maxDmg))} (rain uses 1 arrow, not the volley)");
+                Line(player, $"Bow volley: {FormatRangeNum((int)Math.Round(minDmg), (int)Math.Round(maxDmg))}");
 
                 int rainMin = ScaleRanger(minDmg, mods.abilityDamagePct, spent, attack, damaging);
                 int rainMax = ScaleRanger(maxDmg, mods.abilityDamagePct, spent, attack, damaging);
@@ -124,15 +124,15 @@ namespace World.Commands
                 float vsFull = RangerVsDisplayedVolley(100, attack, damaging);
                 string attackShare = $"{AbilityFunctions.Ranger.Attack_Scale * 100f:0}% Attack scaling";
                 if (spent >= 100)
-                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x bow shot ({attackShare}, {FormatNumber(AbilityFunctions.Ranger.Weapon_Damage_Mul * AbilityFunctions.Ranger.Rage_Damage_At_100)}x raw at 100 rage)");
+                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x bow volley ({attackShare}, {FormatNumber(AbilityFunctions.Ranger.Weapon_Damage_Mul * AbilityFunctions.Ranger.Rage_Damage_At_100)}x raw at 100 rage)");
                 else
-                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x shot ({FormatNumber(vsFull)}x at 100 rage, {attackShare})");
+                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x volley ({FormatNumber(vsFull)}x at 100 rage, {attackShare})");
             }
             else
                 Line(player, "Rain damage: equip a weapon to see ability damage");
 
-            Pair(player, "Radius", Tiles(AbilityFunctions.Ranger.GetRadius(rage, attack) + mods.abilityRadiusBonus),
-                Tiles(AbilityFunctions.Ranger.GetRadius(100, attack) + mods.abilityRadiusBonus), rage);
+            Pair(player, "Radius", Tiles(AbilityFunctions.Ranger.GetRadiusWithBonus(rage, attack, mods.abilityRadiusBonus)),
+                Tiles(AbilityFunctions.Ranger.GetRadiusWithBonus(100, attack, mods.abilityRadiusBonus)), rage);
             Line(player, $"Cast range: {Tiles(6f + mods.abilityRangeBonus)}");
             if (mods.slowMs > 0)
                 Line(player, $"Applies Slowed for {FormatSec(mods.slowMs)}");
@@ -298,8 +298,11 @@ namespace World.Commands
 
             float coneDeg = AbilityFunctions.Berserker.GetShoutSpread(rage, attack) * 180f / (float)Math.PI + mods.shoutSpreadDeg;
             Line(player, $"Shout range: {Tiles(AbilityFunctions.Berserker.GetShoutRange(rage, attack) + mods.abilityRangeBonus)} | Cone: {FormatNumber(coneDeg)}°");
-            float slowSec = 5f * (1f + mods.slowDurationPct);
-            Line(player, $"Applies Slowed for {FormatNumber(slowSec)}s (Enigma +{Pct(mods.slowDurationPct)})");
+            float slowSec = AbilityFunctions.Berserker.GetShoutSlowDuration(rage, mods.slowDurationPct);
+            float slowFull = AbilityFunctions.Berserker.GetShoutSlowDuration(100, mods.slowDurationPct);
+            Pair(player, "Shout Slowed", $"{FormatNumber(slowSec)}s", $"{FormatNumber(slowFull)}s", rage);
+            if (mods.slowDurationPct > 0f)
+                Line(player, $"Enigma: +{Pct(mods.slowDurationPct)} Slowed duration");
 
             uint rofMs = AbilityFunctions.Berserker.GetRoFDurationMs(rage, attack) + (uint)Math.Max(0, mods.durationBonusMs);
             uint rofFull = AbilityFunctions.Berserker.GetRoFDurationMs(100, attack) + (uint)Math.Max(0, mods.durationBonusMs);
@@ -421,7 +424,10 @@ namespace World.Commands
         /// </summary>
         private static void WriteOnUseStats(Player player, ClassType classType, AbilityModifierSnapshot mods, int rage)
         {
-            if (classType != ClassType.Alchemist)
+            // Ranger Blight is a flat cast bonus; other timed Attack bonuses use rage chunks.
+            if (classType == ClassType.Ranger && mods.timedAttack > 0 && mods.timedAttackMs > 0)
+                Line(player, $"On use: +{mods.timedAttack} Attack for {FormatSec(mods.timedAttackMs)}");
+            else if (classType != ClassType.Alchemist)
                 OnUseStat(player, mods.timedAttack, mods.timedAttackMs, rage, "Attack");
             OnUseStat(player, mods.hymnDefense, mods.hymnDefenseMs, rage, "Defense");
             int healthChunk = mods.hymnMaxHealthRageChunk > 0 ? mods.hymnMaxHealthRageChunk : SkillTreeFunctions.On_Use_Stat_Rage_Chunk;

@@ -31,6 +31,10 @@ namespace TitanCore.Data.Items
 
         public List<TalismanEffect> talismanEffects = new List<TalismanEffect>();
 
+        public float abilityRadiusBonus;
+
+        public float abilityDamagePct;
+
         public List<EffectStyle> effectStyles = new List<EffectStyle>();
 
         public EquipmentInfo() : base()
@@ -81,6 +85,10 @@ namespace TitanCore.Data.Items
 
             foreach (var effectXml in xml.Elements("TalismanEffect"))
                 talismanEffects.Add(new TalismanEffect(effectXml));
+
+            // Passive talisman modifiers live on the equipment, without a trigger or rage threshold.
+            abilityRadiusBonus = xml.Float("AbilityRadiusBonus");
+            abilityDamagePct = xml.Float("AbilityDamagePct");
 
             var legacySpecial = xml.String("TalismanSpecial", "");
             if (talismanEffects.Count == 0 && string.Equals(legacySpecial, "DefensePulse", StringComparison.OrdinalIgnoreCase))
