@@ -39,6 +39,8 @@ namespace World.Map.Objects.Entities
         /// </summary>
         private Dictionary<ulong, int> damagers = new Dictionary<ulong, int>();
 
+        private Dictionary<ulong, Dictionary<int, double>> fortuneDamage = new Dictionary<ulong, Dictionary<int, double>>();
+
         public ulong spawnedBy;
 
         private Player closestPlayer;
@@ -183,7 +185,37 @@ namespace World.Map.Objects.Entities
                 }
                 damageDone += damage;
                 damagers[key] = damageDone;
+
+                if (damage > 0)
+                {
+                    // Attribute each hit to its Fortune value before equipment can change.
+                    var fortune = PlayerLootVariables.GetFortune(player);
+                    if (!fortuneDamage.TryGetValue(key, out var damageByFortune))
+                    {
+                        damageByFortune = new Dictionary<int, double>();
+                        fortuneDamage[key] = damageByFortune;
+                    }
+                    damageByFortune.TryGetValue(fortune, out var damageAtFortune);
+                    damageByFortune[fortune] = damageAtFortune + damage;
+                }
             }
+        }
+
+        public int GetQualifiedFortune(Player player)
+        {
+            // Missing attribution cannot prove sustained Fortune, so loot uses the base chance.
+            if (player?.client?.account == null || !fortuneDamage.TryGetValue(player.client.account.id, out var damageByFortune))
+                return 0;
+
+            double totalDamage = damageByFortune.Values.Sum();
+            if (totalDamage <= 0)
+                return 0;
+
+            foreach (var amount in damageByFortune)
+                if (amount.Value >= totalDamage * 0.9d)
+                    return amount.Key;
+
+            return 0;
         }
 
         public override int GetDefense()
@@ -373,6 +405,11 @@ namespace World.Map.Objects.Entities
             {
                 damagers[damager.Key] = (int)(damager.Value * increase);
             }
+
+            // Keep Fortune's damage share aligned with the existing scaled contribution totals.
+            foreach (var damageByFortune in fortuneDamage.Values)
+                foreach (var fortune in damageByFortune.Keys.ToArray())
+                    damageByFortune[fortune] *= increase;
         }
 
         public override void OnRemoveFromWorld()
