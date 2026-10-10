@@ -244,7 +244,7 @@ namespace World.Looting
                     new SoulboundLoot(0.3f, // 12
                         new Single(Loot.Chance(1.2), new Item("Desert Rose")),
                         new Single(Loot.Chance(3), new Item("Blue Mirage")),
-                        new Single(Loot.Chance(3.5), new Item("Quartz Ring"))
+                        new Single(Loot.Chance(3.5), new Item("Quartz Ring")),
                         new Single(Loot.Chance(3.5), new Item("Windward Cloak"))
                         ),
                     new SoulboundLoot(0.3f, // 13

@@ -3123,7 +3123,6 @@
 		<SlotType>Robe</SlotType>
 		<Sprite>Soulless Robe</Sprite>
 
-		<StatIncrease type="MaxHealth">20</StatIncrease>
 		<StatIncrease type="Speed">6</StatIncrease>
 		<StatIncrease type="Attack">6</StatIncrease>
 		<StatIncrease type="Defense">6</StatIncrease>
@@ -3144,7 +3143,6 @@
 		<SlotType>HeavyArmor</SlotType>
 		<Sprite>Soulless Heavy Armor</Sprite>
 
-		<StatIncrease type="MaxHealth">40</StatIncrease>
 		<StatIncrease type="Speed">2</StatIncrease>
 		<StatIncrease type="Attack">2</StatIncrease>
 		<StatIncrease type="Defense">18</StatIncrease>
@@ -3165,10 +3163,9 @@
 		<SlotType>LightArmor</SlotType>
 		<Sprite>Soulless Light Armor</Sprite>
 
-		<StatIncrease type="MaxHealth">30</StatIncrease>
 		<StatIncrease type="Speed">4</StatIncrease>
 		<StatIncrease type="Attack">4</StatIncrease>
-		<StatIncrease type="Defense">13</StatIncrease>
+		<StatIncrease type="Defense">12</StatIncrease>
 		<StatIncrease type="Vigor">4</StatIncrease>
 
 		<Description>
