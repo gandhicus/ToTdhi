@@ -79,8 +79,6 @@ namespace TitanCore.Core
         {
             public const float Air_Time = 1;
 
-            // 0.2x one elixir shot per tick at 100 rage. The puddle ticks about 11 times
-            // at default 1s spacing (more with Will), so this stays well below a Ranger rain.
             public const float Weapon_Damage_Mul = 0.2f;
 
             public const float Rage_Damage_At_100 = 1f;
@@ -227,8 +225,7 @@ namespace TitanCore.Core
 
         public static class Ranger
         {
-            // Scale the whole bow volley at 100 rage with 30% of Attack's normal effect.
-            public const float Weapon_Damage_Mul = 1f;
+            public const float Weapon_Damage_Mul = 0.5f;
 
             public const float Rage_Damage_At_100 = 10f;
 
@@ -317,10 +314,20 @@ namespace TitanCore.Core
             // 3x the sword volley at 25 rage matches the old flat slash on a T8 sword at Attack 60.
             public const float Weapon_Damage_Mul = 3f;
 
+            public const float First_Hit_Damage_Mul = 1.5f;
+
+            public const float Repeat_Hit_Damage_Mul = 0.5f;
+
             public static int ScaleWeaponDamage(int weaponVolleyDamage, int rage)
             {
                 float rageScalar = Math.Min(1f, Math.Max(0, rage) / (float)Max_Dash_Rage);
                 return Math.Max(1, (int)(weaponVolleyDamage * Weapon_Damage_Mul * rageScalar));
+            }
+
+            public static int ScaleHitDamage(int damage, bool firstHit)
+            {
+                if (damage <= 0) return damage;
+                return Math.Max(1, (int)(damage * (firstHit ? First_Hit_Damage_Mul : Repeat_Hit_Damage_Mul)));
             }
         }
 

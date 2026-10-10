@@ -118,7 +118,7 @@ namespace World.Commands
                 int rainMax = ScaleRanger(maxDmg, mods.abilityDamagePct, spent, attack, damaging);
                 int rainMinFull = ScaleRanger(minDmg, mods.abilityDamagePct, spentFull, attack, damaging);
                 int rainMaxFull = ScaleRanger(maxDmg, mods.abilityDamagePct, spentFull, attack, damaging);
-                Pair(player, "Rain damage", FormatRangeNum(rainMin, rainMax), FormatRangeNum(rainMinFull, rainMaxFull), spent);
+                Pair(player, "Rain hit damage", FormatRangeNum(rainMin, rainMax), FormatRangeNum(rainMinFull, rainMaxFull), spent);
 
                 float vsNow = RangerVsDisplayedVolley(spent, attack, damaging);
                 float vsFull = RangerVsDisplayedVolley(100, attack, damaging);
@@ -267,6 +267,8 @@ namespace World.Commands
 
             int puddleAttack = AbilityFunctions.Alchemist.Puddle_Attack + mods.fieldAttack;
             Line(player, $"Puddle Attack: +{puddleAttack} while standing in the puddle (base +{AbilityFunctions.Alchemist.Puddle_Attack}, Blight +{mods.fieldAttack})");
+            if (mods.fieldSpeed > 0)
+                Line(player, $"Puddle Speed: +{mods.fieldSpeed} while standing in the puddle (Alacrity)");
         }
 
         private static void WriteBerserker(Player player, PlayerState playerState, AbilityModifierSnapshot mods, int rage, int attack, uint time)
@@ -348,18 +350,25 @@ namespace World.Commands
                 int slashMax = ScaleBladeweaver(maxDmg, mods.abilityDamagePct, dashRage);
                 int slashMinFull = ScaleBladeweaver(minDmg, mods.abilityDamagePct, maxRage);
                 int slashMaxFull = ScaleBladeweaver(maxDmg, mods.abilityDamagePct, maxRage);
-                Pair(player, "Damage/blade", FormatRangeNum(slashMin, slashMax), FormatRangeNum(slashMinFull, slashMaxFull), dashRage, maxRage);
+                int firstMin = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMin, true);
+                int firstMax = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMax, true);
+                int firstMinFull = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMinFull, true);
+                int firstMaxFull = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMaxFull, true);
+                Pair(player, "First blade hit", FormatRangeNum(firstMin, firstMax), FormatRangeNum(firstMinFull, firstMaxFull), dashRage, maxRage);
 
-                const int bladeCount = 2;
-                Pair(player, "Both blades", FormatRangeNum(slashMin * bladeCount, slashMax * bladeCount),
-                    FormatRangeNum(slashMinFull * bladeCount, slashMaxFull * bladeCount), dashRage, maxRage);
+                int repeatMin = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMin, false);
+                int repeatMax = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMax, false);
+                int repeatMinFull = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMinFull, false);
+                int repeatMaxFull = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMaxFull, false);
+                Pair(player, "Both blade hits", FormatRangeNum(firstMin + repeatMin, firstMax + repeatMax),
+                    FormatRangeNum(firstMinFull + repeatMinFull, firstMaxFull + repeatMaxFull), dashRage, maxRage);
 
                 float vsNow = BladeweaverWeaponVolleyMul(dashRage);
                 float vsFull = BladeweaverWeaponVolleyMul(maxRage);
                 if (dashRage >= maxRage)
-                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x sword volley ({FormatNumber(AbilityFunctions.BladeWeaver.Weapon_Damage_Mul)}x at {maxRage} rage, Wrath included)");
+                    Line(player, $"First hit vs weapon: {FormatNumber(vsNow)}x sword volley at {maxRage} rage (Wrath included)");
                 else
-                    Line(player, $"Vs weapon: {FormatNumber(vsNow)}x volley ({FormatNumber(vsFull)}x at {maxRage} rage, Wrath included)");
+                    Line(player, $"First hit vs weapon: {FormatNumber(vsNow)}x volley ({FormatNumber(vsFull)}x at {maxRage} rage, Wrath included)");
             }
             else
                 Line(player, "Slash damage: equip a sword to see ability damage");
@@ -616,7 +625,7 @@ namespace World.Commands
 
         private static float BladeweaverWeaponVolleyMul(int rage)
         {
-            return AbilityFunctions.BladeWeaver.Weapon_Damage_Mul
+            return AbilityFunctions.BladeWeaver.Weapon_Damage_Mul * AbilityFunctions.BladeWeaver.First_Hit_Damage_Mul
                 * Math.Min(1f, Math.Max(0, rage) / (float)AbilityFunctions.BladeWeaver.Max_Dash_Rage);
         }
 

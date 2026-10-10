@@ -70,6 +70,7 @@ namespace TitanCore.Core
         public int fieldDefense;
         public int fieldDefenseMs;
         public int fieldAttack;
+        public int fieldSpeed;
         public float shoutSpreadDeg;
         public float chargeDurationMul;
         public TalismanEffect[] talismanEffects;

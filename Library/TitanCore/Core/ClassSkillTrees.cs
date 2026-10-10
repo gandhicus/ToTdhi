@@ -286,11 +286,11 @@ namespace TitanCore.Core
 
         private static class BrewerTree
         {
-            public const int EverlastingMs = 500;
+            public const int EverlastingMs = 1000;
             public const float ManifestRadius = 0.6f;
             public const int FlickerRof = 2;
             public const int MendingVigor = 2;
-            public const float HasteCooldownPct = 0.05f;
+            public const float HasteCooldownPct = 0.15f;
             public const float FrustrationKeep = 0.08f;
             public const int EnigmaSlowMs = 1600;
             public const int AegisDefense = 2;
@@ -416,11 +416,9 @@ namespace TitanCore.Core
         {
             public const float WrathDamagePct = 0.12f;
             public const float ManifestRadius = 0.5f;
-            public const int BasePulseLockoutMs = 1000;
-            public const int MinPulseLockoutMs = 200;
-            public const int WillLockoutMs = 60;
+            public const int AlacritySpeed = 4;
             public const float EverlastingDurationPct = 0.10f;
-            public const float HasteCooldownPct = 0.10f;
+            public const float HasteCooldownPct = 0.15f;
             public const float FrustrationKeep = 0.08f;
             public const int BlightAttack = 4;
             public const int EnigmaSlowMs = 1000;
@@ -429,7 +427,7 @@ namespace TitanCore.Core
             {
                 N("Wrath", "Ranger/Wrath", EffectStyle.Power, r => $"+{Pct(WrathDamagePct, r)} ability damage"),
                 N("Manifest", "Ranger/ManifestPower", EffectStyle.Power, r => $"+{Sc(ManifestRadius, r):0.#} tile ability radius"),
-                N("Will", "Warrior/Will", EffectStyle.Agility, r => WillLine(WillLockoutMs, r, ExtraPulsesAt(r))),
+                N("Alacrity", "Bladeweaver/Alacrity", EffectStyle.Agility, r => $"+{Sc(AlacritySpeed, r)} Speed while standing in puddle"),
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Pct(EverlastingDurationPct, r)} ability duration"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
                 N("Frustration", "Warrior/Frustration", EffectStyle.Power, r => $"Keep {Pct(FrustrationKeep, r)} rage after ability use"),
@@ -441,20 +439,12 @@ namespace TitanCore.Core
             {
                 snap.abilityDamagePct = Sc(WrathDamagePct, r[0]);
                 snap.abilityRadiusBonus = Sc(ManifestRadius, r[1]);
-                snap.pulseLockoutMs = BasePulseLockoutMs - Sc(WillLockoutMs, r[2]);
+                snap.fieldSpeed = Sc(AlacritySpeed, r[2]);
                 snap.durationMul = MulPlus(EverlastingDurationPct, r[3]);
                 snap.cooldownMul = MulMinus(HasteCooldownPct, r[4]);
                 snap.rageKeep = Sc(FrustrationKeep, r[5]);
                 snap.fieldAttack = Sc(BlightAttack, r[6]);
                 snap.slowMs = Sc(EnigmaSlowMs, r[7]);
-            }
-
-            private static int ExtraPulsesAt(int rank)
-            {
-                int duration = AbilityFunctions.Alchemist.GetGroundDurationMs(100);
-                int faster = Sc(WillLockoutMs, rank);
-                int lockout = ClampLockout(BasePulseLockoutMs, MinPulseLockoutMs, faster);
-                return ExtraPulses(duration, BasePulseLockoutMs, lockout, false);
             }
         }
 

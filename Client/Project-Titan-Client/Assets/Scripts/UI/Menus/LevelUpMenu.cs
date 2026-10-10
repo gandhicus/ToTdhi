@@ -224,6 +224,10 @@ public class LevelUpMenu : GameMenu
     {
         if (GetRemainingLevelPoints() <= 0) return false;
 
+        // Shift and Ctrl can queue several increases from one click, so check each one against the class cap.
+        var nextStat = player.GetStatBase(type) + (type == StatType.MaxHealth ? (change + 1) * 10 : change + 1);
+        if (nextStat > GetMax(type)) return false;
+
         change++;
         if (!ValidCost())
         {

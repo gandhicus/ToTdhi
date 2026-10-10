@@ -25,7 +25,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>3,3,2,3,2,2,3,2,2,3,2,2</Increase>
     </Stat>
     <Stat type="Defense">
@@ -68,7 +68,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
@@ -113,7 +113,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
@@ -158,7 +158,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
@@ -204,7 +204,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
     <Stat type="Defense">
@@ -250,7 +250,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
@@ -296,7 +296,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>3,3,2,3,2,2,3,2,2,3,2,2</Increase>
     </Stat>
     <Stat type="Defense">
@@ -342,7 +342,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
@@ -388,7 +388,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>2,2,2,2,2,2,2,2,2,2,2,2</Increase>
     </Stat>
     <Stat type="Defense">
@@ -434,7 +434,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
     <Stat type="Defense">
@@ -482,7 +482,7 @@
     </Stat>
     <Stat type="Attack">
       <Base>1</Base>
-      <Max>60</Max>
+      <Max>35</Max>
       <Increase>3,2,3,2,2,3,2,2,3,2,2,3</Increase>
     </Stat>
     <Stat type="Defense">

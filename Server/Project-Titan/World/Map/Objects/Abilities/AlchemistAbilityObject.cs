@@ -71,7 +71,10 @@ namespace World.Map.Objects.Abilities
             foreach (var player in world.objects.GetPlayersWithin(position.Value.x, position.Value.y, radius).ToArray())
             {
                 var now = player.gameState.playerState.LastClientTime;
-                player.gameState.playerState.ApplyTimedStatBonus(StatType.Attack, attackAmt, now, attackMs);
+                var state = player.gameState.playerState;
+                state.ApplyTimedStatBonus(StatType.Attack, attackAmt, now, attackMs);
+                if (mods.fieldSpeed > 0)
+                    state.ApplyTimedStatBonus(StatType.Speed, mods.fieldSpeed, now, attackMs);
             }
 
             foreach (var enemy in world.objects.GetEnemiesWithin(position.Value.x, position.Value.y, radius).ToArray())
