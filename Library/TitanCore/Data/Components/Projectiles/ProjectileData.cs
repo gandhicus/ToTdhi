@@ -42,6 +42,8 @@ namespace TitanCore.Data.Components.Projectiles
         /// </summary>
         public int amount;
 
+        public float ragePerHit;
+
         /// <summary>
         /// The size of this projectile
         /// </summary>
@@ -109,6 +111,7 @@ namespace TitanCore.Data.Components.Projectiles
             lifetime = xml.Float("Lifetime", 1);
             angleGap = AngleUtils.Deg2Rad * xml.Float("AngleGap", 0); // convert to radians
             amount = xml.Int("Amount", 1);
+            ragePerHit = xml.Float("RagePerHit", 1);
             size = xml.Float("Size", 1);
             passive = xml.Exists("Passive");
             noPath = xml.Exists("NoPath");

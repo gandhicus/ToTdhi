@@ -14,7 +14,7 @@ namespace TitanCore.Data.Components
 {
     public static class ItemDescriber
     {
-        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack, IReadOnlyDictionary<StatType, int> equippedFixedStats = null, bool includeItemForScaling = true, IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null, IReadOnlyDictionary<StatType, int> scalingBonusStats = null, IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null, Item[] equips = null)
+        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack, IReadOnlyDictionary<StatType, int> equippedFixedStats = null, bool includeItemForScaling = true, IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null, IReadOnlyDictionary<StatType, int> scalingBonusStats = null, IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null, Item[] equips = null, int rageGainBonus = 0)
         {
             describer.Clear();
 
@@ -239,6 +239,13 @@ namespace TitanCore.Data.Components
                         describer.AddTitle("Shots");
 
                         describer.AddElement(shot.amount.ToString(), neutralColor);
+
+                        describer.NewLine();
+
+                        describer.AddTitle("Rage per hit");
+                        describer.AddElement(shot.ragePerHit.ToString("0.####"), neutralColor);
+                        if (owned)
+                            describer.AddElement($"({StatFunctions.ApplyRageGainBonus(shot.ragePerHit, rageGainBonus):0.####})", neutralColor);
 
                         describer.NewLine();
 

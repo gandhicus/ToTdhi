@@ -465,9 +465,11 @@
 			<MinDamageMod>5.2</MinDamageMod>
 			<MaxDamageMod>6.2</MaxDamageMod>
 			<Fallthrough/>
+			<RagePerHit>0.8</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>2</RateOfFire>
+
 	</Object>
 
 	<Object id="0x12a" name="Bothmur's Zweihander" tier="-3">
@@ -484,6 +486,7 @@
 			<DefinedAmount/>
 			<Amount>2</Amount>
 			<Fallthrough/>
+			<RagePerHit>0.8</RagePerHit>
 		</Projectile>
 
 		<Projectile name="Bothmur Zweihander Poke">
@@ -494,9 +497,11 @@
 			<DefinedAmount/>
 			<Amount>2</Amount>
 			<Fallthrough/>
+			<RagePerHit>0.8</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>2</RateOfFire>
+
 	</Object>
 
 	<Object id="0x12b" name="Claymore of the Sanguine Moon" tier="9">
@@ -718,18 +723,19 @@
 			<AngleGap>20</AngleGap>
 			<MinDamageMod>4.5</MinDamageMod>
 			<MaxDamageMod>5.5</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 		<Projectile name="Bow 10 Arrow">
 			<Speed>14</Speed>
 			<Range>6.5</Range>
 			<MinDamageMod>6.7</MinDamageMod>
 			<MaxDamageMod>7.4</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>4.8</RateOfFire>
 
 		<AlternateStatIncrease type="TrueDamageChance">10</AlternateStatIncrease>
-		<AlternateStatIncrease type="RageGain">-15</AlternateStatIncrease>
 	</Object>
 
 	<Object id="0x14a" name="Oda's Transcendent Longbow" tier="-3">
@@ -745,6 +751,7 @@
 			<MaxDamageMod>5.8</MaxDamageMod>
 			<DefinedAmount/>
 			<Amount>3</Amount>
+			<RagePerHit>0.7</RagePerHit>
 		</Projectile>
 
 		<Projectile name="Oda's Arrow" type="Sin">
@@ -756,6 +763,7 @@
 			<MaxDamageMod>5.8</MaxDamageMod>
 			<DefinedAmount/>
 			<Amount>3</Amount>
+			<RagePerHit>0.7</RagePerHit>
 		</Projectile>
 
 		<Projectile name="Oda's Arrow" type="Sin">
@@ -767,11 +775,11 @@
 			<MaxDamageMod>5.8</MaxDamageMod>
 			<DefinedAmount/>
 			<Amount>3</Amount>
+			<RagePerHit>0.7</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>2.8</RateOfFire>
 
-		<AlternateStatIncrease type="RageGain">-30</AlternateStatIncrease>
 
 	</Object>
 
@@ -789,9 +797,9 @@
 			<ProjectileRef id="0x144">0</ProjectileRef>
 			<MinDamageMod>0.5</MinDamageMod>
 			<MaxDamageMod>0.65</MaxDamageMod>
+			<RagePerHit>0.8</RagePerHit>
 		</Projectile>
 
-		<AlternateStatIncrease type="RageGain">-20</AlternateStatIncrease>
 
 		<RateOfFire>4.6</RateOfFire>
 	</Object>
@@ -849,9 +857,11 @@
 			<Amplitude>0.5</Amplitude>
 			<MinDamageMod>1.5</MinDamageMod>
 			<MaxDamageMod>3.5</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>2.4</RateOfFire>
+
 	</Object>
 
 	<Object id="0x161" name="Double-Edged Spear" tier="1">
@@ -870,9 +880,11 @@
 			<ProjectileRef id="0x160">0</ProjectileRef>
 			<MinDamageMod>1.6</MinDamageMod>
 			<MaxDamageMod>1.4</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>2.5</RateOfFire>
+
 	</Object>
 
 	<Object id="0x162" name="Ebonsteel Piercer" tier="2">
@@ -893,9 +905,11 @@
 			<ProjectileRef id="0x161">0</ProjectileRef>
 			<MinDamageMod>1.5</MinDamageMod>
 			<MaxDamageMod>1.25</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>2.6</RateOfFire>
+
 	</Object>
 
 	<Object id="0x163" name="Bronze Piercer" tier="3">
@@ -914,9 +928,11 @@
 			<ProjectileRef id="0x162">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>2.8</RateOfFire>
+
 	</Object>
 
 	<Object id="0x164" name="Enhanced Bronze Spear" tier="4">
@@ -935,9 +951,11 @@
 			<ProjectileRef id="0x163">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>3.0</RateOfFire>
+
 	</Object>
 
 	<Object id="0x165" name="Azler's Cerulean Partizan" tier="5">
@@ -958,9 +976,11 @@
 			<ProjectileRef id="0x164">0</ProjectileRef>
 			<MinDamageMod>1.25</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>3.2</RateOfFire>
+
 	</Object>
 
 	<Object id="0x166" name="Halberd of Redeeming Action" tier="6">
@@ -979,9 +999,11 @@
 			<ProjectileRef id="0x165">0</ProjectileRef>
 			<MinDamageMod>1.3</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>3.4</RateOfFire>
+
 	</Object>
 
 	<Object id="0x167" name="Halberd of Habitual Misery" tier="7">
@@ -1000,9 +1022,11 @@
 			<ProjectileRef id="0x166">0</ProjectileRef>
 			<MinDamageMod>1.15</MinDamageMod>
 			<MaxDamageMod>1.1</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>3.5</RateOfFire>
+
 	</Object>
 
 	<Object id="0x168" name="Halberd of Forsaken Blight" tier="8">
@@ -1021,9 +1045,11 @@
 			<ProjectileRef id="0x167">0</ProjectileRef>
 			<MinDamageMod>1.1</MinDamageMod>
 			<MaxDamageMod>1.1</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>3.6</RateOfFire>
+
 	</Object>
 
 	<Object id="0x169" name="Mannah's Mop" tier="-3">
@@ -1084,9 +1110,11 @@
 			<ProjectileRef id="0x168">0</ProjectileRef>
 			<MinDamageMod>1.15</MinDamageMod>
 			<MaxDamageMod>1.1</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>3.7</RateOfFire>
+
 	</Object>
 
 	<Object id="0x16b" name="Halbert of Midnight's Curse" tier="10">
@@ -1105,9 +1133,11 @@
 			<ProjectileRef id="0x16a">0</ProjectileRef>
 			<MinDamageMod>1.15</MinDamageMod>
 			<MaxDamageMod>1.1</MaxDamageMod>
+			<RagePerHit>0.85</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>3.8</RateOfFire>
+
 	</Object>
 
 	<!-- Elixirs -->
@@ -1125,6 +1155,7 @@
 			<Radius>3</Radius>
 			<MinDamageMod>1</MinDamageMod>
 			<MaxDamageMod>2</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1144,6 +1175,7 @@
 			<ProjectileRef id="0x180">0</ProjectileRef>
 			<MinDamageMod>2</MinDamageMod>
 			<MaxDamageMod>1.67</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1163,6 +1195,7 @@
 			<ProjectileRef id="0x181">0</ProjectileRef>
 			<MinDamageMod>1.4</MinDamageMod>
 			<MaxDamageMod>1.3</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1184,6 +1217,7 @@
 			<ProjectileRef id="0x182">0</ProjectileRef>
 			<MinDamageMod>1.4</MinDamageMod>
 			<MaxDamageMod>1.3</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1205,6 +1239,7 @@
 			<ProjectileRef id="0x183">0</ProjectileRef>
 			<MinDamageMod>1.38</MinDamageMod>
 			<MaxDamageMod>1.28</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1226,6 +1261,7 @@
 			<ProjectileRef id="0x184">0</ProjectileRef>
 			<MinDamageMod>1.35</MinDamageMod>
 			<MaxDamageMod>1.25</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1245,6 +1281,7 @@
 			<ProjectileRef id="0x185">0</ProjectileRef>
 			<MinDamageMod>1.25</MinDamageMod>
 			<MaxDamageMod>1.2</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1264,6 +1301,7 @@
 			<ProjectileRef id="0x186">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.2</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1283,6 +1321,7 @@
 			<ProjectileRef id="0x187">0</ProjectileRef>
 			<MinDamageMod>1.15</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1301,9 +1340,9 @@
 			<Radius>1.5</Radius>
 			<MinDamageMod>28</MinDamageMod>
 			<MaxDamageMod>37</MaxDamageMod>
+			<RagePerHit>1.35</RagePerHit>
 		</Projectile>
 
-		<AlternateStatIncrease type="RageGain">10</AlternateStatIncrease>
 
 		<RateOfFire>0.8</RateOfFire>
 	</Object>
@@ -1322,6 +1361,7 @@
 			<ProjectileRef id="0x188">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1341,6 +1381,7 @@
 			<ProjectileRef id="0x18a">0</ProjectileRef>
 			<MinDamageMod>1.2</MinDamageMod>
 			<MaxDamageMod>1.15</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.2</RateOfFire>
@@ -1360,6 +1401,7 @@
 			<Range>5</Range>
 			<MinDamageMod>6</MinDamageMod>
 			<MaxDamageMod>9</MaxDamageMod>
+			<RagePerHit>1.2</RagePerHit>
 		</Projectile>
 
 		<RateOfFire>1.5</RateOfFire>

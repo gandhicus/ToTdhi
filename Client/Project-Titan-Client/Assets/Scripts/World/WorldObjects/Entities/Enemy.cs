@@ -161,7 +161,7 @@ public class Enemy : NotPlayable
                     if (result.damage > 0)
                     {
                         if (projectile.grantsRage)
-                            world.player.AddRage();
+                            world.player.AddRage(projectile.data.ragePerHit);
                         world.player.ApplyNomadMarkedHitRage(this, projectile.startTime);
                     }
                 }
@@ -202,7 +202,7 @@ public class Enemy : NotPlayable
                 killed = true;
             if (result.damage > 0)
             {
-                world.player.AddRage();
+                world.player.AddRage(projectile.aoeData.ragePerHit);
                 world.player.ApplyNomadMarkedHitRage(this, 0);
             }
         }

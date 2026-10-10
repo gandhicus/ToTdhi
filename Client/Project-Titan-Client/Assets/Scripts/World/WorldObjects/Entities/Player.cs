@@ -1136,8 +1136,13 @@ public class Player : Character
     {
         if (HasStatusEffect(StatusEffect.Mundane)) return;
         if (applyRageGainBonus)
-            amount = StatFunctions.ApplyRageGainBonus(amount, GetAlternateStatIncrease(AlternateStatType.RageGain));
+            amount = StatFunctions.ApplyRageGainBonus(amount, GetEffectiveRageGainBonus());
         rage = Math.Min(rage + amount, 100f);
+    }
+
+    public int GetEffectiveRageGainBonus()
+    {
+        return GetAlternateStatIncrease(AlternateStatType.RageGain) + GetThresholdAlternateStatBonus(AlternateStatType.RageGain);
     }
 
     public bool TryConsumeLancerNovaHit(uint enemyId, uint burstTime)

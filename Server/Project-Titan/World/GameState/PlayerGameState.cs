@@ -499,7 +499,7 @@ namespace World.GameState
                 }
 
                 if (proj.item != AbilityFunctions.Lancer.Ability_Item_Id)
-                    playerState.AddRage(time);
+                    playerState.AddRage(time, proj.data.ragePerHit);
 
                 bool pierce = proj.item == AbilityFunctions.Lancer.Ability_Item_Id
                     && SkillTreeFunctions.IsEnabled
@@ -573,7 +573,7 @@ namespace World.GameState
                 }
             }
 
-            playerState.AddRage(time);
+            playerState.AddRage(time, proj.data.ragePerHit);
         }
 
         private bool ProjectileHitsEnemy(Vec2 projPos, float projRadius, EntityState enemyState, uint time)
