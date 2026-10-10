@@ -148,16 +148,21 @@ public abstract class GroundChunk<T> : MonoBehaviour, IChunk
     {
         int i = (int)rotation;
 
-        target[index + i] = new Vector2(rect.xMin, rect.yMin) / textureSize;
+        // Keep edge samples off atlas padding without changing the width of edge pixels.
+        const float edgeInset = 0.01f;
+        var min = new Vector2(rect.xMin + edgeInset, rect.yMin + edgeInset) / textureSize;
+        var max = new Vector2(rect.xMax - edgeInset, rect.yMax - edgeInset) / textureSize;
+
+        target[index + i] = new Vector2(min.x, min.y);
         i = (i + 1) % 4;
 
-        target[index + i] = new Vector2(rect.xMax, rect.yMin) / textureSize;
+        target[index + i] = new Vector2(max.x, min.y);
         i = (i + 1) % 4;
 
-        target[index + i] = new Vector2(rect.xMax, rect.yMax) / textureSize;
+        target[index + i] = new Vector2(max.x, max.y);
         i = (i + 1) % 4;
 
-        target[index + i] = new Vector2(rect.xMin, rect.yMax) / textureSize;
+        target[index + i] = new Vector2(min.x, max.y);
     }
 
     protected void RemoveSprite(int localX, int localY)
