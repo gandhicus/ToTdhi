@@ -40,7 +40,7 @@ namespace TitanCore.Core
                 case ClassType.Alchemist:
                     return 10000;
                 case ClassType.Minister:
-                    return 10000;
+                    return 18000;
                 case ClassType.Berserker:
                     return 10000;
                 case ClassType.Brewer:
@@ -167,7 +167,7 @@ namespace TitanCore.Core
 
             public static float GetPillarRadius(int rage)
             {
-                return 6;// 1 + (rage / 100.0f) * 5;
+                return 3;
             }
         }
 

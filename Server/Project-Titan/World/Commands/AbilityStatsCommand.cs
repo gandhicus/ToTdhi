@@ -406,8 +406,22 @@ namespace World.Commands
             float radius = AbilityFunctions.Minister.GetPillarRadius(cost) + mods.abilityRadiusBonus;
             int durationMs = AbilityFunctions.Minister.GetPillarDurationMs(cost) + Math.Max(0, mods.durationBonusMs);
             int tickMs = Math.Max(400, mods.pulseLockoutMs > 0 ? mods.pulseLockoutMs : 2000);
-            Line(player, $"Radius: {Tiles(radius)} | Duration: {FormatSec(durationMs)} | Tick every {FormatSec(tickMs)}");
-            Line(player, "Field: +8 Vigor while standing in the pillar");
+            Line(player, $"Benefit radius: {Tiles(radius)} | Duration: {FormatSec(durationMs)} | Heal pulse every {FormatSec(tickMs)}");
+            Line(player, "Pulses affect all players within the radius, including the caster");
+            Line(player, "Field: +8 Vigor while within the benefit radius");
+            Line(player, "Purify scales every 50 rage; Wrath and Aegis every 33 rage");
+            int absorptionChunk = mods.absorptionRageChunk > 0 ? mods.absorptionRageChunk : SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
+            int attackChunk = mods.timedAttackRageChunk > 0 ? mods.timedAttackRageChunk : SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
+            int defenseChunk = mods.fieldDefenseRageChunk > 0 ? mods.fieldDefenseRageChunk : SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
+            int absorption = SkillTreeFunctions.ScaleOnUseStat(mods.absorptionChance, cost, absorptionChunk);
+            int wrath = SkillTreeFunctions.ScaleOnUseStat(mods.timedAttack, cost, attackChunk);
+            int aegis = SkillTreeFunctions.ScaleOnUseStat(mods.fieldDefense, cost, defenseChunk);
+            if (absorption > 0)
+                Line(player, $"Purify on pulse: +{absorption}% Absorption Chance for {FormatSec(mods.absorptionChanceMs)}");
+            if (wrath > 0)
+                Line(player, $"Wrath on pulse: +{wrath} Attack for {FormatSec(mods.timedAttackMs)}");
+            if (aegis > 0)
+                Line(player, $"Aegis on pulse: +{aegis} Defense for {FormatSec(mods.fieldDefenseMs)}");
         }
 
         private static void WriteBrewer(Player player, AbilityModifierSnapshot mods, int rage)
@@ -438,16 +452,17 @@ namespace World.Commands
             // Ranger Blight is a flat cast bonus; other timed Attack bonuses use rage chunks.
             if (classType == ClassType.Ranger && mods.timedAttack > 0 && mods.timedAttackMs > 0)
                 Line(player, $"On use: +{mods.timedAttack} Attack for {FormatSec(mods.timedAttackMs)}");
-            else if (classType != ClassType.Alchemist)
+            else if (classType != ClassType.Alchemist && classType != ClassType.Minister)
                 OnUseStat(player, mods.timedAttack, mods.timedAttackMs, rage, "Attack");
             OnUseStat(player, mods.hymnDefense, mods.hymnDefenseMs, rage, "Defense");
             int healthChunk = mods.hymnMaxHealthRageChunk > 0 ? mods.hymnMaxHealthRageChunk : SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
             OnUseStat(player, mods.hymnMaxHealth, mods.hymnMaxHealthMs, rage, "Max Health", healthChunk);
             OnUseStat(player, mods.hymnBlockChance, mods.hymnBlockChanceMs, rage, "Block Chance", SkillTreeFunctions.On_Use_Stat_Rage_Chunk, true);
-            if (classType != ClassType.Alchemist && classType != ClassType.Berserker && classType != ClassType.Brewer)
+            if (classType != ClassType.Alchemist && classType != ClassType.Berserker && classType != ClassType.Brewer && classType != ClassType.Minister)
                 OnUseStat(player, mods.fieldDefense, mods.fieldDefenseMs, rage, "Defense");
             int absorbChunk = mods.absorptionRageChunk > 0 ? mods.absorptionRageChunk : SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
-            OnUseStat(player, mods.absorptionChance, mods.absorptionChanceMs, rage, "Absorption Chance", absorbChunk, true);
+            if (classType != ClassType.Minister)
+                OnUseStat(player, mods.absorptionChance, mods.absorptionChanceMs, rage, "Absorption Chance", absorbChunk, true);
             if (classType == ClassType.Bladeweaver && mods.speedOnHit > 0 && mods.speedOnHitMs > 0)
             {
                 int chunk = SkillTreeFunctions.On_Use_Stat_Rage_Chunk;

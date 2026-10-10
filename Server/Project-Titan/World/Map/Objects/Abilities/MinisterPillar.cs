@@ -24,7 +24,6 @@ namespace World.Map.Objects.Abilities
         private Player owner;
         private ExpirationQueue<uint> healedExpiration;
         private HashSet<uint> healed = new HashSet<uint>();
-        private HashSet<uint> absorptionGiven = new HashSet<uint>();
 
         public MinisterPillar(int rage, int attack, Vec2 position, float time)
             : this(null, AbilityFunctions.Minister.GetHealAmount(rage, attack), AbilityFunctions.Minister.GetPillarRadius(rage), AbilityFunctions.Minister.GetPillarDurationMs(rage) / 1000f, 2f, AbilityModifierSnapshot.Empty, time)
@@ -73,13 +72,6 @@ namespace World.Map.Objects.Abilities
                 var state = player.gameState.playerState;
                 uint vigorMs = mods.vigorBonusMs > 0 ? (uint)mods.vigorBonusMs : 1200;
                 state.ApplyMinisterFieldStatBonus(StatType.Vigor, vigor, now, vigorMs);
-                if (mods.timedAttack > 0)
-                    state.ApplyMinisterFieldStatBonus(StatType.Attack, mods.timedAttack, now, (uint)mods.timedAttackMs);
-                if (mods.fieldDefense > 0)
-                    state.ApplyMinisterFieldStatBonus(StatType.Defense, mods.fieldDefense, now, (uint)mods.fieldDefenseMs);
-                // Once per player: re-applying every tick extends the 6s timer for the whole pillar lifetime.
-                if (mods.absorptionChance > 0 && absorptionGiven.Add(player.gameId))
-                    state.ApplyTimedAlternateStatBonus(AlternateStatType.AbsorptionChance, mods.absorptionChance, now, (uint)mods.absorptionChanceMs);
             }
         }
 
@@ -94,6 +86,14 @@ namespace World.Map.Objects.Abilities
             if (!healed.Add(player.gameId)) return;
             healedExpiration.Enqueue(player.gameId);
             player.Heal(healAmount);
+            var state = player.gameState.playerState;
+            var time = state.LastClientTime;
+            if (mods.timedAttack > 0)
+                state.ApplyMinisterFieldStatBonus(StatType.Attack, mods.timedAttack, time, (uint)mods.timedAttackMs);
+            if (mods.fieldDefense > 0)
+                state.ApplyMinisterFieldStatBonus(StatType.Defense, mods.fieldDefense, time, (uint)mods.fieldDefenseMs);
+            if (mods.absorptionChance > 0)
+                state.ApplyTimedAlternateStatBonus(AlternateStatType.AbsorptionChance, mods.absorptionChance, time, (uint)mods.absorptionChanceMs);
             if (owner != null)
             {
                 var now = owner.gameState.playerState.LastClientTime;

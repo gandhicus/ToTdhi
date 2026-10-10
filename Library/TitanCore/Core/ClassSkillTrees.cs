@@ -369,14 +369,15 @@ namespace TitanCore.Core
             public const int MinPulseLockoutMs = 400;
             public const int WillLockoutMs = 150;
             public const int EverlastingMs = 1000;
-            public const float HasteCooldownPct = 0.05f;
+            public const float HasteCooldownPct = 0.10f;
             public const int PurifyAbsorptionChance = 1;
-            public const int PurifyAbsorptionMs = 5000;
+            public const int PurifyAbsorptionMs = 1500;
             public const int PurifyRageChunk = 50;
+            public const int CombatStatRageChunk = 33;
             public const int WrathAttack = 2;
-            public const int WrathAttackMs = 5000;
+            public const int WrathAttackMs = 1500;
             public const int AegisDefense = 2;
-            public const int AegisDefenseMs = 5000;
+            public const int AegisDefenseMs = 1500;
 
             public static readonly NodeDef[] Nodes =
             {
@@ -385,9 +386,9 @@ namespace TitanCore.Core
                 N("Will", "Warrior/Will", EffectStyle.Agility, r => WillLine(WillLockoutMs, r, ExtraPulsesAt(r))),
                 N("Everlasting", "Warrior/Everlasting", EffectStyle.Agility, r => $"+{Sec(EverlastingMs, r)} ability duration"),
                 N("Haste", "Warrior/Haste", EffectStyle.Agility, r => $"-{Pct(HasteCooldownPct, r)} ability cooldown"),
-                N("Purify", "Brewer/Purify", EffectStyle.Support, r => OnUseStatPct(PurifyAbsorptionChance, PurifyAbsorptionMs, r, "Absorption Chance", PurifyRageChunk)),
-                N("Wrath", "Ranger/Wrath", EffectStyle.Power, r => OnUseStat(WrathAttack, WrathAttackMs, r, "Attack")),
-                N("Aegis", "Warrior/Aegis", EffectStyle.Defense, r => OnUseStat(AegisDefense, AegisDefenseMs, r, "Defense")),
+                N("Purify", "Brewer/Purify", EffectStyle.Support, r => $"On ability pulse, players within the pillar's radius gain +{OnUse(PurifyAbsorptionChance, r)}% Absorption Chance per {PurifyRageChunk} rage spent for {Sec(PurifyAbsorptionMs, 1)}"),
+                N("Wrath", "Ranger/Wrath", EffectStyle.Power, r => $"On ability pulse, players within the pillar's radius gain +{OnUse(WrathAttack, r)} Attack per {CombatStatRageChunk} rage spent for {Sec(WrathAttackMs, 1)}"),
+                N("Aegis", "Warrior/Aegis", EffectStyle.Defense, r => $"On ability pulse, players within the pillar's radius gain +{OnUse(AegisDefense, r)} Defense per {CombatStatRageChunk} rage spent for {Sec(AegisDefenseMs, 1)}"),
             };
 
             public static void Apply(int[] r, ref AbilityModifierSnapshot snap)
@@ -400,7 +401,9 @@ namespace TitanCore.Core
                 SetOnUse(ref snap.absorptionChance, ref snap.absorptionChanceMs, PurifyAbsorptionChance, PurifyAbsorptionMs, r[5]);
                 snap.absorptionRageChunk = PurifyRageChunk;
                 SetOnUse(ref snap.timedAttack, ref snap.timedAttackMs, WrathAttack, WrathAttackMs, r[6]);
+                snap.timedAttackRageChunk = CombatStatRageChunk;
                 SetOnUse(ref snap.fieldDefense, ref snap.fieldDefenseMs, AegisDefense, AegisDefenseMs, r[7]);
+                snap.fieldDefenseRageChunk = CombatStatRageChunk;
             }
 
             private static int ExtraPulsesAt(int rank)

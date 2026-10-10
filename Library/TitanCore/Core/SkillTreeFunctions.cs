@@ -50,6 +50,7 @@ namespace TitanCore.Core
         public int pierceChance;
         public int timedAttack;
         public int timedAttackMs;
+        public int timedAttackRageChunk;
         public int timedDefenseMs;
         public int speedOnHit;
         public int speedOnHitMs;
@@ -69,6 +70,7 @@ namespace TitanCore.Core
         public float selfHealBurstPct;
         public int fieldDefense;
         public int fieldDefenseMs;
+        public int fieldDefenseRageChunk;
         public int fieldAttack;
         public int fieldSpeed;
         public float shoutSpreadDeg;
@@ -204,10 +206,12 @@ namespace TitanCore.Core
             int maxHealthChunk = mods.hymnMaxHealthRageChunk > 0 ? mods.hymnMaxHealthRageChunk : On_Use_Stat_Rage_Chunk;
             mods.hymnMaxHealth = ScaleOnUseStat(mods.hymnMaxHealth, rageSpent, maxHealthChunk);
             mods.hymnBlockChance = ScaleOnUseStat(mods.hymnBlockChance, rageSpent);
-            mods.timedAttack = ScaleOnUseStat(mods.timedAttack, rageSpent);
+            int attackChunk = mods.timedAttackRageChunk > 0 ? mods.timedAttackRageChunk : On_Use_Stat_Rage_Chunk;
+            mods.timedAttack = ScaleOnUseStat(mods.timedAttack, rageSpent, attackChunk);
             mods.speedOnHit = ScaleOnUseStat(mods.speedOnHit, rageSpent);
             mods.vigorBonus = ScaleOnUseStat(mods.vigorBonus, rageSpent);
-            mods.fieldDefense = ScaleOnUseStat(mods.fieldDefense, rageSpent);
+            int defenseChunk = mods.fieldDefenseRageChunk > 0 ? mods.fieldDefenseRageChunk : On_Use_Stat_Rage_Chunk;
+            mods.fieldDefense = ScaleOnUseStat(mods.fieldDefense, rageSpent, defenseChunk);
             mods.rofAmount = ScaleOnUseStat(mods.rofAmount, rageSpent);
             int absorptionChunk = mods.absorptionRageChunk > 0 ? mods.absorptionRageChunk : On_Use_Stat_Rage_Chunk;
             mods.absorptionChance = ScaleOnUseStat(mods.absorptionChance, rageSpent, absorptionChunk);
