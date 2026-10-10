@@ -14,12 +14,12 @@ namespace World.Commands
 
         public override ChatData Handle(Player player, CommandArgs args)
         {
-            if (player.IsAtBaseStats())
-                return ChatData.Error("Your stats are already at their base values.");
+            if (player.IsAtBaseStats() && player.GetLevel() == player.GetStatLevel())
+                return ChatData.Error("Your stats and skills are already at their base values.");
 
             if (!player.Respec())
-                return ChatData.Error("Unable to unequip your talisman. Your stats were not reset.");
-            return ChatData.Info("Your stats have been reset. Essence spent on leveling was not refunded.");
+                return ChatData.Error("Unable to unequip your talisman. Your stats and skills were not reset.");
+            return ChatData.Info("Your stats and skills have been reset. Essence spent on leveling and the skill tree was not refunded.");
         }
     }
 }

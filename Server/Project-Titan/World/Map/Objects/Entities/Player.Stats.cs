@@ -512,8 +512,11 @@ namespace World.Map.Objects.Entities
             vigorLock.Value = 0;
             character.statsLocked = new List<uint>();
 
+            character.talentRanks = 0;
+            skillTreePoints.Value = 0;
             health.Value = GetStatFunctional(StatType.MaxHealth);
             LeveledUp();
+            SendSkillTreeState();
             return true;
         }
 
