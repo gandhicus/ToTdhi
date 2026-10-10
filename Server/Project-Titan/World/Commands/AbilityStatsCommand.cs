@@ -346,10 +346,14 @@ namespace World.Commands
                 string shotWord = shots == 1 ? "shot" : "shots";
                 Line(player, $"Sword volley: {FormatRangeNum((int)Math.Round(minDmg), (int)Math.Round(maxDmg))} ({shots} {shotWord} summed)");
 
-                int slashMin = ScaleBladeweaver(minDmg, mods.abilityDamagePct, dashRage);
-                int slashMax = ScaleBladeweaver(maxDmg, mods.abilityDamagePct, dashRage);
-                int slashMinFull = ScaleBladeweaver(minDmg, mods.abilityDamagePct, maxRage);
-                int slashMaxFull = ScaleBladeweaver(maxDmg, mods.abilityDamagePct, maxRage);
+                int minVolley = (int)Math.Round(minDmg);
+                int maxVolley = (int)Math.Round(maxDmg);
+                int adjustedMin = AbilityFunctions.BladeWeaver.AdjustVolleyDamage(minVolley, minVolley, maxVolley);
+                int adjustedMax = AbilityFunctions.BladeWeaver.AdjustVolleyDamage(maxVolley, minVolley, maxVolley);
+                int slashMin = ScaleBladeweaver(adjustedMin, mods.abilityDamagePct, dashRage);
+                int slashMax = ScaleBladeweaver(adjustedMax, mods.abilityDamagePct, dashRage);
+                int slashMinFull = ScaleBladeweaver(adjustedMin, mods.abilityDamagePct, maxRage);
+                int slashMaxFull = ScaleBladeweaver(adjustedMax, mods.abilityDamagePct, maxRage);
                 int firstMin = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMin, true);
                 int firstMax = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMax, true);
                 int firstMinFull = AbilityFunctions.BladeWeaver.ScaleHitDamage(slashMinFull, true);
@@ -364,11 +368,9 @@ namespace World.Commands
                     FormatRangeNum(firstMinFull + repeatMinFull, firstMaxFull + repeatMaxFull), dashRage, maxRage);
 
                 float vsNow = BladeweaverWeaponVolleyMul(dashRage);
-                float vsFull = BladeweaverWeaponVolleyMul(maxRage);
-                if (dashRage >= maxRage)
-                    Line(player, $"First hit vs weapon: {FormatNumber(vsNow)}x sword volley at {maxRage} rage (Wrath included)");
-                else
-                    Line(player, $"First hit vs weapon: {FormatNumber(vsNow)}x volley ({FormatNumber(vsFull)}x at {maxRage} rage, Wrath included)");
+                float vsMin = minDmg > 0 ? vsNow * adjustedMin / minDmg : vsNow;
+                float vsMax = maxDmg > 0 ? vsNow * adjustedMax / maxDmg : vsNow;
+                Line(player, $"First hit vs sword: {FormatNumber(vsMin)}x min / {FormatNumber(vsMax)}x max at {dashRage} rage");
             }
             else
                 Line(player, "Slash damage: equip a sword to see ability damage");

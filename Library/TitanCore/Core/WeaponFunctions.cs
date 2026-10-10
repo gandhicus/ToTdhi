@@ -57,6 +57,22 @@ namespace TitanCore.Core
             }
         }
 
+        public static void GetVolleyOutgoingDamageRange(Item item, WeaponInfo weapon, int attack, bool damaging, out int min, out int max)
+        {
+            min = 0;
+            max = 0;
+            float attackMod = StatFunctions.AttackModifier(attack, damaging);
+            float enchantMod = item.enchantType == ItemEnchantType.Damaging ? EnchantFunctions.Damage(item.enchantLevel) : 1f;
+            int count = GetVolleyShotCount(weapon.projectiles);
+            for (int i = 0; i < count; i++)
+            {
+                var shot = weapon.projectiles[i % weapon.projectiles.Length];
+                GetProjectileDamage(weapon.slotType, shot, out var shotMin, out var shotMax);
+                min += (ushort)((ushort)(shotMin * attackMod) * enchantMod);
+                max += (ushort)((ushort)(shotMax * attackMod) * enchantMod);
+            }
+        }
+
         // Walk trigger-pulls the same way shooting advances projectile ids, so mixed
         // weapons (Stormsong, Bothmur, Thumbor) do not need special cases.
         // Each shot fires the starting pattern's Amount; linear shots then re-index

@@ -1050,6 +1050,12 @@ public class Player : Character
                 projIds = ShootWeapon(bwItem, (WeaponInfo)bwItem.GetInfo(), target, projIds, position, world.clientTime, proj =>
                 {
                     int weaponDamage = GetHeldWeaponVolleyDamage(projIds);
+                    var heldItem = GetItem(0);
+                    if (!heldItem.IsBlank && heldItem.GetInfo() is WeaponInfo heldWeapon)
+                    {
+                        WeaponFunctions.GetVolleyOutgoingDamageRange(heldItem, heldWeapon, GetStatFunctional(StatType.Attack), HasStatusEffect(StatusEffect.Damaging), out var minDamage, out var maxDamage);
+                        weaponDamage = AbilityFunctions.BladeWeaver.AdjustVolleyDamage(weaponDamage, minDamage, maxDamage);
+                    }
                     int dmg = AbilityFunctions.BladeWeaver.ScaleWeaponDamage(weaponDamage, rageToUse);
                     dmg = (int)(dmg * (1f + bladeweaverMods.abilityDamagePct));
                     proj.damage = (ushort)Mathf.Max(1, dmg);

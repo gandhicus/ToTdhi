@@ -17,7 +17,8 @@ namespace World.Commands
             if (player.IsAtBaseStats())
                 return ChatData.Error("Your stats are already at their base values.");
 
-            player.Respec();
+            if (!player.Respec())
+                return ChatData.Error("Unable to unequip your talisman. Your stats were not reset.");
             return ChatData.Info("Your stats have been reset. Essence spent on leveling was not refunded.");
         }
     }

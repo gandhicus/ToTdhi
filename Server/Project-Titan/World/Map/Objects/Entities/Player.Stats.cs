@@ -495,8 +495,11 @@ namespace World.Map.Objects.Entities
             }
         }
 
-        public void Respec()
+        public bool Respec()
         {
+            if (!TryUnequipTalismanForRespec())
+                return false;
+
             var charInfo = (CharacterInfo)info;
 
             foreach (var stat in charInfo.stats.Values)
@@ -511,6 +514,7 @@ namespace World.Map.Objects.Entities
 
             health.Value = GetStatFunctional(StatType.MaxHealth);
             LeveledUp();
+            return true;
         }
 
         public bool IsAtBaseStats()

@@ -91,6 +91,12 @@ namespace World.Abilities
             var bladeweaverProjData = bladeweaverWeaponInfo.projectiles[0];
 
             int weaponDamage = player.GetHeldWeaponVolleyDamage(player.projIds, time);
+            var heldItem = player.GetItem(0)?.itemData ?? Item.Blank;
+            if (!heldItem.IsBlank && heldItem.GetInfo() is WeaponInfo heldWeapon)
+            {
+                WeaponFunctions.GetVolleyOutgoingDamageRange(heldItem, heldWeapon, attack, PlayerState.HasEffect(StatusEffect.Damaging, time), out var minDamage, out var maxDamage);
+                weaponDamage = AbilityFunctions.BladeWeaver.AdjustVolleyDamage(weaponDamage, minDamage, maxDamage);
+            }
             var bladeweaverProjectiles = player.GetProjectiles(bladeweaverItem, bladeweaverProjData, bladeweaverWeaponInfo, player.projIds, player.gameId, position.AngleTo(target), false, time);
             int damage = AbilityFunctions.BladeWeaver.ScaleWeaponDamage(weaponDamage, value);
             damage = (int)(damage * (1f + mods.abilityDamagePct));

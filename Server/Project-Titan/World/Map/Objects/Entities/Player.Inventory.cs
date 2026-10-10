@@ -276,6 +276,33 @@ namespace World.Map.Objects.Entities
             SetItem(slot, null);
         }
 
+        private bool TryUnequipTalismanForRespec()
+        {
+            var talisman = SkillTreeFunctions.IsEnabled ? GetItem(SkillTreeFunctions.Talisman_Slot) : null;
+            if (talisman == null) return true;
+
+            for (int i = 4; i < inventory.Length; i++)
+            {
+                if (GetItem(i) != null) continue;
+                SetItem(SkillTreeFunctions.Talisman_Slot, null);
+                SetItem(i, talisman);
+                return true;
+            }
+
+            if (!GameData.objects.TryGetValue(0xf08, out var bagInfo))
+                return false;
+
+            // Prepare the owner-only bag before clearing the slot so a missing bag type leaves the talisman equipped.
+            var bag = new LootBag();
+            bag.Initialize(bagInfo);
+            bag.position.Value = position.Value + Vec2.FromAngle(Rand.FloatValue() * AngleUtils.PI_2) * 0.4f;
+            bag.SetOwnerId(GetOwnerId());
+            bag.SetItem(0, talisman);
+            world.objects.SpawnObject(bag);
+            SetItem(SkillTreeFunctions.Talisman_Slot, null);
+            return true;
+        }
+
         private void Swap(int slotA, int slotB)
         {
             var temp = GetItem(slotB);

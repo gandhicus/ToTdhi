@@ -318,6 +318,20 @@ namespace TitanCore.Core
 
             public const float Repeat_Hit_Damage_Mul = 0.5f;
 
+            public const float Minimum_Volley_Bonus = 0.5f;
+
+            public const float Maximum_Volley_Reduction = 0.25f;
+
+            public static int AdjustVolleyDamage(int rolledDamage, int minDamage, int maxDamage)
+            {
+                if (maxDamage <= minDamage || rolledDamage <= 0) return rolledDamage;
+                // Narrow weapon ranges cannot lose 25% at the top without crossing their old minimum.
+                float reducedMax = Math.Max(minDamage, maxDamage * (1f - Maximum_Volley_Reduction));
+                float raisedMin = Math.Min(reducedMax, minDamage * (1f + Minimum_Volley_Bonus));
+                float position = Math.Min(1f, Math.Max(0f, (rolledDamage - minDamage) / (float)(maxDamage - minDamage)));
+                return (int)Math.Round(raisedMin + (reducedMax - raisedMin) * position);
+            }
+
             public static int ScaleWeaponDamage(int weaponVolleyDamage, int rage)
             {
                 float rageScalar = Math.Min(1f, Math.Max(0, rage) / (float)Max_Dash_Rage);
