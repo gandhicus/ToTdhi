@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TitanCore.Core;
 using TitanCore.Data.Items;
 using TitanCore.Net.Packets.Server;
@@ -15,16 +16,20 @@ namespace World.Abilities
         private int spentRage;
         private bool slashHit;
         private bool waitingInvuln;
+        private readonly Dictionary<uint, HashSet<uint>> hitTargetsByCast = new Dictionary<uint, HashSet<uint>>();
+        private readonly Queue<uint> castTimes = new Queue<uint>();
 
         public override void OnHit(EntityState entity, uint time, ref int damageTaken)
         {
         }
 
-        public override void OnHit(EntityState entity, uint time, ref int damageTaken, ushort sourceItem)
+        public override void OnHit(EntityState entity, uint time, ref int damageTaken, ushort sourceItem, uint projectileStartTime)
         {
             if (sourceItem != 0x2a8) return;
 
             var mods = SkillTreeFunctions.IsEnabled ? PlayerState.abilityMods : AbilityModifierSnapshot.Empty;
+            bool firstHit = !hitTargetsByCast.TryGetValue(projectileStartTime, out var targets) || targets.Add(entity.gameId);
+            damageTaken = AbilityFunctions.BladeWeaver.ScaleHitDamage(damageTaken, firstHit);
             slashHit = true;
             TriggerTalisman(TalismanTrigger.AbilityHit, time, player.position.Value, entity.GetPosition(time), ref damageTaken);
             if (mods.speedOnHit > 0 && mods.speedOnHitMs > 0 && time < dashEndTime)
@@ -72,6 +77,12 @@ namespace World.Abilities
             dashEndTime = time + duration;
             waitingInvuln = true;
             PlayerState.AddDashing(position, target, time, value, duration, mods.abilityRangeBonus);
+
+            // Keep recent casts separate so late blade hits use the correct target history.
+            hitTargetsByCast[time] = new HashSet<uint>();
+            castTimes.Enqueue(time);
+            while (castTimes.Count > 5)
+                hitTargetsByCast.Remove(castTimes.Dequeue());
 
             var worldEffectPacket = PlayColored(new BladeweaverAbilityWorldEffect(player.gameId, duration));
 
