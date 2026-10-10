@@ -236,7 +236,8 @@ namespace World.Map.Objects.Entities
 
             // Fire timed item effects only after essence checks have unequipped depleted items.
             if (((time.tickId + tickGroup) % (WorldManager.Ticks_Per_Second * 10)) == 0)
-                gameState?.playerState?.TriggerProcs(ProcTrigger.Periodic, (uint)(time.totalTime * 1000));
+                // Use the tick clock for the cooldown too, so slight wall-clock drift cannot skip a cycle.
+                gameState?.playerState?.TriggerProcs(ProcTrigger.Periodic, (uint)(time.tickId * WorldManager.Target_Tick_Delay_Ms));
         }
 
         private void UnequipItem(int slot)
