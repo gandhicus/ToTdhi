@@ -82,7 +82,7 @@ namespace World.Looting
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new SoulboundLoot(0.2f, // 4
-                        new Single(Loot.Chance(8), new Item("Firefly"))
+                        new Single(Loot.Chance(6), new Item("Firefly"))
                         ),
                 } },
 
@@ -280,7 +280,7 @@ namespace World.Looting
                         Tier.Weapon(Loot.Chance(55), ItemTier.Tier5),
                         Tier.Armor(Loot.Chance(40), ItemTier.Tier5),
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier3),
-                        new Single(Loot.Chance(20),
+                        new Single(Loot.Chance(30),
                             new Item("Scroll of Power"))
                         ),
                     new SoulboundLoot(0.3f, // 5
@@ -300,8 +300,8 @@ namespace World.Looting
                             new Item("Salt Water Elixir"))
                         ),
                     new SoulboundLoot(0.3f, // 8
-                        new Single(Loot.Chance(3),
-                            new Item("Salt Water Elixir"))
+                        new Single(Loot.Chance(3.5), new Item("Salt Water Elixir")),
+                        new Single(Loot.Chance(3.5), new Item("Seafarer's Garb"))
                         ),
                 } },
 
