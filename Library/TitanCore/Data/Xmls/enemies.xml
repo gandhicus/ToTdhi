@@ -1940,7 +1940,7 @@
 		<LootTier>3</LootTier>
 		<LootTier>4</LootTier>
 		<LootTier>6</LootTier>
-		<LootTier>8</LootTier>
+		<LootTier>9</LootTier>
 		<Defense>26</Defense>
 
 	</Object>
@@ -4504,6 +4504,7 @@
 		<SoulGroup>Gorge</SoulGroup>
 		<LootTier>2</LootTier>
 		<LootTier>6</LootTier>
+		<LootTier>11</LootTier>
 		<Defense>20</Defense>
 
 	</Object>
@@ -4558,6 +4559,8 @@
 		<SoulGroup>Gorge</SoulGroup>
 		<Defense>20</Defense>
 		<LootTier>2</LootTier>
+		<LootTier>6</LootTier>
+		<LootTier>11</LootTier>
 
 	</Object>
 
@@ -4609,6 +4612,8 @@
 		<SoulGroup>Gorge</SoulGroup>
 		<Defense>26</Defense>
 		<LootTier>2</LootTier>
+		<LootTier>6</LootTier>
+		<LootTier>11</LootTier>
 
 	</Object>
 
@@ -4651,6 +4656,7 @@
 		<Defense>18</Defense>
 		<LootTier>2</LootTier>
 		<LootTier>10</LootTier>
+		<LootTier>11</LootTier>
 
 	</Object>
 
@@ -4674,6 +4680,7 @@
 		<SoulMod>0.7</SoulMod>
 		<SoulGroup>Gorge</SoulGroup>
 		<LootTier>10</LootTier>
+		<LootTier>11</LootTier>
 		<Defense>18</Defense>
 
 	</Object>

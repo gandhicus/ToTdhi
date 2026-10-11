@@ -232,12 +232,12 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(0.2f, // 10
-                        new Single(Loot.Chance(1.5),
+                        new Single(Loot.Chance(1),
                             new Item("Scroll of Power")
                         )
                         ),
                     new SoulboundLoot(0.3f, // 11
-                        new Single(Loot.Chance(0.5),
+                        new Single(Loot.Chance(0.6),
                             new Item("Blue Mirage"))
                         ),
                     new SoulboundLoot(0.3f, // 12
@@ -299,7 +299,7 @@ namespace World.Looting
                         new Single(Loot.Chance(0.6),
                             new Item("Salt Water Elixir"))
                         ),
-                    new SoulboundLoot(0.3f, // 8
+                    new SoulboundLoot(0.3f, // 9
                         new Single(Loot.Chance(3.5), new Item("Salt Water Elixir")),
                         new Single(Loot.Chance(3.5), new Item("Seafarer's Garb"))
                         ),
