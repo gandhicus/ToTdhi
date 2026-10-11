@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TitanCore.Core;
+using TitanCore.Data.Items;
 using TitanCore.Net;
 using TitanCore.Net.Packets.Client;
 using TMPro;
@@ -84,23 +85,54 @@ public class AscensionMenu : GameMenu
 
     private void UpdateLabels()
     {
-        UpdateLabel(StatType.MaxHealth, maxHealthButton, maxHealthCost, maxHealthItemCost);
-        UpdateLabel(StatType.Speed, speedButton, speedCost, speedItemCost);
-        UpdateLabel(StatType.Attack, attackButton, attackCost, attackItemCost);
-        UpdateLabel(StatType.Defense, defenseButton, defenseCost, defenseItemCost);
-        UpdateLabel(StatType.Vigor, vigorButton, vigorCost, vigorItemCost);
+        var nextGearGains = GetNextGearGains();
+        UpdateLabel(StatType.MaxHealth, maxHealthButton, maxHealthCost, maxHealthItemCost, nextGearGains);
+        UpdateLabel(StatType.Speed, speedButton, speedCost, speedItemCost, nextGearGains);
+        UpdateLabel(StatType.Attack, attackButton, attackCost, attackItemCost, nextGearGains);
+        UpdateLabel(StatType.Defense, defenseButton, defenseCost, defenseItemCost, nextGearGains);
+        UpdateLabel(StatType.Vigor, vigorButton, vigorCost, vigorItemCost, nextGearGains);
     }
 
-    private void UpdateLabel(StatType statType, Button button, TextMeshProUGUI cost, ItemDisplay itemCostDisplay)
+    private Dictionary<StatType, int> GetNextGearGains()
     {
-        var info = (TitanCore.Data.Entities.CharacterInfo)player.info;
+        var equips = new Item[4];
+        for (int i = 0; i < equips.Length; i++)
+            equips[i] = player.GetItem(i);
 
+        var ascensionCounts = player.GetAscensionCounts();
+        var scalingBonusStats = player.GetScalingBonusStats();
+        var scalingBonusAlternateStats = player.GetScalingBonusAlternateStats();
+        var stats = new Dictionary<StatType, int>();
+        var alternateStats = new Dictionary<AlternateStatType, int>();
+        var nextGearGains = new Dictionary<StatType, int>();
+
+        EquipmentStatFunctions.RecalculateEquipmentStats(equips, stats, alternateStats, scalingBonusStats, scalingBonusAlternateStats, ascensionCounts);
+        var currentStats = new Dictionary<StatType, int>(stats);
+
+        foreach (StatType statType in Enum.GetValues(typeof(StatType)))
+        {
+            int currentRank = ascensionCounts[statType];
+            if (currentRank >= NetConstants.Max_Ascension) continue;
+
+            ascensionCounts[statType] = currentRank + 1;
+            EquipmentStatFunctions.RecalculateEquipmentStats(equips, stats, alternateStats, scalingBonusStats, scalingBonusAlternateStats, ascensionCounts);
+            currentStats.TryGetValue(statType, out var currentGain);
+            stats.TryGetValue(statType, out var nextGain);
+            nextGearGains[statType] = nextGain - currentGain;
+            ascensionCounts[statType] = currentRank;
+        }
+
+        return nextGearGains;
+    }
+
+    private void UpdateLabel(StatType statType, Button button, TextMeshProUGUI cost, ItemDisplay itemCostDisplay, IReadOnlyDictionary<StatType, int> nextGearGains)
+    {
         var level = player.GetStatLevel();
 
         if (level < NetConstants.Max_Level)
         {
             button.interactable = false;
-            cost.text = $"Level {NetConstants.Max_Level} required";
+            cost.text = $"Level {NetConstants.Max_Level}\nrequired";
             cost.color = Color.red;
             return;
         }
@@ -108,21 +140,19 @@ public class AscensionMenu : GameMenu
         var baseStat = player.GetStatBase(statType);
         var statLock = player.GetStatLock(statType);
 
-        if (statType == StatType.MaxHealth)
-        {
-            if (baseStat - statLock >= NetConstants.Max_Ascension * 10)
-            {
-                button.interactable = false;
-                cost.text = "Stat ascension maxed";
-                cost.color = Color.red;
-                return;
-            }
-        }
-        else if (baseStat - statLock >= NetConstants.Max_Ascension)
+        if (statLock <= 0)
         {
             button.interactable = false;
-            cost.text = "Stat ascension maxed";
+            cost.text = "Stats not\nlocked yet";
             cost.color = Color.red;
+            return;
+        }
+
+        if (player.GetAscensionCount(statType) >= NetConstants.Max_Ascension)
+        {
+            button.interactable = false;
+            cost.text = "Stat ascension\nmaxed";
+            cost.color = Stat.MaxAscendColor;
             return;
         }
 
@@ -130,7 +160,15 @@ public class AscensionMenu : GameMenu
         cost.color = Color.white;
 
         var soulCost = StatFunctions.GetAscensionCost(statType, baseStat, statLock, out var itemCost);
-        cost.text = $"{Constants.Souls_Sprite} {soulCost}";
+        if (soulCost <= 0)
+        {
+            button.interactable = false;
+            cost.text = "Ascension\nunavailable";
+            cost.color = Color.red;
+            return;
+        }
+        nextGearGains.TryGetValue(statType, out var nextGearGain);
+        cost.text = $"<size=125%>{Constants.Souls_Sprite}</size> {soulCost}\n<color=#6AECE1>Next: +{nextGearGain}</color>";
         itemCostDisplay.SetItem(itemCost);
     }
 
@@ -142,21 +180,11 @@ public class AscensionMenu : GameMenu
     public void AscendStat(int stat)
     {
         var statType = (StatType)stat;
-        var info = (TitanCore.Data.Entities.CharacterInfo)player.info;
-
         var level = player.GetStatLevel();
         var baseStat = player.GetStatBase(statType);
         var statLock = player.GetStatLock(statType);
 
-        if (statType == StatType.MaxHealth)
-        {
-            if (baseStat - statLock >= NetConstants.Max_Ascension * 10)
-            {
-                world.GameChat($"You have already maxed {statType} ascension!", ChatType.Error);
-                return;
-            }
-        }
-        else if (baseStat - statLock >= NetConstants.Max_Ascension)
+        if (player.GetAscensionCount(statType) >= NetConstants.Max_Ascension)
         {
             world.GameChat($"You have already maxed {statType} ascension!", ChatType.Error);
             return;
@@ -169,6 +197,11 @@ public class AscensionMenu : GameMenu
         }
 
         var soulCost = StatFunctions.GetAscensionCost(statType, baseStat, statLock, out var itemCost);
+        if (soulCost <= 0)
+        {
+            world.GameChat($"{statType} ascension is unavailable right now", ChatType.Error);
+            return;
+        }
 
         if (soulCost > player.fullSouls)
         {

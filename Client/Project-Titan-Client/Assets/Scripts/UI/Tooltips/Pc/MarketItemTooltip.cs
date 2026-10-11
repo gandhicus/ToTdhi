@@ -73,9 +73,9 @@ namespace Pc
                 equips = new Item[4];
                 for (int i = 0; i < 4; i++)
                     equips[i] = player.GetItem(i);
-                EquipmentStatFunctions.GetTooltipScalingContext(equips, item, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling);
+                EquipmentStatFunctions.GetTooltipScalingContext(equips, item, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling, player.GetAscensionCounts());
             }
-            ItemDescriber.Describe(this, myClass, owned, item, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats(), equips, player.GetEffectiveRageGainBonus());
+            ItemDescriber.Describe(this, myClass, owned, item, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats(), equips, player.GetEffectiveRageGainBonus(), player.GetAscensionCounts());
 
             if (item.soulbound)
             {

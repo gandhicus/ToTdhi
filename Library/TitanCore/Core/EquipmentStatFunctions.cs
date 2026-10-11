@@ -12,9 +12,13 @@ namespace TitanCore.Core
             return sourceTotal / perAmount;
         }
 
-        public static Dictionary<StatType, int> GetFixedStatIncreases(Item[] equips)
+        public static Dictionary<StatType, int> GetFixedStatIncreases(
+            Item[] equips,
+            IReadOnlyDictionary<StatType, int> ascensionCounts = null,
+            Dictionary<StatType, int> ascensionBonuses = null)
         {
             var stats = new Dictionary<StatType, int>();
+            ascensionBonuses?.Clear();
             if (equips == null) return stats;
 
             for (int i = 0; i < equips.Length; i++)
@@ -23,9 +27,17 @@ namespace TitanCore.Core
                 if (!(equips[i].GetInfo() is EquipmentInfo equip)) continue;
                 foreach (var increase in GetStatIncreases(equips[i], equip))
                 {
+                    int ascensionCount = 0;
+                    ascensionCounts?.TryGetValue(increase.Key, out ascensionCount);
+                    int ascensionBonus = StatFunctions.GetAscendedEquipmentBonus(increase.Key, increase.Value, ascensionCount);
                     if (!stats.TryGetValue(increase.Key, out var amount))
                         amount = 0;
-                    stats[increase.Key] = amount + increase.Value;
+                    stats[increase.Key] = amount + increase.Value + ascensionBonus;
+                    if (ascensionBonuses != null && ascensionBonus != 0)
+                    {
+                        ascensionBonuses.TryGetValue(increase.Key, out var currentBonus);
+                        ascensionBonuses[increase.Key] = currentBonus + ascensionBonus;
+                    }
                 }
             }
 
@@ -141,7 +153,8 @@ namespace TitanCore.Core
             bool includeItemFixedAlternateStats = true,
             IReadOnlyDictionary<StatType, int> scalingBonusStats = null,
             IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null,
-            Item[] equips = null)
+            Item[] equips = null,
+            IReadOnlyDictionary<StatType, int> ascensionCounts = null)
         {
             BuildDisplayStatIncreases(
                 item,
@@ -153,6 +166,7 @@ namespace TitanCore.Core
                 scalingBonusStats,
                 scalingBonusAlternateStats,
                 equips,
+                ascensionCounts,
                 out var stats,
                 out _);
             return stats;
@@ -167,7 +181,8 @@ namespace TitanCore.Core
             bool includeItemFixedAlternateStats = true,
             IReadOnlyDictionary<StatType, int> scalingBonusStats = null,
             IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null,
-            Item[] equips = null)
+            Item[] equips = null,
+            IReadOnlyDictionary<StatType, int> ascensionCounts = null)
         {
             BuildDisplayStatIncreases(
                 item,
@@ -179,6 +194,7 @@ namespace TitanCore.Core
                 scalingBonusStats,
                 scalingBonusAlternateStats,
                 equips,
+                ascensionCounts,
                 out _,
                 out var alternateStats);
             return alternateStats;
@@ -191,9 +207,10 @@ namespace TitanCore.Core
             IReadOnlyDictionary<StatType, int> scalingBonusStats,
             IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats,
             out Dictionary<StatType, int> sourceStats,
-            out Dictionary<AlternateStatType, int> sourceAlternateStats)
+            out Dictionary<AlternateStatType, int> sourceAlternateStats,
+            IReadOnlyDictionary<StatType, int> ascensionCounts = null)
         {
-            var fixedStats = GetFixedStatIncreases(equips);
+            var fixedStats = GetFixedStatIncreases(equips, ascensionCounts);
             var fixedAlternateStats = GetFixedAlternateStatIncreases(equips);
 
             if (includeDisplayItemFixed
@@ -203,9 +220,12 @@ namespace TitanCore.Core
             {
                 foreach (var increase in GetStatIncreases(displayItem, displayEquip))
                 {
+                    int ascensionCount = 0;
+                    ascensionCounts?.TryGetValue(increase.Key, out ascensionCount);
                     if (!fixedStats.TryGetValue(increase.Key, out var amount))
                         amount = 0;
-                    fixedStats[increase.Key] = amount + increase.Value;
+                    fixedStats[increase.Key] = amount + increase.Value
+                        + StatFunctions.GetAscendedEquipmentBonus(increase.Key, increase.Value, ascensionCount);
                 }
 
                 foreach (var increase in GetAlternateStatIncreases(displayItem, displayEquip))
@@ -237,6 +257,7 @@ namespace TitanCore.Core
             IReadOnlyDictionary<StatType, int> scalingBonusStats,
             IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats,
             Item[] equips,
+            IReadOnlyDictionary<StatType, int> ascensionCounts,
             out Dictionary<StatType, int> stats,
             out Dictionary<AlternateStatType, int> alternateStats)
         {
@@ -265,7 +286,8 @@ namespace TitanCore.Core
                     scalingBonusStats,
                     scalingBonusAlternateStats,
                     out scalingStats,
-                    out scalingAlternateStats);
+                    out scalingAlternateStats,
+                    ascensionCounts);
             }
             else
             {
@@ -276,9 +298,12 @@ namespace TitanCore.Core
                 {
                     foreach (var increase in GetStatIncreases(item, equip))
                     {
+                        int ascensionCount = 0;
+                        ascensionCounts?.TryGetValue(increase.Key, out ascensionCount);
                         if (!scalingStats.TryGetValue(increase.Key, out var amount))
                             amount = 0;
-                        scalingStats[increase.Key] = amount + increase.Value;
+                        scalingStats[increase.Key] = amount + increase.Value
+                            + StatFunctions.GetAscendedEquipmentBonus(increase.Key, increase.Value, ascensionCount);
                     }
                 }
 
@@ -310,12 +335,14 @@ namespace TitanCore.Core
             Dictionary<StatType, int> stats,
             Dictionary<AlternateStatType, int> alternateStats,
             IReadOnlyDictionary<StatType, int> scalingBonusStats = null,
-            IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null)
+            IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null,
+            IReadOnlyDictionary<StatType, int> ascensionCounts = null,
+            Dictionary<StatType, int> ascensionBonuses = null)
         {
             stats.Clear();
             alternateStats.Clear();
 
-            var fixedStats = GetFixedStatIncreases(equips);
+            var fixedStats = GetFixedStatIncreases(equips, ascensionCounts, ascensionBonuses);
             var fixedAlternateStats = GetFixedAlternateStatIncreases(equips);
             ApplyConvergentEquipmentScaling(
                 equips,
@@ -461,9 +488,10 @@ namespace TitanCore.Core
             Item item,
             out IReadOnlyDictionary<StatType, int> equippedFixedStats,
             out IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats,
-            out bool includeItemForScaling)
+            out bool includeItemForScaling,
+            IReadOnlyDictionary<StatType, int> ascensionCounts = null)
         {
-            equippedFixedStats = GetFixedStatIncreases(equips);
+            equippedFixedStats = GetFixedStatIncreases(equips, ascensionCounts);
             equippedFixedAlternateStats = GetFixedAlternateStatIncreases(equips);
             includeItemForScaling = true;
             if (equips == null) return;

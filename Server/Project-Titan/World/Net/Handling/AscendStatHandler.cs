@@ -88,6 +88,7 @@ namespace World.Net.Handling
 
             connection.player.SetStatBase(packet.statType, baseStat + (packet.statType == StatType.MaxHealth ? 10 : 1));
 
+            connection.player.RefreshAscensionEquipmentStats();
             connection.player.LeveledUp();
 
             connection.player.AddChat(ChatData.Info($"Ascended {packet.statType}"));

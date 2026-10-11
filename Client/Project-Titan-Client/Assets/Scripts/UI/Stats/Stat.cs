@@ -14,6 +14,8 @@ public class Stat : MonoBehaviour
     protected static Color maxStatColor = new Color(219f / 255f, 211f / 255f, 61f / 255f, 1);
     protected static Color maxAscendColor = new Color(172f / 255f, 83f / 255f, 233f / 255f, 1);
 
+    public static Color MaxAscendColor => maxAscendColor;
+
     public TextMeshProUGUI stat;
 
     public StatType statType;
@@ -40,9 +42,11 @@ public class Stat : MonoBehaviour
 
         if (locked != 0)
         {
-            if ((statType == StatType.MaxHealth && value - locked >= NetConstants.Max_Ascension * 10) || (statType != StatType.MaxHealth && value - locked >= NetConstants.Max_Ascension))
+            var ascensionCount = player.GetAscensionCount(statType);
+            var hasAscendedItem = player.GetAscensionIncrease(statType) != 0;
+            if (hasAscendedItem && ascensionCount >= NetConstants.Max_Ascension)
                 stat.color = maxAscendColor;
-            else if (value > locked)
+            else if (hasAscendedItem && ascensionCount > 0)
                 stat.color = World.soulColor;
             else
                 stat.color = maxStatColor;

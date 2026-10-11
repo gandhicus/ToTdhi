@@ -14,7 +14,7 @@ namespace TitanCore.Data.Components
 {
     public static class ItemDescriber
     {
-        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack, IReadOnlyDictionary<StatType, int> equippedFixedStats = null, bool includeItemForScaling = true, IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null, IReadOnlyDictionary<StatType, int> scalingBonusStats = null, IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null, Item[] equips = null, int rageGainBonus = 0)
+        public static void Describe(IDescriber describer, CharacterInfo myClass, bool owned, Item item, int attack, IReadOnlyDictionary<StatType, int> equippedFixedStats = null, bool includeItemForScaling = true, IReadOnlyDictionary<AlternateStatType, int> equippedFixedAlternateStats = null, IReadOnlyDictionary<StatType, int> scalingBonusStats = null, IReadOnlyDictionary<AlternateStatType, int> scalingBonusAlternateStats = null, Item[] equips = null, int rageGainBonus = 0, IReadOnlyDictionary<StatType, int> ascensionCounts = null)
         {
             describer.Clear();
 
@@ -28,6 +28,7 @@ namespace TitanCore.Data.Components
             var neutralColor = describer.GetNeutralColor();
             var enchantColor = describer.GetEnchantColor(item.enchantLevel);
             var rolledStatColor = GameColor.Parse("#6D97FF");
+            var ascendedStatColor = GameColor.Parse("#6AECE1");
 
             describer.AddContent(info.description != null ? info.description.Trim() : "");
 
@@ -46,12 +47,13 @@ namespace TitanCore.Data.Components
             if (equip != null)
             {
                 var statIncreases = owned && equippedFixedStats != null
-                    ? EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, includeItemForScaling, scalingBonusStats, scalingBonusAlternateStats, equips)
-                    : EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, null, true);
+                    ? EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, includeItemForScaling, scalingBonusStats, scalingBonusAlternateStats, equips, ascensionCounts)
+                    : EquipmentStatFunctions.GetDisplayStatIncreases(item, equip, null, true, ascensionCounts: ascensionCounts);
                 var alternateStatIncreases = owned && equippedFixedStats != null
-                    ? EquipmentStatFunctions.GetDisplayAlternateStatIncreases(item, equip, equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, includeItemForScaling, scalingBonusStats, scalingBonusAlternateStats, equips)
+                    ? EquipmentStatFunctions.GetDisplayAlternateStatIncreases(item, equip, equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, includeItemForScaling, scalingBonusStats, scalingBonusAlternateStats, equips, ascensionCounts)
                     : EquipmentStatFunctions.GetAlternateStatIncreases(item, equip);
                 var rolledStats = item.rolledStatIncreases;
+                var directStats = EquipmentStatFunctions.GetStatIncreases(item, equip);
                 var rolledAlternateStats = item.rolledAlternateStatIncreases;
                 bool hasRolledBaseStats = (rolledStats != null && rolledStats.Keys.Any(equip.statIncreases.ContainsKey))
                     || (rolledAlternateStats != null && rolledAlternateStats.Keys.Any(equip.alternateStatIncreases.ContainsKey));
@@ -78,10 +80,17 @@ namespace TitanCore.Data.Components
                             && equip.statIncreases.ContainsKey(statType);
                         if (fixedAmount == 0 && rolledAmount == 0 && !rolledBaseStat) continue;
 
+                        int ascensionCount = 0;
+                        ascensionCounts?.TryGetValue(statType, out ascensionCount);
+                        directStats.TryGetValue(statType, out var directAmount);
+                        int ascensionBonus = StatFunctions.GetAscendedEquipmentBonus(statType, directAmount, ascensionCount);
+
                         describer.NewLine();
                         if (rolledBaseStat)
                         {
                             AddPrimaryStatElement(describer, statType, totalAmount, neutralColor);
+                            if (ascensionBonus != 0)
+                                AddAscendedStatElement(describer, totalAmount + ascensionBonus, ascendedStatColor);
                             if (showRollRanges && equip.statRollPool.TryGetPrimaryDisplayRange(statType, equip.statIncreases, out var rangeMin, out var rangeMax))
                                 describer.AddElement(FormatRollRange(rangeMin, rangeMax, false), GameColor.white);
                         }
@@ -91,6 +100,8 @@ namespace TitanCore.Data.Components
                                 AddPrimaryStatElement(describer, statType, fixedAmount, neutralColor);
                             if (rolledAmount != 0)
                                 AddPrimaryStatElement(describer, statType, rolledAmount, rolledStatColor);
+                            if (ascensionBonus != 0)
+                                AddAscendedStatElement(describer, totalAmount + ascensionBonus, ascendedStatColor);
                             if (showRollRanges && rolledAmount != 0 && equip.statRollPool.TryGetPrimaryRollRange(statType, out var rollMin, out var rollMax))
                                 describer.AddElement(FormatRollRange(rollMin, rollMax, false), GameColor.white);
                         }
@@ -156,7 +167,8 @@ namespace TitanCore.Data.Components
                                 scalingBonusStats,
                                 scalingBonusAlternateStats,
                                 out var scalingStats,
-                                out var scalingAlternateStats);
+                                out var scalingAlternateStats,
+                                ascensionCounts);
                             currentBonus = EquipmentStatFunctions.GetScaledStatAmount(
                                 scaled,
                                 scalingStats,
@@ -481,6 +493,11 @@ namespace TitanCore.Data.Components
         private static void AddPrimaryStatElement(IDescriber describer, StatType type, int value, GameColor color)
         {
             describer.AddElement($"{(value >= 0 ? "+" : "")}{value} {GetStatName(type)}", color);
+        }
+
+        private static void AddAscendedStatElement(IDescriber describer, int value, GameColor color)
+        {
+            describer.AddElement($"({(value >= 0 ? "+" : "")}{value})", color);
         }
 
         private static void AddAlternateStatElement(IDescriber describer, AlternateStatType type, int value, GameColor color)

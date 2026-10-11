@@ -45,15 +45,15 @@ namespace World.Map.Objects.Entities
 
         public ObjectStat<int> vigorBonus = new ObjectStat<int>(ObjectStatType.VigorBonus, ObjectStatScope.Public, 0, 0);
 
-        public ObjectStat<int> maxHealthLock = new ObjectStat<int>(ObjectStatType.MaxHealthLock, ObjectStatScope.Private, 0, 0);
+        public ObjectStat<int> maxHealthLock = new ObjectStat<int>(ObjectStatType.MaxHealthLock, ObjectStatScope.Public, 0, 0);
 
-        public ObjectStat<int> speedLock = new ObjectStat<int>(ObjectStatType.SpeedLock, ObjectStatScope.Private, 0, 0);
+        public ObjectStat<int> speedLock = new ObjectStat<int>(ObjectStatType.SpeedLock, ObjectStatScope.Public, 0, 0);
 
-        public ObjectStat<int> attackLock = new ObjectStat<int>(ObjectStatType.AttackLock, ObjectStatScope.Private, 0, 0);
+        public ObjectStat<int> attackLock = new ObjectStat<int>(ObjectStatType.AttackLock, ObjectStatScope.Public, 0, 0);
 
-        public ObjectStat<int> defenseLock = new ObjectStat<int>(ObjectStatType.DefenseLock, ObjectStatScope.Private, 0, 0);
+        public ObjectStat<int> defenseLock = new ObjectStat<int>(ObjectStatType.DefenseLock, ObjectStatScope.Public, 0, 0);
 
-        public ObjectStat<int> vigorLock = new ObjectStat<int>(ObjectStatType.VigorLock, ObjectStatScope.Private, 0, 0);
+        public ObjectStat<int> vigorLock = new ObjectStat<int>(ObjectStatType.VigorLock, ObjectStatScope.Public, 0, 0);
 
         public ObjectStat<int> rateOfFireBonus = new ObjectStat<int>(ObjectStatType.RateOfFire, ObjectStatScope.Public, 0, 0);
 
@@ -85,6 +85,7 @@ namespace World.Map.Objects.Entities
             }
 
             statLevelIncrement = character.levelIncrement;
+            RecalculateEquipmentStats();
             health.Value = GetStatFunctional(StatType.MaxHealth);
 
             SetSouls(character.souls);
@@ -154,6 +155,25 @@ namespace World.Map.Objects.Entities
             return 0;
         }
 
+        public int GetAscensionCount(StatType type)
+        {
+            return StatFunctions.GetAscensionCount(type, GetStatBase(type), GetStatLock(type));
+        }
+
+        public Dictionary<StatType, int> GetAscensionCounts()
+        {
+            var counts = new Dictionary<StatType, int>();
+            foreach (StatType type in Enum.GetValues(typeof(StatType)))
+                counts[type] = GetAscensionCount(type);
+            return counts;
+        }
+
+        public void RefreshAscensionEquipmentStats()
+        {
+            RecalculateEquipmentStats();
+            SyncCombatSnapshotEquipment();
+        }
+
         /// <summary>
         /// Sets the player's base stat of the given type
         /// </summary>
@@ -211,7 +231,8 @@ namespace World.Map.Objects.Entities
         /// <returns></returns>
         public int GetStatFunctional(StatType type)
         {
-            var value = GetStatBase(type) + GetStatIncrease(type) + GetStatBonus(type);
+            var value = StatFunctions.GetUnascendedStat(type, GetStatBase(type), GetAscensionCount(type))
+                + GetStatIncrease(type) + GetStatBonus(type);
             if (type == StatType.MaxHealth)
                 return StatFunctions.ClampPlayerMaxHealth(value);
             return value;
@@ -411,6 +432,17 @@ namespace World.Map.Objects.Entities
 
         public void LeveledUp()
         {
+            CompleteEligibleClassQuests();
+
+            if (GetStatLevel() >= NetConstants.Max_Level && maxHealthLock.Value == 0)
+                LockStats();
+
+            RebuildAbilityModifiers();
+            UpdateGoalBar();
+        }
+
+        private void CompleteEligibleClassQuests()
+        {
             var level = GetLevel();
             if (!currentClassQuest.HasCompletedQuest(0) && level >= NetConstants.Class_Quest_Level_1)
             {
@@ -431,12 +463,6 @@ namespace World.Map.Objects.Entities
             {
                 CompleteClassQuest(3);
             }
-
-            if (GetStatLevel() >= NetConstants.Max_Level && maxHealthLock.Value == 0)
-                LockStats();
-
-            RebuildAbilityModifiers();
-            UpdateGoalBar();
         }
 
         public bool IncreaseStat(StatType type, int amount, bool rawMaxHealthAmount = false)

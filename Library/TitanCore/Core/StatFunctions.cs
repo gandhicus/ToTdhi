@@ -294,8 +294,7 @@ namespace TitanCore.Core
             itemCost = Item.Blank;
             if (statLock == 0) return -1;
 
-            var ascensionIncrease = type == StatType.MaxHealth ? 10 : 1;
-            var ascensionCount = (currentStat - statLock) / ascensionIncrease;
+            var ascensionCount = GetAscensionCount(type, currentStat, statLock);
             if (ascensionCount >= NetConstants.Max_Ascension) return -1;
 
             var nextAscension = ascensionCount + 1;
@@ -330,6 +329,27 @@ namespace TitanCore.Core
             }
 
             return (int)Math.Ceiling(soulCost);
+        }
+
+        public static int GetAscensionCount(StatType type, int currentStat, int statLock)
+        {
+            if (statLock <= 0) return 0;
+            int step = type == StatType.MaxHealth ? 10 : 1;
+            return Math.Max(0, (currentStat - statLock) / step);
+        }
+
+        public static int GetUnascendedStat(StatType type, int currentStat, int ascensionCount)
+        {
+            return currentStat - ascensionCount * (type == StatType.MaxHealth ? 10 : 1);
+        }
+
+        public static int GetAscendedEquipmentBonus(StatType type, int itemStat, int ascensionCount)
+        {
+            if (itemStat == 0 || ascensionCount <= 0) return 0;
+            int cappedCount = Math.Min(ascensionCount, NetConstants.Max_Ascension);
+            int cap = type == StatType.MaxHealth ? 50 : 5;
+            int bonus = (int)Math.Round(Math.Abs((double)itemStat) * cappedCount * 0.075d, MidpointRounding.AwayFromZero);
+            return Math.Sign(itemStat) * Math.Min(cap, bonus);
         }
 
         public static float AttackSpeedModifier(bool fervent, int rofIncreases)

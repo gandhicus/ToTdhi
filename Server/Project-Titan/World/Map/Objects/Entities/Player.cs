@@ -163,6 +163,7 @@ namespace World.Map.Objects.Entities
 
             LoadStats();
             skillTreePoints.Value = (byte)SkillTreeFunctions.GetSpentTotal(character.talentRanks);
+            CompleteEligibleClassQuests();
         }
 
         public void SaveCharacter()

@@ -130,8 +130,7 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(1, // 10
-                        new Single(Loot.Chance(2), new Item("Corrupted Skull of Mezhier")),
-                        new Single(Loot.Chance(6), new Item("Firefly"))
+                        new Single(Loot.Chance(2), new Item("Corrupted Skull of Mezhier"))
                         ),
                     new SoulboundLoot(1, // 11
                         new Single(Loot.Chance(25), new Item("Key to Whispering Woods"))
@@ -208,7 +207,7 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(25), ItemTier.Tier3)
                         ),
                     new SoulboundLoot(0.2f, // 5
-                        new Single(Loot.Chance(100),
+                        new Single(Loot.Chance(70),
                             new Item("Scroll of Agility")
                         )
                         ),
@@ -327,11 +326,11 @@ namespace World.Looting
                         Tier.Weapon(Loot.Chance(55), ItemTier.Tier6),
                         Tier.Armor(Loot.Chance(40), ItemTier.Tier6),
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier3),
-                        new Single(Loot.Chance(100),
+                        new Single(Loot.Chance(50),
                             new Item("Scroll of Power"))
                         ),
                     new SoulboundLoot(0.3f, // 4
-                        new Single(Loot.Chance(4),
+                        new Single(Loot.Chance(2),
                             new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.1f, // 5
@@ -366,14 +365,14 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier3)
                         ),
                     new SoulboundLoot(0.3f, // 4
-                        new Single(Loot.Chance(100), 
+                        new Single(Loot.Chance(60), 
                             new Item("Scroll of Agility"),
                             new Item("Scroll of Power"),
                             new Item("Scroll of Fortitude"),
                             new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.3f, // 5
-                        new Single(Loot.Chance(5),
+                        new Single(Loot.Chance(1.5),
                             new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.1f, // 6
@@ -418,10 +417,10 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(30), ItemTier.Tier4)
                         ),
                     new SoulboundLoot(0.4f, // 5
-                        new Single(Loot.Chance(70), new Item("Scroll of Fortitude"))
+                        new Single(Loot.Chance(30), new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.8f, // 6
-                        new Single(Loot.Chance(70), new Item("Scroll of Fortitude"))
+                        new Single(Loot.Chance(30), new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.1f, // 7
                         new Single(Loot.Chance(2.5), new Item("Bothmur's Zweihander"))
@@ -616,7 +615,7 @@ namespace World.Looting
                             new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.1f, // 6
-                        new Single(Loot.Chance(8),
+                        new Single(Loot.Chance(5),
                             new Item("Scroll of Agility"),
                             new Item("Scroll of Power"),
                             new Item("Scroll of Fortitude"),

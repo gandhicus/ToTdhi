@@ -81,7 +81,10 @@ public abstract class GameUI : MonoBehaviour
         for (int i = 0; i < stats.Length; i++)
         {
             var stat = stats[i];
-            stat.SetStat(player.GetStatBase(stat.statType), player.GetStatIncrease(stat.statType) + player.GetStatBonus(stat.statType), player);
+            stat.SetStat(
+                StatFunctions.GetUnascendedStat(stat.statType, player.GetStatBase(stat.statType), player.GetAscensionCount(stat.statType)),
+                player.GetStatIncrease(stat.statType) + player.GetStatBonus(stat.statType),
+                player);
         }
     }
 

@@ -34,7 +34,8 @@ namespace World.GameState
                 fullSouls = 0,
                 equips = new Item[4],
                 extraStats = new Dictionary<StatType, int>(),
-                extraAlternateStats = new Dictionary<AlternateStatType, int>()
+                extraAlternateStats = new Dictionary<AlternateStatType, int>(),
+                ascensionCounts = new Dictionary<StatType, int>()
             };
         }
 
@@ -76,11 +77,13 @@ namespace World.GameState
 
         public Dictionary<StatType, int> extraStats;
 
+        public Dictionary<StatType, int> ascensionCounts;
+
         public Dictionary<AlternateStatType, int> extraAlternateStats;
 
         public uint time;
 
-        public PlayerSnapshot(NetStat[] stats, PlayerSnapshot previous, uint time)
+        public PlayerSnapshot(NetStat[] stats, PlayerSnapshot previous, uint time, IReadOnlyDictionary<StatType, int> ascensionCounts)
         {
             this.time = time;
             maxHealth = previous.maxHealth;
@@ -102,10 +105,14 @@ namespace World.GameState
 
             extraStats = new Dictionary<StatType, int>(previous.extraStats);
             extraAlternateStats = new Dictionary<AlternateStatType, int>(previous.extraAlternateStats);
+            this.ascensionCounts = new Dictionary<StatType, int>();
+            foreach (var count in ascensionCounts)
+                this.ascensionCounts[count.Key] = count.Value;
             target = previous.target;
             health = previous.health;
             heal = 0;
             serverDamage = 0;
+            bool equipmentChanged = false;
 
             foreach (var stat in stats)
             {
@@ -166,9 +173,32 @@ namespace World.GameState
                         var item = (Item)stat.value;
                         int index = (int)stat.type - (int)ObjectStatType.Inventory0;
                         equips[index] = item;
-                        EquipmentStatFunctions.RecalculateEquipmentStats(equips, extraStats, extraAlternateStats);
+                        equipmentChanged = true;
                         break;
                 }
+            }
+            bool ascensionChanged = this.ascensionCounts.Count != previous.ascensionCounts.Count;
+            foreach (var count in this.ascensionCounts)
+            {
+                if (!previous.ascensionCounts.TryGetValue(count.Key, out var previousCount) || previousCount != count.Value)
+                {
+                    ascensionChanged = true;
+                    break;
+                }
+            }
+            if (equipmentChanged || ascensionChanged)
+                EquipmentStatFunctions.RecalculateEquipmentStats(equips, extraStats, extraAlternateStats, ascensionCounts: this.ascensionCounts);
+        }
+
+        public void SetBaseStat(StatType type, int value)
+        {
+            switch (type)
+            {
+                case StatType.MaxHealth: maxHealth = value; break;
+                case StatType.Speed: speed = value; break;
+                case StatType.Attack: attack = value; break;
+                case StatType.Defense: defense = value; break;
+                case StatType.Vigor: vigor = value; break;
             }
         }
 
@@ -194,18 +224,20 @@ namespace World.GameState
         {
             if (!extraStats.TryGetValue(type, out var amount))
                 amount = 0;
+            ascensionCounts.TryGetValue(type, out var ascensionCount);
+            int baseStat = StatFunctions.GetUnascendedStat(type, GetBaseStat(type), ascensionCount);
             switch (type)
             {
                 case StatType.MaxHealth:
-                    return StatFunctions.ClampPlayerMaxHealth(maxHealth + maxHealthBonus + amount);
+                    return StatFunctions.ClampPlayerMaxHealth(baseStat + maxHealthBonus + amount);
                 case StatType.Speed:
-                    return speed + speedBonus + amount;
+                    return baseStat + speedBonus + amount;
                 case StatType.Attack:
-                    return attack + attackBonus + amount;
+                    return baseStat + attackBonus + amount;
                 case StatType.Defense:
-                    return defense + defenseBonus + amount;
+                    return baseStat + defenseBonus + amount;
                 case StatType.Vigor:
-                    return vigor + vigorBonus + amount;
+                    return baseStat + vigorBonus + amount;
             }
             return amount;
         }
@@ -361,7 +393,7 @@ namespace World.GameState
         {
             this.player = player;
             LastClientTime = time;
-            currentSnapshot = new PlayerSnapshot(newObj.stats, PlayerSnapshot.GetDefault(), time);
+            currentSnapshot = new PlayerSnapshot(newObj.stats, PlayerSnapshot.GetDefault(), time, player.GetAscensionCounts());
             health = currentSnapshot.health;
             lastHealthTime = time;
             classInfo = (CharacterInfo)GameData.objects[newObj.type];
@@ -383,7 +415,7 @@ namespace World.GameState
         {
             LastClientTime = time;
             AdvanceHealth(time - Client.Client_Fixed_Delta);
-            currentSnapshot = new PlayerSnapshot(updStats.stats, currentSnapshot, time);
+            currentSnapshot = new PlayerSnapshot(updStats.stats, currentSnapshot, time, player.GetAscensionCounts());
             wasSlowed = HasClientEffect(StatusEffect.Slowed, time);
             wasSpeedy = HasClientEffect(StatusEffect.Speedy, time);
             health = Math.Min(health + currentSnapshot.heal - currentSnapshot.serverDamage, currentSnapshot.GetFunctionalStat(StatType.MaxHealth));

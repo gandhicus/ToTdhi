@@ -58,9 +58,9 @@ namespace Mobile
                 equips = new Item[4];
                 for (int i = 0; i < 4; i++)
                     equips[i] = player.GetItem(i);
-                EquipmentStatFunctions.GetTooltipScalingContext(equips, obj, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling);
+                EquipmentStatFunctions.GetTooltipScalingContext(equips, obj, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling, player.GetAscensionCounts());
             }
-            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats(), equips, player.GetEffectiveRageGainBonus());
+            ItemDescriber.Describe(this, myClass, owned, obj, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats(), equips, player.GetEffectiveRageGainBonus(), player.GetAscensionCounts());
         }
 
 

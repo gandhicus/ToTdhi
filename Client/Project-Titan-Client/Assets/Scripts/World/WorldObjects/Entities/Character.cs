@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using TitanCore.Data;
 using TitanCore.Data.Components.Textures;
 using UnityEngine;
@@ -67,6 +68,10 @@ public class Character : Entity
 
     private Dictionary<StatType, int> statIncreases = new Dictionary<StatType, int>();
 
+    private Dictionary<StatType, int> ascensionIncreases = new Dictionary<StatType, int>();
+
+    private Dictionary<StatType, int> ascensionLocks = new Dictionary<StatType, int>();
+
     private Dictionary<AlternateStatType, int> alternateStatIncreases = new Dictionary<AlternateStatType, int>();
 
     private Dictionary<StatusEffect, uint> clientEffects = new Dictionary<StatusEffect, uint>();
@@ -115,6 +120,8 @@ public class Character : Entity
         skillTreePoints = 0;
         rank = Rank.Player;
         statIncreases.Clear();
+        ascensionIncreases.Clear();
+        ascensionLocks.Clear();
         alternateStatIncreases.Clear();
         clientEffects.Clear();
 
@@ -195,7 +202,7 @@ public class Character : Entity
         }
     }
 
-    private void RecalculateEquipmentStats()
+    protected void RecalculateEquipmentStats()
     {
         var equips = new Item[4];
         for (int i = 0; i < 4; i++)
@@ -205,7 +212,28 @@ public class Character : Entity
             statIncreases,
             alternateStatIncreases,
             GetScalingBonusStats(),
-            GetScalingBonusAlternateStats());
+            GetScalingBonusAlternateStats(),
+            GetAscensionCounts(),
+            ascensionIncreases);
+    }
+
+    public int GetAscensionCount(StatType type)
+    {
+        ascensionLocks.TryGetValue(type, out var statLock);
+        return StatFunctions.GetAscensionCount(type, GetStatBase(type), statLock);
+    }
+
+    public Dictionary<StatType, int> GetAscensionCounts()
+    {
+        var counts = new Dictionary<StatType, int>();
+        foreach (StatType type in Enum.GetValues(typeof(StatType)))
+            counts[type] = GetAscensionCount(type);
+        return counts;
+    }
+
+    public int GetAscensionIncrease(StatType type)
+    {
+        return ascensionIncreases.TryGetValue(type, out var amount) ? amount : 0;
     }
 
     public Dictionary<StatType, int> GetScalingBonusStats()
@@ -252,21 +280,46 @@ public class Character : Entity
                 break;
             case ObjectStatType.MaxHealth:
                 maxHealth = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.Health:
                 serverHealth = (int)stat.value;
                 break;
             case ObjectStatType.Defense:
                 defense = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.Speed:
                 speed = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.Attack:
                 attack = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.Vigor:
                 vigor = (int)stat.value;
+                RecalculateEquipmentStats();
+                break;
+            case ObjectStatType.MaxHealthLock:
+                ascensionLocks[StatType.MaxHealth] = (int)stat.value;
+                RecalculateEquipmentStats();
+                break;
+            case ObjectStatType.SpeedLock:
+                ascensionLocks[StatType.Speed] = (int)stat.value;
+                RecalculateEquipmentStats();
+                break;
+            case ObjectStatType.AttackLock:
+                ascensionLocks[StatType.Attack] = (int)stat.value;
+                RecalculateEquipmentStats();
+                break;
+            case ObjectStatType.DefenseLock:
+                ascensionLocks[StatType.Defense] = (int)stat.value;
+                RecalculateEquipmentStats();
+                break;
+            case ObjectStatType.VigorLock:
+                ascensionLocks[StatType.Vigor] = (int)stat.value;
+                RecalculateEquipmentStats();
                 break;
             case ObjectStatType.MaxHealthBonus:
                 maxHealthBonus = (int)stat.value;
@@ -485,7 +538,8 @@ public class Character : Entity
 
     public int GetStatFunctional(StatType type)
     {
-        var value = GetStatBase(type) + GetStatBonus(type) + GetStatIncrease(type);
+        var value = StatFunctions.GetUnascendedStat(type, GetStatBase(type), GetAscensionCount(type))
+            + GetStatBonus(type) + GetStatIncrease(type);
         if (type == StatType.MaxHealth)
             return StatFunctions.ClampPlayerMaxHealth(value);
         return value;

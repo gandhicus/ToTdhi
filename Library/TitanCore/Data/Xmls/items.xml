@@ -3048,7 +3048,7 @@
 
 		<StatType>Speed</StatType>
 		<Description>A delicate scroll, its contents dimly hum with a soft leafy color.</Description>
-		<MaxStack>12</MaxStack>
+		<MaxStack>8</MaxStack>
 
 		<Consumable/>
 	</Object>
@@ -3058,7 +3058,7 @@
 
 		<StatType>Attack</StatType>
 		<Description>A scroll of unstable constitution. Radiates of erratic nature.</Description>
-		<MaxStack>12</MaxStack>
+		<MaxStack>8</MaxStack>
 
 		<Consumable/>
 	</Object>
@@ -3068,7 +3068,7 @@
 
 		<StatType>Defense</StatType>
 		<Description>A scroll enfused with stone and iron. A sturdy ambience resinates from its core.</Description>
-		<MaxStack>12</MaxStack>
+		<MaxStack>8</MaxStack>
 
 		<Consumable/>
 	</Object>
@@ -3078,7 +3078,7 @@
 
 		<StatType>Vigor</StatType>
 		<Description>A scroll permeating with hope. A lively essence seems to spring from the paper.</Description>
-		<MaxStack>12</MaxStack>
+		<MaxStack>8</MaxStack>
 
 		<Consumable/>
 	</Object>
@@ -3238,7 +3238,7 @@
 
 		<StatType>MaxHealth</StatType>
 		<Description>A scroll glowing with essence. An unintelligible language is written on the parchment.</Description>
-		<MaxStack>12</MaxStack>
+		<MaxStack>8</MaxStack>
 
 		<Consumable/>
 	</Object>

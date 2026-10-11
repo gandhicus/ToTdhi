@@ -80,9 +80,9 @@ namespace Mobile
                 equips = new Item[4];
                 for (int i = 0; i < 4; i++)
                     equips[i] = player.GetItem(i);
-                EquipmentStatFunctions.GetTooltipScalingContext(equips, obj.purchasableItem, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling);
+                EquipmentStatFunctions.GetTooltipScalingContext(equips, obj.purchasableItem, out equippedFixedStats, out equippedFixedAlternateStats, out includeItemForScaling, player.GetAscensionCounts());
             }
-            ItemDescriber.Describe(this, (TitanCore.Data.Entities.CharacterInfo)player.info, owned, obj.purchasableItem, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats(), equips, player.GetEffectiveRageGainBonus());
+            ItemDescriber.Describe(this, (TitanCore.Data.Entities.CharacterInfo)player.info, owned, obj.purchasableItem, player.GetStatFunctional(StatType.Attack), equippedFixedStats, includeItemForScaling, equippedFixedAlternateStats, player.GetScalingBonusStats(), player.GetScalingBonusAlternateStats(), equips, player.GetEffectiveRageGainBonus(), player.GetAscensionCounts());
         }
 
 

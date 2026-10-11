@@ -152,7 +152,8 @@ namespace World.Map.Objects.Entities
                 statIncreases,
                 new Dictionary<AlternateStatType, int>(),
                 GetScalingBonusStats(),
-                GetScalingBonusAlternateStats());
+                GetScalingBonusAlternateStats(),
+                GetAscensionCounts());
         }
 
         public void SyncCombatSnapshotEquipment()
@@ -161,6 +162,8 @@ namespace World.Map.Objects.Entities
                 return;
 
             var snapshot = gameState.playerState.currentSnapshot;
+            foreach (StatType type in Enum.GetValues(typeof(StatType)))
+                snapshot.SetBaseStat(type, GetStatBase(type));
             for (int i = 0; i < 4; i++)
             {
                 var serverItem = GetItem(i);
@@ -171,7 +174,9 @@ namespace World.Map.Objects.Entities
                 snapshot.extraStats,
                 snapshot.extraAlternateStats,
                 GetScalingBonusStats(),
-                GetScalingBonusAlternateStats());
+                GetScalingBonusAlternateStats(),
+                GetAscensionCounts());
+            snapshot.ascensionCounts = GetAscensionCounts();
             gameState.playerState.currentSnapshot = snapshot;
             RebuildAbilityModifiers();
         }

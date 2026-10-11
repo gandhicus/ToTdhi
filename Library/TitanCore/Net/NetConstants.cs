@@ -75,9 +75,9 @@ namespace TitanCore.Net
 
         public const int Class_Quest_Level_3 = 140;
 
-        public const int Max_Ascension = 15;
+        public const int Max_Ascension = 10;
 
-        /// <summary>Level 140 base cap + 15 ascensions on each stat + 10 skill levels.</summary>
+        /// <summary>Level 140 base cap + 10 ascensions on each stat + 10 skill levels.</summary>
         public const int Class_Quest_Level_4 = Max_Level + (Max_Ascension * 5) + SkillTreeFunctions.Point_Cap;
 
         public const int Ascension_Base_Soul_Cost = 2_000;
