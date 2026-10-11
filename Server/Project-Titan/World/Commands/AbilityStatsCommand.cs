@@ -407,9 +407,7 @@ namespace World.Commands
             int durationMs = AbilityFunctions.Minister.GetPillarDurationMs(cost) + Math.Max(0, mods.durationBonusMs);
             int tickMs = Math.Max(400, mods.pulseLockoutMs > 0 ? mods.pulseLockoutMs : 2000);
             Line(player, $"Benefit radius: {Tiles(radius)} | Duration: {FormatSec(durationMs)} | Heal pulse every {FormatSec(tickMs)}");
-            Line(player, "Pulses affect all players within the radius, including the caster");
             Line(player, "Field: +8 Vigor while within the benefit radius");
-            Line(player, "Purify scales every 50 rage; Wrath and Aegis every 33 rage");
             int absorptionChunk = mods.absorptionRageChunk > 0 ? mods.absorptionRageChunk : SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
             int attackChunk = mods.timedAttackRageChunk > 0 ? mods.timedAttackRageChunk : SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
             int defenseChunk = mods.fieldDefenseRageChunk > 0 ? mods.fieldDefenseRageChunk : SkillTreeFunctions.On_Use_Stat_Rage_Chunk;
