@@ -4,7 +4,7 @@
 
 ToTdhi is a singleplayer/small group-focused overhaul mod for Trials of Titan based on javritan's [Trials of Titan Local](https://github.com/javritan/TrialsOfTitansLocal) fork.
 
-This mod seeks to greatly enhance the game's experience, particularly for singleplayer/small group play, introducing various balance changes and features.
+This mod seeks to greatly enhance the game's experience, introducing various balance changes and features.
 
 AI tools were used as a substantial aid to add features and edit the codebase. Design, including item names and descriptions, balancing decisions, spriting, etc. was done entirely by Gandhicus without AI assistance.
 
