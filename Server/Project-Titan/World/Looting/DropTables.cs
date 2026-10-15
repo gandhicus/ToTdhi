@@ -207,7 +207,7 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(25), ItemTier.Tier3)
                         ),
                     new SoulboundLoot(0.2f, // 5
-                        new Single(Loot.Chance(70),
+                        new Single(Loot.Chance(50),
                             new Item("Scroll of Agility")
                         )
                         ),
@@ -237,7 +237,7 @@ namespace World.Looting
                         )
                         ),
                     new SoulboundLoot(0.3f, // 11
-                        new Single(Loot.Chance(0.6),
+                        new Single(Loot.Chance(0.5),
                             new Item("Blue Mirage"))
                         ),
                     new SoulboundLoot(0.3f, // 12
@@ -292,16 +292,16 @@ namespace World.Looting
                             new Item("Band of Oceanic Radiance"))
                         ),
                     new SoulboundLoot(0.3f, // 7
-                        new Single(Loot.Chance(0.6),
+                        new Single(Loot.Chance(0.4),
                             new Item("Seafarer's Garb"))
                         ),
                     new SoulboundLoot(0.3f, // 8
-                        new Single(Loot.Chance(0.6),
+                        new Single(Loot.Chance(0.4),
                             new Item("Salt Water Elixir"))
                         ),
                     new SoulboundLoot(0.3f, // 9
-                        new Single(Loot.Chance(3.5), new Item("Salt Water Elixir")),
-                        new Single(Loot.Chance(3.5), new Item("Seafarer's Garb"))
+                        new Single(Loot.Chance(7), new Item("Salt Water Elixir")),
+                        new Single(Loot.Chance(7), new Item("Seafarer's Garb"))
                         ),
                 } },
 
@@ -311,9 +311,9 @@ namespace World.Looting
                         new Single(Loot.Chance(10), new Item("Healing Spell"))
                         ),
                     new SoulboundLoot( // 1
-                        Tier.Weapon(Loot.Chance(10), ItemTier.Tier6),
-                        Tier.Armor(Loot.Chance(8), ItemTier.Tier6),
-                        Tier.Accessory(Loot.Chance(6), ItemTier.Tier3)
+                        Tier.Weapon(Loot.Chance(7), ItemTier.Tier6),
+                        Tier.Armor(Loot.Chance(5), ItemTier.Tier6),
+                        Tier.Accessory(Loot.Chance(4), ItemTier.Tier3)
                         ),
                     new SoulboundLoot( // 2
                         Tier.Weapon(Loot.Chance(35), ItemTier.Tier6),
@@ -337,7 +337,7 @@ namespace World.Looting
                         new Single(Loot.Chance(5), new Item("Dumirian Kilt"))
                         ),
                     new SoulboundLoot(0.1f, // 6
-                        new Single(Loot.Chance(0.5), new Item("Dumirian Kilt"))
+                        new Single(Loot.Chance(0.4), new Item("Dumirian Kilt"))
                         ),
                 } },
 
@@ -365,14 +365,14 @@ namespace World.Looting
                         Tier.Accessory(Loot.Chance(20), ItemTier.Tier3)
                         ),
                     new SoulboundLoot(0.3f, // 4
-                        new Single(Loot.Chance(60), 
+                        new Single(Loot.Chance(70), 
                             new Item("Scroll of Agility"),
                             new Item("Scroll of Power"),
                             new Item("Scroll of Fortitude"),
                             new Item("Scroll of Stamina"))
                         ),
                     new SoulboundLoot(0.3f, // 5
-                        new Single(Loot.Chance(1.5),
+                        new Single(Loot.Chance(1),
                             new Item("Scroll of Fortitude"))
                         ),
                     new SoulboundLoot(0.1f, // 6
@@ -485,8 +485,8 @@ namespace World.Looting
                         new Single(Loot.Chance(7.5), new Item("Greater Healing Spell"))
                         ),
                     new SoulboundLoot( // 1
-                        Tier.Weapon(Loot.Chance(10), ItemTier.Tier6),
-                        Tier.Armor(Loot.Chance(8), ItemTier.Tier6)
+                        Tier.Weapon(Loot.Chance(7), ItemTier.Tier6),
+                        Tier.Armor(Loot.Chance(5), ItemTier.Tier6)
                         ),
                     new SoulboundLoot( // 2
                         Tier.Weapon(Loot.Chance(35), ItemTier.Tier6),
