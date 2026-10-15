@@ -391,6 +391,8 @@ namespace TitanCore.Core
 
             public const float Marked_Hit_Mul = 1.08f;
 
+            public const uint Interact_Vigor_Duration_Ms = 6000;
+
             public const uint Interact_Talisman_RoF_Duration_Ms = 4000;
 
             public const uint Flicker_Duration_Ms = 1000;

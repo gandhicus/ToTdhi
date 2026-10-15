@@ -327,7 +327,7 @@ namespace World.Commands
                 Line(player, $"Aegis: +1 Defense per Marked hit for 1s, up to +{mods.markedDefenseCap}");
             if (mods.markedRofCap > 0)
                 Line(player, $"Flicker: +1% RoF per Marked hit for 1s, up to +{mods.markedRofCap}%");
-            Line(player, $"Interact heal: {100 + mods.interactHealBonus} HP + 8 Vigor for 6s");
+            Line(player, $"Interact heal: {100 + mods.interactHealBonus} HP + 8 Vigor for {FormatSec((int)AbilityFunctions.Nomad.Interact_Vigor_Duration_Ms)}");
             int talismanRof = AbilityFunctions.Nomad.GetInteractTalismanRof(mods, rage);
             if (talismanRof > 0)
                 Line(player, $"Owner interact talisman: +{talismanRof}% RoF for {FormatSec((int)AbilityFunctions.Nomad.Interact_Talisman_RoF_Duration_Ms)}");

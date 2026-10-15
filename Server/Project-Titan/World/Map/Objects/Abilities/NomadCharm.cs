@@ -70,18 +70,23 @@ namespace World.Map.Objects.Abilities
             }
             if (heal > 0)
                 player.Heal(heal);
-            player.gameState.playerState.ApplyTimedStatBonus(StatType.Vigor, 8, (uint)(world.time.totalTime * 1000), 6000);
+            var playerState = player.gameState.playerState;
+            uint playerTime = playerState.LastClientTime;
+            playerState.ApplyTimedStatBonus(StatType.Vigor, 8, playerTime, AbilityFunctions.Nomad.Interact_Vigor_Duration_Ms);
 
             if (ownerPlayer != null && player.GetOwnerId() == ownerPlayer.GetOwnerId())
             {
                 int talismanRof = AbilityFunctions.Nomad.GetInteractTalismanRof(mods, activationRage);
                 if (talismanRof > 0)
-                    player.gameState.playerState.ApplyTimedAlternateStatBonus(AlternateStatType.RateOfFire, talismanRof,
-                        (uint)(world.time.totalTime * 1000), AbilityFunctions.Nomad.Interact_Talisman_RoF_Duration_Ms);
+                    playerState.ApplyTimedAlternateStatBonus(AlternateStatType.RateOfFire, talismanRof,
+                        playerTime, AbilityFunctions.Nomad.Interact_Talisman_RoF_Duration_Ms);
             }
 
             if (ownerPlayer != null)
-                ownerPlayer.gameState.playerState.ability.TriggerTalisman(TalismanTrigger.Interact, (uint)(world.time.totalTime * 1000), position.Value, player.position.Value);
+            {
+                var ownerState = ownerPlayer.gameState.playerState;
+                ownerState.ability.TriggerTalisman(TalismanTrigger.Interact, ownerState.LastClientTime, position.Value, player.position.Value);
+            }
         }
 
         protected override void DoTick(ref WorldTime time)
@@ -93,7 +98,10 @@ namespace World.Map.Objects.Abilities
             if (time.totalTime >= expireTime)
             {
                 if (ownerPlayer != null && ownerPlayer.world != null)
-                    ownerPlayer.gameState.playerState.ability.TriggerTalisman(TalismanTrigger.AbilityEnd, (uint)(time.totalTime * 1000), position.Value, position.Value);
+                {
+                    var ownerState = ownerPlayer.gameState.playerState;
+                    ownerState.ability.TriggerTalisman(TalismanTrigger.AbilityEnd, ownerState.LastClientTime, position.Value, position.Value);
+                }
                 world.objects.RemoveObjectPostLogic(this);
                 return;
             }
