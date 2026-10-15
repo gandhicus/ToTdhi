@@ -59,7 +59,7 @@ entity_state(name: "Wood Construct Orb", actions: {
 	spawn(name: "Wood Construct Inverse Orb", rate: 1, max: 1)
 	wander(speed: 3, period: 0.5)
 	hover_leader_chase(speed: 5, minHover: 1, maxHover: 3, chaseDuration: 4)
-	shoot_player(index: 0, angleGap: 30, amount: 12, period: 2)
+	shoot_player(index: 0, angleGap: 30, amount: 8, period: 2)
 })
 entity_state(name: "Wood Construct Inverse Orb", actions: {
 	wander(speed: 2, period: 0.5)

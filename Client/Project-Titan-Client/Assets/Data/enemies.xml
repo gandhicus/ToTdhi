@@ -154,13 +154,13 @@
 		<Sprite>WoodConstructOrb</Sprite>
 
 		<Projectile name="Orb Blue Blast">
-			<Speed>9</Speed>
+			<Speed>6</Speed>
 			<Range>3</Range>
-			<DamageMod>0.6</DamageMod>
+			<DamageMod>0.3</DamageMod>
 		</Projectile>
 
-		<HealthMod>0.5</HealthMod>
-		<SoulMod>0.35</SoulMod>
+		<HealthMod>0.4</HealthMod>
+		<SoulMod>0.4</SoulMod>
 		<SoulGroup>Grasslands</SoulGroup>
 		<LootTier>0</LootTier>
 		<Defense>4</Defense>
@@ -173,13 +173,13 @@
 		<Sprite>WoodConstructInverseOrb</Sprite>
 
 		<Projectile name="Orb Pink Blast">
-			<Speed>8</Speed>
+			<Speed>6</Speed>
 			<Range>10</Range>
-			<DamageMod>1</DamageMod>
+			<DamageMod>0.7</DamageMod>
 		</Projectile>
 
-		<HealthMod>0.5</HealthMod>
-		<SoulMod>0.35</SoulMod>
+		<HealthMod>0.4</HealthMod>
+		<SoulMod>0.4</SoulMod>
 		<SoulGroup>Grasslands</SoulGroup>
 		<LootTier>0</LootTier>
 		<Defense>4</Defense>
@@ -1983,21 +1983,21 @@
 
 		<Projectile name="Hydra Large Bubble">
 			<Size>1.1</Size>
-			<Speed>5</Speed>
-			<Range>12</Range>
-			<DamageMod>1.5</DamageMod>
+			<Speed>4</Speed>
+			<Range>10</Range>
+			<DamageMod>1.2</DamageMod>
 		</Projectile>
 
 		<Projectile name="Hydra Bubble">
 			<Size>0.9</Size>
-			<Speed>8.5</Speed>
-			<Range>14</Range>
-			<DamageMod>0.8</DamageMod>
+			<Speed>7</Speed>
+			<Range>12</Range>
+			<DamageMod>0.7</DamageMod>
 		</Projectile>
 
 		<Size>1</Size>
-		<HealthMod>3</HealthMod>
-		<SoulMod>1.7</SoulMod>
+		<HealthMod>2.7</HealthMod>
+		<SoulMod>2</SoulMod>
 		<SoulGroup>Lake</SoulGroup>
 		<LootTier>2</LootTier>
 		<LootTier>4</LootTier>
