@@ -200,7 +200,7 @@ public class SkillTreeMenu : GameMenu
         {
             socketSlot.itemDisplay.showTierLabel = false;
             socketSlot.itemDisplay.genericPlaceholder = true;
-            socketSlot.itemDisplay.placeholderOverride = LoadSprite("TalismanIcon", "Assets/Sprites/SkillTree/TalismanIcon.png");
+            socketSlot.itemDisplay.placeholderOverride = LoadSprite("TalismanIcon", "Assets/Resources/Sprites/SkillTree/TalismanIcon.png");
         }
         foreach (var tmp in socketSlot.GetComponentsInChildren<TextMeshProUGUI>(true))
         {
@@ -572,12 +572,12 @@ public class SkillTreeMenu : GameMenu
     private Sprite GetNodeSprite(ClassType classType, SkillTreeNode node)
     {
         var key = SkillTreeFunctions.GetNodeSprite(classType, node);
-        return LoadSprite(key, $"Assets/Sprites/SkillTree/{key}.png");
+        return LoadSprite(key, $"Assets/Resources/Sprites/SkillTree/{key}.png");
     }
 
     public static Sprite LoadHudSprite()
     {
-        return LoadSprite("SkillTreeMenu", "Assets/Sprites/SkillTree/SkillTreeMenu.png");
+        return LoadSprite("SkillTreeMenu", "Assets/Resources/Sprites/SkillTree/SkillTreeMenu.png");
     }
 
     private static readonly Dictionary<string, Sprite> loadedSprites = new Dictionary<string, Sprite>();
